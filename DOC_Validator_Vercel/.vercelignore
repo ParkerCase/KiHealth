@@ -1,0 +1,22 @@
+# Vercel ignore file
+# Files/directories to exclude from Vercel deployment
+
+# Large model files (already in models/ directory)
+# These will be deployed but are small enough
+
+# Development files
+*.md
+!README.md
+.git/
+.gitignore
+.vercelignore
+
+# Test files
+test_*.py
+*_test.py
+
+# Documentation
+DEPLOYMENT_CHECKLIST.md
+VERCEL_SETUP.md
+SUMMARY.md
+
