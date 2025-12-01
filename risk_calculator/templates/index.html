@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOC Risk Calculator - 4-Year Knee Replacement Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DOC Risk Calculator</h1>
+            <p class="subtitle">4-Year Knee Replacement Risk Prediction</p>
+            <p class="description">
+                Enter patient information below to calculate the predicted risk of total knee replacement 
+                within 4 years using the Digital Osteoarthritis Counseling (DOC) model.
+            </p>
+        </header>
+
+        <form id="riskForm">
+            <div class="form-section">
+                <h2>Demographics</h2>
+                
+                <div class="form-group">
+                    <label for="age">Age (years) *</label>
+                    <input type="number" id="age" name="age" min="45" max="79" required 
+                           placeholder="45-79">
+                    <span class="help-text">Must be between 45 and 79 years</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="sex">Sex *</label>
+                    <select id="sex" name="sex" required>
+                        <option value="">Select...</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bmi">BMI (kg/m²) *</label>
+                    <input type="number" id="bmi" name="bmi" min="15" max="50" step="0.1" required 
+                           placeholder="15-50">
+                    <span class="help-text">Body Mass Index</span>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Clinical Scores (WOMAC)</h2>
+                <p class="section-note">WOMAC Total Score (0-96): Pain (0-20) + Stiffness (0-8) + Function (0-68)</p>
+                
+                <div class="form-group">
+                    <label for="womac_right">Right Knee WOMAC Score *</label>
+                    <input type="number" id="womac_right" name="womac_right" min="0" max="96" required 
+                           placeholder="0-96">
+                </div>
+
+                <div class="form-group">
+                    <label for="womac_left">Left Knee WOMAC Score *</label>
+                    <input type="number" id="womac_left" name="womac_left" min="0" max="96" required 
+                           placeholder="0-96">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Imaging (Kellgren-Lawrence Grade)</h2>
+                <p class="section-note">KL Grade: 0=Normal, 1=Doubtful, 2=Mild, 3=Moderate, 4=Severe</p>
+                
+                <div class="form-group">
+                    <label for="kl_right">Right Knee KL Grade *</label>
+                    <select id="kl_right" name="kl_right" required>
+                        <option value="">Select...</option>
+                        <option value="0">0 - Normal</option>
+                        <option value="1">1 - Doubtful</option>
+                        <option value="2">2 - Mild</option>
+                        <option value="3">3 - Moderate</option>
+                        <option value="4">4 - Severe</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="kl_left">Left Knee KL Grade *</label>
+                    <select id="kl_left" name="kl_left" required>
+                        <option value="">Select...</option>
+                        <option value="0">0 - Normal</option>
+                        <option value="1">1 - Doubtful</option>
+                        <option value="2">2 - Mild</option>
+                        <option value="3">3 - Moderate</option>
+                        <option value="4">4 - Severe</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Risk Factors</h2>
+                
+                <div class="form-group">
+                    <label for="family_history">Family History of Knee OA *</label>
+                    <select id="family_history" name="family_history" required>
+                        <option value="">Select...</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                    <span class="help-text">Immediate family (parents, siblings) with knee OA requiring surgery</span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" id="calculateBtn" class="btn-primary">
+                    Calculate Risk
+                </button>
+                <button type="reset" id="resetBtn" class="btn-secondary">
+                    Clear Form
+                </button>
+            </div>
+        </form>
+
+        <div id="results" class="results-container" style="display: none;">
+            <h2>Risk Prediction Results</h2>
+            
+            <div class="risk-display">
+                <div class="risk-gauge">
+                    <div class="gauge-container">
+                        <svg class="gauge" viewBox="0 0 200 200">
+                            <circle class="gauge-background" cx="100" cy="100" r="90"></circle>
+                            <circle class="gauge-fill" cx="100" cy="100" r="90" id="gaugeFill"></circle>
+                            <text class="gauge-value" x="100" y="100" id="gaugeValue">0%</text>
+                            <text class="gauge-label" x="100" y="130">Risk</text>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="risk-info">
+                    <div class="risk-category" id="riskCategory">
+                        <span class="category-label">Risk Category:</span>
+                        <span class="category-value" id="categoryValue">-</span>
+                    </div>
+                    
+                    <div class="risk-percentage">
+                        <span class="percentage-label">Predicted Risk:</span>
+                        <span class="percentage-value" id="percentageValue">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interpretation">
+                <h3>Clinical Interpretation</h3>
+                <p id="interpretationText">-</p>
+            </div>
+
+            <div class="risk-legend">
+                <h4>Risk Categories</h4>
+                <ul>
+                    <li><span class="legend-color" style="background: #28a745;"></span> Low: &lt;5%</li>
+                    <li><span class="legend-color" style="background: #ffc107;"></span> Moderate: 5-15%</li>
+                    <li><span class="legend-color" style="background: #fd7e14;"></span> High: 15-30%</li>
+                    <li><span class="legend-color" style="background: #dc3545;"></span> Very High: &gt;30%</li>
+                </ul>
+            </div>
+
+            <div class="results-actions">
+                <button type="button" id="printBtn" class="btn-secondary">Print Results</button>
+                <button type="button" id="newCalcBtn" class="btn-primary">New Calculation</button>
+            </div>
+        </div>
+
+        <div id="error" class="error-message" style="display: none;"></div>
+
+        <footer>
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This calculator is for research and educational purposes only. 
+                Model predictions should not be used as the sole basis for clinical decision-making. 
+                Always use clinical judgment in conjunction with model predictions.
+            </p>
+            <p class="model-info">
+                Model: Random Forest | AUC: 0.862 | Development: OAI Dataset (N=4,796)
+            </p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
