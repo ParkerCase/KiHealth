@@ -22,11 +22,13 @@
 ### Next Steps
 
 1. **Push to GitHub:**
+
    ```bash
    git push -u origin main
    ```
 
 2. **Deploy to Vercel:**
+
    ```bash
    cd DOC_Validator_Vercel
    vercel login
@@ -53,4 +55,3 @@
 - ✅ Validator model files (small, ~1.1 MB)
 
 **Ready to push!**
-

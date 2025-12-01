@@ -1,0 +1,123 @@
+# BASELINE DATA COLLECTION FORM - DOC External Validation
+
+**Study ID:** _______________________
+**Date of Enrollment:** ____/____/______
+**Site:** Bergman Clinics
+
+---
+
+## SECTION 1: ELIGIBILITY SCREENING
+
+1. Age: _______ years (must be 45-79)
+2. Diagnosis of knee OA: ☐ Yes ☐ No
+3. Prior knee replacement: ☐ Yes ☐ No (if Yes, EXCLUDE)
+4. Inflammatory arthritis: ☐ Yes ☐ No (if Yes, EXCLUDE)
+5. Recent knee trauma (<6 months): ☐ Yes ☐ No (if Yes, EXCLUDE)
+6. Able to provide consent: ☐ Yes ☐ No
+
+**Eligible:** ☐ Yes ☐ No
+
+---
+
+## SECTION 2: DEMOGRAPHICS
+
+7. Date of birth: ____/____/______
+8. Sex: ☐ Male ☐ Female ☐ Other
+9. Race/ethnicity: 
+   ☐ White
+   ☐ Black/African
+   ☐ Asian
+   ☐ Hispanic/Latino
+   ☐ Other: _____________
+
+---
+
+## SECTION 3: ANTHROPOMETRICS
+
+10. Height: _______ cm
+11. Weight: _______ kg
+12. BMI (calculated): _______ kg/m²
+
+---
+
+## SECTION 4: CLINICAL ASSESSMENT (WOMAC)
+
+**PAIN (0-20 scale, 5 items × 0-4 each)**
+In the past week, how much pain have you had in your knee?
+
+1. Walking on flat surface: ☐ None (0) ☐ Mild (1) ☐ Moderate (2) ☐ Severe (3) ☐ Extreme (4)
+2. Going up/down stairs: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+3. At night in bed: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+4. Sitting or lying: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+5. Standing upright: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+
+**Pain Total (Right Knee):** _______
+**Pain Total (Left Knee):** _______
+
+**STIFFNESS (0-8 scale, 2 items × 0-4 each)**
+In the past week, how much stiffness have you had in your knee?
+
+1. After first wakening in morning: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+2. After sitting, lying, or resting later in day: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+
+**Stiffness Total (Right Knee):** _______
+**Stiffness Total (Left Knee):** _______
+
+**FUNCTION (0-68 scale, 17 items × 0-4 each)**
+In the past week, how much difficulty have you had with:
+
+1. Descending stairs: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+2. Ascending stairs: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+3. Rising from sitting: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+4. Standing: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+5. Bending to floor: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+6. Walking on flat: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+7. Getting in/out of car: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+8. Going shopping: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+9. Putting on socks: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+10. Rising from bed: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+11. Taking off socks: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+12. Lying in bed: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+13. Getting in/out of bath: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+14. Sitting: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+15. Getting on/off toilet: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+16. Heavy domestic duties: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+17. Light domestic duties: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+
+**Function Total (Right Knee):** _______
+**Function Total (Left Knee):** _______
+
+**WOMAC Total (Right):** _______ (Pain + Stiffness + Function)
+**WOMAC Total (Left):** _______ (Pain + Stiffness + Function)
+
+---
+
+## SECTION 5: IMAGING
+
+13. X-ray date: ____/____/______
+14. KL grade RIGHT knee: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+15. KL grade LEFT knee: ☐ 0 ☐ 1 ☐ 2 ☐ 3 ☐ 4
+16. Scored by: __________________ (radiologist name)
+17. Second reader (if discordant): __________________
+
+---
+
+## SECTION 6: FAMILY HISTORY
+
+18. Does anyone in your immediate family (parents, siblings) have knee OA requiring surgery?
+    ☐ Yes ☐ No ☐ Unknown
+
+---
+
+## SECTION 7: CONTACT INFORMATION
+
+19. Phone: _______________________
+20. Email: _______________________
+21. Alternate contact: _______________________
+22. Preferred contact method: ☐ Phone ☐ Email ☐ Mail
+
+---
+
+**Form completed by:** _______________________
+**Date:** ____/____/______
+**Signature:** _______________________

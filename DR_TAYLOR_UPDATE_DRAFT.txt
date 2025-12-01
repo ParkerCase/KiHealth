@@ -1,0 +1,51 @@
+Subject: Important Update - Eduardo's Docking Data Could Resolve Key Questions
+
+Hi Justin,
+
+Quick update that could significantly impact the Nov 10 report:
+
+Eduardo just sent the SMILES structures for 814A, 814H, 815K, and 815H, and he's sending docking studies tomorrow. This is perfect timing because the docking data could resolve several analytical questions I've encountered.
+
+**Key Issue We May Resolve:**
+
+My DepMap analysis has been averaging dependency across all 4 targets (STK17A, MYLK4, TBK1, CLK4) assuming all compounds are multi-target. But if Eduardo's docking shows compound-specific selectivity, this changes everything.
+
+**For example:**
+- If 814A preferentially hits STK17A → that could explain your excitement about brain cancers
+- If 815K hits different targets than 814A → we need compound-specific cancer rankings
+- If compounds are truly multi-target → confirms our current approach
+
+**Impact on Brain Cancer Analysis:**
+
+You mentioned excitement about STK17A and brain cancers. My DepMap analysis shows:
+- Glioma ranks 35/58 (middle of pack) 
+- STK17A dependency in glioma: -0.08 (weak)
+- TBK1 dependency in glioma: -0.22 (moderate, best signal)
+
+But this was analyzing 815K/815H. If **814A has a different target profile** that preferentially hits STK17A or TBK1, that could completely change the glioma story.
+
+**Questions for You:**
+
+1. Is 814A or 814H your lead compound for brain cancers (vs 815K/815H)?
+2. Do you have any glioma-specific data for 814A that I should be aware of?
+3. Should I wait for Eduardo's docking before finalizing compound-cancer matches?
+
+**Timeline:**
+
+Eduardo says docking data will be ready tomorrow (Nov 3). If it shows compound-specific selectivity, I'll need to:
+- Recalculate cancer rankings per compound
+- Update the Nov 10 report accordingly
+- This would add one more day to analysis but provide much more accurate results
+
+**My Recommendation:**
+
+Wait for Eduardo's docking (24 hours) before finalizing compound-indication matches. Better to have accurate compound-specific recommendations than generic multi-target rankings.
+
+Can we do a quick call Monday morning (Nov 4) to discuss Eduardo's results and finalize the report approach? I want to make sure the Nov 10 presentation tells the right story with the right data.
+
+Best,
+Parker
+
+---
+
+P.S. - Also still hoping to get Christian's 814H RNAseq data if available. Between Eduardo's docking and Christian's expression data, we'll have a much clearer picture of compound-specific cancer vulnerabilities.

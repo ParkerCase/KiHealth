@@ -58,7 +58,7 @@ vercel deploy --prod  # Deploy to production
 
 ## Development
 
-Developed by **StroomAI** in collaboration with **Dr. Maarten Moen** (NOC*NSF / Bergman Clinics).
+Developed by **StroomAI** in collaboration with **Dr. Maarten Moen** (NOC\*NSF / Bergman Clinics).
 
 ## License
 
@@ -67,4 +67,3 @@ For research and clinical use only.
 ## Contact
 
 parker@stroomai.com
-

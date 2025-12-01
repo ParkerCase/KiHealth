@@ -1,0 +1,27 @@
+EPV RATIO CALCULATION REPORT
+============================================================
+
+2-Year Outcome:
+  Events: 68
+  Predictors: 10
+  EPV Ratio: 6.80
+  Status: FAIL (need ≥15)
+
+4-Year Outcome:
+  Events: 171
+  Predictors: 10
+  EPV Ratio: 17.10
+  Status: PASS (need ≥15)
+
+
+Predictor Variables (10):
+  1. P02SEX
+  2. P02RACE
+  3. V00COHORT
+  4. V00WOMTSR
+  5. V00WOMTSL
+  6. V00AGE
+  7. P01BMI
+  8. V00XRKLR
+  9. V00XRKLL
+  10. P01FAMKR

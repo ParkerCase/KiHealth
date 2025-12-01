@@ -1,0 +1,52 @@
+# FOLLOW-UP ASSESSMENT FORM - DOC External Validation
+
+**Study ID:** _______________________
+**Follow-up Time Point:** ☐ 12 months ☐ 24 months ☐ 36 months ☐ 48 months
+**Date of Assessment:** ____/____/______
+
+---
+
+## OUTCOME ASSESSMENT
+
+1. Has the patient undergone knee replacement surgery since last assessment?
+   ☐ Yes ☐ No ☐ Unknown
+
+**If YES, complete the following:**
+
+2. Date of surgery: ____/____/______
+3. Which knee: ☐ Right ☐ Left ☐ Bilateral
+4. Type: ☐ Total knee replacement ☐ Partial (unicompartmental)
+5. Hospital: _______________________
+6. Surgeon: _______________________
+7. Verified in surgical registry: ☐ Yes ☐ No ☐ N/A
+
+---
+
+## STATUS UPDATE
+
+8. Patient status:
+   ☐ Active in study
+   ☐ Lost to follow-up (unable to contact)
+   ☐ Withdrawn consent
+   ☐ Deceased
+   ☐ Moved away
+
+9. If lost to follow-up, attempts made:
+   ☐ Phone (_____ attempts)
+   ☐ Email (_____ attempts)
+   ☐ Mail (_____ attempts)
+
+10. Contact information update needed: ☐ Yes ☐ No
+    If yes, update: _______________________
+
+---
+
+## NEXT ASSESSMENT
+
+11. Next scheduled assessment: ____/____/______
+
+---
+
+**Form completed by:** _______________________
+**Date:** ____/____/______
+**Signature:** _______________________

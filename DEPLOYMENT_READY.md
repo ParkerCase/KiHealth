@@ -13,23 +13,28 @@
 ### Vercel Setup: ✅ **COMPLETE**
 
 #### Configuration Files
+
 - ✅ `vercel.json` - Vercel configuration with serverless functions
 - ✅ `requirements.txt` - Python dependencies
 - ✅ `.vercelignore` - Files to exclude from deployment
 
 #### Serverless Functions
+
 - ✅ `api/validate.py` - Main prediction endpoint (CSV upload, preprocessing, predictions)
 - ✅ `api/template.py` - CSV template download endpoint
 
 #### Frontend
+
 - ✅ `public/index.html` - Main page with drag-and-drop upload
 - ✅ `static/css/style.css` - Responsive styling
 - ✅ `static/js/main.js` - JavaScript functionality
 
 #### Preprocessing
+
 - ✅ `preprocessing.py` - Shared preprocessing logic (matches training pipeline)
 
 #### Model Files
+
 - ✅ `models/random_forest_calibrated.pkl` (1.1 MB)
 - ✅ `models/scaler.pkl` (1.2 KB)
 - ✅ `models/feature_names.pkl` (389 B)
@@ -162,4 +167,3 @@ DOC_Validator_Vercel/
 **Status: ✅ READY FOR VERCEL DEPLOYMENT**
 
 All files are committed, pushed to GitHub, and ready for Vercel deployment.
-
