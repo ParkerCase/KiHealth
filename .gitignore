@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Models (too large for git - use Git LFS or external storage)
+models/*.pkl
+*.pkl
+!DOC_Validator_Vercel/models/*.pkl  # Keep validator models (small)
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Data files
+*.csv
+!DOC_Validator_Vercel/api/template.py  # Keep template code
+data/
+outputs/
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.DS_Store?
+
+# Vercel
+.vercel
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.log
+*.png
+*.jpg
+*.pdf
+!DOC_Validator_Vercel/static/img/*.png  # Keep static images
+
+# Large files
+*.zip
+*.tar.gz
+
+# Documentation builds
+_build/
+dist/
+build/
