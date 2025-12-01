@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOC Validator - Knee Replacement Risk Prediction</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🦴 DOC Model Validator</h1>
+        <p class="subtitle">
+          Digital Osteoarthritis Counseling - Knee Replacement Risk Prediction
+        </p>
+        <p class="collaboration">
+          Developed by StroomAI × Dr. Maarten Moen (NOC*NSF / Bergman Clinics)
+        </p>
+      </header>
+
+      <div class="privacy-notice">
+        <strong>🔒 Privacy Notice:</strong> All data processing happens in
+        memory only.
+        <strong>No patient data is stored, logged, or retained.</strong> Data is
+        deleted immediately after processing.
+      </div>
+
+      <div class="main-content">
+        <div class="upload-section">
+          <h2>Upload Patient Data</h2>
+          <p>
+            Upload a CSV file with patient information.
+            <a href="/api/template" download>Download CSV template</a>
+          </p>
+
+          <div class="drop-zone" id="dropZone">
+            <div class="drop-zone-content">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"
+                />
+              </svg>
+              <p>Drag & drop CSV file here</p>
+              <p class="or">or</p>
+              <button
+                class="browse-btn"
+                onclick="document.getElementById('fileInput').click()"
+              >
+                Browse Files
+              </button>
+              <input type="file" id="fileInput" accept=".csv" hidden />
+            </div>
+          </div>
+
+          <div class="file-info" id="fileInfo" style="display: none">
+            <span id="fileName"></span>
+            <button class="btn-secondary" onclick="clearFile()">Remove</button>
+          </div>
+
+          <button
+            class="btn-primary"
+            id="analyzeBtn"
+            onclick="analyzeData()"
+            disabled
+          >
+            Analyze Data
+          </button>
+        </div>
+
+        <div class="requirements">
+          <h3>Required CSV Columns:</h3>
+          <ul>
+            <li><strong>age</strong> - Patient age (45-79 years)</li>
+            <li><strong>sex</strong> - 1=Male, 0=Female</li>
+            <li><strong>bmi</strong> - Body Mass Index (15-50 kg/m²)</li>
+            <li><strong>womac_r</strong> - Right knee WOMAC score (0-96)</li>
+            <li><strong>womac_l</strong> - Left knee WOMAC score (0-96)</li>
+            <li><strong>kl_r</strong> - Right knee KL grade (0-4)</li>
+            <li><strong>kl_l</strong> - Left knee KL grade (0-4)</li>
+            <li><strong>fam_hx</strong> - Family history (1=Yes, 0=No)</li>
+            <li>
+              <strong>tkr_outcome</strong> - TKR occurred (1=Yes, 0=No)
+              <em>*Optional - for validation metrics</em>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="loading" class="loading" style="display: none">
+        <div class="spinner"></div>
+        <p>Processing data...</p>
+      </div>
+
+      <div id="results" class="results" style="display: none">
+        <!-- Results populated by JavaScript -->
+      </div>
+    </div>
+
+    <footer>
+      <p>
+        © 2025 StroomAI | <a href="mailto:parker@stroomai.com">Contact</a> |
+        <strong>No data stored or logged</strong>
+      </p>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>

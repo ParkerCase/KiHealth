@@ -1,0 +1,386 @@
+{
+  "tables": [
+    {
+      "name": "papers",
+      "columns": [
+        {
+          "name": "pubmed_id",
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "abstract",
+          "type": "text"
+        },
+        {
+          "name": "authors",
+          "type": "string"
+        },
+        {
+          "name": "journal",
+          "type": "string"
+        },
+        {
+          "name": "publication_date",
+          "type": "datetime"
+        },
+        {
+          "name": "cancer_types",
+          "type": "multiple"
+        },
+        {
+          "name": "target_genes",
+          "type": "multiple"
+        },
+        {
+          "name": "relevance_score",
+          "type": "float"
+        },
+        {
+          "name": "citation_count",
+          "type": "int"
+        }
+      ]
+    },
+    {
+      "name": "cancer_indications",
+      "columns": [
+        {
+          "name": "cancer_type",
+          "type": "string"
+        },
+        {
+          "name": "lineage",
+          "type": "string"
+        },
+        {
+          "name": "compound",
+          "type": "string"
+        },
+        {
+          "name": "target_gene",
+          "type": "string"
+        },
+        {
+          "name": "depmap_dependency_score",
+          "type": "float"
+        },
+        {
+          "name": "depmap_effect_score",
+          "type": "float"
+        },
+        {
+          "name": "expression_score",
+          "type": "float"
+        },
+        {
+          "name": "copy_number_score",
+          "type": "float"
+        },
+        {
+          "name": "mutation_score",
+          "type": "float"
+        },
+        {
+          "name": "pathway_score",
+          "type": "float"
+        },
+        {
+          "name": "literature_count",
+          "type": "int"
+        },
+        {
+          "name": "overall_score",
+          "type": "float"
+        },
+        {
+          "name": "cell_lines_tested",
+          "type": "json"
+        },
+        {
+          "name": "evidence_summary",
+          "type": "json"
+        },
+        {
+          "name": "n_cell_lines_dependent",
+          "type": "int"
+        },
+        {
+          "name": "pct_cell_lines_dependent",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "multi_target_dependencies",
+      "columns": [
+        {
+          "name": "model_id",
+          "type": "string"
+        },
+        {
+          "name": "cell_line_name",
+          "type": "string"
+        },
+        {
+          "name": "cancer_type",
+          "type": "string"
+        },
+        {
+          "name": "lineage",
+          "type": "string"
+        },
+        {
+          "name": "STK17A_dependency",
+          "type": "float"
+        },
+        {
+          "name": "STK17A_effect",
+          "type": "float"
+        },
+        {
+          "name": "STK17A_expression",
+          "type": "float"
+        },
+        {
+          "name": "STK17A_copy_number",
+          "type": "float"
+        },
+        {
+          "name": "MYLK4_dependency",
+          "type": "float"
+        },
+        {
+          "name": "MYLK4_effect",
+          "type": "float"
+        },
+        {
+          "name": "MYLK4_expression",
+          "type": "float"
+        },
+        {
+          "name": "MYLK4_copy_number",
+          "type": "float"
+        },
+        {
+          "name": "TBK1_dependency",
+          "type": "float"
+        },
+        {
+          "name": "TBK1_effect",
+          "type": "float"
+        },
+        {
+          "name": "TBK1_expression",
+          "type": "float"
+        },
+        {
+          "name": "TBK1_copy_number",
+          "type": "float"
+        },
+        {
+          "name": "CLK4_dependency",
+          "type": "float"
+        },
+        {
+          "name": "CLK4_effect",
+          "type": "float"
+        },
+        {
+          "name": "CLK4_expression",
+          "type": "float"
+        },
+        {
+          "name": "CLK4_copy_number",
+          "type": "float"
+        },
+        {
+          "name": "XPO1_dependency",
+          "type": "float"
+        },
+        {
+          "name": "XPO1_effect",
+          "type": "float"
+        },
+        {
+          "name": "XPO1_expression",
+          "type": "float"
+        },
+        {
+          "name": "XPO1_copy_number",
+          "type": "float"
+        },
+        {
+          "name": "BTK_dependency",
+          "type": "float"
+        },
+        {
+          "name": "BTK_effect",
+          "type": "float"
+        },
+        {
+          "name": "BTK_expression",
+          "type": "float"
+        },
+        {
+          "name": "BTK_copy_number",
+          "type": "float"
+        },
+        {
+          "name": "combined_score",
+          "type": "float"
+        },
+        {
+          "name": "depmap_data",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "combination_predictions",
+      "columns": [
+        {
+          "name": "compound_a",
+          "type": "string"
+        },
+        {
+          "name": "compound_b",
+          "type": "string"
+        },
+        {
+          "name": "target_a",
+          "type": "string"
+        },
+        {
+          "name": "target_b",
+          "type": "string"
+        },
+        {
+          "name": "synergy_score",
+          "type": "float"
+        },
+        {
+          "name": "mechanism",
+          "type": "text"
+        },
+        {
+          "name": "pathway_complementarity",
+          "type": "float"
+        },
+        {
+          "name": "cancer_types",
+          "type": "multiple"
+        },
+        {
+          "name": "clinical_phase",
+          "type": "string"
+        },
+        {
+          "name": "safety_profile",
+          "type": "text"
+        },
+        {
+          "name": "fda_approved",
+          "type": "bool"
+        },
+        {
+          "name": "literature_evidence",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "genetic_vulnerabilities",
+      "columns": [
+        {
+          "name": "cancer_type",
+          "type": "string"
+        },
+        {
+          "name": "lineage",
+          "type": "string"
+        },
+        {
+          "name": "mutation_type",
+          "type": "string"
+        },
+        {
+          "name": "affected_genes",
+          "type": "multiple"
+        },
+        {
+          "name": "depmap_score",
+          "type": "float"
+        },
+        {
+          "name": "evidence_source",
+          "type": "string"
+        },
+        {
+          "name": "is_hotspot",
+          "type": "bool"
+        },
+        {
+          "name": "is_damaging",
+          "type": "bool"
+        },
+        {
+          "name": "mutation_details",
+          "type": "json"
+        }
+      ]
+    },
+    {
+      "name": "depmap_cell_lines",
+      "columns": [
+        {
+          "name": "model_id",
+          "type": "string"
+        },
+        {
+          "name": "cell_line_name",
+          "type": "string"
+        },
+        {
+          "name": "stripped_cell_line_name",
+          "type": "string"
+        },
+        {
+          "name": "oncotree_lineage",
+          "type": "string"
+        },
+        {
+          "name": "oncotree_primary_disease",
+          "type": "string"
+        },
+        {
+          "name": "oncotree_subtype",
+          "type": "string"
+        },
+        {
+          "name": "oncotree_code",
+          "type": "string"
+        },
+        {
+          "name": "age_category",
+          "type": "string"
+        },
+        {
+          "name": "sex",
+          "type": "string"
+        },
+        {
+          "name": "primary_or_metastasis",
+          "type": "string"
+        },
+        {
+          "name": "model_metadata",
+          "type": "json"
+        }
+      ]
+    }
+  ]
+}

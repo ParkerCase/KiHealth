@@ -1,0 +1,257 @@
+{
+  "tables": [
+    {
+      "name": "cancer_rankings",
+      "columns": [
+        {
+          "name": "cancer_type",
+          "type": "string"
+        },
+        {
+          "name": "rank",
+          "type": "int"
+        },
+        {
+          "name": "overall_score",
+          "type": "float"
+        },
+        {
+          "name": "confidence_tier",
+          "type": "string"
+        },
+        {
+          "name": "depmap_score",
+          "type": "float"
+        },
+        {
+          "name": "expression_score",
+          "type": "float"
+        },
+        {
+          "name": "mutation_score",
+          "type": "float"
+        },
+        {
+          "name": "copy_number_score",
+          "type": "float"
+        },
+        {
+          "name": "literature_score",
+          "type": "float"
+        },
+        {
+          "name": "n_cell_lines",
+          "type": "int"
+        },
+        {
+          "name": "n_validated_lines",
+          "type": "int"
+        },
+        {
+          "name": "validation_available",
+          "type": "bool"
+        },
+        {
+          "name": "significant_sl_hits",
+          "type": "int"
+        },
+        {
+          "name": "key_findings",
+          "type": "text"
+        },
+        {
+          "name": "stk17a_score",
+          "type": "float"
+        },
+        {
+          "name": "mylk4_score",
+          "type": "float"
+        },
+        {
+          "name": "tbk1_score",
+          "type": "float"
+        },
+        {
+          "name": "clk4_score",
+          "type": "float"
+        },
+        {
+          "name": "summary",
+          "type": "text"
+        },
+        {
+          "name": "last_updated",
+          "type": "datetime"
+        }
+      ]
+    },
+    {
+      "name": "target_scores",
+      "columns": [
+        {
+          "name": "cancer_type",
+          "type": "string"
+        },
+        {
+          "name": "cancer_rank",
+          "type": "int"
+        },
+        {
+          "name": "target_gene",
+          "type": "string"
+        },
+        {
+          "name": "dependency_score",
+          "type": "float"
+        },
+        {
+          "name": "cancer_overall_score",
+          "type": "float"
+        },
+        {
+          "name": "confidence_tier",
+          "type": "string"
+        },
+        {
+          "name": "n_cell_lines",
+          "type": "int"
+        },
+        {
+          "name": "validation_available",
+          "type": "bool"
+        },
+        {
+          "name": "summary",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "synthetic_lethality",
+      "columns": [
+        {
+          "name": "mutation",
+          "type": "string"
+        },
+        {
+          "name": "target_gene",
+          "type": "string"
+        },
+        {
+          "name": "n_mutant_lines",
+          "type": "int"
+        },
+        {
+          "name": "n_wt_lines",
+          "type": "int"
+        },
+        {
+          "name": "mutant_mean_score",
+          "type": "float"
+        },
+        {
+          "name": "wt_mean_score",
+          "type": "float"
+        },
+        {
+          "name": "effect_size",
+          "type": "float"
+        },
+        {
+          "name": "p_value",
+          "type": "float"
+        },
+        {
+          "name": "is_significant",
+          "type": "bool"
+        },
+        {
+          "name": "most_dependent_line",
+          "type": "string"
+        },
+        {
+          "name": "mutant_lines_sample",
+          "type": "json"
+        },
+        {
+          "name": "summary",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "cell_line_dependencies",
+      "columns": [
+        {
+          "name": "cancer_type",
+          "type": "string"
+        },
+        {
+          "name": "target_gene",
+          "type": "string"
+        },
+        {
+          "name": "mean_dependency_score",
+          "type": "float"
+        },
+        {
+          "name": "n_lines_tested",
+          "type": "int"
+        },
+        {
+          "name": "cancer_overall_rank",
+          "type": "int"
+        },
+        {
+          "name": "summary",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "name": "papers",
+      "columns": [
+        {
+          "name": "pubmed_id",
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "abstract",
+          "type": "text"
+        },
+        {
+          "name": "authors",
+          "type": "string"
+        },
+        {
+          "name": "journal",
+          "type": "string"
+        },
+        {
+          "name": "publication_date",
+          "type": "datetime"
+        },
+        {
+          "name": "cancer_types",
+          "type": "multiple"
+        },
+        {
+          "name": "target_genes",
+          "type": "multiple"
+        },
+        {
+          "name": "relevance_score",
+          "type": "float"
+        },
+        {
+          "name": "citation_count",
+          "type": "int"
+        }
+      ]
+    }
+  ]
+}
