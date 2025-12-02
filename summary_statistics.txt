@@ -1,0 +1,18 @@
+POST-OPERATIVE OUTCOME ANALYSIS SUMMARY
+================================================================================
+
+N patients with surgery: 425
+N with post-op data (≥6 months): 381 (89.6%)
+N with favorable outcome (improvement ≥20): 97.0 (25.5% of those with data)
+
+Improvement statistics:
+  Mean: 8.9 points
+  Median: 7.0 points
+  Range: -54.0 to 76.0 points
+
+Feasibility Criteria:
+  Patients with post-op data ≥ 120: 381 ✅
+  Favorable outcome % ≥ 50%: 25.5% ❌
+  EPV ratio ≥ 15: 9.70 ❌
+
+Feasibility for outcome prediction model: ❌ NO

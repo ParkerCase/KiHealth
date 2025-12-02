@@ -248,6 +248,29 @@ function displayResults(data) {
 
   // Render charts
   renderCharts(data.plots);
+
+  // NEW: Check if there are moderate/high-risk patients for outcome analysis
+  const moderateHighRisk =
+    data.summary.total_patients * (data.summary.high_risk_pct / 100);
+
+  if (moderateHighRisk > 0) {
+    const outcomeSection = document.getElementById("outcomeSection");
+    const outcomeBtnText = document.getElementById("outcomeBtnText");
+
+    if (outcomeSection && outcomeBtnText) {
+      outcomeSection.style.display = "block";
+      outcomeBtnText.textContent = `🔬 Analyze Expected Surgical Outcomes (${Math.round(
+        moderateHighRisk
+      )} patients)`;
+
+      // Reset state
+      window.outcomesPredicted = false;
+      const outcomeResults = document.getElementById("outcomeResults");
+      if (outcomeResults) {
+        outcomeResults.style.display = "none";
+      }
+    }
+  }
 }
 
 function renderCharts(plots) {
@@ -448,4 +471,263 @@ function downloadPredictions() {
   a.click();
   document.body.removeChild(a);
   window.URL.revokeObjectURL(url);
+}
+
+// Global variable to track if outcomes have been predicted
+window.outcomesPredicted = false;
+
+async function predictOutcomes() {
+  if (!selectedFile || window.outcomesPredicted) return;
+
+  const btn = document.getElementById("predictOutcomesBtn");
+  const btnText = document.getElementById("outcomeBtnText");
+
+  if (!btn || !btnText) return;
+
+  btn.disabled = true;
+  btnText.textContent = "⏳ Analyzing outcomes...";
+
+  const formData = new FormData();
+  formData.append("file", selectedFile);
+  formData.append("run_outcome", "true");
+
+  try {
+    const response = await fetch("/api/validate", {
+      method: "POST",
+      body: formData,
+    });
+
+    const responseText = await response.text();
+
+    if (!response.ok) {
+      let errorMessage = `Server error (${response.status})`;
+      try {
+        const errorData = JSON.parse(responseText);
+        errorMessage = errorData.error || errorMessage;
+      } catch (e) {
+        errorMessage = responseText || errorMessage;
+      }
+      alert("Error: " + errorMessage);
+      return;
+    }
+
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      alert("Error: Invalid response from server. Please try again.");
+      console.error("JSON parse error:", e);
+      return;
+    }
+
+    if (data.error) {
+      alert("Error: " + data.error);
+      return;
+    }
+
+    if (data.outcome_predictions) {
+      if (data.outcome_predictions.error) {
+        alert("Outcome prediction error: " + data.outcome_predictions.error);
+      } else {
+        displayOutcomeResults(data.outcome_predictions);
+        window.outcomesPredicted = true;
+        btnText.textContent = "✓ Outcomes Analyzed";
+      }
+    }
+  } catch (error) {
+    alert("Error predicting outcomes: " + error.message);
+    console.error("Error:", error);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function displayOutcomeResults(outcomes) {
+  const resultsDiv = document.getElementById("outcomeResults");
+  if (!resultsDiv) return;
+
+  let html = `
+    <div class="outcome-results-container">
+      <h3>📊 Surgical Outcome Analysis</h3>
+      
+      <div class="metrics-grid">
+        <div class="metric-card outcome-card">
+          <div class="metric-value">${outcomes.n_analyzed}</div>
+          <div class="metric-label">Patients Analyzed</div>
+        </div>
+        <div class="metric-card outcome-card">
+          <div class="metric-value">${outcomes.mean_improvement.toFixed(
+            1
+          )}</div>
+          <div class="metric-label">Mean Improvement (points)</div>
+        </div>
+        <div class="metric-card outcome-card">
+          <div class="metric-value">${outcomes.median_improvement.toFixed(
+            1
+          )}</div>
+          <div class="metric-label">Median Improvement (points)</div>
+        </div>
+        <div class="metric-card outcome-card">
+          <div class="metric-value">±${outcomes.std_improvement.toFixed(
+            1
+          )}</div>
+          <div class="metric-label">Std Deviation</div>
+        </div>
+      </div>
+      
+      <div class="plot-section">
+        <h4>Expected Improvement Distribution</h4>
+        <canvas id="improvementChart"></canvas>
+        <p class="plot-caption">Distribution of expected WOMAC improvement across surgical candidates</p>
+      </div>
+      
+      <div class="improvement-bands-table">
+        <h4>Improvement Band Breakdown</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Improvement Band</th>
+              <th>Number of Patients</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+  `;
+
+  const totalPatients = outcomes.n_analyzed;
+  const sortedBands = [
+    "Likely Worse",
+    "Minimal (0-10)",
+    "Moderate (10-20)",
+    "Good (20-30)",
+    "Excellent (>30)",
+  ];
+
+  for (const band of sortedBands) {
+    const count = outcomes.improvement_distribution[band] || 0;
+    const pct = ((count / totalPatients) * 100).toFixed(1);
+
+    html += `
+      <tr>
+        <td><strong>${band}</strong></td>
+        <td>${count}</td>
+        <td>${pct}%</td>
+      </tr>
+    `;
+  }
+
+  html += `
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="clinical-interpretation">
+        <h4>💡 Clinical Interpretation</h4>
+        <div class="interpretation-box">
+          <p><strong>WOMAC Improvement Scale:</strong></p>
+          <ul>
+            <li><strong>Minimal (0-10 points):</strong> Slight improvement, may not meet patient expectations</li>
+            <li><strong>Moderate (10-20 points):</strong> Noticeable improvement, clinically significant</li>
+            <li><strong>Good (20-30 points):</strong> Substantial improvement, strong surgical candidate</li>
+            <li><strong>Excellent (>30 points):</strong> Exceptional improvement, ideal surgical candidate</li>
+          </ul>
+          <p><strong>Note:</strong> These predictions are based on OAI data and should be validated 
+          against Bergman Clinics' surgical outcomes before clinical use.</p>
+        </div>
+      </div>
+      
+      <div class="download-section">
+        <h4>💾 Download Outcome Predictions</h4>
+        <button class="btn-primary" onclick="downloadOutcomes()">
+          📥 Download CSV (Surgery Risk + Expected Outcomes)
+        </button>
+      </div>
+    </div>
+  `;
+
+  resultsDiv.innerHTML = html;
+  resultsDiv.style.display = "block";
+
+  // Store CSV for download
+  window.outcomeCSV = outcomes.csv;
+
+  // Render improvement distribution chart
+  if (outcomes.improvement_plot) {
+    setTimeout(() => {
+      renderImprovementChart(outcomes.improvement_plot);
+    }, 100);
+  }
+
+  // Scroll to results
+  resultsDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function renderImprovementChart(plotData) {
+  const ctx = document.getElementById("improvementChart");
+  if (!ctx || !plotData || !plotData.data) return;
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: plotData.data.labels,
+      datasets: [
+        {
+          label: plotData.ylabel,
+          data: plotData.data.values,
+          backgroundColor: [
+            "#ef4444",
+            "#f97316",
+            "#eab308",
+            "#22c55e",
+            "#10b981",
+          ],
+          borderColor: "black",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: plotData.title,
+          font: { size: 16, weight: "bold" },
+        },
+        legend: { display: false },
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: plotData.xlabel,
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: plotData.ylabel,
+          },
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+function downloadOutcomes() {
+  if (!window.outcomeCSV) {
+    alert("No outcome predictions to download");
+    return;
+  }
+
+  const blob = new Blob([window.outcomeCSV], { type: "text/csv" });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "doc_surgery_and_outcome_predictions.csv";
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
 }

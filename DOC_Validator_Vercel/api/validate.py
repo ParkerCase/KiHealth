@@ -24,6 +24,7 @@ RF_MODEL = None
 SCALER = None
 IMPUTER = None
 FEATURE_NAMES = None
+OUTCOME_MODEL = None
 
 
 def load_models():
@@ -90,6 +91,27 @@ def load_models():
             raise Exception(f"Failed to load models: {str(e)}")
 
 
+def load_outcome_model():
+    """Lazy load outcome model on first request"""
+    global OUTCOME_MODEL, MODEL_DIR
+    if OUTCOME_MODEL is None:
+        try:
+            # Use same MODEL_DIR as surgery model
+            if MODEL_DIR is None:
+                load_models()  # This will set MODEL_DIR
+
+            outcome_model_path = os.path.join(MODEL_DIR, "outcome_rf_regressor.pkl")
+
+            if not os.path.exists(outcome_model_path):
+                raise Exception(
+                    f"Outcome model file not found at: {outcome_model_path}"
+                )
+
+            OUTCOME_MODEL = joblib.load(outcome_model_path)
+        except Exception as e:
+            raise Exception(f"Failed to load outcome model: {str(e)}")
+
+
 class handler(BaseHTTPRequestHandler):
     def _send_error(self, status_code, error_message):
         """Helper to send JSON error response"""
@@ -131,6 +153,7 @@ class handler(BaseHTTPRequestHandler):
                 parts = post_data.split(b"--" + boundary)
 
                 csv_data = None
+                run_outcome = False
                 for part in parts:
                     if b"filename=" in part and b".csv" in part:
                         # Extract CSV content
@@ -139,7 +162,15 @@ class handler(BaseHTTPRequestHandler):
                         # Remove trailing boundary
                         if csv_data.endswith(b"--"):
                             csv_data = csv_data[:-2]
-                        break
+                    elif b'name="run_outcome"' in part:
+                        # Extract run_outcome parameter
+                        content_start = part.find(b"\r\n\r\n") + 4
+                        value = (
+                            part[content_start:]
+                            .strip()
+                            .decode("utf-8", errors="ignore")
+                        )
+                        run_outcome = value.lower() == "true"
 
                 if not csv_data:
                     self.send_response(400)
@@ -338,6 +369,111 @@ class handler(BaseHTTPRequestHandler):
 
             predictions_csv = download_df.to_csv(index=False)
 
+            # NEW: Outcome predictions (if requested)
+            outcome_predictions = None
+            if run_outcome:
+                try:
+                    # Load outcome model
+                    load_outcome_model()
+
+                    # Filter to moderate/high-risk patients (>5% surgery risk)
+                    high_risk_mask = predictions > 0.05
+                    X_high_risk = X_preprocessed[high_risk_mask]
+
+                    if len(X_high_risk) > 0:
+                        # Predict improvement
+                        improvement_pred = OUTCOME_MODEL.predict(X_high_risk)
+
+                        # Create improvement bands
+                        improvement_pred_series = pd.Series(improvement_pred)
+                        bands = pd.cut(
+                            improvement_pred_series,
+                            bins=[-100, 0, 10, 20, 30, 100],
+                            labels=[
+                                "Likely Worse",
+                                "Minimal (0-10)",
+                                "Moderate (10-20)",
+                                "Good (20-30)",
+                                "Excellent (>30)",
+                            ],
+                        )
+
+                        # Calculate statistics
+                        outcome_predictions = {
+                            "n_analyzed": int(len(X_high_risk)),
+                            "mean_improvement": float(improvement_pred.mean()),
+                            "median_improvement": float(np.median(improvement_pred)),
+                            "std_improvement": float(improvement_pred.std()),
+                            "improvement_distribution": {
+                                str(k): int(v)
+                                for k, v in bands.value_counts().to_dict().items()
+                            },
+                        }
+
+                        # Create plot data for improvement distribution (client-side rendering)
+                        band_counts = bands.value_counts().sort_index()
+                        outcome_predictions["improvement_plot"] = {
+                            "type": "bar",
+                            "title": "Expected Surgical Outcome Distribution",
+                            "xlabel": "Expected Improvement Band",
+                            "ylabel": "Number of Patients",
+                            "data": {
+                                "labels": [str(x) for x in band_counts.index.tolist()],
+                                "values": band_counts.values.tolist(),
+                            },
+                        }
+
+                        # Add to patient data for download
+                        df_high_risk = df[high_risk_mask].copy()
+                        df_high_risk["predicted_improvement"] = improvement_pred
+                        df_high_risk["improvement_band"] = bands.astype(str)
+
+                        # Merge with original predictions
+                        if "patient_id" in df_high_risk.columns:
+                            outcome_download = df_high_risk[
+                                [
+                                    "patient_id",
+                                    "predicted_risk",
+                                    "risk_category",
+                                    "predicted_improvement",
+                                    "improvement_band",
+                                ]
+                            ].copy()
+                        else:
+                            outcome_download = df_high_risk[
+                                [
+                                    "predicted_risk",
+                                    "risk_category",
+                                    "predicted_improvement",
+                                    "improvement_band",
+                                ]
+                            ].copy()
+                            outcome_download.insert(
+                                0, "patient_number", range(1, len(df_high_risk) + 1)
+                            )
+
+                        # Format risk as percentage
+                        outcome_download["predicted_risk_pct"] = (
+                            outcome_download["predicted_risk"] * 100
+                        ).round(1)
+                        outcome_download = outcome_download.drop(
+                            "predicted_risk", axis=1
+                        )
+
+                        outcome_predictions["csv"] = outcome_download.to_csv(
+                            index=False
+                        )
+
+                    else:
+                        outcome_predictions = {
+                            "error": "No moderate/high-risk patients (>5% surgery risk) to analyze"
+                        }
+
+                except Exception as e:
+                    outcome_predictions = {
+                        "error": f"Error predicting outcomes: {str(e)}"
+                    }
+
             # Convert NaN values to None (null in JSON) for valid JSON
             def clean_nan(obj):
                 """Recursively replace NaN with None"""
@@ -353,13 +489,20 @@ class handler(BaseHTTPRequestHandler):
             response = {
                 "success": True,
                 "summary": clean_nan(summary),
-                "validation_metrics": clean_nan(validation_metrics) if validation_metrics else None,
+                "validation_metrics": (
+                    clean_nan(validation_metrics) if validation_metrics else None
+                ),
                 "plots": {
                     "risk_distribution": clean_nan(risk_dist_plot),
                     "roc_curve": clean_nan(roc_plot) if roc_plot else None,
-                    "calibration": clean_nan(calibration_plot) if calibration_plot else None,
+                    "calibration": (
+                        clean_nan(calibration_plot) if calibration_plot else None
+                    ),
                 },
                 "predictions_csv": predictions_csv,
+                "outcome_predictions": (
+                    clean_nan(outcome_predictions) if outcome_predictions else None
+                ),  # NEW
             }
 
             self.send_response(200)

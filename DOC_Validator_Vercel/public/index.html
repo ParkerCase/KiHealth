@@ -101,6 +101,36 @@
       <div id="results" class="results" style="display: none">
         <!-- Results populated by JavaScript -->
       </div>
+
+      <!-- Outcome Prediction Section (Two-Stage Workflow) -->
+      <div id="outcomeSection" class="outcome-section" style="display: none">
+        <h2>🎯 Stage 2: Surgical Outcome Predictions</h2>
+
+        <div class="info-box">
+          <p>
+            <strong>About this prediction:</strong> For patients with moderate
+            or high surgery risk (>5%), this model predicts expected WOMAC
+            improvement if they undergo total knee replacement.
+          </p>
+          <p>
+            <strong>Note:</strong> These are research-grade predictions based on
+            381 OAI surgical patients. Validation on European cohorts is
+            ongoing.
+          </p>
+        </div>
+
+        <button
+          class="btn-primary"
+          id="predictOutcomesBtn"
+          onclick="predictOutcomes()"
+        >
+          <span id="outcomeBtnText">🔬 Analyze Expected Surgical Outcomes</span>
+        </button>
+
+        <div id="outcomeResults" style="display: none; margin-top: 30px">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
     </div>
 
     <footer>
