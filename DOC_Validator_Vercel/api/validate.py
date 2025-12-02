@@ -31,47 +31,61 @@ def load_models():
     global RF_MODEL, SCALER, FEATURE_NAMES, MODEL_DIR
     if RF_MODEL is None:
         try:
-            # In Vercel, files are relative to the function's directory
-            # Try multiple possible paths (including models in api/ directory)
-            possible_paths = [
-                os.path.join(os.path.dirname(__file__), "models"),  # api/models/
-                os.path.join(os.path.dirname(os.path.dirname(__file__)), "models"),  # root/models/
-                os.path.join(os.getcwd(), "models"),
-                os.path.join("/var/task", "models"),
-                "models",  # Relative to current working directory
-            ]
-            
-            MODEL_DIR = None
-            for path in possible_paths:
-                test_file = os.path.join(path, "random_forest_calibrated.pkl")
-                if os.path.exists(test_file):
-                    MODEL_DIR = path
-                    break
-            
-            if MODEL_DIR is None:
-                # Debug: list what's actually available
-                cwd = os.getcwd()
-                files_in_cwd = os.listdir(cwd) if os.path.exists(cwd) else []
-                func_dir = os.path.dirname(__file__)
-                files_in_func_dir = os.listdir(func_dir) if os.path.exists(func_dir) else []
-                parent_dir = os.path.dirname(func_dir)
-                files_in_parent = os.listdir(parent_dir) if os.path.exists(parent_dir) else []
-                
+            # Get the directory where this file is located (api/)
+            func_dir = os.path.dirname(__file__)
+
+            # Try api/models/ first (most reliable in Vercel)
+            api_models_path = os.path.join(func_dir, "models")
+
+            # Also try root models/ directory
+            root_models_path = os.path.join(os.path.dirname(func_dir), "models")
+
+            # Check which path exists
+            if os.path.exists(
+                os.path.join(api_models_path, "random_forest_calibrated.pkl")
+            ):
+                MODEL_DIR = api_models_path
+            elif os.path.exists(
+                os.path.join(root_models_path, "random_forest_calibrated.pkl")
+            ):
+                MODEL_DIR = root_models_path
+            else:
+                # Debug: show what's available
+                import json
+
+                debug_info = {
+                    "func_dir": func_dir,
+                    "api_models_exists": os.path.exists(api_models_path),
+                    "root_models_exists": os.path.exists(root_models_path),
+                    "cwd": os.getcwd(),
+                    "func_dir_contents": (
+                        os.listdir(func_dir) if os.path.exists(func_dir) else []
+                    ),
+                    "parent_dir": os.path.dirname(func_dir),
+                    "parent_dir_contents": (
+                        os.listdir(os.path.dirname(func_dir))
+                        if os.path.exists(os.path.dirname(func_dir))
+                        else []
+                    ),
+                }
                 raise Exception(
-                    f"Models directory not found. Tried: {possible_paths}\n"
-                    f"Current working directory: {cwd}\n"
-                    f"Files in cwd: {files_in_cwd}\n"
-                    f"Function directory: {func_dir}\n"
-                    f"Files in function dir: {files_in_func_dir}\n"
-                    f"Parent directory: {parent_dir}\n"
-                    f"Files in parent: {files_in_parent}"
+                    f"Models not found. Debug info: {json.dumps(debug_info, indent=2)}"
                 )
-            
-            RF_MODEL = joblib.load(
-                os.path.join(MODEL_DIR, "random_forest_calibrated.pkl")
-            )
-            SCALER = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
-            FEATURE_NAMES = joblib.load(os.path.join(MODEL_DIR, "feature_names.pkl"))
+
+            model_path = os.path.join(MODEL_DIR, "random_forest_calibrated.pkl")
+            scaler_path = os.path.join(MODEL_DIR, "scaler.pkl")
+            features_path = os.path.join(MODEL_DIR, "feature_names.pkl")
+
+            if not os.path.exists(model_path):
+                raise Exception(f"Model file not found at: {model_path}")
+            if not os.path.exists(scaler_path):
+                raise Exception(f"Scaler file not found at: {scaler_path}")
+            if not os.path.exists(features_path):
+                raise Exception(f"Features file not found at: {features_path}")
+
+            RF_MODEL = joblib.load(model_path)
+            SCALER = joblib.load(scaler_path)
+            FEATURE_NAMES = joblib.load(features_path)
         except Exception as e:
             raise Exception(f"Failed to load models: {str(e)}")
 
@@ -87,7 +101,7 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"error": error_message}).encode())
         except:
             pass  # If we can't send response, fail silently
-    
+
     def do_POST(self):
         """Handle POST requests"""
         try:
@@ -346,11 +360,16 @@ class handler(BaseHTTPRequestHandler):
 
             # Get full traceback for debugging
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            traceback_str = "".join(traceback.format_exception(exc_type, exc_value, exc_traceback))
+            traceback_str = "".join(
+                traceback.format_exception(exc_type, exc_value, exc_traceback)
+            )
 
             # For production, show user-friendly message
             error_msg = str(e)
-            if "Failed to load models" in error_msg or "Model loading error" in error_msg:
+            if (
+                "Failed to load models" in error_msg
+                or "Model loading error" in error_msg
+            ):
                 error_msg = f"Model loading error: {str(e)}"
             elif "Preprocessing error" in error_msg:
                 error_msg = f"Preprocessing error: {str(e)}"
