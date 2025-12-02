@@ -32,9 +32,10 @@ def load_models():
     if RF_MODEL is None:
         try:
             # In Vercel, files are relative to the function's directory
-            # Try multiple possible paths
+            # Try multiple possible paths (including models in api/ directory)
             possible_paths = [
-                os.path.join(os.path.dirname(os.path.dirname(__file__)), "models"),
+                os.path.join(os.path.dirname(__file__), "models"),  # api/models/
+                os.path.join(os.path.dirname(os.path.dirname(__file__)), "models"),  # root/models/
                 os.path.join(os.getcwd(), "models"),
                 os.path.join("/var/task", "models"),
                 "models",  # Relative to current working directory
