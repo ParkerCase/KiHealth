@@ -7,6 +7,7 @@ If the function still exceeds 250 MB, we need to store models externally.
 ### Steps:
 
 1. **Upload models to Vercel Blob:**
+
 ```bash
 vercel blob put models/random_forest_calibrated.pkl
 vercel blob put models/scaler.pkl
@@ -14,6 +15,7 @@ vercel blob put models/feature_names.pkl
 ```
 
 2. **Update validate.py to load from blob:**
+
 ```python
 from vercel import blob
 
@@ -24,7 +26,7 @@ def load_models():
         rf_data = blob.get('random_forest_calibrated.pkl')
         scaler_data = blob.get('scaler.pkl')
         feature_data = blob.get('feature_names.pkl')
-        
+
         RF_MODEL = joblib.loads(rf_data)
         SCALER = joblib.loads(scaler_data)
         FEATURE_NAMES = joblib.loads(feature_data)
@@ -60,4 +62,3 @@ This could save ~50-100 MB.
 ## Current Status
 
 Trying optimized configuration first. If it still fails, we'll implement Option 1 (Vercel Blob).
-

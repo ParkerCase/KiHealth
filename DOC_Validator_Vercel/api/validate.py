@@ -30,6 +30,7 @@ SCALER = None
 IMPUTER = None
 FEATURE_NAMES = None
 
+
 def load_models():
     """Lazy load models on first request"""
     global RF_MODEL, SCALER, FEATURE_NAMES, MODEL_DIR
@@ -55,7 +56,7 @@ class handler(BaseHTTPRequestHandler):
         """Handle POST requests"""
         # Load models on first request
         load_models()
-        
+
         try:
             # Read request body
             content_length = int(self.headers.get("Content-Length", 0))
