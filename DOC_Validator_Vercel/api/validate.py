@@ -44,15 +44,38 @@ def load_models():
 
 
 class handler(BaseHTTPRequestHandler):
+    def _send_error(self, status_code, error_message):
+        """Helper to send JSON error response"""
+        try:
+            self.send_response(status_code)
+            self.send_header("Content-type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(json.dumps({"error": error_message}).encode())
+        except:
+            pass  # If we can't send response, fail silently
+    
     def do_POST(self):
         """Handle POST requests"""
-        # Load models on first request
-        load_models()
-
         try:
+            # Load models on first request
+            try:
+                load_models()
+            except Exception as e:
+                self._send_error(500, f"Model loading error: {str(e)}")
+                return
+
             # Read request body
-            content_length = int(self.headers.get("Content-Length", 0))
-            post_data = self.rfile.read(content_length)
+            # Read request body
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                if content_length == 0:
+                    self._send_error(400, "Empty request body")
+                    return
+                post_data = self.rfile.read(content_length)
+            except Exception as e:
+                self._send_error(400, f"Error reading request: {str(e)}")
+                return
 
             # Parse multipart form data (CSV file)
             content_type = self.headers.get("Content-Type", "")
@@ -288,26 +311,33 @@ class handler(BaseHTTPRequestHandler):
             import traceback
             import sys
 
-            # Get full traceback for debugging, but sanitize for production
+            # Get full traceback for debugging
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            traceback_str = traceback.format_exception(
-                exc_type, exc_value, exc_traceback
-            )
+            traceback_str = "".join(traceback.format_exception(exc_type, exc_value, exc_traceback))
 
             # For production, show user-friendly message
             error_msg = str(e)
-            if "Failed to load models" in error_msg:
-                error_msg = "Model loading error. Please contact support."
-            elif "Preprocessing error" in error_msg or "Prediction error" in error_msg:
-                pass  # Already user-friendly
+            if "Failed to load models" in error_msg or "Model loading error" in error_msg:
+                error_msg = f"Model loading error: {str(e)}"
+            elif "Preprocessing error" in error_msg:
+                error_msg = f"Preprocessing error: {str(e)}"
+            elif "Prediction error" in error_msg:
+                error_msg = f"Prediction error: {str(e)}"
             else:
+                # Include more detail for debugging
                 error_msg = f"Processing error: {str(e)}"
+                # Log full traceback to console (will appear in Vercel logs)
+                print(f"Full error traceback:\n{traceback_str}")
 
-            self.send_response(500)
-            self.send_header("Content-type", "application/json")
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.end_headers()
-            self.wfile.write(json.dumps({"error": error_msg}).encode())
+            try:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": error_msg}).encode())
+            except Exception as send_error:
+                # If we can't send response, log it
+                print(f"Failed to send error response: {send_error}")
 
     def do_OPTIONS(self):
         """Handle CORS preflight"""
