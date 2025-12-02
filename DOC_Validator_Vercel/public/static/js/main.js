@@ -67,7 +67,34 @@ async function analyzeData() {
       body: formData,
     });
 
-    const data = await response.json();
+    // Check if response is OK
+    if (!response.ok) {
+      // Try to parse as JSON, fallback to text
+      let errorMessage = `Server error (${response.status})`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+      } catch (e) {
+        const errorText = await response.text();
+        errorMessage = errorText || errorMessage;
+      }
+      document.getElementById("loading").style.display = "none";
+      alert("Error: " + errorMessage);
+      console.error("Server error:", response.status, errorMessage);
+      return;
+    }
+
+    // Parse JSON response
+    let data;
+    try {
+      const text = await response.text();
+      data = JSON.parse(text);
+    } catch (e) {
+      document.getElementById("loading").style.display = "none";
+      alert("Error: Invalid response from server. Please try again.");
+      console.error("JSON parse error:", e, "Response:", await response.text());
+      return;
+    }
 
     document.getElementById("loading").style.display = "none";
 
@@ -78,6 +105,8 @@ async function analyzeData() {
 
     if (data.success) {
       displayResults(data);
+    } else {
+      alert("Error: Unexpected response format");
     }
   } catch (error) {
     document.getElementById("loading").style.display = "none";

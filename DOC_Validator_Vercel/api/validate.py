@@ -30,10 +30,13 @@ def load_models():
     """Lazy load models on first request"""
     global RF_MODEL, SCALER, FEATURE_NAMES, MODEL_DIR
     if RF_MODEL is None:
-        MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models")
-        RF_MODEL = joblib.load(os.path.join(MODEL_DIR, "random_forest_calibrated.pkl"))
-        SCALER = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
-        FEATURE_NAMES = joblib.load(os.path.join(MODEL_DIR, "feature_names.pkl"))
+        try:
+            MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models")
+            RF_MODEL = joblib.load(os.path.join(MODEL_DIR, "random_forest_calibrated.pkl"))
+            SCALER = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
+            FEATURE_NAMES = joblib.load(os.path.join(MODEL_DIR, "feature_names.pkl"))
+        except Exception as e:
+            raise Exception(f"Failed to load models: {str(e)}")
 
 
 
@@ -67,7 +70,11 @@ class handler(BaseHTTPRequestHandler):
                         break
 
                 if not csv_data:
-                    self.send_error(400, "No CSV file found")
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.send_header("Access-Control-Allow-Origin", "*")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"error": "No CSV file found in request"}).encode())
                     return
 
                 # Parse CSV
@@ -79,10 +86,18 @@ class handler(BaseHTTPRequestHandler):
                     if "csv_data" in body:
                         df = pd.read_csv(io.StringIO(body["csv_data"]))
                     else:
-                        self.send_error(400, "No CSV data found")
+                        self.send_response(400)
+                        self.send_header("Content-type", "application/json")
+                        self.send_header("Access-Control-Allow-Origin", "*")
+                        self.end_headers()
+                        self.wfile.write(json.dumps({"error": "No CSV data found in request"}).encode())
                         return
-                except:
-                    self.send_error(400, "Invalid request format")
+                except Exception as e:
+                    self.send_response(400)
+                    self.send_header("Content-type", "application/json")
+                    self.send_header("Access-Control-Allow-Origin", "*")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"error": f"Invalid request format: {str(e)}"}).encode())
                     return
 
             # Validate
@@ -99,10 +114,26 @@ class handler(BaseHTTPRequestHandler):
             has_outcomes = "tkr_outcome" in df.columns
 
             # Preprocess
-            X_preprocessed = preprocess_data(df, IMPUTER, SCALER, FEATURE_NAMES)
+            try:
+                X_preprocessed = preprocess_data(df, IMPUTER, SCALER, FEATURE_NAMES)
+            except Exception as e:
+                self.send_response(400)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": f"Preprocessing error: {str(e)}"}).encode())
+                return
 
             # Predict
-            predictions = RF_MODEL.predict_proba(X_preprocessed)[:, 1]
+            try:
+                predictions = RF_MODEL.predict_proba(X_preprocessed)[:, 1]
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-type", "application/json")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": f"Prediction error: {str(e)}"}).encode())
+                return
 
             # Add predictions to dataframe
             df["predicted_risk"] = predictions
@@ -243,8 +274,21 @@ class handler(BaseHTTPRequestHandler):
 
         except Exception as e:
             import traceback
+            import sys
 
-            error_msg = f"Error: {str(e)}\n{traceback.format_exc()}"
+            # Get full traceback for debugging, but sanitize for production
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            traceback_str = traceback.format_exception(exc_type, exc_value, exc_traceback)
+            
+            # For production, show user-friendly message
+            error_msg = str(e)
+            if "Failed to load models" in error_msg:
+                error_msg = "Model loading error. Please contact support."
+            elif "Preprocessing error" in error_msg or "Prediction error" in error_msg:
+                pass  # Already user-friendly
+            else:
+                error_msg = f"Processing error: {str(e)}"
+            
             self.send_response(500)
             self.send_header("Content-type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
