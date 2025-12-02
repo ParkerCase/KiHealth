@@ -67,16 +67,26 @@ async function analyzeData() {
       body: formData,
     });
 
+    // Read response body once (can only be read once)
+    let responseText;
+    try {
+      responseText = await response.text();
+    } catch (e) {
+      document.getElementById("loading").style.display = "none";
+      alert("Error: Failed to read server response. Please try again.");
+      console.error("Response read error:", e);
+      return;
+    }
+
     // Check if response is OK
     if (!response.ok) {
       // Try to parse as JSON, fallback to text
       let errorMessage = `Server error (${response.status})`;
       try {
-        const errorData = await response.json();
+        const errorData = JSON.parse(responseText);
         errorMessage = errorData.error || errorMessage;
       } catch (e) {
-        const errorText = await response.text();
-        errorMessage = errorText || errorMessage;
+        errorMessage = responseText || errorMessage;
       }
       document.getElementById("loading").style.display = "none";
       alert("Error: " + errorMessage);
@@ -87,12 +97,11 @@ async function analyzeData() {
     // Parse JSON response
     let data;
     try {
-      const text = await response.text();
-      data = JSON.parse(text);
+      data = JSON.parse(responseText);
     } catch (e) {
       document.getElementById("loading").style.display = "none";
       alert("Error: Invalid response from server. Please try again.");
-      console.error("JSON parse error:", e, "Response:", await response.text());
+      console.error("JSON parse error:", e, "Response text:", responseText.substring(0, 200));
       return;
     }
 
