@@ -1,9 +1,6 @@
 # Vercel ignore file
 # Files/directories to exclude from Vercel deployment
 
-# Large model files (already in models/ directory)
-# These will be deployed but are small enough
-
 # Development files
 *.md
 !README.md
@@ -19,4 +16,10 @@ test_*.py
 DEPLOYMENT_CHECKLIST.md
 VERCEL_SETUP.md
 SUMMARY.md
+VERCEL_DEPLOYMENT_INSTRUCTIONS.md
+
+# Exclude models from serverless function bundle
+# Models will be loaded from filesystem at runtime
+models/
+*.pkl
 

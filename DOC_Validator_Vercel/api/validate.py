@@ -23,13 +23,21 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from preprocessing import preprocess_data, validate_data
 
-# Load models once (cached by Vercel)
-MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models")
-RF_MODEL = joblib.load(os.path.join(MODEL_DIR, "random_forest_calibrated.pkl"))
-SCALER = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
-# Note: Not loading large imputer (182 MB) - using simple imputation instead
-IMPUTER = None  # Placeholder - not used
-FEATURE_NAMES = joblib.load(os.path.join(MODEL_DIR, "feature_names.pkl"))
+# Load models lazily (only when needed) to reduce initial bundle size
+MODEL_DIR = None
+RF_MODEL = None
+SCALER = None
+IMPUTER = None
+FEATURE_NAMES = None
+
+def load_models():
+    """Lazy load models on first request"""
+    global RF_MODEL, SCALER, FEATURE_NAMES, MODEL_DIR
+    if RF_MODEL is None:
+        MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models")
+        RF_MODEL = joblib.load(os.path.join(MODEL_DIR, "random_forest_calibrated.pkl"))
+        SCALER = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
+        FEATURE_NAMES = joblib.load(os.path.join(MODEL_DIR, "feature_names.pkl"))
 
 
 def plot_to_base64(fig):
@@ -45,6 +53,9 @@ def plot_to_base64(fig):
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         """Handle POST requests"""
+        # Load models on first request
+        load_models()
+        
         try:
             # Read request body
             content_length = int(self.headers.get("Content-Length", 0))
