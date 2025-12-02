@@ -17,7 +17,6 @@
   "functions": {
     "api/**/*.py": {
       "maxDuration": 30,
-      "memory": 3008,
       "includeFiles": "models/**",
       "excludeFiles": "**/*.pyc,__pycache__/**,*.pyo,*.pyd,.git/**,*.md,*.txt,!requirements.txt,!runtime.txt"
     }
