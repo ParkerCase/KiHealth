@@ -1,14 +1,17 @@
 # Matplotlib Removal - Size Optimization
 
 ## Problem
+
 Vercel serverless functions have a 250 MB unzipped size limit. The function exceeded this due to large Python dependencies, particularly matplotlib (~50-100 MB).
 
 ## Solution
+
 Removed matplotlib and moved all plotting to client-side using Chart.js.
 
 ## Changes Made
 
 ### Backend (`api/validate.py`)
+
 - ✅ Removed `matplotlib` and `matplotlib.pyplot` imports
 - ✅ Removed `plot_to_base64()` function
 - ✅ Replaced all plot generation with data structures:
@@ -17,6 +20,7 @@ Removed matplotlib and moved all plotting to client-side using Chart.js.
   - Calibration plot: JSON with x/y coordinates for model and perfect calibration lines
 
 ### Frontend (`static/js/main.js`)
+
 - ✅ Added `renderCharts()` function using Chart.js
 - ✅ Updated `displayResults()` to create canvas elements instead of img tags
 - ✅ Implemented three chart types:
@@ -25,9 +29,11 @@ Removed matplotlib and moved all plotting to client-side using Chart.js.
   - Scatter chart for calibration plot
 
 ### HTML (`public/index.html`)
+
 - ✅ Added Chart.js CDN: `https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js`
 
 ### Dependencies (`requirements.txt`)
+
 - ✅ Removed `matplotlib>=3.7.2`
 
 ## Benefits
@@ -51,8 +57,8 @@ Removed matplotlib and moved all plotting to client-side using Chart.js.
 ## Testing
 
 After deployment, verify:
+
 1. Risk distribution bar chart renders correctly
 2. ROC curve displays with model and random lines
 3. Calibration plot shows model vs perfect calibration
 4. All charts are interactive (hover for values)
-
