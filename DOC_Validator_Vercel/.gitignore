@@ -9,6 +9,8 @@ env/
 
 # Models (too large for git)
 models/*.pkl
+# But allow api/models/ for Vercel deployment
+!api/models/*.pkl
 
 # Vercel
 .vercel

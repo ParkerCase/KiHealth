@@ -96,15 +96,45 @@ def load_outcome_model():
     global OUTCOME_MODEL, MODEL_DIR
     if OUTCOME_MODEL is None:
         try:
-            # Use same MODEL_DIR as surgery model
-            if MODEL_DIR is None:
-                load_models()  # This will set MODEL_DIR
-
-            outcome_model_path = os.path.join(MODEL_DIR, "outcome_rf_regressor.pkl")
-
-            if not os.path.exists(outcome_model_path):
+            # Get the directory where this file is located (api/)
+            func_dir = os.path.dirname(__file__)
+            
+            # Try multiple possible locations
+            possible_paths = [
+                os.path.join(func_dir, "models", "outcome_rf_regressor.pkl"),  # api/models/
+                os.path.join(os.path.dirname(func_dir), "models", "outcome_rf_regressor.pkl"),  # root/models/
+            ]
+            
+            # Also try using MODEL_DIR if it's already set
+            if MODEL_DIR is not None:
+                possible_paths.insert(0, os.path.join(MODEL_DIR, "outcome_rf_regressor.pkl"))
+            else:
+                # Try to load models to set MODEL_DIR
+                try:
+                    load_models()
+                    if MODEL_DIR is not None:
+                        possible_paths.insert(0, os.path.join(MODEL_DIR, "outcome_rf_regressor.pkl"))
+                except:
+                    pass  # Continue with other paths
+            
+            outcome_model_path = None
+            for path in possible_paths:
+                if os.path.exists(path):
+                    outcome_model_path = path
+                    break
+            
+            if outcome_model_path is None:
+                # Debug info
+                import json
+                debug_info = {
+                    "func_dir": func_dir,
+                    "checked_paths": possible_paths,
+                    "func_dir_contents": os.listdir(func_dir) if os.path.exists(func_dir) else [],
+                    "api_models_exists": os.path.exists(os.path.join(func_dir, "models")),
+                    "api_models_contents": os.listdir(os.path.join(func_dir, "models")) if os.path.exists(os.path.join(func_dir, "models")) else [],
+                }
                 raise Exception(
-                    f"Outcome model file not found at: {outcome_model_path}"
+                    f"Outcome model file not found. Checked: {possible_paths}. Debug: {json.dumps(debug_info, indent=2)}"
                 )
 
             OUTCOME_MODEL = joblib.load(outcome_model_path)

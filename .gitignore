@@ -13,6 +13,7 @@ ENV/
 models/*.pkl
 *.pkl
 !DOC_Validator_Vercel/models/*.pkl  # Keep validator models (small)
+!DOC_Validator_Vercel/api/models/*.pkl  # Keep Vercel deployment models
 
 # Jupyter Notebooks
 .ipynb_checkpoints/
