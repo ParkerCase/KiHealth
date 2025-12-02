@@ -31,14 +31,16 @@ def load_models():
     global RF_MODEL, SCALER, FEATURE_NAMES, MODEL_DIR
     if RF_MODEL is None:
         try:
-            MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models")
-            RF_MODEL = joblib.load(os.path.join(MODEL_DIR, "random_forest_calibrated.pkl"))
+            MODEL_DIR = os.path.join(
+                os.path.dirname(os.path.dirname(__file__)), "models"
+            )
+            RF_MODEL = joblib.load(
+                os.path.join(MODEL_DIR, "random_forest_calibrated.pkl")
+            )
             SCALER = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
             FEATURE_NAMES = joblib.load(os.path.join(MODEL_DIR, "feature_names.pkl"))
         except Exception as e:
             raise Exception(f"Failed to load models: {str(e)}")
-
-
 
 
 class handler(BaseHTTPRequestHandler):
@@ -74,7 +76,9 @@ class handler(BaseHTTPRequestHandler):
                     self.send_header("Content-type", "application/json")
                     self.send_header("Access-Control-Allow-Origin", "*")
                     self.end_headers()
-                    self.wfile.write(json.dumps({"error": "No CSV file found in request"}).encode())
+                    self.wfile.write(
+                        json.dumps({"error": "No CSV file found in request"}).encode()
+                    )
                     return
 
                 # Parse CSV
@@ -90,14 +94,22 @@ class handler(BaseHTTPRequestHandler):
                         self.send_header("Content-type", "application/json")
                         self.send_header("Access-Control-Allow-Origin", "*")
                         self.end_headers()
-                        self.wfile.write(json.dumps({"error": "No CSV data found in request"}).encode())
+                        self.wfile.write(
+                            json.dumps(
+                                {"error": "No CSV data found in request"}
+                            ).encode()
+                        )
                         return
                 except Exception as e:
                     self.send_response(400)
                     self.send_header("Content-type", "application/json")
                     self.send_header("Access-Control-Allow-Origin", "*")
                     self.end_headers()
-                    self.wfile.write(json.dumps({"error": f"Invalid request format: {str(e)}"}).encode())
+                    self.wfile.write(
+                        json.dumps(
+                            {"error": f"Invalid request format: {str(e)}"}
+                        ).encode()
+                    )
                     return
 
             # Validate
@@ -121,7 +133,9 @@ class handler(BaseHTTPRequestHandler):
                 self.send_header("Content-type", "application/json")
                 self.send_header("Access-Control-Allow-Origin", "*")
                 self.end_headers()
-                self.wfile.write(json.dumps({"error": f"Preprocessing error: {str(e)}"}).encode())
+                self.wfile.write(
+                    json.dumps({"error": f"Preprocessing error: {str(e)}"}).encode()
+                )
                 return
 
             # Predict
@@ -132,7 +146,9 @@ class handler(BaseHTTPRequestHandler):
                 self.send_header("Content-type", "application/json")
                 self.send_header("Access-Control-Allow-Origin", "*")
                 self.end_headers()
-                self.wfile.write(json.dumps({"error": f"Prediction error: {str(e)}"}).encode())
+                self.wfile.write(
+                    json.dumps({"error": f"Prediction error: {str(e)}"}).encode()
+                )
                 return
 
             # Add predictions to dataframe
@@ -161,8 +177,8 @@ class handler(BaseHTTPRequestHandler):
                 "ylabel": "Number of Patients",
                 "data": {
                     "labels": risk_counts.index.tolist(),
-                    "values": risk_counts.values.tolist()
-                }
+                    "values": risk_counts.values.tolist(),
+                },
             }
 
             # If outcomes provided, calculate validation metrics
@@ -195,14 +211,10 @@ class handler(BaseHTTPRequestHandler):
                         "model": {
                             "x": fpr.tolist(),
                             "y": tpr.tolist(),
-                            "label": f"Model (AUC={auc:.3f})"
+                            "label": f"Model (AUC={auc:.3f})",
                         },
-                        "random": {
-                            "x": [0, 1],
-                            "y": [0, 1],
-                            "label": "Random"
-                        }
-                    }
+                        "random": {"x": [0, 1], "y": [0, 1], "label": "Random"},
+                    },
                 }
 
                 # Calibration Plot data for client-side rendering
@@ -218,14 +230,14 @@ class handler(BaseHTTPRequestHandler):
                         "model": {
                             "x": prob_pred.tolist(),
                             "y": prob_true.tolist(),
-                            "label": "Model"
+                            "label": "Model",
                         },
                         "perfect": {
                             "x": [0, 1],
                             "y": [0, 1],
-                            "label": "Perfect Calibration"
-                        }
-                    }
+                            "label": "Perfect Calibration",
+                        },
+                    },
                 }
 
                 # Risk stratification
@@ -278,8 +290,10 @@ class handler(BaseHTTPRequestHandler):
 
             # Get full traceback for debugging, but sanitize for production
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            traceback_str = traceback.format_exception(exc_type, exc_value, exc_traceback)
-            
+            traceback_str = traceback.format_exception(
+                exc_type, exc_value, exc_traceback
+            )
+
             # For production, show user-friendly message
             error_msg = str(e)
             if "Failed to load models" in error_msg:
@@ -288,7 +302,7 @@ class handler(BaseHTTPRequestHandler):
                 pass  # Already user-friendly
             else:
                 error_msg = f"Processing error: {str(e)}"
-            
+
             self.send_response(500)
             self.send_header("Content-type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
