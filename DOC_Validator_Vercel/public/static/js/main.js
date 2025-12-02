@@ -101,7 +101,12 @@ async function analyzeData() {
     } catch (e) {
       document.getElementById("loading").style.display = "none";
       alert("Error: Invalid response from server. Please try again.");
-      console.error("JSON parse error:", e, "Response text:", responseText.substring(0, 200));
+      console.error(
+        "JSON parse error:",
+        e,
+        "Response text:",
+        responseText.substring(0, 200)
+      );
       return;
     }
 
