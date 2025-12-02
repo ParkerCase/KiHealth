@@ -7,6 +7,14 @@ import pandas as pd
 
 
 class handler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        """Handle CORS preflight"""
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+    
     def do_GET(self):
         """Return CSV template"""
         template_data = {
@@ -25,8 +33,10 @@ class handler(BaseHTTPRequestHandler):
         csv_content = df.to_csv(index=False)
 
         self.send_response(200)
-        self.send_header("Content-Type", "text/csv")
-        self.send_header("Content-Disposition", "attachment; filename=DOC_template.csv")
+        self.send_header("Content-Type", "text/csv; charset=utf-8")
+        self.send_header("Content-Disposition", 'attachment; filename="DOC_template.csv"')
         self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
-        self.wfile.write(csv_content.encode())
+        self.wfile.write(csv_content.encode("utf-8"))
