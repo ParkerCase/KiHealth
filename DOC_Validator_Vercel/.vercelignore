@@ -18,8 +18,3 @@ VERCEL_SETUP.md
 SUMMARY.md
 VERCEL_DEPLOYMENT_INSTRUCTIONS.md
 
-# Exclude models from serverless function bundle
-# Models will be loaded from filesystem at runtime
-models/
-*.pkl
-
