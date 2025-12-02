@@ -43,7 +43,7 @@ Tested two approaches to identify synthetic lethality patterns:
 
 ---
 
-## 🎯 TOP 20 SYNTHETIC LETHALITY CANDIDATES
+## TOP 20 SYNTHETIC LETHALITY CANDIDATES
 
 Sorted by effect size (most negative = strongest synthetic lethality)
 
@@ -187,7 +187,7 @@ Possible reasons:
 
 ---
 
-## 🎯 RECOMMENDATIONS
+## RECOMMENDATIONS
 
 ### Immediate Actions
 

@@ -354,7 +354,7 @@ def validate_against_depmap():
     print(f"\n📊 Found {files_found}/{len(expected_files)} expected files")
 
     # Validate target genes in schema
-    print("\n🎯 Validating Target Genes in Schema:\n")
+    print("\n Validating Target Genes in Schema:\n")
 
     schema = load_schema()
     multi_target_table = next(

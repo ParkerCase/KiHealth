@@ -1,6 +1,6 @@
 # ✅ Two-Stage Filtering System - IMPLEMENTED
 
-## 🎯 What Was Changed
+## What Was Changed
 
 I've completely rewritten the monitoring system to use the **optimal two-stage filtering approach** you specified.
 
@@ -255,7 +255,7 @@ After pushing to GitHub:
 
 ---
 
-## 🎯 Key Improvements
+## Key Improvements
 
 1. ✅ **83% cost reduction** ($22.50 → $3.75/month)
 2. ✅ **80% fewer papers stored** (only relevant ones)

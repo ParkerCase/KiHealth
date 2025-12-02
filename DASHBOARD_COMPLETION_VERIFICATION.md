@@ -149,7 +149,7 @@
 
 ---
 
-## 🎯 RECOMMENDATIONS
+## RECOMMENDATIONS
 
 ### For "NRAS mutations + high TBK1 dependency" Query:
 

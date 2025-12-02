@@ -1,4 +1,4 @@
-# 🎯 Executive Summary: Predictive Model for Drug Discovery
+# Executive Summary: Predictive Model for Drug Discovery
 
 ## The Big Picture
 
@@ -56,7 +56,7 @@ Dashboard Query → Prediction → Decision → Action → Clinical Outcome
 
 ---
 
-## 🎯 Real-World Example: CLK4 in AML
+## Real-World Example: CLK4 in AML
 
 ### **What the Model Predicts:**
 

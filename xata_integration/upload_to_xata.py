@@ -34,12 +34,10 @@ with open(OUTPUT_DIR / "cancer_rankings.json") as f:
 # Bulk insert (Xata supports up to 1000 records per request)
 batch_size = 100
 for i in range(0, len(cancer_rankings), batch_size):
-    batch = cancer_rankings[i:i+batch_size]
-    
+    batch = cancer_rankings[i : i + batch_size]
+
     try:
-        xata.data().bulk_insert("cancer_rankings", {
-            "records": batch
-        })
+        xata.data().bulk_insert("cancer_rankings", {"records": batch})
         print(f"   ✅ Uploaded batch {i//batch_size + 1} ({len(batch)} records)")
     except Exception as e:
         print(f"   ❌ Error in batch {i//batch_size + 1}: {e}")
@@ -50,18 +48,16 @@ print()
 # =============================================================================
 # Upload Target Scores
 # =============================================================================
-print("🎯 Uploading target scores...")
+print(" Uploading target scores...")
 
 with open(OUTPUT_DIR / "target_scores.json") as f:
     target_scores = json.load(f)
 
 for i in range(0, len(target_scores), batch_size):
-    batch = target_scores[i:i+batch_size]
-    
+    batch = target_scores[i : i + batch_size]
+
     try:
-        xata.data().bulk_insert("target_scores", {
-            "records": batch
-        })
+        xata.data().bulk_insert("target_scores", {"records": batch})
         print(f"   ✅ Uploaded batch {i//batch_size + 1} ({len(batch)} records)")
     except Exception as e:
         print(f"   ❌ Error in batch {i//batch_size + 1}: {e}")
@@ -78,18 +74,16 @@ sl_file = OUTPUT_DIR / "synthetic_lethality.json"
 if sl_file.exists():
     with open(sl_file) as f:
         sl_records = json.load(f)
-    
+
     for i in range(0, len(sl_records), batch_size):
-        batch = sl_records[i:i+batch_size]
-        
+        batch = sl_records[i : i + batch_size]
+
         try:
-            xata.data().bulk_insert("synthetic_lethality", {
-                "records": batch
-            })
+            xata.data().bulk_insert("synthetic_lethality", {"records": batch})
             print(f"   ✅ Uploaded batch {i//batch_size + 1} ({len(batch)} records)")
         except Exception as e:
             print(f"   ❌ Error in batch {i//batch_size + 1}: {e}")
-    
+
     print(f"✅ Finished synthetic_lethality ({len(sl_records)} total)")
 else:
     print("⚠️  No synthetic_lethality.json found, skipping")
@@ -104,12 +98,10 @@ with open(OUTPUT_DIR / "cell_line_dependencies.json") as f:
     cell_lines = json.load(f)
 
 for i in range(0, len(cell_lines), batch_size):
-    batch = cell_lines[i:i+batch_size]
-    
+    batch = cell_lines[i : i + batch_size]
+
     try:
-        xata.data().bulk_insert("cell_line_dependencies", {
-            "records": batch
-        })
+        xata.data().bulk_insert("cell_line_dependencies", {"records": batch})
         print(f"   ✅ Uploaded batch {i//batch_size + 1} ({len(batch)} records)")
     except Exception as e:
         print(f"   ❌ Error in batch {i//batch_size + 1}: {e}")

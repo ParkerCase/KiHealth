@@ -77,7 +77,7 @@ After updating Xata, the dashboard will support:
 
 ---
 
-## 🎯 No External Data Sources Needed
+## No External Data Sources Needed
 
 All mutation data comes from **DepMap** (already in your project):
 

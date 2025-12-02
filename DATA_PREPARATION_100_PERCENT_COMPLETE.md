@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 Executive Summary
+## Executive Summary
 
 Data preparation completed with **100% verification and validation**. All minor documentation issues fixed. Dataset ready for machine learning modeling with **4-year knee replacement outcome** (EPV=17.10, PROBAST compliant).
 
@@ -161,7 +161,7 @@ Data preparation completed with **100% verification and validation**. All minor 
 
 ---
 
-## 🎯 Key Findings
+## Key Findings
 
 ### WOMAC Scores
 

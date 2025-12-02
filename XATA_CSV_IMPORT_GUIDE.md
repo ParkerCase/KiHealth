@@ -137,7 +137,7 @@ xata import csv scripts/lincs_data.csv --table lincs_data --database your-db-nam
 
 ---
 
-## 🎯 Why Empty CSVs?
+## Why Empty CSVs?
 
 - **Auto-detection**: Xata automatically detects column types from headers
 - **No manual work**: No need to create columns one by one

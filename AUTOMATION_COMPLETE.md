@@ -115,7 +115,7 @@ npm run all
 
 ---
 
-## 🎯 What Gets Monitored
+## What Gets Monitored
 
 ### PubMed
 

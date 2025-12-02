@@ -43,7 +43,7 @@ For your specific use case (analyzing scientific papers, extracting structured d
 
 ---
 
-## 🎯 Why Claude is Better for Your Use Case
+## Why Claude is Better for Your Use Case
 
 ### 1. **More Reliable JSON Output**
 
@@ -127,7 +127,7 @@ OPENAI_API_KEY=your_key
 
 ---
 
-## 🎯 Final Recommendation
+## Final Recommendation
 
 **Use Anthropic Claude** because:
 

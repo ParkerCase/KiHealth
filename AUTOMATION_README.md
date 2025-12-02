@@ -348,7 +348,7 @@ Edit `scripts/auto-recalculate.js`:
 
 ---
 
-## 🎯 Next Steps
+## Next Steps
 
 1. **Run first manual test** - Verify all scripts work
 2. **Check Xata tables** - Confirm data is being stored

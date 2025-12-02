@@ -30,7 +30,7 @@
 
 ---
 
-## 🎯 RESULTS BY TARGET GENE
+## RESULTS BY TARGET GENE
 
 ### STK17A: 53 Synthetic Lethality Hits
 
@@ -146,7 +146,7 @@
 
 ---
 
-## 🎯 PRIORITIZATION RECOMMENDATIONS
+## PRIORITIZATION RECOMMENDATIONS
 
 ### Tier 1: High Confidence (Validate First)
 

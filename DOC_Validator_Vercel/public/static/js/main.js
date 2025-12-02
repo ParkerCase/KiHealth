@@ -485,7 +485,7 @@ async function predictOutcomes() {
   if (!btn || !btnText) return;
 
   btn.disabled = true;
-  btnText.textContent = "⏳ Analyzing outcomes...";
+  btnText.textContent = "Analyzing outcomes...";
 
   const formData = new FormData();
   formData.append("file", selectedFile);

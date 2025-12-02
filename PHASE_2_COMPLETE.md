@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 Executive Summary
+## Executive Summary
 
 Phase 2 preprocessing completed with **100% PROBAST compliance**. All missing data handled via imputation (zero rows deleted), stratified train/test split maintained outcome balance, and all preprocessing objects saved for deployment.
 

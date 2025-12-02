@@ -31,7 +31,7 @@ Tests the **"oncogene addiction" hypothesis**: Do cancers with high target gene 
 
 ---
 
-## 🎯 Target Genes (Verified Present)
+## Target Genes (Verified Present)
 
 | Gene       | Entrez ID | Expression Column | Dependency Column |
 | ---------- | --------- | ----------------- | ----------------- |

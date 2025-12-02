@@ -275,7 +275,7 @@ if post_op_data:
     )
 
     print(
-        f"\n🎯 Feasibility for outcome prediction model: {'✅ YES' if feasible else '❌ NO'}"
+        f"\n Feasibility for outcome prediction model: {'✅ YES' if feasible else '❌ NO'}"
     )
 
     # Save results

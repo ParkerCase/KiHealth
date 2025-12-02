@@ -42,7 +42,7 @@ if [ $? -eq 0 ]; then
     echo "   2. Check the integrated_scoring_summary.md"
     echo "   3. Ready for PROMPT 5 (Report Generation)"
     echo ""
-    echo "🎯 Days until Nov 10: 8 days"
+    echo " Days until Nov 10: 8 days"
     echo "=========================================="
 else
     echo ""

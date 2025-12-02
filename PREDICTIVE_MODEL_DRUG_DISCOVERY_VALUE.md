@@ -1,4 +1,4 @@
-# 🎯 Predictive Model for Drug Discovery: How It Works & Why It Matters
+# Predictive Model for Drug Discovery: How It Works & Why It Matters
 
 **Date**: December 2024  
 **Purpose**: Explain the predictive nature and drug discovery value of the StarX Therapeutics analysis
@@ -219,7 +219,7 @@ Dashboard Query: "Show me synthetic lethality hits for CLK4"
 
 ---
 
-## 🎯 Predictive vs. Descriptive: Key Differences
+## Predictive vs. Descriptive: Key Differences
 
 ### **Descriptive** (What happened):
 

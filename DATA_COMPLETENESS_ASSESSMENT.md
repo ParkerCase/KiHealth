@@ -10,6 +10,7 @@
 ### ✅ RECEIVED - Already Integrated
 
 **1. Victoria & Tulasi: IC50 Data (160 cell lines)**
+
 - **Files:** `IC50 values-Table 1.csv`
 - **Location:** `data/raw/StarXData/Copy of AQT cell based profiling160 cell lines815K815H_report_summary/`
 - **What it tells you:**
@@ -21,6 +22,7 @@
 - **Correlation with DepMap:** Weak (ρ = -0.009 to 0.098)
 
 **2. Hafsa: RNAseq Differential Expression (6 files)**
+
 - **Files:** DEG files for K562 and K666N cell lines
 - **Location:** `data/raw/StarXData/DEGs/`
 - **What it tells you:**
@@ -32,6 +34,7 @@
 - **Limitation:** RNA ≠ Protein (missing the protein expression link)
 
 **3. Erica: Phosphoproteomics (GBM43)**
+
 - **Files:** GBM43 phosphoproteomics data
 - **Location:** `data/raw/StarXData/GBM43 Phosphoproteomics/`
 - **What it tells you:**
@@ -40,12 +43,13 @@
   - Signaling pathway activation
 - **Status:** ✅ Received but NOT YET ANALYZED
 - **Value:** HIGH for GBM specifically
-- **Why it matters:** 
+- **Why it matters:**
   - Shows STK17A's functional role in GBM
   - Downstream targets/pathways
   - Validates mechanism in brain cancer
 
 **4. Erica: IP-MS (Protein-Protein Interactions)**
+
 - **Files:** GBM43 IP-MS data
 - **Location:** `data/raw/StarXData/GBM43 IP-MS/`
 - **What it tells you:**
@@ -66,6 +70,7 @@
 ### 🔴 HIGH PRIORITY - CRITICAL FOR YOUR QUESTION
 
 **5. Christian: 814H RNAseq + NEW PROTEOMICS** ⭐⭐⭐
+
 - **Status:** ❌ NOT YET RECEIVED
 - **Why this is THE KEY piece:**
 
@@ -84,16 +89,18 @@ THIS IS WHAT YOU'RE MISSING TO BRIDGE THE GAP!
 ```
 
 **What Christian's proteomics should contain:**
+
 - Protein expression levels across multiple cell lines/conditions
 - STK17A protein abundance measurements
 - Potentially other target proteins (MYLK4, TBK1, CLK4)
 - Comparison: treated vs. untreated
 
 **How this resolves your concern:**
+
 ```
 Current situation:
 - DepMap: Genetic dependency (CRISPR) = WEAK
-- Miami: Protein expression = HIGH  
+- Miami: Protein expression = HIGH
 - Question: "Does high expression exist in my data?"
 - Answer: "Don't know yet - need proteomics!"
 
@@ -105,6 +112,7 @@ After Christian's proteomics:
 ```
 
 **Critical questions this will answer:**
+
 1. ✅ Do cell lines with HIGH STK17A protein show better drug response?
 2. ✅ Does GBM actually have high STK17A protein compared to other cancers?
 3. ✅ Does protein expression explain the weak dependency scores?
@@ -117,6 +125,7 @@ After Christian's proteomics:
 ### 🟡 MEDIUM PRIORITY - NICE TO HAVE
 
 **6. Hafsa: STK17A Literature List**
+
 - **Status:** ❌ NOT YET RECEIVED
 - **What it tells you:**
   - Curated list of relevant papers
@@ -131,6 +140,7 @@ After Christian's proteomics:
 ### 🟢 LOW PRIORITY - NOT CRITICAL FOR NOV 10
 
 **7. Eduardo: Docking + Structure Files**
+
 - **Status:** ❌ NOT YET RECEIVED
 - **What it tells you:**
   - 3D structure of drug-target binding
@@ -145,11 +155,12 @@ After Christian's proteomics:
 
 ---
 
-## 🎯 WILL YOU HAVE THE COMPLETE PICTURE?
+## WILL YOU HAVE THE COMPLETE PICTURE?
 
 ### With Data You Already Have:
 
 **Current state (60% complete):**
+
 ```
 Evidence Type              Status    Completeness
 ──────────────────────────────────────────────────
@@ -170,6 +181,7 @@ Structure/Docking         ❌ Missing   0%  (Not critical)
 ### After Receiving Christian's Proteomics:
 
 **Future state (90% complete):**
+
 ```
 Evidence Type              Status    Completeness
 ──────────────────────────────────────────────────
@@ -193,7 +205,9 @@ Structure/Docking         ⚠️  Low    20%  (Nice to have)
 ### Data You Haven't Analyzed Yet:
 
 #### 1. Hafsa's RNAseq DEGs (Received Nov 1)
+
 **What to analyze:**
+
 ```python
 # For each DEG file:
 # 1. Identify significantly upregulated genes (fold change > 1.5, p < 0.05)
@@ -210,7 +224,9 @@ Key insight: If drug DOWNREGULATES genes that cancers DEPEND on → good!
 **Value:** Can validate which cancers show favorable transcriptional response
 
 #### 2. Erica's Phosphoproteomics (Received Nov 1)
+
 **What to analyze:**
+
 ```python
 # GBM43 phosphoproteomics:
 # 1. Which proteins show increased phosphorylation after drug treatment?
@@ -227,7 +243,9 @@ Key insight: Phosphorylation changes show FUNCTIONAL protein activity
 **Value:** Validates GBM as top indication via protein-level mechanism
 
 #### 3. Erica's IP-MS (Received Nov 1)
+
 **What to analyze:**
+
 ```python
 # Protein-protein interactions:
 # 1. What proteins does STK17A directly interact with?
@@ -263,12 +281,14 @@ Key insight: Protein complexes reveal mechanism
 ### If Christian's Data is Delayed Past Nov 4:
 
 **Option A - Partial Analysis:**
+
 - Use Hafsa's RNA expression as proxy for protein
 - Analyze GBM43 phosphoproteomics for GBM-specific validation
 - Clearly note protein expression data is pending
 - Deliver preliminary rankings with caveat
 
 **Option B - Proceed Without:**
+
 - Frame analysis as "computational dependency + experimental validation"
 - Emphasize mutation-stratification (strong signal)
 - Note that protein expression data will strengthen rankings
@@ -278,15 +298,16 @@ Key insight: Protein complexes reveal mechanism
 
 ---
 
-## 🎯 ANSWER TO YOUR QUESTION
+## ANSWER TO YOUR QUESTION
 
 ### "Will I have the full picture?"
 
-**Short Answer:** 
+**Short Answer:**
 
 ✅ **YES, once you receive Christian's proteomics data**
 
 That dataset is the critical missing piece that bridges:
+
 - Computational dependency (what you have)
 - Protein expression (what Miami showed)
 - Drug target validation (what Dr. Taylor needs)
@@ -294,6 +315,7 @@ That dataset is the critical missing piece that bridges:
 **Longer Answer:**
 
 Your analysis is ALREADY comprehensive in many ways:
+
 - ✅ Genetic dependency (DepMap) - Complete
 - ✅ Mutation context (synthetic lethality) - Complete
 - ✅ Drug response (IC50) - Partial but useful
@@ -301,6 +323,7 @@ Your analysis is ALREADY comprehensive in many ways:
 - ⚠️ Protein activity - Partial (GBM only)
 
 Christian's proteomics will:
+
 1. ✅ Show which cell lines/cancers have HIGH STK17A protein
 2. ✅ Validate the overexpression finding from Miami
 3. ✅ Explain why weak dependency doesn't contradict strong drug efficacy
@@ -320,31 +343,34 @@ The remaining 10% (Eduardo's docking, additional literature) is "nice to have" b
 **Add this paragraph:**
 
 ```
-P.S. - I've received and started analyzing the experimental data from 
-Hafsa (RNAseq DEGs), Erica (phosphoproteomics + IP-MS), and Victoria/Tulasi 
+P.S. - I've received and started analyzing the experimental data from
+Hafsa (RNAseq DEGs), Erica (phosphoproteomics + IP-MS), and Victoria/Tulasi
 (IC50s). These are extremely valuable for validation.
 
-However, I realized that Christian's proteomics data is the critical 
-missing piece for reconciling the overexpression vs. dependency question 
-we discussed. The proteomics should show protein expression levels across 
-cell lines/conditions, which would directly bridge your GBM overexpression 
+However, I realized that Christian's proteomics data is the critical
+missing piece for reconciling the overexpression vs. dependency question
+we discussed. The proteomics should show protein expression levels across
+cell lines/conditions, which would directly bridge your GBM overexpression
 findings with my DepMap dependency analysis.
 
-Timeline question: Is Christian's proteomics likely to arrive before Nov 7? 
-If so, I can integrate it into the Nov 10 report. If not, I'll proceed with 
-RNA expression as a proxy and clearly note that protein-level validation is 
+Timeline question: Is Christian's proteomics likely to arrive before Nov 7?
+If so, I can integrate it into the Nov 10 report. If not, I'll proceed with
+RNA expression as a proxy and clearly note that protein-level validation is
 pending.
 ```
 
 ### 2. Start Analyzing Data You Have (Tomorrow)
 
 **Priority order:**
+
 1. **Erica's GBM43 phosphoproteomics** (6 hours)
+
    - Directly validates GBM indication
    - Shows protein-level mechanism
    - Supports top-5 ranking for GBM
 
 2. **Hafsa's RNAseq DEGs** (4 hours)
+
    - Shows transcriptional response
    - Can use as proxy for protein expression
    - Better than nothing
@@ -359,28 +385,31 @@ pending.
 **If Christian's data doesn't arrive by Nov 7:**
 
 Create two report versions:
+
 - **Version A:** "Preliminary Rankings" (without proteomics)
 - **Version B:** "Revised Rankings" (with proteomics - to be updated)
 
 Frame Version A as:
+
 ```
-"These rankings integrate computational genetic dependency analysis 
-with experimental validation data. Protein expression data from 
-ongoing proteomics studies will further refine these rankings in the 
-next phase. Current rankings prioritize multi-dimensional evidence 
-convergence with preliminary protein activity validation from GBM43 
+"These rankings integrate computational genetic dependency analysis
+with experimental validation data. Protein expression data from
+ongoing proteomics studies will further refine these rankings in the
+next phase. Current rankings prioritize multi-dimensional evidence
+convergence with preliminary protein activity validation from GBM43
 phosphoproteomics studies."
 ```
 
 ---
 
-## 🎯 BOTTOM LINE
+## BOTTOM LINE
 
 ### Will It All Make Sense?
 
 **With Christian's proteomics:** ✅ YES - Complete picture (90%)
 
 **Without Christian's proteomics:** ⚠️ MOSTLY - Partial picture (70%)
+
 - Can use RNA expression as proxy
 - Can use GBM43 phosphoproteomics for GBM validation
 - Acknowledge protein expression data pending
@@ -414,4 +443,4 @@ Christian's proteomics is the **lynchpin** for resolving the overexpression vs. 
 
 **You can deliver a strong report either way.** The proteomics makes it STRONGER, but you're not dependent on it to succeed.
 
-**Stay flexible, keep Dr. Taylor informed, proceed with what you have.** 🎯
+**Stay flexible, keep Dr. Taylor informed, proceed with what you have.**

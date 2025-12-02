@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 Executive Summary
+## Executive Summary
 
 Web-based risk calculator successfully created for 4-year knee replacement prediction. Complete Flask application with responsive frontend, real-time predictions, and clinical interpretation.
 
@@ -197,7 +197,7 @@ cd risk_calculator
 
 ---
 
-## 🎯 Next Steps
+## Next Steps
 
 ### Immediate
 

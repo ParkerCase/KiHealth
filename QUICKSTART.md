@@ -3,6 +3,7 @@
 ## Current Status: ✅ AHEAD OF SCHEDULE
 
 ### What's Already Done:
+
 - ✅ DepMap data downloaded (7 files including Phase 2 mutation data!)
 - ✅ Enhanced Xata schema created (includes copy number + mutations)
 - ✅ Project structure set up
@@ -22,6 +23,7 @@ python migrate_v2.py --validate
 ```
 
 **Expected Output:**
+
 ```
 ✅ CRISPRGeneEffect.csv (500 MB)
 ✅ CRISPRGeneDependency.csv (500 MB)
@@ -46,6 +48,7 @@ python migrate_v2.py --setup
 ```
 
 The wizard will guide you through:
+
 1. Creating Xata account (if needed)
 2. Creating database named `starx-therapeutics`
 3. Getting your API key
@@ -65,6 +68,7 @@ python migrate_v2.py --create
 ```
 
 This creates 6 tables:
+
 - `papers` (literature mining)
 - `cancer_indications` (cancer rankings)
 - `multi_target_dependencies` (cell line analysis)
@@ -91,6 +95,7 @@ You should see all 6 tables listed.
 ### Your Database is Ready For:
 
 1. **Phase 1 Analysis** (Days 1-3):
+
    - ✅ Multi-target dependency scoring
    - ✅ Expression correlation analysis
    - ✅ Copy number integration
@@ -141,7 +146,7 @@ print(f"\n📊 Expression Data: {expr_df.shape}")
 # 4. Check for target genes
 target_genes = ['STK17A', 'MYLK4', 'TBK1', 'CLK4', 'XPO1', 'BTK']
 gene_columns = [col for col in dep_df.columns if any(gene in col for gene in target_genes)]
-print(f"\n🎯 Target genes found: {len(gene_columns)}")
+print(f"\n Target genes found: {len(gene_columns)}")
 for col in gene_columns:
     print(f"   • {col}")
 ```
@@ -196,15 +201,18 @@ print("✅ Done!")
 ## Troubleshooting
 
 ### "Connection failed" during setup
+
 - Check your API key is correct
 - Ensure database URL format: `https://WORKSPACE.xata.sh/db/starx-therapeutics`
 - Try visiting https://app.xata.io to verify database exists
 
 ### "Table already exists"
+
 - This is OK! The script will skip existing tables
 - Use `--status` to see what's already created
 
 ### "DepMap files not found"
+
 - Check they're in `/Users/parkercase/starx-therapeutics-analysis/data/raw/depmap/`
 - Run `ls data/raw/depmap/` to verify
 
@@ -213,6 +221,7 @@ print("✅ Done!")
 ## Timeline Check
 
 ### Original Roadmap (Day 1):
+
 - [x] Email responses (DONE)
 - [x] Repo setup (DONE)
 - [x] DepMap download (DONE + bonus files!)
@@ -220,6 +229,7 @@ print("✅ Done!")
 - [ ] Explore DepMap (1 hour)
 
 ### You're Ahead Because:
+
 1. Downloaded Phase 2 mutation data already
 2. Schema is more comprehensive than roadmap
 3. Have copy number data for immediate use
@@ -231,6 +241,7 @@ print("✅ Done!")
 ## Contact
 
 If you have issues:
+
 1. Check `.env` file has correct values
 2. Try `python migrate_v2.py --status` to diagnose
 3. Visit https://xata.io/docs for Xata documentation

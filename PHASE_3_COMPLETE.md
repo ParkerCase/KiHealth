@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 Executive Summary
+## Executive Summary
 
 Phase 3 model development completed with **bias mitigation strategies** applied. Random Forest achieved best test AUC of **0.862** with acceptable overfitting (0.103). All models trained with PROBAST-compliant hyperparameters to prevent overfitting.
 

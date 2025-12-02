@@ -232,7 +232,7 @@ npm run test-completion
 
 ---
 
-## 🎯 Key Features
+## Key Features
 
 1. ✅ **83% cost reduction** - From $22.50 to $3.75/month
 2. ✅ **80% fewer papers stored** - Only relevant ones

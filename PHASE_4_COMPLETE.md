@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 Executive Summary
+## Executive Summary
 
 Phase 4 comprehensive evaluation completed with **full PROBAST compliance**. Calibration assessed and documented (critical requirement that 45% of models fail). All discrimination and calibration metrics calculated, clinical decision support tools generated, and publication-ready visualizations created.
 
@@ -228,7 +228,7 @@ This addresses the #1 failure point in prediction models. Zhang et al. (2025) fo
 
 ---
 
-## 🎯 Key Achievements
+## Key Achievements
 
 1. ✅ **PROBAST Compliance:** Calibration documented (addresses 45% failure rate)
 2. ✅ **Discrimination:** Excellent (AUC: 0.862)

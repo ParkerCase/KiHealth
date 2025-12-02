@@ -90,7 +90,7 @@ The dashboard has been updated to:
 
 ---
 
-## 🎯 Example Queries Now Supported
+## Example Queries Now Supported
 
 1. **"Show me cancers with NRAS mutations and high TBK1 dependency"**
 

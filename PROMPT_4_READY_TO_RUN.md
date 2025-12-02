@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 What I Just Built For You
+## What I Just Built For You
 
 I've created **complete PROMPT 4 execution scripts** that will:
 
@@ -26,27 +26,33 @@ I've created **complete PROMPT 4 execution scripts** that will:
 ## 📁 Files Created
 
 ### Execution Script:
+
 ```
 src/analysis/prompt_4_integrated_scoring.py
 ```
+
 - Complete Python implementation
 - All 8 steps of PROMPT 4
 - Fully commented and documented
 - Ready to run
 
 ### Runner Script:
+
 ```
 run_prompt_4.sh
 ```
+
 - Easy bash wrapper
 - Shows progress
 - Validates output
 - Makes execution simple
 
 ### Executive Summary Template:
+
 ```
 outputs/reports/integrated_scoring_summary.md
 ```
+
 - Will be populated after running
 - Explains methodology
 - Shows top 10 results
@@ -65,6 +71,7 @@ chmod +x run_prompt_4.sh
 ```
 
 **This will:**
+
 - Run the complete analysis
 - Show progress messages
 - Display top 10 results
@@ -86,6 +93,7 @@ python3 src/analysis/prompt_4_integrated_scoring.py
 ### 1. Final Integrated Rankings (`data/processed/final_integrated_rankings.csv`)
 
 **22 columns including:**
+
 - `rank` - 1 to 58
 - `cancer_type` - Cancer name
 - `overall_score` - Weighted average (0-1)
@@ -114,6 +122,7 @@ python3 src/analysis/prompt_4_integrated_scoring.py
 ### 2. Top 10 Evidence Breakdown (`data/processed/top_10_evidence_breakdown.csv`)
 
 **Same columns as above, but only top 10 cancer types**
+
 - Detailed evidence for presentation
 - Easy to reference
 - Ready for slides
@@ -121,6 +130,7 @@ python3 src/analysis/prompt_4_integrated_scoring.py
 ### 3. Executive Summary (`outputs/reports/integrated_scoring_summary.md`)
 
 **Will show:**
+
 - Methodology explanation
 - Top 10 rankings table
 - Score statistics
@@ -131,17 +141,19 @@ python3 src/analysis/prompt_4_integrated_scoring.py
 
 ---
 
-## 🎯 What The Results Will Show
+## What The Results Will Show
 
 ### Expected Top Tier Patterns:
 
 **HIGH Confidence Candidates (Likely 2-5 cancer types):**
+
 - Overall score > 0.60
 - Sample size ≥ 3 cell lines
 - Strong DepMap signal
 - Multi-dimensional evidence convergence
 
 **Example candidates that might rank high:**
+
 - Endometrial Carcinoma (n=5, good dependency, mutation context)
 - Pancreatic Adenocarcinoma (n=6, mutation-rich, literature support)
 - Non-Small Cell Lung Cancer (n=11, mutation context, IC50 data)
@@ -149,11 +161,13 @@ python3 src/analysis/prompt_4_integrated_scoring.py
 - Diffuse Glioma (n=17, experimental validation, protein expression)
 
 **MEDIUM Confidence (Likely 10-15 cancer types):**
+
 - Overall score 0.45-0.60
 - Either good score + small n, OR moderate score + larger n
 - Some multi-dimensional evidence
 
 **LOW Confidence (Likely 40+ cancer types):**
+
 - Overall score < 0.45
 - Limited evidence across dimensions
 - Often n=1-2 cell lines
@@ -186,6 +200,7 @@ overall_score = (
 ```
 
 **Rationale:**
+
 - DepMap (30%): Direct functional evidence from CRISPR screens
 - Expression (20%): Validates biological relevance
 - Mutation (20%): Enables patient stratification
@@ -204,6 +219,7 @@ overall_score = (
 The script uses a **simplified mutation context scoring** because synthetic lethality analysis was done across ALL cell lines, not per cancer type specifically.
 
 **What it does:**
+
 - Assigns base score of 0.3 to all cancers
 - Gives higher scores (0.5-0.7) to cancer types known to have relevant mutations:
   - Colorectal (KRAS, BRAF)
@@ -219,6 +235,7 @@ The script uses a **simplified mutation context scoring** because synthetic leth
 ### 2. Small Sample Size Caveat
 
 Many top-ranked cancers will have n<3 cell lines. The script:
+
 - ✅ Flags these in `key_findings`
 - ✅ Considers this in confidence tier assignment
 - ✅ Notes this as limitation in summary
@@ -226,6 +243,7 @@ Many top-ranked cancers will have n<3 cell lines. The script:
 ### 3. Experimental Validation Coverage
 
 Only 13 cancer types have IC50 validation data. Others get:
+
 - Neutral score (0.5) if no data
 - Flagged as `validation_data_available = False`
 
@@ -242,6 +260,7 @@ head -15 data/processed/final_integrated_rankings.csv | column -s, -t
 ```
 
 **Ask yourself:**
+
 - Do these rankings make biological sense?
 - Are any surprises? (good or bad)
 - Which should be elevated/demoted based on external knowledge?
@@ -257,6 +276,7 @@ grep "Diffuse Glioma" data/processed/final_integrated_rankings.csv
 **Expected:** Probably ranks 15-25 based on integrated evidence
 
 **This addresses your question:** Despite weak genetic dependency, it should rank moderately due to:
+
 - ✅ Moderate sample size (n=17)
 - ✅ IC50 validation data available (n=2)
 - ✅ Mutation context potential (EGFR, PTEN common)
@@ -265,6 +285,7 @@ grep "Diffuse Glioma" data/processed/final_integrated_rankings.csv
 ### 3. Update Executive Summary
 
 The `integrated_scoring_summary.md` file has placeholders (TBD). After running, you should:
+
 - Copy top 10 results into the table
 - Fill in score statistics
 - Complete the evidence dimension analysis sections
@@ -280,8 +301,8 @@ Subject: Integrated Rankings Complete - Quick Question on Protein Expression
 
 Hi Justin,
 
-I've completed the integrated scoring combining all 6 evidence dimensions 
-(DepMap, expression correlation, mutation context, copy number, literature, 
+I've completed the integrated scoring combining all 6 evidence dimensions
+(DepMap, expression correlation, mutation context, copy number, literature,
 and your IC50 validation data).
 
 Top 5 preliminary rankings:
@@ -291,12 +312,12 @@ Top 5 preliminary rankings:
 4. [Cancer Type] - Score X.XX
 5. [Cancer Type] - Score X.XX
 
-Diffuse Glioma ranks #X (score X.XX), which makes sense given the 
-multi-dimensional evidence (weak genetic dependency but mutation context 
+Diffuse Glioma ranks #X (score X.XX), which makes sense given the
+multi-dimensional evidence (weak genetic dependency but mutation context
 and your IC50 validation).
 
-Quick question: Is Christian's proteomics data likely to arrive before 
-Nov 7? That would let me refine these rankings with protein expression 
+Quick question: Is Christian's proteomics data likely to arrive before
+Nov 7? That would let me refine these rankings with protein expression
 levels before the Nov 10 delivery.
 
 Can proceed either way - just want to set the right expectation.
@@ -306,9 +327,10 @@ Parker
 
 ---
 
-## 🎯 Time Remaining Assessment
+## Time Remaining Assessment
 
 ### You've Completed:
+
 - ✅ PROMPT 1: Analysis (Done)
 - ✅ PROMPT 2: Expression Correlation (Done)
 - ✅ PROMPT 2.5: Copy Number (Done)
@@ -317,6 +339,7 @@ Parker
 - 🚀 PROMPT 4: Integrated Scoring (Scripts ready - 1 minute to run!)
 
 ### Still To Do:
+
 - ⏳ PROMPT 5: Preliminary Report (16 hours)
 - ⏳ PROMPT 6: Presentation Slides (12 hours)
 - ⏳ PROMPT 7: Final QA (8 hours)
@@ -324,7 +347,7 @@ Parker
 
 **Total remaining:** ~40 hours of work  
 **Days remaining:** 8 days (Nov 3-10)  
-**Hours per day needed:** 5 hours/day  
+**Hours per day needed:** 5 hours/day
 
 **Verdict: COMFORTABLY ON TRACK** ✅
 
@@ -334,9 +357,10 @@ Parker
 
 You questioned whether to wait or proceed. You made the right call asking - but the answer is:
 
-**PROCEED CONFIDENTLY** 
+**PROCEED CONFIDENTLY**
 
 You have:
+
 - ✅ All 6 evidence dimensions calculated
 - ✅ Comprehensive integrated scoring ready
 - ✅ Understanding of methodology limitations
@@ -355,19 +379,22 @@ You have:
 **Fix:** Make sure you're in the project root directory
 
 **Issue:** "Module not found" error  
-**Fix:** 
+**Fix:**
+
 ```bash
 pip install pandas numpy scipy
 ```
 
 **Issue:** Script runs but creates empty files
 **Fix:** Check that all input files exist:
+
 ```bash
 ls -lh data/processed/*.csv
 ```
 
 **Issue:** Results look weird
 **Fix:** Check for NaN values:
+
 ```python
 import pandas as pd
 df = pd.read_csv('data/processed/final_integrated_rankings.csv')
@@ -377,6 +404,7 @@ print(df.isnull().sum())
 ### If You Need Help:
 
 Just show me:
+
 1. The error message
 2. Which step it failed at
 3. Output of `ls data/processed/`
@@ -385,7 +413,7 @@ I'll debug it immediately.
 
 ---
 
-**NOW: Run the script and see your integrated rankings!** 🎯
+**NOW: Run the script and see your integrated rankings!**
 
 ```bash
 cd /Users/parkercase/starx-therapeutics-analysis

@@ -44,7 +44,7 @@ OPENAI_API_KEY=your_openai_key
 
 ---
 
-## 🎯 Performance Comparison
+## Performance Comparison
 
 | Metric                | Claude        | GPT-4         | Winner    |
 | --------------------- | ------------- | ------------- | --------- |

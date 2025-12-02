@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 EXECUTIVE SUMMARY
+## EXECUTIVE SUMMARY
 
 ### Key Achievement
 
@@ -345,7 +345,7 @@ analysis_df = merged.loc[common_idx]  # Use only common cell lines
 
 ---
 
-## 🎯 VALIDATION: DR. SPINETTI'S EXAMPLE
+## VALIDATION: DR. SPINETTI'S EXAMPLE
 
 ### Hypothesis to Test
 
@@ -718,7 +718,7 @@ Normal cells (no Mutation A) → Survive (Gene B not essential)
 
 ---
 
-## 🎯 CONCLUSION
+## CONCLUSION
 
 ### Current Status: ✅ ON TRACK
 

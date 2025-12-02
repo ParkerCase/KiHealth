@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 Executive Summary
+## Executive Summary
 
 Data preparation completed with **100% verification and validation**. All datasets successfully merged. **4-year knee replacement outcome recommended for modeling** (EPV=17.10 ≥15, PROBAST compliant).
 
@@ -137,7 +137,7 @@ All files created and verified:
 
 ---
 
-## 🎯 Final Recommendations
+## Final Recommendations
 
 ### ✅ Primary Outcome for Modeling
 

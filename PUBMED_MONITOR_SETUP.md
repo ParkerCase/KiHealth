@@ -178,7 +178,7 @@ After running, you'll have:
 
 ---
 
-## 🎯 Next Steps (Future Prompts)
+## Next Steps (Future Prompts)
 
 - **PROMPT 2**: Add LINCS integration
 - **PROMPT 3**: Add Claude AI for relevance scoring

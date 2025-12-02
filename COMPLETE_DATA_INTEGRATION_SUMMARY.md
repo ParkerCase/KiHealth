@@ -117,7 +117,7 @@ NRAS × CLK4:
 
 ---
 
-## 🎯 KEY IMPROVEMENTS
+## KEY IMPROVEMENTS
 
 ### 1. Complete Coverage
 

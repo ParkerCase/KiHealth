@@ -6,7 +6,7 @@
 
 ---
 
-## 🎯 THE ONE CRITICAL DATASET YOU NEED
+## THE ONE CRITICAL DATASET YOU NEED
 
 ### **Christian: 814H RNAseq + NEW PROTEOMICS**
 
@@ -15,7 +15,7 @@
 ```
 Your Current Gap:
 ├─ DepMap Analysis: Shows genetic dependency (WEAK for STK17A)
-├─ Miami Article: Claims protein overexpression (HIGH for STK17A)  
+├─ Miami Article: Claims protein overexpression (HIGH for STK17A)
 └─ Question: "How do I reconcile these?"
 
 Christian's Proteomics Provides:
@@ -27,6 +27,7 @@ Christian's Proteomics Provides:
 ```
 
 **This dataset bridges the gap between:**
+
 - What you computed (genetic dependency)
 - What Miami measured (protein abundance)
 - What predicts drug response (protein expression + activity)
@@ -38,14 +39,17 @@ Christian's Proteomics Provides:
 ### ✅ You've Received:
 
 1. **Victoria/Tulasi IC50 Data** (160 cell lines)
+
    - Drug efficacy measurements
    - Direct therapeutic response
 
 2. **Hafsa RNAseq DEGs** (6 files)
+
    - Gene expression changes
    - Transcriptional response
 
 3. **Erica Phosphoproteomics** (GBM43)
+
    - Protein activity in GBM
    - Validates brain cancer indication
 
@@ -56,9 +60,11 @@ Christian's Proteomics Provides:
 ### ⏳ Still Waiting:
 
 5. **Christian Proteomics** ⭐ CRITICAL
+
    - This completes the picture
 
 6. **Hafsa Literature List**
+
    - Nice to have (not critical)
 
 7. **Eduardo Docking**
@@ -71,14 +77,17 @@ Christian's Proteomics Provides:
 **Specific questions it answers:**
 
 1. ✅ **Which of your 58 cancer types have HIGH STK17A protein?**
+
    - This validates or challenges your rankings
    - Identifies overexpression-driven opportunities
 
 2. ✅ **Does GBM really have high STK17A protein?**
+
    - Validates Miami article claim
    - Justifies top-5 ranking despite weak dependency
 
 3. ✅ **Does protein expression correlate with drug response?**
+
    - If YES: Protein expression becomes primary ranking factor
    - If NO: Stick with dependency + mutation-context
 
@@ -96,7 +105,7 @@ Christian's Proteomics Provides:
 Evidence Layer               Completeness
 ────────────────────────────────────────
 Genetic Dependency           100% ✅
-Mutation Context             100% ✅  
+Mutation Context             100% ✅
 Drug Response (IC50)          70% ✅
 RNA Expression               50% ⚠️
 Protein Activity (GBM)       40% ⚠️
@@ -124,13 +133,14 @@ Overall Completeness: 90% ✅
 
 ---
 
-## 🎯 WILL IT ALL MAKE SENSE?
+## WILL IT ALL MAKE SENSE?
 
 ### With Christian's Proteomics:
 
 ✅ **YES - Everything will make sense!**
 
 You'll be able to explain:
+
 1. Why GBM ranks 35/58 in dependency BUT is a top indication
 2. How protein overexpression creates drug opportunity
 3. Which cancers are driven by expression vs. dependency
@@ -141,6 +151,7 @@ You'll be able to explain:
 ⚠️ **MOSTLY - But with a gap**
 
 You'll have:
+
 - Strong computational analysis
 - Experimental validation for GBM specifically
 - Mutation-stratification insights
@@ -195,12 +206,15 @@ Follow-up: Update with proteomics in Phase 2
 **YES** - Once you get **Christian's proteomics data**, you'll have:
 
 1. ✅ Complete evidence across all biological layers:
+
    - Gene → RNA → Protein → Drug Response
 
 2. ✅ Ability to reconcile computational vs. experimental findings:
+
    - Dependency (your analysis) + Expression (Miami) = Complete story
 
 3. ✅ Strong scientific justification for rankings:
+
    - Multi-dimensional evidence
    - Protein-level validation
    - Mechanistic understanding
@@ -219,22 +233,26 @@ Follow-up: Update with proteomics in Phase 2
 ## 🚀 WHAT TO DO NOW
 
 ### Tonight:
+
 1. ✉️ **Email Dr. Taylor** asking for ETA on Christian's data
 2. 📖 **Read all the methodology documents** I created for you
 3. 🧘 **Relax** - You're in good shape
 
 ### Tomorrow:
+
 1. 🔬 **Start analyzing Hafsa's RNAseq DEGs**
 2. 🔬 **Analyze Erica's GBM43 phosphoproteomics**
 3. ⏳ **Monitor for Christian's data arrival**
 
 ### When Christian's Data Arrives:
-1. 🎯 **Immediate analysis** (8 hours focused work)
-2. 📊 **Integrate with existing analysis**
-3. 📈 **Recalculate rankings**
-4. 📝 **Update report**
+
+1.  **Immediate analysis** (8 hours focused work)
+2.  📊 **Integrate with existing analysis**
+3.  📈 **Recalculate rankings**
+4.  📝 **Update report**
 
 ### If Data Doesn't Arrive by Nov 7:
+
 1. ⚠️ **Proceed with RNA expression proxy**
 2. ⚠️ **Use GBM43 phospho for GBM validation**
 3. ⚠️ **Note protein data pending in report**
@@ -250,12 +268,13 @@ Follow-up: Update with proteomics in Phase 2
 Most people would just assume their analysis is complete. You recognized the gap between computational and experimental evidence. **This is scientific maturity.**
 
 **The answer is:**
+
 - Your current analysis is strong (60-70% complete)
 - Christian's proteomics gets you to 90% complete
 - That's more than enough for a preliminary report
 - You can refine in Phase 2 if needed
 
-**You're going to be fine.** 🎯
+**You're going to be fine.**
 
 ---
 
