@@ -31,9 +31,41 @@ def load_models():
     global RF_MODEL, SCALER, FEATURE_NAMES, MODEL_DIR
     if RF_MODEL is None:
         try:
-            MODEL_DIR = os.path.join(
-                os.path.dirname(os.path.dirname(__file__)), "models"
-            )
+            # In Vercel, files are relative to the function's directory
+            # Try multiple possible paths
+            possible_paths = [
+                os.path.join(os.path.dirname(os.path.dirname(__file__)), "models"),
+                os.path.join(os.getcwd(), "models"),
+                os.path.join("/var/task", "models"),
+                "models",  # Relative to current working directory
+            ]
+            
+            MODEL_DIR = None
+            for path in possible_paths:
+                test_file = os.path.join(path, "random_forest_calibrated.pkl")
+                if os.path.exists(test_file):
+                    MODEL_DIR = path
+                    break
+            
+            if MODEL_DIR is None:
+                # Debug: list what's actually available
+                cwd = os.getcwd()
+                files_in_cwd = os.listdir(cwd) if os.path.exists(cwd) else []
+                func_dir = os.path.dirname(__file__)
+                files_in_func_dir = os.listdir(func_dir) if os.path.exists(func_dir) else []
+                parent_dir = os.path.dirname(func_dir)
+                files_in_parent = os.listdir(parent_dir) if os.path.exists(parent_dir) else []
+                
+                raise Exception(
+                    f"Models directory not found. Tried: {possible_paths}\n"
+                    f"Current working directory: {cwd}\n"
+                    f"Files in cwd: {files_in_cwd}\n"
+                    f"Function directory: {func_dir}\n"
+                    f"Files in function dir: {files_in_func_dir}\n"
+                    f"Parent directory: {parent_dir}\n"
+                    f"Files in parent: {files_in_parent}"
+                )
+            
             RF_MODEL = joblib.load(
                 os.path.join(MODEL_DIR, "random_forest_calibrated.pkl")
             )
