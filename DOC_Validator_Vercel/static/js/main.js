@@ -114,7 +114,7 @@ function displayResults(data) {
   if (data.plots.risk_distribution) {
     html += '<div class="plot-container">';
     html += "<h3>Risk Distribution</h3>";
-    html += `<img src="${data.plots.risk_distribution}" alt="Risk Distribution">`;
+    html += '<canvas id="riskDistChart"></canvas>';
     html += "</div>";
   }
 
@@ -150,7 +150,7 @@ function displayResults(data) {
     if (data.plots.roc_curve) {
       html += '<div class="plot-container">';
       html += "<h3>ROC Curve</h3>";
-      html += `<img src="${data.plots.roc_curve}" alt="ROC Curve">`;
+      html += '<canvas id="rocChart"></canvas>';
       html += "</div>";
     }
 
@@ -158,7 +158,7 @@ function displayResults(data) {
     if (data.plots.calibration) {
       html += '<div class="plot-container">';
       html += "<h3>Calibration Plot</h3>";
-      html += `<img src="${data.plots.calibration}" alt="Calibration Plot">`;
+      html += '<canvas id="calibrationChart"></canvas>';
       html += "</div>";
     }
 
@@ -202,6 +202,195 @@ function displayResults(data) {
 
   // Store predictions CSV for download
   window.predictionsCSV = data.predictions_csv;
+
+  // Render charts
+  renderCharts(data.plots);
+}
+
+function renderCharts(plots) {
+  // Risk Distribution Chart
+  if (plots.risk_distribution && plots.risk_distribution.data) {
+    const ctx = document.getElementById("riskDistChart");
+    if (ctx) {
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: plots.risk_distribution.data.labels,
+          datasets: [
+            {
+              label: "Number of Patients",
+              data: plots.risk_distribution.data.values,
+              backgroundColor: "steelblue",
+              borderColor: "black",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: plots.risk_distribution.title,
+              font: { size: 14, weight: "bold" },
+            },
+            legend: { display: false },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: plots.risk_distribution.ylabel,
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: plots.risk_distribution.xlabel,
+              },
+            },
+          },
+        },
+      });
+    }
+  }
+
+  // ROC Curve
+  if (plots.roc_curve && plots.roc_curve.data) {
+    const ctx = document.getElementById("rocChart");
+    if (ctx) {
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          datasets: [
+            {
+              label: plots.roc_curve.data.model.label,
+              data: plots.roc_curve.data.model.x.map((x, i) => ({
+                x: x,
+                y: plots.roc_curve.data.model.y[i],
+              })),
+              borderColor: "rgb(75, 192, 192)",
+              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderWidth: 2,
+              pointRadius: 0,
+            },
+            {
+              label: plots.roc_curve.data.random.label,
+              data: plots.roc_curve.data.random.x.map((x, i) => ({
+                x: x,
+                y: plots.roc_curve.data.random.y[i],
+              })),
+              borderColor: "rgb(255, 99, 132)",
+              borderDash: [5, 5],
+              borderWidth: 2,
+              pointRadius: 0,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: plots.roc_curve.title,
+              font: { size: 14, weight: "bold" },
+            },
+            legend: { display: true },
+          },
+          scales: {
+            x: {
+              type: "linear",
+              min: 0,
+              max: 1,
+              title: {
+                display: true,
+                text: plots.roc_curve.xlabel,
+              },
+            },
+            y: {
+              type: "linear",
+              min: 0,
+              max: 1,
+              title: {
+                display: true,
+                text: plots.roc_curve.ylabel,
+              },
+            },
+          },
+        },
+      });
+    }
+  }
+
+  // Calibration Plot
+  if (plots.calibration && plots.calibration.data) {
+    const ctx = document.getElementById("calibrationChart");
+    if (ctx) {
+      new Chart(ctx, {
+        type: "scatter",
+        data: {
+          datasets: [
+            {
+              label: plots.calibration.data.model.label,
+              data: plots.calibration.data.model.x.map((x, i) => ({
+                x: x,
+                y: plots.calibration.data.model.y[i],
+              })),
+              backgroundColor: "rgb(75, 192, 192)",
+              borderColor: "rgb(75, 192, 192)",
+              pointRadius: 6,
+              showLine: true,
+              tension: 0.4,
+            },
+            {
+              label: plots.calibration.data.perfect.label,
+              data: plots.calibration.data.perfect.x.map((x, i) => ({
+                x: x,
+                y: plots.calibration.data.perfect.y[i],
+              })),
+              borderColor: "rgb(255, 99, 132)",
+              borderDash: [5, 5],
+              borderWidth: 2,
+              pointRadius: 0,
+              showLine: true,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: plots.calibration.title,
+              font: { size: 14, weight: "bold" },
+            },
+            legend: { display: true },
+          },
+          scales: {
+            x: {
+              type: "linear",
+              min: 0,
+              max: 1,
+              title: {
+                display: true,
+                text: plots.calibration.xlabel,
+              },
+            },
+            y: {
+              type: "linear",
+              min: 0,
+              max: 1,
+              title: {
+                display: true,
+                text: plots.calibration.ylabel,
+              },
+            },
+          },
+        },
+      });
+    }
+  }
 }
 
 function downloadPredictions() {

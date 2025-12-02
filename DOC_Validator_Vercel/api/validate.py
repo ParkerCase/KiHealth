@@ -9,11 +9,6 @@ import pandas as pd
 import numpy as np
 import joblib
 import io
-import base64
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 from sklearn.metrics import roc_auc_score, roc_curve, brier_score_loss
 from sklearn.calibration import calibration_curve
 import sys
@@ -41,14 +36,6 @@ def load_models():
         FEATURE_NAMES = joblib.load(os.path.join(MODEL_DIR, "feature_names.pkl"))
 
 
-def plot_to_base64(fig):
-    """Convert matplotlib figure to base64"""
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png", dpi=150, bbox_inches="tight")
-    buf.seek(0)
-    img_base64 = base64.b64encode(buf.read()).decode("utf-8")
-    plt.close(fig)
-    return f"data:image/png;base64,{img_base64}"
 
 
 class handler(BaseHTTPRequestHandler):
@@ -134,18 +121,18 @@ class handler(BaseHTTPRequestHandler):
                 "risk_distribution": df["risk_category"].value_counts().to_dict(),
             }
 
-            # Generate risk distribution chart
-            fig, ax = plt.subplots(figsize=(10, 6))
+            # Prepare risk distribution data for client-side chart
             risk_counts = df["risk_category"].value_counts()
-            risk_counts.plot(kind="bar", ax=ax, color="steelblue", edgecolor="black")
-            ax.set_ylabel("Number of Patients", fontsize=12)
-            ax.set_xlabel("Risk Category", fontsize=12)
-            ax.set_title(
-                "Patient Distribution by Risk Category", fontsize=14, fontweight="bold"
-            )
-            plt.xticks(rotation=45)
-            ax.grid(alpha=0.3, axis="y")
-            risk_dist_plot = plot_to_base64(fig)
+            risk_dist_plot = {
+                "type": "bar",
+                "title": "Patient Distribution by Risk Category",
+                "xlabel": "Risk Category",
+                "ylabel": "Number of Patients",
+                "data": {
+                    "labels": risk_counts.index.tolist(),
+                    "values": risk_counts.values.tolist()
+                }
+            }
 
             # If outcomes provided, calculate validation metrics
             validation_metrics = None
@@ -166,31 +153,49 @@ class handler(BaseHTTPRequestHandler):
                     "n_events": int(y_true.sum()),
                 }
 
-                # ROC Curve
+                # ROC Curve data for client-side rendering
                 fpr, tpr, _ = roc_curve(y_true, predictions)
-                fig, ax = plt.subplots(figsize=(8, 6))
-                ax.plot(fpr, tpr, linewidth=2, label=f"Model (AUC={auc:.3f})")
-                ax.plot([0, 1], [0, 1], "k--", label="Random")
-                ax.set_xlabel("False Positive Rate", fontsize=12)
-                ax.set_ylabel("True Positive Rate", fontsize=12)
-                ax.set_title("ROC Curve", fontsize=14, fontweight="bold")
-                ax.legend(fontsize=11)
-                ax.grid(alpha=0.3)
-                roc_plot = plot_to_base64(fig)
+                roc_plot = {
+                    "type": "line",
+                    "title": "ROC Curve",
+                    "xlabel": "False Positive Rate",
+                    "ylabel": "True Positive Rate",
+                    "data": {
+                        "model": {
+                            "x": fpr.tolist(),
+                            "y": tpr.tolist(),
+                            "label": f"Model (AUC={auc:.3f})"
+                        },
+                        "random": {
+                            "x": [0, 1],
+                            "y": [0, 1],
+                            "label": "Random"
+                        }
+                    }
+                }
 
-                # Calibration Plot
+                # Calibration Plot data for client-side rendering
                 prob_true, prob_pred = calibration_curve(
                     y_true, predictions, n_bins=10, strategy="quantile"
                 )
-                fig, ax = plt.subplots(figsize=(8, 6))
-                ax.plot(prob_pred, prob_true, "s-", linewidth=2, markersize=8)
-                ax.plot([0, 1], [0, 1], "k--", label="Perfect Calibration")
-                ax.set_xlabel("Predicted Probability", fontsize=12)
-                ax.set_ylabel("Observed Frequency", fontsize=12)
-                ax.set_title("Calibration Plot", fontsize=14, fontweight="bold")
-                ax.legend(fontsize=11)
-                ax.grid(alpha=0.3)
-                calibration_plot = plot_to_base64(fig)
+                calibration_plot = {
+                    "type": "scatter",
+                    "title": "Calibration Plot",
+                    "xlabel": "Predicted Probability",
+                    "ylabel": "Observed Frequency",
+                    "data": {
+                        "model": {
+                            "x": prob_pred.tolist(),
+                            "y": prob_true.tolist(),
+                            "label": "Model"
+                        },
+                        "perfect": {
+                            "x": [0, 1],
+                            "y": [0, 1],
+                            "label": "Perfect Calibration"
+                        }
+                    }
+                }
 
                 # Risk stratification
                 risk_strat = df.groupby("risk_category").agg(
