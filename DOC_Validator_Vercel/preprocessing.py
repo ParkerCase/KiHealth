@@ -104,9 +104,24 @@ def preprocess_data(df, imputer, scaler, feature_names):
                     # Median for continuous
                     X_numeric[col].fillna(X_numeric[col].median(), inplace=True)
 
+    # Scale - ensure columns are in the same order as scaler was trained
+    # Get the feature names that the scaler expects (from training)
+    scaler_feature_names = scaler.feature_names_in_ if hasattr(scaler, 'feature_names_in_') else numeric_vars
+    
+    # Reorder X_numeric to match scaler's expected order
+    X_numeric_ordered = X_numeric[[col for col in scaler_feature_names if col in X_numeric.columns]]
+    
+    # Add any missing columns (shouldn't happen, but just in case)
+    for col in scaler_feature_names:
+        if col not in X_numeric_ordered.columns:
+            X_numeric_ordered[col] = 0
+    
+    # Ensure exact order
+    X_numeric_ordered = X_numeric_ordered[scaler_feature_names]
+    
     # Scale
-    X_scaled = scaler.transform(X_numeric)
-    X_scaled = pd.DataFrame(X_scaled, columns=numeric_vars, index=X.index)
+    X_scaled = scaler.transform(X_numeric_ordered)
+    X_scaled = pd.DataFrame(X_scaled, columns=scaler_feature_names, index=X.index)
 
     # One-hot encode categorical variables
     # P02SEX: 1=Male (baseline), 2=Female (encoded as P02SEX_2: Female)
@@ -135,12 +150,22 @@ def preprocess_data(df, imputer, scaler, feature_names):
     # Combine all features
     X_final = pd.concat([X_scaled, X[["age_group", "bmi_category"]], X_encoded], axis=1)
 
-    # Ensure correct column order and presence
-    for col in feature_names:
-        if col not in X_final.columns:
+    # Ensure all feature_names are present (add missing ones as 0)
+    missing_features = [col for col in feature_names if col not in X_final.columns]
+    if missing_features:
+        for col in missing_features:
             X_final[col] = 0
 
-    # Reorder to match feature_names exactly
-    X_final = X_final[feature_names]
+    # Reorder to match feature_names exactly (critical for model)
+    try:
+        X_final = X_final[feature_names]
+    except KeyError as e:
+        # Debug: show what's missing
+        missing = [col for col in feature_names if col not in X_final.columns]
+        raise Exception(
+            f"Feature mismatch. Missing features: {missing}. "
+            f"Expected {len(feature_names)} features, got {len(X_final.columns)}. "
+            f"Expected features: {feature_names[:10]}... (showing first 10)"
+        )
 
     return X_final
