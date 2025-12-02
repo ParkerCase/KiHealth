@@ -316,6 +316,9 @@ class handler(BaseHTTPRequestHandler):
                 )
                 risk_strat.columns = ["n_patients", "n_events", "event_rate"]
                 risk_strat["event_rate_pct"] = (risk_strat["event_rate"] * 100).round(1)
+                # Replace NaN with 0 for event_rate when no patients in category
+                risk_strat["event_rate"] = risk_strat["event_rate"].fillna(0.0)
+                risk_strat["event_rate_pct"] = risk_strat["event_rate_pct"].fillna(0.0)
                 validation_metrics["risk_stratification"] = risk_strat.to_dict("index")
 
             # Prepare downloadable predictions
@@ -335,15 +338,26 @@ class handler(BaseHTTPRequestHandler):
 
             predictions_csv = download_df.to_csv(index=False)
 
+            # Convert NaN values to None (null in JSON) for valid JSON
+            def clean_nan(obj):
+                """Recursively replace NaN with None"""
+                if isinstance(obj, dict):
+                    return {k: clean_nan(v) for k, v in obj.items()}
+                elif isinstance(obj, list):
+                    return [clean_nan(item) for item in obj]
+                elif isinstance(obj, float) and (np.isnan(obj) or np.isinf(obj)):
+                    return None
+                return obj
+
             # Send response
             response = {
                 "success": True,
-                "summary": summary,
-                "validation_metrics": validation_metrics,
+                "summary": clean_nan(summary),
+                "validation_metrics": clean_nan(validation_metrics) if validation_metrics else None,
                 "plots": {
-                    "risk_distribution": risk_dist_plot,
-                    "roc_curve": roc_plot,
-                    "calibration": calibration_plot,
+                    "risk_distribution": clean_nan(risk_dist_plot),
+                    "roc_curve": clean_nan(roc_plot) if roc_plot else None,
+                    "calibration": clean_nan(calibration_plot) if calibration_plot else None,
                 },
                 "predictions_csv": predictions_csv,
             }
