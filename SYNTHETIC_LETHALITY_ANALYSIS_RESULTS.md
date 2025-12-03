@@ -6,7 +6,7 @@
 
 ---
 
-## 📊 EXECUTIVE SUMMARY
+## EXECUTIVE SUMMARY
 
 ### What We Did
 
@@ -24,7 +24,7 @@ Tested two approaches to identify synthetic lethality patterns:
 
 ---
 
-## 🔬 OPTION A: LOOSENED THRESHOLDS
+## OPTION A: LOOSENED THRESHOLDS
 
 ### Parameters Adjusted
 
@@ -93,7 +93,7 @@ _(Negative Δ = Mutant cells MORE dependent than WT = Synthetic Lethality)_
 
 ---
 
-## 🔬 OPTION B: DR. SPINETTI'S HYPOTHESIS VALIDATION
+## OPTION B: DR. SPINETTI'S HYPOTHESIS VALIDATION
 
 ### Hypothesis Tested
 
@@ -143,7 +143,7 @@ Possible reasons:
 
 ---
 
-## 💡 OTHER INTERESTING PATTERNS (NOT SIGNIFICANT)
+## OTHER INTERESTING PATTERNS (NOT SIGNIFICANT)
 
 ### EGFR × STK17A (Rank 1)
 
@@ -196,14 +196,15 @@ Possible reasons:
    - Experimental validation in NRAS-mutant melanoma/AML lines
    - Test CLK4 inhibitors (if available)
 
-2. 🔬 **Follow up on EGFR patterns** (Ranks 1-2)
+2. **Follow up on EGFR patterns** (Ranks 1-2)
 
-   - Requires more EGFR-mutant cell lines or patient samples
-   - Consider: EGFR × STK17A, EGFR × TBK1
+- Requires more EGFR-mutant cell lines or patient samples
+- Consider: EGFR × STK17A, EGFR × TBK1
 
-3. 📊 **Refine KRAS analysis**
-   - Separate by KRAS allele (G12C, G12D, G12V, etc.)
-   - Test in specific cancer types (pancreas vs lung vs colon)
+3.  **Refine KRAS analysis**
+
+- Separate by KRAS allele (G12C, G12D, G12V, etc.)
+- Test in specific cancer types (pancreas vs lung vs colon)
 
 ### Next Steps for Analysis
 
@@ -317,7 +318,7 @@ Ready to proceed with:
 
 ---
 
-## 📊 STATISTICAL NOTES
+## STATISTICAL NOTES
 
 ### Why p < 0.10 instead of p < 0.05?
 

@@ -45,7 +45,7 @@ Phase 6 external validation plan completed. Comprehensive study protocol designe
 
 ---
 
-## 📊 Study Design Summary
+## Study Design Summary
 
 ### Study Population
 
@@ -239,7 +239,7 @@ Phase 6 external validation plan completed. Comprehensive study protocol designe
 
 ---
 
-## 📊 Comparison to Development
+## Comparison to Development
 
 | Aspect          | Development (OAI) | Validation (Bergman) |
 | --------------- | ----------------- | -------------------- |

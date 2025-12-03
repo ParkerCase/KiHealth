@@ -6,7 +6,7 @@
 
 ---
 
-## 📊 EXECUTIVE SUMMARY
+## EXECUTIVE SUMMARY
 
 ### What Changed
 
@@ -187,7 +187,7 @@
 
 ---
 
-## 🔬 NEXT STEPS
+## NEXT STEPS
 
 1. **Validate top hits experimentally**
 
@@ -210,7 +210,7 @@
 
 ---
 
-## 📊 STATISTICAL METHODS
+## STATISTICAL METHODS
 
 ### Analysis Parameters
 

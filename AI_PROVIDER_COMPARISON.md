@@ -8,7 +8,7 @@ For your specific use case (analyzing scientific papers, extracting structured d
 
 ---
 
-## 📊 Comparison
+## Comparison
 
 | Feature                   | Anthropic Claude             | OpenAI GPT-4         | Winner                                 |
 | ------------------------- | ---------------------------- | -------------------- | -------------------------------------- |

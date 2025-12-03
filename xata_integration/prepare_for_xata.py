@@ -22,7 +22,7 @@ OUTPUT_DIR = Path(__file__).parent / "output"
 # Create output directory
 OUTPUT_DIR.mkdir(exist_ok=True)
 
-print("🔬 StarX Therapeutics → Xata Data Preparation")
+print(" StarX Therapeutics → Xata Data Preparation")
 print("=" * 60)
 print(f"📂 Reading from: {DATA_DIR}")
 print(f"📝 Writing to: {OUTPUT_DIR}")
@@ -31,7 +31,7 @@ print()
 # =============================================================================
 # 1. CANCER RANKINGS TABLE
 # =============================================================================
-print("📊 Processing cancer rankings...")
+print(" Processing cancer rankings...")
 
 rankings_df = pd.read_csv(DATA_DIR / "final_integrated_rankings_COMPLETE.csv")
 

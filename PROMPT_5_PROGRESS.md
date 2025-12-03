@@ -1,4 +1,4 @@
-# 📊 PROMPT 5 PROGRESS REPORT
+# PROMPT 5 PROGRESS REPORT
 
 **Status:** Report Structure Created - 40% Complete  
 **Time Spent:** 2 hours  
@@ -238,7 +238,7 @@
 
 1. ⏰ **Time pressure**: 7 days until Nov 10, need buffer for slides/QA
 2. **Consistency**: I've established voice and framing in first 40%
-3. 📊 **Data integration**: I have all your analyses memorized
+3. **Data integration**: I have all your analyses memorized
 4. ✅ **Quality assurance**: I know exactly what Dr. Taylor needs
 5. 🚀 **Speed**: I can complete in 6-8 hours vs 14-16 for you
 
@@ -260,7 +260,7 @@
 
 ---
 
-## 📊 REPORT QUALITY ASSESSMENT (So Far)
+## REPORT QUALITY ASSESSMENT (So Far)
 
 ### Executive Summary: 9.5/10
 

@@ -4,7 +4,7 @@
 
 ---
 
-## 📊 Database Summary
+## Database Summary
 
 Your Xata database contains **4 tables** with complete, verified data:
 

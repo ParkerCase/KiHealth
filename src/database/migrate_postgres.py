@@ -81,7 +81,7 @@ def create_tables():
         # Create tables
         for table in schema["tables"]:
             table_name = table["name"]
-            print(f"\n📊 Creating table: {Colors.BOLD}{table_name}{Colors.ENDC}")
+            print(f"\n Creating table: {Colors.BOLD}{table_name}{Colors.ENDC}")
 
             # Build CREATE TABLE statement
             columns_sql = []

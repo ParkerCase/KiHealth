@@ -54,7 +54,7 @@
 
 ---
 
-## 📊 OTHER NOTABLE PATTERNS (NOT SIGNIFICANT)
+## OTHER NOTABLE PATTERNS (NOT SIGNIFICANT)
 
 | Rank | Mutation | Target | Effect | P-value | Note                    |
 | ---- | -------- | ------ | ------ | ------- | ----------------------- |
@@ -96,7 +96,7 @@ _These show promise but lack statistical significance - may be real patterns wit
 
 ---
 
-## 💡 KEY INSIGHTS
+## KEY INSIGHTS
 
 ### 1. These Genes Are Context-Specific (NOT Broadly Essential)
 

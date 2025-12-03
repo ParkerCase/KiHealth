@@ -87,7 +87,7 @@ This will:
 
 ---
 
-## 📊 What It Searches
+## What It Searches
 
 ### Target Genes (4):
 

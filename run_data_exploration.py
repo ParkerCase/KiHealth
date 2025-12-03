@@ -176,7 +176,7 @@ summary = pd.DataFrame(
     }
 )
 
-print("📊 Dataset Summary:")
+print(" Dataset Summary:")
 print(summary.to_string(index=False))
 
 # 5.3 Check for Data Quality Issues

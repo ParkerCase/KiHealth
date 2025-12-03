@@ -1,4 +1,4 @@
-# 📊 QUICK REFERENCE: Why Your Data & Miami Article BOTH Make Sense
+# QUICK REFERENCE: Why Your Data & Miami Article BOTH Make Sense
 
 ## THE ONE-SENTENCE EXPLANATION:
 
@@ -238,7 +238,7 @@ You caught a critical nuance that most people miss!
 ## ACTION ITEMS (RIGHT NOW)
 
 1. ✉️ **Email Dr. Taylor** (use draft from main document)
-2. 📊 **Request protein expression data**
+2. **Request protein expression data**
 3. 📝 **Update report methodology section**
 4. **Elevate GBM in rankings** (with proper explanation)
 5. 📈 **Adjust scoring model** (include expression weight)

@@ -5,7 +5,7 @@
 
 ---
 
-## 🔬 How This Model is PREDICTIVE (Not Just Descriptive)
+## How This Model is PREDICTIVE (Not Just Descriptive)
 
 ### 1. **Synthetic Lethality Predictions**
 
@@ -175,7 +175,7 @@ Overall Score = Weighted combination of:
 
 ---
 
-## 📊 Specific Drug Discovery Workflow Enabled
+## Specific Drug Discovery Workflow Enabled
 
 ### **Step 1: Target Selection** (Current Stage)
 
@@ -235,7 +235,7 @@ Dashboard Query: "Show me synthetic lethality hits for CLK4"
 
 ---
 
-## 💡 Real-World Drug Discovery Value
+## Real-World Drug Discovery Value
 
 ### **1. Risk Reduction**
 
@@ -269,7 +269,7 @@ Dashboard Query: "Show me synthetic lethality hits for CLK4"
 
 ---
 
-## 🔬 Scientific Validation of Predictions
+## Scientific Validation of Predictions
 
 ### **How We Know It's Predictive:**
 
@@ -365,7 +365,7 @@ Dashboard Query: "Show me synthetic lethality hits for CLK4"
 
 ---
 
-## 📊 ROI Calculation
+## ROI Calculation
 
 ### **Investment:**
 

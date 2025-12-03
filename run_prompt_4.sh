@@ -37,7 +37,7 @@ if [ $? -eq 0 ]; then
     echo "   2. data/processed/top_10_evidence_breakdown.csv"
     echo "   3. outputs/reports/integrated_scoring_summary.md"
     echo ""
-    echo "📊 Next steps:"
+    echo " Next steps:"
     echo "   1. Review the top 10 rankings"
     echo "   2. Check the integrated_scoring_summary.md"
     echo "   3. Ready for PROMPT 5 (Report Generation)"

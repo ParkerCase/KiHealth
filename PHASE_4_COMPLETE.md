@@ -54,7 +54,7 @@ Phase 4 comprehensive evaluation completed with **full PROBAST compliance**. Cal
 
 ---
 
-## 📊 Key Results
+## Key Results
 
 ### Discrimination Performance
 

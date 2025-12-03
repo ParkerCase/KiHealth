@@ -214,7 +214,7 @@ def create_tables():
 
     for table in schema["tables"]:
         table_name = table["name"]
-        print(f"\n📊 Table: {Colors.BOLD}{table_name}{Colors.ENDC}")
+        print(f"\n Table: {Colors.BOLD}{table_name}{Colors.ENDC}")
 
         # Prepare columns for Xata
         columns = []
@@ -275,7 +275,7 @@ def check_status():
 
     schema = load_schema()
 
-    print(f"\n📊 Expected Schema ({len(schema['tables'])} tables):\n")
+    print(f"\n Expected Schema ({len(schema['tables'])} tables):\n")
 
     total_columns = 0
     for table in schema["tables"]:
@@ -351,7 +351,7 @@ def validate_against_depmap():
         else:
             print_warning(f"{filename} - NOT FOUND")
 
-    print(f"\n📊 Found {files_found}/{len(expected_files)} expected files")
+    print(f"\n Found {files_found}/{len(expected_files)} expected files")
 
     # Validate target genes in schema
     print("\n Validating Target Genes in Schema:\n")
@@ -430,7 +430,7 @@ def main():
         validate_against_depmap()
     else:
         parser.print_help()
-        print("\n💡 Quick Start:")
+        print("\n Quick Start:")
         print(
             f"   {Colors.OKGREEN}python migrate_v2.py --setup{Colors.ENDC}      # First-time setup"
         )

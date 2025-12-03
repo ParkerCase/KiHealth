@@ -6,7 +6,7 @@ I've completely rewritten the monitoring system to use the **optimal two-stage f
 
 ---
 
-## 📊 System Flow
+## System Flow
 
 ### **STAGE 1: Fast Keyword Filtering** (FREE)
 
@@ -265,7 +265,7 @@ After pushing to GitHub:
 
 ---
 
-## 📊 Verification Checklist
+## Verification Checklist
 
 Before running GitHub Actions, verify:
 

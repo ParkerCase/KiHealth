@@ -181,7 +181,7 @@ All files created and verified:
 
 ---
 
-## 📊 Data Dictionary Summary
+## Data Dictionary Summary
 
 | Variable             | Description                          | Type        | Missing % |
 | -------------------- | ------------------------------------ | ----------- | --------- |

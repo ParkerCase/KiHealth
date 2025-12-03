@@ -1,4 +1,4 @@
-# 📊 DATA COMPLETENESS ASSESSMENT - What You Have vs. Need
+# DATA COMPLETENESS ASSESSMENT - What You Have vs. Need
 
 **Generated:** November 2, 2025  
 **Question:** "Will Christian's data complete the picture?"
@@ -200,7 +200,7 @@ Structure/Docking         ⚠️  Low    20%  (Nice to have)
 
 ---
 
-## 📊 SPECIFIC ANALYSES YOU CAN DO WITH RECEIVED DATA
+## SPECIFIC ANALYSES YOU CAN DO WITH RECEIVED DATA
 
 ### Data You Haven't Analyzed Yet:
 

@@ -68,7 +68,7 @@ After updating Xata, the dashboard will support:
 
 ---
 
-## 📊 Summary
+## Summary
 
 - **Current Xata tables**: 4 tables ✅
 - **New data needed**: 1 updated CSV file (with mutation flags)

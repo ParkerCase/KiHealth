@@ -99,7 +99,7 @@ Only TBK1 shows any meaningful signal in glioma (-0.22), and even that is modest
 
 ---
 
-## 📊 EXPERIMENTAL VALIDATION RESULTS
+## EXPERIMENTAL VALIDATION RESULTS
 
 ### What We Found:
 
@@ -152,7 +152,7 @@ Correlation Results:
    - Might explain brain cancer excitement
    - **Recommendation:** Get this before final delivery
 
-2. **Eduardo: Docking/Structure Files** 📊 MEDIUM IMPACT
+2. **Eduardo: Docking/Structure Files** MEDIUM IMPACT
 
    - Would help understand which genes are actually hit by compounds
    - Could explain IC50 vs DepMap discrepancy
@@ -258,7 +258,7 @@ Correlation Results:
 
 ---
 
-## 🔬 WHAT WE CAN CONFIDENTLY CLAIM
+## WHAT WE CAN CONFIDENTLY CLAIM
 
 ### ✅ SAFE TO CLAIM:
 
@@ -500,7 +500,7 @@ Correlation Results:
 
 ---
 
-## 📊 CONFIDENCE SCORE SUMMARY
+## CONFIDENCE SCORE SUMMARY
 
 | Component                   | Confidence | Rationale                                    |
 | --------------------------- | ---------- | -------------------------------------------- |

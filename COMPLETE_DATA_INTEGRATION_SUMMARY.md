@@ -6,7 +6,7 @@
 
 ---
 
-## 📊 FILES CREATED
+## FILES CREATED
 
 ### 1. Cancer Type Rankings (with Individual Cell Line Scores)
 
@@ -141,7 +141,7 @@ NRAS × CLK4:
 
 ---
 
-## 📊 STATISTICS
+## STATISTICS
 
 ### Cancer Type Rankings
 

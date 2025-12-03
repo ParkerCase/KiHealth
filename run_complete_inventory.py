@@ -59,7 +59,7 @@ key_womac = {
     "Total Score (Left)": "V00WOMTSL",
 }
 
-print("\n📊 Key WOMAC Variables:")
+print("\n Key WOMAC Variables:")
 for name, var in key_womac.items():
     if var in allclinical00.columns:
         n_valid = allclinical00[var].notna().sum()
@@ -80,7 +80,7 @@ womac_cols = [
 womac_cols = [col for col in womac_cols if col in allclinical00.columns]
 if womac_cols:
     has_womac = allclinical00[womac_cols].notna().any(axis=1).sum()
-    print(f"\n📊 Baseline WOMAC Data Availability:")
+    print(f"\n Baseline WOMAC Data Availability:")
     print(
         f"  - Patients with at least one WOMAC score: {has_womac} ({has_womac/len(allclinical00)*100:.1f}%)"
     )
@@ -120,7 +120,7 @@ print(f"✅ Biomarkers00 loaded: {biomarkers00.shape}")
 
 if "ID" in biomarkers00.columns:
     biomarker_ids = set(biomarkers00["ID"].dropna())
-    print(f"\n📊 Biomarkers Data Availability:")
+    print(f"\n Biomarkers Data Availability:")
     print(f"  - Unique patients: {len(biomarker_ids)}")
     print(f"  - % of 4,796 total cohort: {len(biomarker_ids)/4796*100:.1f}%")
 
@@ -140,7 +140,7 @@ print(f"✅ X-ray Semi-Quant Scoring (baseline) loaded: {xray_sq00.shape}")
 
 if "V00XRKL" in xray_sq00.columns:
     xray_patients = set(xray_sq00["ID"].dropna())
-    print(f"\n📊 X-ray KL Grade Data Availability:")
+    print(f"\n X-ray KL Grade Data Availability:")
     print(f"  - Unique patients: {len(xray_patients)}")
     print(f"  - % of 4,796 total cohort: {len(xray_patients)/4796*100:.1f}%")
     missing_kl = xray_sq00["V00XRKL"].isna().sum()
@@ -280,7 +280,7 @@ if "ID" in biomarkers00.columns:
 
 # Create DataFrame
 summary_df = pd.DataFrame(summary_data)
-print("\n📊 Data Availability Summary:")
+print("\n Data Availability Summary:")
 print(summary_df.to_string(index=False))
 
 # Save to CSV

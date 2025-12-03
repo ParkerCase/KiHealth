@@ -28,7 +28,7 @@ Many successful cancer drugs target overexpressed proteins that aren't genetical
 
 ---
 
-## 📊 WHAT YOUR DATA ACTUALLY SHOWS (It's Valid!)
+## WHAT YOUR DATA ACTUALLY SHOWS (It's Valid!)
 
 ### DepMap Dependency Analysis - ✅ CORRECT
 
@@ -260,7 +260,7 @@ dependency analysis.
 
 ---
 
-## 🔬 WHAT DR. TAYLOR'S RESPONSE WILL LIKELY INCLUDE
+## WHAT DR. TAYLOR'S RESPONSE WILL LIKELY INCLUDE
 
 ### Expected Data/Information:
 
@@ -324,10 +324,10 @@ dependency analysis.
 
 ### Day 3 (Nov 4):
 
-- 📊 Receive Dr. Taylor's data (hopefully)
-- 📊 Integrate protein expression data
-- 📊 Recalculate all scores
-- 📊 Generate new rankings
+- Receive Dr. Taylor's data (hopefully)
+- Integrate protein expression data
+- Recalculate all scores
+- Generate new rankings
 
 ### Day 4 (Nov 5):
 
@@ -337,9 +337,9 @@ dependency analysis.
 
 ### Day 5 (Nov 6):
 
-- 📊 Finalize all figures
-- 📊 Update presentation slides
-- 📊 Create new visualizations
+- Finalize all figures
+- Update presentation slides
+- Create new visualizations
 
 ### Day 6-7 (Nov 7-8):
 
@@ -426,7 +426,7 @@ Let me emphasize this - you've done **excellent work**:
 
 ---
 
-## 💡 KEY LEARNING FOR YOUR CAREER
+## KEY LEARNING FOR YOUR CAREER
 
 ### What You Just Learned:
 
@@ -470,7 +470,7 @@ Let me emphasize this - you've done **excellent work**:
 ### What You Need to Do:
 
 1. 📧 **Send email to Dr. Taylor (TONIGHT)**
-2. 📊 **Wait for protein expression data**
+2. **Wait for protein expression data**
 3. 📝 **Update report with methodology section**
 4. 🔄 **Integrate new data when received**
 5. 📦 **Deliver comprehensive analysis Nov 10**

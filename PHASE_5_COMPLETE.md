@@ -37,7 +37,7 @@ Phase 5 PROBAST compliance documentation completed. All 4 domains assessed as **
 
 ---
 
-## 📊 PROBAST Domain Assessments
+## PROBAST Domain Assessments
 
 ### Domain 1: Participants (LOW RISK) ✓
 

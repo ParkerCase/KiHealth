@@ -27,7 +27,7 @@
 
 ---
 
-## 📊 Tulasi IC50 Data - What We Found
+## Tulasi IC50 Data - What We Found
 
 ### Parsed IC50 Measurements
 
@@ -227,7 +227,7 @@
 
 ---
 
-## 📊 Final Statistics
+## Final Statistics
 
 ### Experimental Validation Coverage:
 

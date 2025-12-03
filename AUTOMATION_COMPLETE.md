@@ -104,7 +104,7 @@ npm run all
 
 ---
 
-## 📊 API Key Requirements
+## API Key Requirements
 
 | Service    | API Key Required? | Notes                  |
 | ---------- | ----------------- | ---------------------- |

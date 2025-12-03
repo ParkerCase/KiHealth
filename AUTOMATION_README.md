@@ -156,7 +156,7 @@ node auto-recalculate.js
 
 ---
 
-## 📊 What Gets Monitored
+## What Gets Monitored
 
 ### PubMed Searches
 

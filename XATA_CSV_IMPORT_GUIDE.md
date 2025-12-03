@@ -1,4 +1,4 @@
-# 📥 Xata CSV Import Guide - Empty Tables
+# Xata CSV Import Guide - Empty Tables
 
 ## Quick Import Instructions
 

@@ -1,0 +1,42 @@
+PROBAST ASSESSMENT - DETAILED RESULTS
+================================================================================
+
+MODEL 1: SURGERY PREDICTION
+================================================================================
+
+Domain 1 (Participants): LOW RISK
+  Q1.1: LOW RISK
+  Q1.2: LOW RISK
+  Q1.3: LOW RISK
+
+Domain 2 (Predictors): LOW RISK
+  Q2.1: LOW RISK
+  Q2.2: LOW RISK
+  Q2.3: LOW RISK
+
+Domain 3 (Outcome): LOW RISK
+  Q3.1: LOW RISK
+  Q3.2: LOW RISK
+  Q3.3: LOW RISK
+
+Domain 4 (Analysis): LOW RISK
+  Q4.1 (Sample Size): LOW RISK
+  Q4.2 (Missing Data): LOW RISK
+  Q4.3 (Predictor Selection): LOW RISK
+  Q4.4 (Complexity): LOW RISK
+  Q4.5 (Overfitting): LOW RISK
+
+OVERALL: LOW RISK OF BIAS
+TOP 7% STATUS: YES
+
+================================================================================
+MODEL 2: OUTCOME PREDICTION
+================================================================================
+
+Domain 1 (Participants): LOW RISK
+Domain 2 (Predictors): LOW RISK
+Domain 3 (Outcome): LOW RISK
+Domain 4 (Analysis): LOW RISK
+
+OVERALL: LOW RISK OF BIAS
+TOP 7% STATUS: YES

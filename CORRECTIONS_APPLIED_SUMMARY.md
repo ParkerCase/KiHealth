@@ -62,7 +62,7 @@
 
 ---
 
-## 📊 **VERIFIED CLAIMS (All Correct)**
+## **VERIFIED CLAIMS (All Correct)**
 
 ✅ 1,186 DepMap cell lines
 ✅ 660 mutation–target combinations

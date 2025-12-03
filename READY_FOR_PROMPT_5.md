@@ -19,7 +19,7 @@ The two final pieces you added:
 
 ---
 
-## 📊 What Changed With New Data
+## What Changed With New Data
 
 ### Before Tulasi IC50 Addition:
 
@@ -46,7 +46,7 @@ The two final pieces you added:
 
 ---
 
-## 🔬 IC50 Data Key Findings
+## IC50 Data Key Findings
 
 ### Potency Comparison:
 

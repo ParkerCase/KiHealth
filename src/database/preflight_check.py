@@ -325,12 +325,12 @@ def generate_summary():
     passed = sum(checks.values())
     total = len(checks)
 
-    print(f"\n📊 Overall Status: {passed}/{total} checks passed")
+    print(f"\n Overall Status: {passed}/{total} checks passed")
 
     if passed == total:
         print(f"\n{Colors.OKGREEN}{Colors.BOLD}✅ ALL SYSTEMS GO!{Colors.ENDC}")
         print(f"{Colors.OKGREEN}You're ready to start analysis work.{Colors.ENDC}")
-        print("\n💡 Next Steps:")
+        print("\n Next Steps:")
         print("   1. Run: python migrate_v2.py --setup (if not done)")
         print("   2. Run: python migrate_v2.py --create")
         print("   3. Start notebooks/01_explore_depmap.ipynb")

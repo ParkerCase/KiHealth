@@ -6,7 +6,7 @@ The **optimal two-stage filtering system** has been fully implemented exactly as
 
 ---
 
-## 📊 Quick Summary
+## Quick Summary
 
 | Feature                          | Status                           |
 | -------------------------------- | -------------------------------- |

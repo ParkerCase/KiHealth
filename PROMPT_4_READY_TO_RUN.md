@@ -88,7 +88,7 @@ python3 src/analysis/prompt_4_integrated_scoring.py
 
 ---
 
-## 📊 What You'll Get
+## What You'll Get
 
 ### 1. Final Integrated Rankings (`data/processed/final_integrated_rankings.csv`)
 
@@ -186,7 +186,7 @@ LOW confidence: 40-45 cancer types (65-75%)
 
 ---
 
-## 🔬 Scoring Weights Used
+## Scoring Weights Used
 
 ```python
 overall_score = (

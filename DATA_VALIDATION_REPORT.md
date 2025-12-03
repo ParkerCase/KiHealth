@@ -18,7 +18,7 @@ Generated: 2025-10-30
 
 - None detected in processed files.
 
-## 📊 File Summaries
+## File Summaries
 
 ### 1) cancer_type_rankings.csv
 

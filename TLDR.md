@@ -54,7 +54,7 @@ python migrate_v2.py --validate
 - 🧙 Interactive wizard for first-time setup
 - ✅ Validates your DepMap files
 - 🔍 Checks target genes in actual data
-- 📊 Shows table structure and status
+- Shows table structure and status
 
 ### 2. `preflight_check.py` - Comprehensive Validation
 

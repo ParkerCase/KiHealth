@@ -31,7 +31,7 @@ OPENAI_API_KEY=your_openai_key
 
 ---
 
-## 📊 Cost Comparison
+## Cost Comparison
 
 ### For 100 papers/day:
 

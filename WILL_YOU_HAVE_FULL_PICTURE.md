@@ -34,7 +34,7 @@ Christian's Proteomics Provides:
 
 ---
 
-## 📊 WHAT YOU ALREADY HAVE (Pretty Complete!)
+## WHAT YOU ALREADY HAVE (Pretty Complete!)
 
 ### ✅ You've Received:
 
@@ -72,7 +72,7 @@ Christian's Proteomics Provides:
 
 ---
 
-## 🔬 WHAT CHRISTIAN'S DATA WILL SHOW YOU
+## WHAT CHRISTIAN'S DATA WILL SHOW YOU
 
 **Specific questions it answers:**
 
@@ -195,7 +195,7 @@ Follow-up: Update with proteomics in Phase 2
 
 ---
 
-## 💡 THE BOTTOM LINE
+## THE BOTTOM LINE
 
 ### Your Specific Question:
 
@@ -240,14 +240,14 @@ Follow-up: Update with proteomics in Phase 2
 
 ### Tomorrow:
 
-1. 🔬 **Start analyzing Hafsa's RNAseq DEGs**
-2. 🔬 **Analyze Erica's GBM43 phosphoproteomics**
-3. ⏳ **Monitor for Christian's data arrival**
+1.  **Start analyzing Hafsa's RNAseq DEGs**
+2.  **Analyze Erica's GBM43 phosphoproteomics**
+3.  ⏳ **Monitor for Christian's data arrival**
 
 ### When Christian's Data Arrives:
 
 1.  **Immediate analysis** (8 hours focused work)
-2.  📊 **Integrate with existing analysis**
+2.  **Integrate with existing analysis**
 3.  📈 **Recalculate rankings**
 4.  📝 **Update report**
 

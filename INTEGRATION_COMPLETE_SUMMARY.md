@@ -14,7 +14,7 @@
 
 ---
 
-## 📊 INTEGRATION RESULTS
+## INTEGRATION RESULTS
 
 ### Phase 1: Quick Wins (✅ COMPLETE - 15 minutes)
 
@@ -149,7 +149,7 @@
 
 ---
 
-## 🔬 NEW COMBINATION THERAPY INSIGHTS
+## NEW COMBINATION THERAPY INSIGHTS
 
 From CRISPR screens, compounds show synthetic lethality with:
 
@@ -245,7 +245,7 @@ From CRISPR screens, compounds show synthetic lethality with:
 
 ---
 
-## 📊 FINAL STATISTICS
+## FINAL STATISTICS
 
 **Data Coverage:**
 
@@ -286,7 +286,7 @@ From CRISPR screens, compounds show synthetic lethality with:
 
 ---
 
-## 💡 KEY MESSAGES FOR DR. TAYLOR
+## KEY MESSAGES FOR DR. TAYLOR
 
 1. **AML is now TOP 3** with extensive transcriptomic validation
 2. **17,500 DEGs** across 2 cell lines confirm mechanism

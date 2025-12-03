@@ -82,7 +82,7 @@ if len(output) == 97:
 else:
     print(f"⚠️  Count mismatch by {abs(len(output)-97)}")
 
-print("\n📊 Top 10 cell lines:")
+print("\n Top 10 cell lines:")
 print(df_out.head(10).to_string())
 PYTHON_END
 

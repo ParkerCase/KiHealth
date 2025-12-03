@@ -231,7 +231,7 @@
 
 ---
 
-## 📊 **SUMMARY SCORECARD**
+## **SUMMARY SCORECARD**
 
 | Category                | Status         | Issues                               |
 | ----------------------- | -------------- | ------------------------------------ |

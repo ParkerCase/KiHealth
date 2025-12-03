@@ -18,7 +18,7 @@ Tests the **"oncogene addiction" hypothesis**: Do cancers with high target gene 
 
 ---
 
-## 📊 Data Used
+## Data Used
 
 | Data File                                              | Size     | Purpose               |
 | ------------------------------------------------------ | -------- | --------------------- |
@@ -42,7 +42,7 @@ Tests the **"oncogene addiction" hypothesis**: Do cancers with high target gene 
 
 ---
 
-## 🔬 Analysis Steps
+## Analysis Steps
 
 ### 1. Global Correlation
 
@@ -133,7 +133,7 @@ jupyter nbconvert --to notebook --execute notebooks/05_expression_correlation.ip
 
 ---
 
-## 📊 Expected Results
+## Expected Results
 
 Based on previous synthetic lethality analysis:
 

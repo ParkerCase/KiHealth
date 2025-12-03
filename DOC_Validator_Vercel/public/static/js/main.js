@@ -259,7 +259,7 @@ function displayResults(data) {
 
     if (outcomeSection && outcomeBtnText) {
       outcomeSection.style.display = "block";
-      outcomeBtnText.textContent = `🔬 Analyze Expected Surgical Outcomes (${Math.round(
+      outcomeBtnText.textContent = `Analyze Expected Surgical Outcomes (${Math.round(
         moderateHighRisk
       )} patients)`;
 
@@ -548,7 +548,7 @@ function displayOutcomeResults(outcomes) {
 
   let html = `
     <div class="outcome-results-container">
-      <h3>📊 Surgical Outcome Analysis</h3>
+      <h3>Surgical Outcome Analysis</h3>
       
       <div class="metrics-grid">
         <div class="metric-card outcome-card">
@@ -622,7 +622,7 @@ function displayOutcomeResults(outcomes) {
       </div>
       
       <div class="clinical-interpretation">
-        <h4>💡 Clinical Interpretation</h4>
+        <h4> Clinical Interpretation</h4>
         <div class="interpretation-box">
           <p><strong>WOMAC Improvement Scale:</strong></p>
           <ul>
@@ -637,9 +637,9 @@ function displayOutcomeResults(outcomes) {
       </div>
       
       <div class="download-section">
-        <h4>💾 Download Outcome Predictions</h4>
+        <h4> Download Outcome Predictions</h4>
         <button class="btn-primary" onclick="downloadOutcomes()">
-          📥 Download CSV (Surgery Risk + Expected Outcomes)
+          Download CSV (Surgery Risk + Expected Outcomes)
         </button>
       </div>
     </div>

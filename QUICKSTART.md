@@ -130,18 +130,18 @@ print("Loading DepMap data...")
 
 # 1. Cell line metadata
 model_df = pd.read_csv('../data/raw/depmap/Model.csv')
-print(f"\n📊 Model Data: {model_df.shape}")
+print(f"\n Model Data: {model_df.shape}")
 print(f"Columns: {list(model_df.columns)}")
 print(f"\nCancer Types: {model_df['OncotreeLineage'].value_counts().head(10)}")
 
 # 2. Gene dependency (first 1000 rows to check structure)
 dep_df = pd.read_csv('../data/raw/depmap/CRISPRGeneEffect.csv', nrows=1000)
-print(f"\n📊 Dependency Data: {dep_df.shape}")
+print(f"\n Dependency Data: {dep_df.shape}")
 print(f"Sample columns: {list(dep_df.columns[:10])}")
 
 # 3. Expression data (first 1000 rows)
 expr_df = pd.read_csv('../data/raw/depmap/OmicsExpressionTPMLogp1HumanProteinCodingGenes.csv', nrows=1000)
-print(f"\n📊 Expression Data: {expr_df.shape}")
+print(f"\n Expression Data: {expr_df.shape}")
 
 # 4. Check for target genes
 target_genes = ['STK17A', 'MYLK4', 'TBK1', 'CLK4', 'XPO1', 'BTK']

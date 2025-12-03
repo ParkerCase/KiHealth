@@ -66,7 +66,7 @@ Phase 2 preprocessing completed with **100% PROBAST compliance**. All missing da
 
 ---
 
-## 📊 Key Results
+## Key Results
 
 | Metric                   | Value             | Status |
 | ------------------------ | ----------------- | ------ |

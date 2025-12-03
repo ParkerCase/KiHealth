@@ -50,7 +50,7 @@ Phase 3 model development completed with **bias mitigation strategies** applied.
 
 ---
 
-## 📊 Model Performance Summary
+## Model Performance Summary
 
 | Model                   | Train AUC | Test AUC  | Overfitting | Status        |
 | ----------------------- | --------- | --------- | ----------- | ------------- |

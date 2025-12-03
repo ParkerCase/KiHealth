@@ -102,7 +102,7 @@ vercel
 
 **Don't forget to add environment variables in Vercel!**
 
-## 📊 Dashboard Preview
+## Dashboard Preview
 
 The dashboard will show:
 

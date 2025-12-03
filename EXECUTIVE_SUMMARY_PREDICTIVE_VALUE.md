@@ -6,7 +6,7 @@
 
 ---
 
-## 🔬 Three Types of Predictions
+## Three Types of Predictions
 
 ### 1. **"Which patients will respond?"**
 
@@ -44,7 +44,7 @@ Dashboard Query → Prediction → Decision → Action → Clinical Outcome
 
 ---
 
-## 📊 Key Metrics
+## Key Metrics
 
 | Metric                                 | Industry Average | Our Model | Improvement      |
 | -------------------------------------- | ---------------- | --------- | ---------------- |
@@ -81,7 +81,7 @@ Dashboard Query → Prediction → Decision → Action → Clinical Outcome
 
 ---
 
-## 🔬 Why It's Predictive (Not Just Descriptive)
+## Why It's Predictive (Not Just Descriptive)
 
 ### **Descriptive** (What happened):
 
@@ -96,7 +96,7 @@ Dashboard Query → Prediction → Decision → Action → Clinical Outcome
 
 ---
 
-## 💡 Competitive Advantage
+## Competitive Advantage
 
 ### **Traditional Approach:**
 

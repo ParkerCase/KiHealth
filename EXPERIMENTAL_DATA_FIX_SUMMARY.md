@@ -51,7 +51,7 @@ You were absolutely right. Here's what we did:
 
 ---
 
-## 📊 Final Results
+## Final Results
 
 ### Experimental Evidence Summary
 
@@ -175,7 +175,7 @@ You can now:
 
 ---
 
-## 📊 Summary Statistics
+## Summary Statistics
 
 ### Data Quality
 

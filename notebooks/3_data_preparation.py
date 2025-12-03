@@ -143,7 +143,7 @@ events_2yr = outcomes_clean["knee_replacement_2yr"].sum()
 events_4yr = outcomes_clean["knee_replacement_4yr"].sum()
 total_patients = len(outcomes_clean)
 
-print(f"\n📊 Outcome Event Rates:")
+print(f"\n Outcome Event Rates:")
 print(
     f"  Knee replacement within 2 years: {events_2yr} ({events_2yr/total_patients*100:.2f}%)"
 )
@@ -320,13 +320,13 @@ EPV_2yr = events_2yr / n_predictors if n_predictors > 0 else 0
 events_4yr = baseline_data["knee_replacement_4yr"].sum()
 EPV_4yr = events_4yr / n_predictors if n_predictors > 0 else 0
 
-print(f"\n📊 EPV Calculation (2-year outcome):")
+print(f"\n EPV Calculation (2-year outcome):")
 print(f"  Events: {events_2yr}")
 print(f"  Predictors: {n_predictors}")
 print(f"  EPV Ratio: {EPV_2yr:.2f}")
 print(f"  Status: {'✅ PASS' if EPV_2yr >= 15 else '❌ FAIL'} (need ≥15)")
 
-print(f"\n📊 EPV Calculation (4-year outcome):")
+print(f"\n EPV Calculation (4-year outcome):")
 print(f"  Events: {events_4yr}")
 print(f"  Predictors: {n_predictors}")
 print(f"  EPV Ratio: {EPV_4yr:.2f}")
@@ -374,12 +374,12 @@ for col in predictor_cols:
 
 missing_df = pd.DataFrame(missing_data).sort_values("missing_pct", ascending=False)
 
-print("\n📊 Missing Data Summary:")
+print("\n Missing Data Summary:")
 print(f"  Variables with >20% missing: {(missing_df['missing_pct'] > 20).sum()}")
 print(f"  Variables with >10% missing: {(missing_df['missing_pct'] > 10).sum()}")
 print(f"  Variables with >5% missing: {(missing_df['missing_pct'] > 5).sum()}")
 
-print("\n📊 Top 10 Variables by Missing Data:")
+print("\n Top 10 Variables by Missing Data:")
 print(missing_df.head(10).to_string(index=False))
 
 # Create missingness heatmap
@@ -425,7 +425,7 @@ if age_col:
     age_max = baseline_data[age_col].max()
     age_issues = (baseline_data[age_col] < 45) | (baseline_data[age_col] > 85)
     n_age_issues = age_issues.sum()
-    print(f"\n📊 Age Check:")
+    print(f"\n Age Check:")
     print(f"  Range: {age_min:.0f} - {age_max:.0f}")
     print(f"  Values outside 45-85: {n_age_issues}")
     if n_age_issues > 0:
@@ -443,7 +443,7 @@ if bmi_col:
     bmi_max = baseline_data[bmi_col].max()
     bmi_issues = (baseline_data[bmi_col] < 15) | (baseline_data[bmi_col] > 60)
     n_bmi_issues = bmi_issues.sum()
-    print(f"\n📊 BMI Check:")
+    print(f"\n BMI Check:")
     print(f"  Range: {bmi_min:.1f} - {bmi_max:.1f}")
     print(f"  Values outside 15-60: {n_bmi_issues}")
     if n_bmi_issues > 0:
@@ -455,7 +455,7 @@ womac_checks = {
     "V00WOMTSL": (0, 100, "WOMAC Total Left"),
 }
 
-print(f"\n📊 WOMAC Score Checks:")
+print(f"\n WOMAC Score Checks:")
 for var, (min_val, max_val, name) in womac_checks.items():
     if var in baseline_data.columns:
         actual_min = baseline_data[var].min()
@@ -472,7 +472,7 @@ for var, (min_val, max_val, name) in womac_checks.items():
 
 # Check KL grades (should be 0-4) - convert to numeric first
 kl_checks = {"V00XRKLR": "KL Grade Right", "V00XRKLL": "KL Grade Left"}
-print(f"\n📊 KL Grade Checks:")
+print(f"\n KL Grade Checks:")
 for var, name in kl_checks.items():
     if var in baseline_data.columns:
         # Convert to numeric, handling any string values
@@ -490,7 +490,7 @@ for var, name in kl_checks.items():
         baseline_data[var] = kl_numeric
 
 # Summary
-print(f"\n📊 Quality Issues Summary:")
+print(f"\n Quality Issues Summary:")
 if len(quality_issues) == 0:
     print("  ✅ No quality issues detected")
 else:

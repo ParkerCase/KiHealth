@@ -116,7 +116,7 @@
 
 ---
 
-## 📊 WHAT DATA IS IN XATA (Current)
+## WHAT DATA IS IN XATA (Current)
 
 ### Table 1: `cancer_rankings` (77 rows)
 

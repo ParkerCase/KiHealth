@@ -212,7 +212,7 @@ Then we could:
 
 ---
 
-## 📊 Final Data Inventory
+## Final Data Inventory
 
 ### Processed Files Created:
 

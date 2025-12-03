@@ -44,7 +44,7 @@ Web-based risk calculator successfully created for 4-year knee replacement predi
 
 ---
 
-## 📊 Test Results
+## Test Results
 
 ### Test Case 1: High Risk Patient
 

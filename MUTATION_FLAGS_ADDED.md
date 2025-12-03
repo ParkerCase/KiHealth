@@ -5,7 +5,7 @@
 
 ---
 
-## 📊 What Was Added
+## What Was Added
 
 Added **21 mutation flags** to the `cancer_rankings` table to enable complex queries like:
 

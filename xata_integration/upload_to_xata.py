@@ -26,7 +26,7 @@ print()
 # =============================================================================
 # Upload Cancer Rankings
 # =============================================================================
-print("📊 Uploading cancer rankings...")
+print(" Uploading cancer rankings...")
 
 with open(OUTPUT_DIR / "cancer_rankings.json") as f:
     cancer_rankings = json.load(f)
