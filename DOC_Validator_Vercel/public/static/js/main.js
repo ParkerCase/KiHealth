@@ -165,28 +165,41 @@ function displayResults(data) {
   if (data.validation_metrics) {
     html += '<div class="validation-metrics">';
     html += "<h3>Validation Metrics</h3>";
-    html += `<div class="metric-row">
-            <span class="metric-label">AUC (Discrimination):</span>
-            <span class="metric-value">${data.validation_metrics.auc.toFixed(
-              3
-            )}</span>
-        </div>`;
-    html += `<div class="metric-row">
-            <span class="metric-label">Brier Score (Calibration):</span>
-            <span class="metric-value">${data.validation_metrics.brier_score.toFixed(
-              4
-            )}</span>
-        </div>`;
-    html += `<div class="metric-row">
-            <span class="metric-label">Event Rate:</span>
-            <span class="metric-value">${data.validation_metrics.event_rate.toFixed(
-              1
-            )}%</span>
-        </div>`;
-    html += `<div class="metric-row">
-            <span class="metric-label">Number of Events:</span>
-            <span class="metric-value">${data.validation_metrics.n_events}</span>
-        </div>`;
+
+    if (data.validation_metrics.auc != null) {
+      html += `<div class="metric-row">
+              <span class="metric-label">AUC (Discrimination):</span>
+              <span class="metric-value">${data.validation_metrics.auc.toFixed(
+                3
+              )}</span>
+          </div>`;
+    }
+
+    if (data.validation_metrics.brier_score != null) {
+      html += `<div class="metric-row">
+              <span class="metric-label">Brier Score (Calibration):</span>
+              <span class="metric-value">${data.validation_metrics.brier_score.toFixed(
+                4
+              )}</span>
+          </div>`;
+    }
+
+    if (data.validation_metrics.event_rate != null) {
+      html += `<div class="metric-row">
+              <span class="metric-label">Event Rate:</span>
+              <span class="metric-value">${data.validation_metrics.event_rate.toFixed(
+                1
+              )}%</span>
+          </div>`;
+    }
+
+    if (data.validation_metrics.n_events != null) {
+      html += `<div class="metric-row">
+              <span class="metric-label">Number of Events:</span>
+              <span class="metric-value">${data.validation_metrics.n_events}</span>
+          </div>`;
+    }
+
     html += "</div>";
 
     // ROC Curve
