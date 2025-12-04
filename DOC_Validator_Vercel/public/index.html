@@ -23,8 +23,156 @@
         deleted immediately after processing.
       </div>
 
-      <div class="main-content">
-        <div class="upload-section">
+      <!-- Entry Options Tabs -->
+      <div class="entry-options">
+          <h2>Choose Data Entry Method</h2>
+          <div class="option-tabs">
+            <button class="option-tab active" onclick="showManualEntry()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              Manual Entry
+            </button>
+            <button class="option-tab" onclick="showCsvUpload()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              CSV Upload
+            </button>
+          </div>
+        </div>
+
+        <!-- Manual Entry Section -->
+        <div id="manualEntrySection" class="entry-section">
+          <h3>Enter Patient Data</h3>
+          <p>Add patients one at a time. All fields are required.</p>
+          
+          <form id="patientForm" class="patient-form">
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="patientId">Patient ID (Optional):</label>
+                <input type="text" id="patientId" placeholder="e.g., P001">
+              </div>
+              
+              <div class="form-field">
+                <label for="age">Age (45-79):</label>
+                <input type="number" id="age" min="45" max="79" required>
+              </div>
+              
+              <div class="form-field">
+                <label for="sex">Sex:</label>
+                <select id="sex" required>
+                  <option value="">Select...</option>
+                  <option value="1">Male</option>
+                  <option value="0">Female</option>
+                </select>
+              </div>
+              
+              <div class="form-field">
+                <label for="bmi">BMI (15-50):</label>
+                <input type="number" id="bmi" min="15" max="50" step="0.1" required>
+              </div>
+              
+              <div class="form-field">
+                <label for="womac_r">Right Knee WOMAC (0-96):</label>
+                <input type="number" id="womac_r" min="0" max="96" step="0.1" required>
+              </div>
+              
+              <div class="form-field">
+                <label for="womac_l">Left Knee WOMAC (0-96):</label>
+                <input type="number" id="womac_l" min="0" max="96" step="0.1" required>
+              </div>
+              
+              <div class="form-field">
+                <label for="kl_r">Right Knee KL Grade (0-4):</label>
+                <select id="kl_r" required>
+                  <option value="">Select...</option>
+                  <option value="0">0 - No OA</option>
+                  <option value="1">1 - Doubtful</option>
+                  <option value="2">2 - Mild</option>
+                  <option value="3">3 - Moderate</option>
+                  <option value="4">4 - Severe</option>
+                </select>
+              </div>
+              
+              <div class="form-field">
+                <label for="kl_l">Left Knee KL Grade (0-4):</label>
+                <select id="kl_l" required>
+                  <option value="">Select...</option>
+                  <option value="0">0 - No OA</option>
+                  <option value="1">1 - Doubtful</option>
+                  <option value="2">2 - Mild</option>
+                  <option value="3">3 - Moderate</option>
+                  <option value="4">4 - Severe</option>
+                </select>
+              </div>
+              
+              <div class="form-field">
+                <label for="fam_hx">Family History:</label>
+                <select id="fam_hx" required>
+                  <option value="">Select...</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
+              
+              <div class="form-field">
+                <label for="tkr_outcome">TKR Outcome (Optional):</label>
+                <select id="tkr_outcome">
+                  <option value="">Not specified</option>
+                  <option value="1">Yes - Had TKR</option>
+                  <option value="0">No - No TKR</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add Patient
+              </button>
+              <button type="button" class="btn-secondary" onclick="clearForm()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Clear Form
+              </button>
+            </div>
+          </form>
+          
+          <div id="patientList" style="display: none;">
+            <h3>Patients Added (<span id="patientCount">0</span>)</h3>
+            <div class="patient-cards" id="patientCards"></div>
+            
+            <div class="batch-actions">
+              <button class="btn-primary" onclick="analyzeBatch()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Analyze All Patients
+              </button>
+              <button class="btn-secondary" onclick="clearAllPatients()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Clear All
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSV Upload Section -->
+        <div id="csvUploadSection" class="entry-section" style="display: none;">
+          <div class="upload-section">
           <h2>Upload Patient Data</h2>
           <p>
             Upload a CSV file with patient information.
@@ -72,6 +220,7 @@
           >
             Analyze Data
           </button>
+          </div>
         </div>
 
         <div class="requirements">

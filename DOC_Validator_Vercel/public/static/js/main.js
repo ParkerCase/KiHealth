@@ -731,3 +731,225 @@ function downloadOutcomes() {
   window.URL.revokeObjectURL(url);
   document.body.removeChild(a);
 }
+
+// ============================================================================
+// Manual Entry Functions
+// ============================================================================
+
+// Patient batch storage
+let patientBatch = [];
+
+function showManualEntry() {
+  document.getElementById("manualEntrySection").style.display = "block";
+  document.getElementById("csvUploadSection").style.display = "none";
+  document
+    .querySelectorAll(".option-tab")
+    .forEach((tab) => tab.classList.remove("active"));
+  event.target.classList.add("active");
+}
+
+function showCsvUpload() {
+  document.getElementById("manualEntrySection").style.display = "none";
+  document.getElementById("csvUploadSection").style.display = "block";
+  document
+    .querySelectorAll(".option-tab")
+    .forEach((tab) => tab.classList.remove("active"));
+  event.target.classList.add("active");
+}
+
+// Form submission handler
+document.getElementById("patientForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const patient = {
+    age: parseFloat(document.getElementById("age").value),
+    sex: parseInt(document.getElementById("sex").value),
+    bmi: parseFloat(document.getElementById("bmi").value),
+    womac_r: parseFloat(document.getElementById("womac_r").value),
+    womac_l: parseFloat(document.getElementById("womac_l").value),
+    kl_r: parseInt(document.getElementById("kl_r").value),
+    kl_l: parseInt(document.getElementById("kl_l").value),
+    fam_hx: parseInt(document.getElementById("fam_hx").value),
+  };
+
+  // Add patient_id if provided (for display purposes only, not sent to API)
+  const patientId = document.getElementById("patientId").value.trim();
+  if (patientId) {
+    patient._patient_id = patientId; // Internal tracking only
+  }
+
+  // Add optional outcome if provided
+  const outcome = document.getElementById("tkr_outcome").value;
+  if (outcome !== "") {
+    patient.tkr_outcome = parseInt(outcome);
+  }
+
+  // Check for duplicate patient ID
+  if (patientId && patientBatch.find((p) => p._patient_id === patientId)) {
+    alert("Patient ID already exists. Please use a unique ID.");
+    return;
+  }
+
+  // Add to batch
+  patientBatch.push(patient);
+
+  // Update display
+  updatePatientList();
+
+  // Clear form
+  clearForm();
+
+  // Show success message
+  const displayId = patientId || `Patient ${patientBatch.length}`;
+  showNotification(`${displayId} added`);
+});
+
+function updatePatientList() {
+  const listDiv = document.getElementById("patientList");
+  const cardsDiv = document.getElementById("patientCards");
+  const countSpan = document.getElementById("patientCount");
+
+  if (patientBatch.length === 0) {
+    listDiv.style.display = "none";
+    return;
+  }
+
+  listDiv.style.display = "block";
+  countSpan.textContent = patientBatch.length;
+
+  cardsDiv.innerHTML = patientBatch
+    .map((p, index) => {
+      const displayId = p._patient_id || `Patient ${index + 1}`;
+      return `
+        <div class="patient-card">
+            <div class="patient-card-header">
+                <strong>${displayId}</strong>
+                <button class="btn-remove" onclick="removePatient(${index})" title="Remove patient">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+            </div>
+            <div class="patient-card-body">
+                Age: ${p.age}, Sex: ${
+        p.sex === 1 ? "M" : "F"
+      }, BMI: ${p.bmi.toFixed(1)}
+                <br>
+                WOMAC: R=${p.womac_r.toFixed(1)}, L=${p.womac_l.toFixed(1)}
+                <br>
+                KL Grade: R=${p.kl_r}, L=${p.kl_l}
+            </div>
+        </div>
+    `;
+    })
+    .join("");
+}
+
+function removePatient(index) {
+  const patient = patientBatch[index];
+  const displayId = patient._patient_id || `Patient ${index + 1}`;
+  if (confirm(`Remove ${displayId}?`)) {
+    patientBatch.splice(index, 1);
+    updatePatientList();
+    showNotification(`${displayId} removed`);
+  }
+}
+
+function clearForm() {
+  document.getElementById("patientForm").reset();
+  document.getElementById("age").focus();
+}
+
+function clearAllPatients() {
+  if (patientBatch.length === 0) return;
+
+  if (confirm(`Clear all ${patientBatch.length} patients?`)) {
+    patientBatch = [];
+    updatePatientList();
+    showNotification("All patients cleared");
+  }
+}
+
+async function analyzeBatch() {
+  if (patientBatch.length === 0) {
+    alert("Please add at least one patient first.");
+    return;
+  }
+
+  document.getElementById("loading").style.display = "flex";
+
+  try {
+    // Convert batch to CSV - exclude internal _patient_id field
+    const csvHeaders = [
+      "age",
+      "sex",
+      "bmi",
+      "womac_r",
+      "womac_l",
+      "kl_r",
+      "kl_l",
+      "fam_hx",
+    ];
+
+    // Add tkr_outcome if any patient has it
+    const hasOutcome = patientBatch.some((p) => p.tkr_outcome !== undefined);
+    if (hasOutcome) {
+      csvHeaders.push("tkr_outcome");
+    }
+
+    const csv = [
+      csvHeaders.join(","),
+      ...patientBatch.map((p) => csvHeaders.map((h) => p[h] ?? "").join(",")),
+    ].join("\n");
+
+    // Create blob and send like CSV upload
+    const blob = new Blob([csv], { type: "text/csv" });
+    const formData = new FormData();
+    formData.append("file", blob, "manual_entry.csv");
+
+    const response = await fetch("/api/validate", {
+      method: "POST",
+      body: formData,
+    });
+
+    const responseText = await response.text();
+    let data;
+
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      throw new Error(
+        `Server error: ${response.status} ${responseText.substring(0, 100)}`
+      );
+    }
+
+    document.getElementById("loading").style.display = "none";
+
+    if (data.error) {
+      alert("Error: " + data.error);
+      return;
+    }
+
+    displayResults(data);
+  } catch (error) {
+    document.getElementById("loading").style.display = "none";
+    alert("Error analyzing patients: " + error.message);
+  }
+}
+
+function showNotification(message) {
+  const notification = document.createElement("div");
+  notification.className = "notification";
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.classList.add("show");
+  }, 100);
+
+  setTimeout(() => {
+    notification.classList.remove("show");
+    setTimeout(() => notification.remove(), 300);
+  }, 2000);
+}
