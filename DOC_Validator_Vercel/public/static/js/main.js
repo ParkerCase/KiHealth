@@ -770,20 +770,163 @@ function showCsvUpload() {
   event.target.classList.add("active");
 }
 
+// VAS to WOMAC conversion function
+// Based on literature: Salaffi et al. 2003, Tubach et al. 2005
+// Formula: WOMAC = (VAS × 8) + 15
+function vasToWomac(vasScore, scale = "0-10") {
+  if (scale === "0-100") {
+    vasScore = vasScore / 10;
+  }
+  // Linear approximation: WOMAC ≈ 8×VAS + 15
+  let womacApprox = vasScore * 8 + 15;
+  // Clip to valid range (0-96)
+  womacApprox = Math.max(0, Math.min(96, womacApprox));
+  return womacApprox;
+}
+
+// Toggle between WOMAC and VAS input fields
+function togglePainScoreType() {
+  const painScoreType = document.querySelector(
+    'input[name="painScoreType"]:checked'
+  ).value;
+  const womacRField = document.getElementById("womac_r_field");
+  const womacLField = document.getElementById("womac_l_field");
+  const vasRField = document.getElementById("vas_r_field");
+  const vasLField = document.getElementById("vas_l_field");
+  const vasInfo = document.getElementById("vasInfo");
+
+  if (painScoreType === "vas") {
+    // Show VAS fields, hide WOMAC fields
+    womacRField.style.display = "none";
+    womacLField.style.display = "none";
+    vasRField.style.display = "block";
+    vasLField.style.display = "block";
+    vasInfo.style.display = "block";
+
+    // Make VAS required, WOMAC not required
+    document.getElementById("vas_r").required = true;
+    document.getElementById("vas_l").required = true;
+    document.getElementById("womac_r").required = false;
+    document.getElementById("womac_l").required = false;
+
+    // Clear WOMAC fields
+    document.getElementById("womac_r").value = "";
+    document.getElementById("womac_l").value = "";
+  } else {
+    // Show WOMAC fields, hide VAS fields
+    womacRField.style.display = "block";
+    womacLField.style.display = "block";
+    vasRField.style.display = "none";
+    vasLField.style.display = "none";
+    vasInfo.style.display = "none";
+
+    // Make WOMAC required, VAS not required
+    document.getElementById("womac_r").required = true;
+    document.getElementById("womac_l").required = true;
+    document.getElementById("vas_r").required = false;
+    document.getElementById("vas_l").required = false;
+
+    // Clear VAS fields
+    document.getElementById("vas_r").value = "";
+    document.getElementById("vas_l").value = "";
+    document.getElementById("vas_r_womac").textContent = "--";
+    document.getElementById("vas_l_womac").textContent = "--";
+  }
+}
+
+// Real-time VAS to WOMAC conversion display
+document.getElementById("vas_r")?.addEventListener("input", function () {
+  const vasValue = parseFloat(this.value);
+  if (!isNaN(vasValue) && vasValue >= 0 && vasValue <= 10) {
+    const womacEstimate = vasToWomac(vasValue);
+    document.getElementById("vas_r_womac").textContent =
+      womacEstimate.toFixed(1);
+  } else {
+    document.getElementById("vas_r_womac").textContent = "--";
+  }
+});
+
+document.getElementById("vas_l")?.addEventListener("input", function () {
+  const vasValue = parseFloat(this.value);
+  if (!isNaN(vasValue) && vasValue >= 0 && vasValue <= 10) {
+    const womacEstimate = vasToWomac(vasValue);
+    document.getElementById("vas_l_womac").textContent =
+      womacEstimate.toFixed(1);
+  } else {
+    document.getElementById("vas_l_womac").textContent = "--";
+  }
+});
+
 // Form submission handler
 document.getElementById("patientForm").addEventListener("submit", function (e) {
   e.preventDefault();
+
+  // Determine which pain score type is selected
+  const painScoreType = document.querySelector(
+    'input[name="painScoreType"]:checked'
+  ).value;
+  let womac_r, womac_l;
+  let vasUsed = false;
+
+  if (painScoreType === "vas") {
+    // Convert VAS to WOMAC
+    const vas_r = parseFloat(document.getElementById("vas_r").value);
+    const vas_l = parseFloat(document.getElementById("vas_l").value);
+
+    if (
+      isNaN(vas_r) ||
+      isNaN(vas_l) ||
+      vas_r < 0 ||
+      vas_r > 10 ||
+      vas_l < 0 ||
+      vas_l > 10
+    ) {
+      alert("Please enter valid VAS scores (0-10) for both knees.");
+      return;
+    }
+
+    womac_r = vasToWomac(vas_r);
+    womac_l = vasToWomac(vas_l);
+    vasUsed = true;
+  } else {
+    // Use WOMAC directly
+    womac_r = parseFloat(document.getElementById("womac_r").value);
+    womac_l = parseFloat(document.getElementById("womac_l").value);
+
+    if (
+      isNaN(womac_r) ||
+      isNaN(womac_l) ||
+      womac_r < 0 ||
+      womac_r > 96 ||
+      womac_l < 0 ||
+      womac_l > 96
+    ) {
+      alert("Please enter valid WOMAC scores (0-96) for both knees.");
+      return;
+    }
+  }
+
+  // Family history is optional - default to 0 (No) if not specified
+  const famHxValue = document.getElementById("fam_hx").value;
+  const fam_hx = famHxValue !== "" ? parseInt(famHxValue) : 0;
 
   const patient = {
     age: parseFloat(document.getElementById("age").value),
     sex: parseInt(document.getElementById("sex").value),
     bmi: parseFloat(document.getElementById("bmi").value),
-    womac_r: parseFloat(document.getElementById("womac_r").value),
-    womac_l: parseFloat(document.getElementById("womac_l").value),
+    womac_r: womac_r,
+    womac_l: womac_l,
     kl_r: parseInt(document.getElementById("kl_r").value),
     kl_l: parseInt(document.getElementById("kl_l").value),
-    fam_hx: parseInt(document.getElementById("fam_hx").value),
+    fam_hx: fam_hx,
   };
+
+  // Store VAS info for display if VAS was used
+  if (vasUsed) {
+    patient._vas_used = true;
+    patient._vas_r = parseFloat(document.getElementById("vas_r").value);
+    patient._vas_l = parseFloat(document.getElementById("vas_l").value);
+  }
 
   // Add patient_id if provided (for display purposes only, not sent to API)
   const patientId = document.getElementById("patientId").value.trim();
@@ -833,6 +976,11 @@ function updatePatientList() {
   cardsDiv.innerHTML = patientBatch
     .map((p, index) => {
       const displayId = p._patient_id || `Patient ${index + 1}`;
+      const vasNote = p._vas_used
+        ? `<br><small style="color: #666;">WOMAC estimated from VAS (R: ${p._vas_r.toFixed(
+            1
+          )}, L: ${p._vas_l.toFixed(1)})</small>`
+        : "";
       return `
         <div class="patient-card">
             <div class="patient-card-header">
@@ -849,7 +997,9 @@ function updatePatientList() {
         p.sex === 1 ? "M" : "F"
       }, BMI: ${p.bmi.toFixed(1)}
                 <br>
-                WOMAC: R=${p.womac_r.toFixed(1)}, L=${p.womac_l.toFixed(1)}
+                WOMAC: R=${p.womac_r.toFixed(1)}, L=${p.womac_l.toFixed(
+        1
+      )}${vasNote}
                 <br>
                 KL Grade: R=${p.kl_r}, L=${p.kl_l}
             </div>
@@ -870,8 +1020,41 @@ function removePatient(index) {
 }
 
 function clearForm() {
+  // Reset pain score type to WOMAC
+  document.querySelector(
+    'input[name="painScoreType"][value="womac"]'
+  ).checked = true;
+  togglePainScoreType();
   document.getElementById("patientForm").reset();
+  // Reset pain score type after form reset (since reset clears radio buttons)
+  document.querySelector(
+    'input[name="painScoreType"][value="womac"]'
+  ).checked = true;
+  togglePainScoreType();
   document.getElementById("age").focus();
+}
+
+// Initialize form on page load - ensure WOMAC is selected and required
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", function () {
+    // Ensure WOMAC is selected by default
+    const womacRadio = document.querySelector(
+      'input[name="painScoreType"][value="womac"]'
+    );
+    if (womacRadio) {
+      womacRadio.checked = true;
+      togglePainScoreType();
+    }
+  });
+} else {
+  // DOM already loaded
+  const womacRadio = document.querySelector(
+    'input[name="painScoreType"][value="womac"]'
+  );
+  if (womacRadio) {
+    womacRadio.checked = true;
+    togglePainScoreType();
+  }
 }
 
 function clearAllPatients() {

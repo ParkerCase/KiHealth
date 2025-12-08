@@ -7,22 +7,76 @@ import pandas as pd
 import numpy as np
 
 
+def vas_to_womac(vas_score, scale="0-10"):
+    """
+    Convert VAS pain score to approximate WOMAC total score
+    Based on literature (Tubach 2005, Salaffi 2003)
+
+    Args:
+        vas_score: VAS pain rating
+        scale: '0-10' or '0-100'
+
+    Returns:
+        Estimated WOMAC total score (0-96)
+    """
+    if scale == "0-100":
+        vas_score = vas_score / 10
+
+    # Linear approximation: WOMAC ≈ 8×VAS + 15
+    womac_approx = (vas_score * 8) + 15
+
+    # Clip to valid range
+    womac_approx = np.clip(womac_approx, 0, 96)
+
+    return womac_approx
+
+
 def validate_data(df):
     """Validate input data format and ranges"""
-    required = ["age", "sex", "bmi", "womac_r", "womac_l", "kl_r", "kl_l", "fam_hx"]
+    # Check if we have WOMAC or VAS
+    has_womac_r = "womac_r" in df.columns
+    has_womac_l = "womac_l" in df.columns
+    has_vas_r = "vas_r" in df.columns
+    has_vas_l = "vas_l" in df.columns
 
+    # Must have either WOMAC or VAS for both knees
+    if not (has_womac_r or has_vas_r):
+        return False, "Must provide either 'womac_r' or 'vas_r' (Right knee)"
+    if not (has_womac_l or has_vas_l):
+        return False, "Must provide either 'womac_l' or 'vas_l' (Left knee)"
+
+    # Cannot have both WOMAC and VAS for same knee
+    if has_womac_r and has_vas_r:
+        return False, "Cannot provide both 'womac_r' and 'vas_r' - use one or the other"
+    if has_womac_l and has_vas_l:
+        return False, "Cannot provide both 'womac_l' and 'vas_l' - use one or the other"
+
+    required = ["age", "sex", "bmi", "kl_r", "kl_l"]
     missing = [c for c in required if c not in df.columns]
     if missing:
         return False, f"Missing columns: {', '.join(missing)}"
+
+    # Family history is optional - will default to 0 (No) if missing
 
     if not df["age"].between(45, 79).all():
         return False, "Age must be 45-79"
     if not df["bmi"].between(15, 50).all():
         return False, "BMI must be 15-50"
-    if not df["womac_r"].between(0, 96).all():
+
+    # Validate WOMAC if provided (optional if VAS is provided)
+    if has_womac_r and not df["womac_r"].between(0, 96).all():
         return False, "Right WOMAC must be 0-96"
-    if not df["womac_l"].between(0, 96).all():
+    if has_womac_l and not df["womac_l"].between(0, 96).all():
         return False, "Left WOMAC must be 0-96"
+
+    # Note: WOMAC is optional if VAS is provided - validation already ensures one or the other
+
+    # Validate VAS if provided
+    if has_vas_r and not df["vas_r"].between(0, 10).all():
+        return False, "Right VAS must be 0-10"
+    if has_vas_l and not df["vas_l"].between(0, 10).all():
+        return False, "Left VAS must be 0-10"
+
     if not df["kl_r"].isin([0, 1, 2, 3, 4]).all():
         return False, "Right KL grade must be 0-4"
     if not df["kl_l"].isin([0, 1, 2, 3, 4]).all():
@@ -34,10 +88,28 @@ def validate_data(df):
 def preprocess_data(df, imputer, scaler, feature_names):
     """Preprocess patient data exactly as done in training"""
     # Extract features - map input columns to model columns
-    # Input: age, sex, bmi, womac_r, womac_l, kl_r, kl_l, fam_hx
+    # Input: age, sex, bmi, womac_r, womac_l (or vas_r, vas_l), kl_r, kl_l, fam_hx
     # Model expects: V00AGE, P02SEX, P01BMI, V00WOMTSR, V00WOMTSL, V00XRKLR, V00XRKLL, P01FAMKR
 
-    X = df[["age", "sex", "bmi", "womac_r", "womac_l", "kl_r", "kl_l", "fam_hx"]].copy()
+    # Create a copy for processing
+    # Family history is optional - default to 0 (No) if missing
+    X = df[["age", "sex", "bmi", "kl_r", "kl_l"]].copy()
+    if "fam_hx" in df.columns:
+        X["fam_hx"] = df["fam_hx"].fillna(0).astype(int)
+    else:
+        X["fam_hx"] = 0  # Default to No if not provided
+
+    # Handle WOMAC/VAS conversion
+    # Convert VAS to WOMAC if VAS is provided
+    if "vas_r" in df.columns:
+        X["womac_r"] = df["vas_r"].apply(lambda x: vas_to_womac(x, scale="0-10"))
+    else:
+        X["womac_r"] = df["womac_r"]
+
+    if "vas_l" in df.columns:
+        X["womac_l"] = df["vas_l"].apply(lambda x: vas_to_womac(x, scale="0-10"))
+    else:
+        X["womac_l"] = df["womac_l"]
 
     # Rename to match model expectations
     X.rename(
@@ -106,19 +178,25 @@ def preprocess_data(df, imputer, scaler, feature_names):
 
     # Scale - ensure columns are in the same order as scaler was trained
     # Get the feature names that the scaler expects (from training)
-    scaler_feature_names = scaler.feature_names_in_ if hasattr(scaler, 'feature_names_in_') else numeric_vars
-    
+    scaler_feature_names = (
+        scaler.feature_names_in_
+        if hasattr(scaler, "feature_names_in_")
+        else numeric_vars
+    )
+
     # Reorder X_numeric to match scaler's expected order
-    X_numeric_ordered = X_numeric[[col for col in scaler_feature_names if col in X_numeric.columns]]
-    
+    X_numeric_ordered = X_numeric[
+        [col for col in scaler_feature_names if col in X_numeric.columns]
+    ]
+
     # Add any missing columns (shouldn't happen, but just in case)
     for col in scaler_feature_names:
         if col not in X_numeric_ordered.columns:
             X_numeric_ordered[col] = 0
-    
+
     # Ensure exact order
     X_numeric_ordered = X_numeric_ordered[scaler_feature_names]
-    
+
     # Scale
     X_scaled = scaler.transform(X_numeric_ordered)
     X_scaled = pd.DataFrame(X_scaled, columns=scaler_feature_names, index=X.index)

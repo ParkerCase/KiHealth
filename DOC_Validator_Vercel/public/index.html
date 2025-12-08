@@ -76,14 +76,52 @@
                 <input type="number" id="bmi" min="15" max="50" step="0.1" required>
               </div>
               
-              <div class="form-field">
+              <!-- Pain Score Type Selection -->
+              <div class="form-field" style="grid-column: 1 / -1;">
+                <label>Pain Score Type:</label>
+                <div style="display: flex; gap: 20px; margin-top: 8px;">
+                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="radio" name="painScoreType" value="womac" checked onchange="togglePainScoreType()">
+                    <span>WOMAC (0-96)</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="radio" name="painScoreType" value="vas" onchange="togglePainScoreType()">
+                    <span>VAS (0-10) - Auto-converts to WOMAC</span>
+                  </label>
+                </div>
+                <small style="display: block; margin-top: 4px; color: #666;">
+                  <span id="vasInfo" style="display: none;">
+                    VAS scores will be automatically converted to WOMAC using validated formula (WOMAC = 8 × VAS + 15)
+                  </span>
+                </small>
+              </div>
+              
+              <!-- WOMAC Fields -->
+              <div class="form-field" id="womac_r_field">
                 <label for="womac_r">Right Knee WOMAC (0-96):</label>
                 <input type="number" id="womac_r" min="0" max="96" step="0.1" required>
               </div>
               
-              <div class="form-field">
+              <div class="form-field" id="womac_l_field">
                 <label for="womac_l">Left Knee WOMAC (0-96):</label>
                 <input type="number" id="womac_l" min="0" max="96" step="0.1" required>
+              </div>
+              
+              <!-- VAS Fields (hidden by default) -->
+              <div class="form-field" id="vas_r_field" style="display: none;">
+                <label for="vas_r">Right Knee VAS Pain (0-10):</label>
+                <input type="number" id="vas_r" min="0" max="10" step="0.1" placeholder="0-10">
+                <small style="display: block; margin-top: 4px; color: #666;">
+                  Estimated WOMAC: <span id="vas_r_womac">--</span>
+                </small>
+              </div>
+              
+              <div class="form-field" id="vas_l_field" style="display: none;">
+                <label for="vas_l">Left Knee VAS Pain (0-10):</label>
+                <input type="number" id="vas_l" min="0" max="10" step="0.1" placeholder="0-10">
+                <small style="display: block; margin-top: 4px; color: #666;">
+                  Estimated WOMAC: <span id="vas_l_womac">--</span>
+                </small>
               </div>
               
               <div class="form-field">
@@ -111,9 +149,9 @@
               </div>
               
               <div class="form-field">
-                <label for="fam_hx">Family History:</label>
-                <select id="fam_hx" required>
-                  <option value="">Select...</option>
+                <label for="fam_hx">Family History (Optional):</label>
+                <select id="fam_hx">
+                  <option value="">Not specified (defaults to No)</option>
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -229,16 +267,30 @@
             <li><strong>age</strong> - Patient age (45-79 years)</li>
             <li><strong>sex</strong> - 1=Male, 0=Female</li>
             <li><strong>bmi</strong> - Body Mass Index (15-50 kg/m²)</li>
-            <li><strong>womac_r</strong> - Right knee WOMAC score (0-96)</li>
-            <li><strong>womac_l</strong> - Left knee WOMAC score (0-96)</li>
+            <li>
+              <strong>womac_r</strong> - Right knee WOMAC score (0-96)
+              <br><em style="margin-left: 20px;">OR <strong>vas_r</strong> - Right knee VAS pain (0-10) - will auto-convert to WOMAC</em>
+            </li>
+            <li>
+              <strong>womac_l</strong> - Left knee WOMAC score (0-96)
+              <br><em style="margin-left: 20px;">OR <strong>vas_l</strong> - Left knee VAS pain (0-10) - will auto-convert to WOMAC</em>
+            </li>
             <li><strong>kl_r</strong> - Right knee KL grade (0-4)</li>
             <li><strong>kl_l</strong> - Left knee KL grade (0-4)</li>
-            <li><strong>fam_hx</strong> - Family history (1=Yes, 0=No)</li>
+            <li>
+              <strong>fam_hx</strong> - Family history (1=Yes, 0=No)
+              <em>*Optional - defaults to 0 (No) if not provided</em>
+            </li>
             <li>
               <strong>tkr_outcome</strong> - TKR occurred (1=Yes, 0=No)
               <em>*Optional - for validation metrics</em>
             </li>
           </ul>
+          <p style="margin-top: 12px; padding: 8px; background: #f0f7ff; border-left: 3px solid #0066cc; font-size: 0.9em;">
+            <strong>Note:</strong> If using VAS scores, they will be automatically converted to WOMAC using the validated formula: 
+            <code>WOMAC = (VAS × 8) + 15</code> (based on Salaffi et al. 2003, correlation r ≈ 0.68-0.72). 
+            Estimated uncertainty: ±10-15 WOMAC points.
+          </p>
         </div>
       </div>
 
