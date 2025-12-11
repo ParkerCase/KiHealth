@@ -98,40 +98,57 @@ def load_outcome_model():
         try:
             # Get the directory where this file is located (api/)
             func_dir = os.path.dirname(__file__)
-            
+
             # Try multiple possible locations
             possible_paths = [
-                os.path.join(func_dir, "models", "outcome_rf_regressor.pkl"),  # api/models/
-                os.path.join(os.path.dirname(func_dir), "models", "outcome_rf_regressor.pkl"),  # root/models/
+                os.path.join(
+                    func_dir, "models", "outcome_rf_regressor.pkl"
+                ),  # api/models/
+                os.path.join(
+                    os.path.dirname(func_dir), "models", "outcome_rf_regressor.pkl"
+                ),  # root/models/
             ]
-            
+
             # Also try using MODEL_DIR if it's already set
             if MODEL_DIR is not None:
-                possible_paths.insert(0, os.path.join(MODEL_DIR, "outcome_rf_regressor.pkl"))
+                possible_paths.insert(
+                    0, os.path.join(MODEL_DIR, "outcome_rf_regressor.pkl")
+                )
             else:
                 # Try to load models to set MODEL_DIR
                 try:
                     load_models()
                     if MODEL_DIR is not None:
-                        possible_paths.insert(0, os.path.join(MODEL_DIR, "outcome_rf_regressor.pkl"))
+                        possible_paths.insert(
+                            0, os.path.join(MODEL_DIR, "outcome_rf_regressor.pkl")
+                        )
                 except:
                     pass  # Continue with other paths
-            
+
             outcome_model_path = None
             for path in possible_paths:
                 if os.path.exists(path):
                     outcome_model_path = path
                     break
-            
+
             if outcome_model_path is None:
                 # Debug info
                 import json
+
                 debug_info = {
                     "func_dir": func_dir,
                     "checked_paths": possible_paths,
-                    "func_dir_contents": os.listdir(func_dir) if os.path.exists(func_dir) else [],
-                    "api_models_exists": os.path.exists(os.path.join(func_dir, "models")),
-                    "api_models_contents": os.listdir(os.path.join(func_dir, "models")) if os.path.exists(os.path.join(func_dir, "models")) else [],
+                    "func_dir_contents": (
+                        os.listdir(func_dir) if os.path.exists(func_dir) else []
+                    ),
+                    "api_models_exists": os.path.exists(
+                        os.path.join(func_dir, "models")
+                    ),
+                    "api_models_contents": (
+                        os.listdir(os.path.join(func_dir, "models"))
+                        if os.path.exists(os.path.join(func_dir, "models"))
+                        else []
+                    ),
                 }
                 raise Exception(
                     f"Outcome model file not found. Checked: {possible_paths}. Debug: {json.dumps(debug_info, indent=2)}"
@@ -290,6 +307,43 @@ class handler(BaseHTTPRequestHandler):
                 labels=["Low", "Moderate", "High", "Very High"],
             )
 
+            # Check for missing pain scores
+            has_womac_r = "womac_r" in df.columns
+            has_womac_l = "womac_l" in df.columns
+            has_vas_r = "vas_r" in df.columns
+            has_vas_l = "vas_l" in df.columns
+
+            # Count patients without pain scores
+            patients_without_pain_scores = 0
+            if has_womac_r and has_womac_l:
+                # Check if both WOMAC are missing
+                patients_without_pain_scores = (
+                    (df["womac_r"].isna()) & (df["womac_l"].isna())
+                ).sum()
+            elif has_vas_r and has_vas_l:
+                # Check if both VAS are missing
+                patients_without_pain_scores = (
+                    (df["vas_r"].isna()) & (df["vas_l"].isna())
+                ).sum()
+            elif has_womac_r or has_womac_l or has_vas_r or has_vas_l:
+                # Mixed case - check if all available pain scores are missing
+                pain_cols = []
+                if has_womac_r:
+                    pain_cols.append("womac_r")
+                if has_womac_l:
+                    pain_cols.append("womac_l")
+                if has_vas_r:
+                    pain_cols.append("vas_r")
+                if has_vas_l:
+                    pain_cols.append("vas_l")
+                if pain_cols:
+                    patients_without_pain_scores = (
+                        df[pain_cols].isna().all(axis=1).sum()
+                    )
+            else:
+                # No pain score columns at all
+                patients_without_pain_scores = len(df)
+
             # Calculate summary statistics
             summary = {
                 "total_patients": int(len(df)),
@@ -297,6 +351,7 @@ class handler(BaseHTTPRequestHandler):
                 "high_risk_count": int((predictions > 0.15).sum()),
                 "high_risk_pct": float((predictions > 0.15).mean() * 100),
                 "risk_distribution": df["risk_category"].value_counts().to_dict(),
+                "patients_without_pain_scores": int(patients_without_pain_scores),
             }
 
             # Prepare risk distribution data for client-side chart

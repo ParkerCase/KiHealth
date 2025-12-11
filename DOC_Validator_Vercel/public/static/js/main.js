@@ -133,6 +133,18 @@ function displayResults(data) {
   const resultsDiv = document.getElementById("results");
   let html = "<h2>Analysis Results</h2>";
 
+  // Check for missing pain scores and display warning
+  const hasMissingPainScores = data.summary?.patients_without_pain_scores > 0;
+  if (hasMissingPainScores) {
+    html +=
+      '<div style="margin: 20px 0; padding: 12px; background: #fff3cd; border-left: 4px solid #ff9800; border-radius: 4px;">';
+    html += "<strong>⚠️ Reduced Confidence Warning:</strong><br>";
+    html += `${data.summary.patients_without_pain_scores} patient(s) are missing pain scores (WOMAC/VAS). `;
+    html += "Predictions for these patients may be less precise. ";
+    html += "Pain scores are optional but improve prediction accuracy.";
+    html += "</div>";
+  }
+
   // Summary statistics
   html += '<div class="summary-stats">';
   html += `<div class="stat-card">
@@ -803,15 +815,36 @@ function togglePainScoreType() {
     vasLField.style.display = "block";
     vasInfo.style.display = "block";
 
-    // Make VAS required, WOMAC not required
-    document.getElementById("vas_r").required = true;
-    document.getElementById("vas_l").required = true;
+    // Pain scores are optional - never required
+    document.getElementById("vas_r").required = false;
+    document.getElementById("vas_l").required = false;
     document.getElementById("womac_r").required = false;
     document.getElementById("womac_l").required = false;
 
     // Clear WOMAC fields
     document.getElementById("womac_r").value = "";
     document.getElementById("womac_l").value = "";
+  } else if (painScoreType === "none") {
+    // Hide all pain score fields
+    womacRField.style.display = "none";
+    womacLField.style.display = "none";
+    vasRField.style.display = "none";
+    vasLField.style.display = "none";
+    vasInfo.style.display = "none";
+
+    // Pain scores are optional - never required
+    document.getElementById("vas_r").required = false;
+    document.getElementById("vas_l").required = false;
+    document.getElementById("womac_r").required = false;
+    document.getElementById("womac_l").required = false;
+
+    // Clear all fields
+    document.getElementById("womac_r").value = "";
+    document.getElementById("womac_l").value = "";
+    document.getElementById("vas_r").value = "";
+    document.getElementById("vas_l").value = "";
+    document.getElementById("vas_r_womac").textContent = "--";
+    document.getElementById("vas_l_womac").textContent = "--";
   } else {
     // Show WOMAC fields, hide VAS fields
     womacRField.style.display = "block";
@@ -820,9 +853,9 @@ function togglePainScoreType() {
     vasLField.style.display = "none";
     vasInfo.style.display = "none";
 
-    // Make WOMAC required, VAS not required
-    document.getElementById("womac_r").required = true;
-    document.getElementById("womac_l").required = true;
+    // Pain scores are optional - never required
+    document.getElementById("womac_r").required = false;
+    document.getElementById("womac_l").required = false;
     document.getElementById("vas_r").required = false;
     document.getElementById("vas_l").required = false;
 
@@ -861,49 +894,93 @@ document.getElementById("vas_l")?.addEventListener("input", function () {
 document.getElementById("patientForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
+  // Validate KL grades - at least one must be ≥ 1
+  const kl_r = parseInt(document.getElementById("kl_r").value);
+  const kl_l = parseInt(document.getElementById("kl_l").value);
+
+  if ((isNaN(kl_r) || kl_r === 0) && (isNaN(kl_l) || kl_l === 0)) {
+    alert(
+      "At least one knee must have OA findings (KL grade ≥ 1). Both knees cannot be KL grade 0."
+    );
+    return;
+  }
+
   // Determine which pain score type is selected
   const painScoreType = document.querySelector(
     'input[name="painScoreType"]:checked'
   ).value;
-  let womac_r, womac_l;
+  let womac_r = null;
+  let womac_l = null;
   let vasUsed = false;
+  let painScoresMissing = false;
 
   if (painScoreType === "vas") {
-    // Convert VAS to WOMAC
-    const vas_r = parseFloat(document.getElementById("vas_r").value);
-    const vas_l = parseFloat(document.getElementById("vas_l").value);
+    // Convert VAS to WOMAC if provided
+    const vas_r_str = document.getElementById("vas_r").value.trim();
+    const vas_l_str = document.getElementById("vas_l").value.trim();
 
-    if (
-      isNaN(vas_r) ||
-      isNaN(vas_l) ||
-      vas_r < 0 ||
-      vas_r > 10 ||
-      vas_l < 0 ||
-      vas_l > 10
-    ) {
-      alert("Please enter valid VAS scores (0-10) for both knees.");
-      return;
+    if (vas_r_str !== "" || vas_l_str !== "") {
+      // At least one VAS provided - validate those that are provided
+      if (vas_r_str !== "") {
+        const vas_r = parseFloat(vas_r_str);
+        if (isNaN(vas_r) || vas_r < 0 || vas_r > 10) {
+          alert(
+            "Please enter a valid VAS score (0-10) for right knee, or leave empty."
+          );
+          return;
+        }
+        womac_r = vasToWomac(vas_r);
+        vasUsed = true;
+      }
+
+      if (vas_l_str !== "") {
+        const vas_l = parseFloat(vas_l_str);
+        if (isNaN(vas_l) || vas_l < 0 || vas_l > 10) {
+          alert(
+            "Please enter a valid VAS score (0-10) for left knee, or leave empty."
+          );
+          return;
+        }
+        womac_l = vasToWomac(vas_l);
+        vasUsed = true;
+      }
+    } else {
+      // No VAS provided
+      painScoresMissing = true;
     }
+  } else if (painScoreType === "womac") {
+    // Use WOMAC directly if provided
+    const womac_r_str = document.getElementById("womac_r").value.trim();
+    const womac_l_str = document.getElementById("womac_l").value.trim();
 
-    womac_r = vasToWomac(vas_r);
-    womac_l = vasToWomac(vas_l);
-    vasUsed = true;
+    if (womac_r_str !== "" || womac_l_str !== "") {
+      // At least one WOMAC provided - validate those that are provided
+      if (womac_r_str !== "") {
+        womac_r = parseFloat(womac_r_str);
+        if (isNaN(womac_r) || womac_r < 0 || womac_r > 96) {
+          alert(
+            "Please enter a valid WOMAC score (0-96) for right knee, or leave empty."
+          );
+          return;
+        }
+      }
+
+      if (womac_l_str !== "") {
+        womac_l = parseFloat(womac_l_str);
+        if (isNaN(womac_l) || womac_l < 0 || womac_l > 96) {
+          alert(
+            "Please enter a valid WOMAC score (0-96) for left knee, or leave empty."
+          );
+          return;
+        }
+      }
+    } else {
+      // No WOMAC provided
+      painScoresMissing = true;
+    }
   } else {
-    // Use WOMAC directly
-    womac_r = parseFloat(document.getElementById("womac_r").value);
-    womac_l = parseFloat(document.getElementById("womac_l").value);
-
-    if (
-      isNaN(womac_r) ||
-      isNaN(womac_l) ||
-      womac_r < 0 ||
-      womac_r > 96 ||
-      womac_l < 0 ||
-      womac_l > 96
-    ) {
-      alert("Please enter valid WOMAC scores (0-96) for both knees.");
-      return;
-    }
+    // painScoreType === "none" - no pain scores
+    painScoresMissing = true;
   }
 
   // Family history is optional - default to 0 (No) if not specified
@@ -914,18 +991,21 @@ document.getElementById("patientForm").addEventListener("submit", function (e) {
     age: parseFloat(document.getElementById("age").value),
     sex: parseInt(document.getElementById("sex").value),
     bmi: parseFloat(document.getElementById("bmi").value),
-    womac_r: womac_r,
-    womac_l: womac_l,
+    womac_r: womac_r, // Can be null
+    womac_l: womac_l, // Can be null
     kl_r: parseInt(document.getElementById("kl_r").value),
     kl_l: parseInt(document.getElementById("kl_l").value),
     fam_hx: fam_hx,
+    _pain_scores_missing: painScoresMissing, // Flag for display
   };
 
   // Store VAS info for display if VAS was used
   if (vasUsed) {
     patient._vas_used = true;
-    patient._vas_r = parseFloat(document.getElementById("vas_r").value);
-    patient._vas_l = parseFloat(document.getElementById("vas_l").value);
+    const vas_r_str = document.getElementById("vas_r").value.trim();
+    const vas_l_str = document.getElementById("vas_l").value.trim();
+    patient._vas_r = vas_r_str !== "" ? parseFloat(vas_r_str) : null;
+    patient._vas_l = vas_l_str !== "" ? parseFloat(vas_l_str) : null;
   }
 
   // Add patient_id if provided (for display purposes only, not sent to API)
@@ -976,11 +1056,24 @@ function updatePatientList() {
   cardsDiv.innerHTML = patientBatch
     .map((p, index) => {
       const displayId = p._patient_id || `Patient ${index + 1}`;
-      const vasNote = p._vas_used
-        ? `<br><small style="color: #666;">WOMAC estimated from VAS (R: ${p._vas_r.toFixed(
-            1
-          )}, L: ${p._vas_l.toFixed(1)})</small>`
-        : "";
+      let painScoreNote = "";
+      if (p._vas_used) {
+        const vasR = p._vas_r !== null ? p._vas_r.toFixed(1) : "N/A";
+        const vasL = p._vas_l !== null ? p._vas_l.toFixed(1) : "N/A";
+        painScoreNote = `<br><small style="color: #666;">WOMAC estimated from VAS (R: ${vasR}, L: ${vasL})</small>`;
+      } else if (p._pain_scores_missing) {
+        painScoreNote = `<br><small style="color: #ff9800;">⚠️ No pain scores - reduced confidence</small>`;
+      }
+
+      const womacDisplay =
+        p.womac_r !== null && p.womac_l !== null
+          ? `WOMAC: R=${p.womac_r.toFixed(1)}, L=${p.womac_l.toFixed(1)}`
+          : p.womac_r !== null
+          ? `WOMAC: R=${p.womac_r.toFixed(1)}, L=N/A`
+          : p.womac_l !== null
+          ? `WOMAC: R=N/A, L=${p.womac_l.toFixed(1)}`
+          : `WOMAC: Not provided`;
+
       return `
         <div class="patient-card">
             <div class="patient-card-header">
@@ -997,9 +1090,7 @@ function updatePatientList() {
         p.sex === 1 ? "M" : "F"
       }, BMI: ${p.bmi.toFixed(1)}
                 <br>
-                WOMAC: R=${p.womac_r.toFixed(1)}, L=${p.womac_l.toFixed(
-        1
-      )}${vasNote}
+                ${womacDisplay}${painScoreNote}
                 <br>
                 KL Grade: R=${p.kl_r}, L=${p.kl_l}
             </div>
@@ -1096,7 +1187,18 @@ async function analyzeBatch() {
 
     const csv = [
       csvHeaders.join(","),
-      ...patientBatch.map((p) => csvHeaders.map((h) => p[h] ?? "").join(",")),
+      ...patientBatch.map((p) =>
+        csvHeaders
+          .map((h) => {
+            const value = p[h];
+            // Handle null/undefined for optional fields
+            if (value === null || value === undefined) {
+              return "";
+            }
+            return value;
+          })
+          .join(",")
+      ),
     ].join("\n");
 
     // Create blob and send like CSV upload

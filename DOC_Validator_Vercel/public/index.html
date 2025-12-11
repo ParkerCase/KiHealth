@@ -48,7 +48,7 @@
         <!-- Manual Entry Section -->
         <div id="manualEntrySection" class="entry-section">
           <h3>Enter Patient Data</h3>
-          <p>Add patients one at a time. All fields are required.</p>
+          <p>Add patients one at a time. Required: Age, Sex, BMI, at least one KL grade ≥1. Pain scores are optional but improve accuracy.</p>
           
           <form id="patientForm" class="patient-form">
             <div class="form-grid">
@@ -58,8 +58,8 @@
               </div>
               
               <div class="form-field">
-                <label for="age">Age (45-79):</label>
-                <input type="number" id="age" min="45" max="79" required>
+                <label for="age">Age (30-85):</label>
+                <input type="number" id="age" min="30" max="85" required>
               </div>
               
               <div class="form-field">
@@ -78,7 +78,10 @@
               
               <!-- Pain Score Type Selection -->
               <div class="form-field" style="grid-column: 1 / -1;">
-                <label>Pain Score Type:</label>
+                <label>Pain Scores (Optional - improves accuracy):</label>
+                <small style="display: block; margin-bottom: 8px; color: #666;">
+                  Model works without pain scores but predictions may be less precise
+                </small>
                 <div style="display: flex; gap: 20px; margin-top: 8px;">
                   <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                     <input type="radio" name="painScoreType" value="womac" checked onchange="togglePainScoreType()">
@@ -87,6 +90,10 @@
                   <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                     <input type="radio" name="painScoreType" value="vas" onchange="togglePainScoreType()">
                     <span>VAS (0-10) - Auto-converts to WOMAC</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="radio" name="painScoreType" value="none" onchange="togglePainScoreType()">
+                    <span>None (skip pain scores)</span>
                   </label>
                 </div>
                 <small style="display: block; margin-top: 4px; color: #666;">
@@ -99,18 +106,18 @@
               <!-- WOMAC Fields -->
               <div class="form-field" id="womac_r_field">
                 <label for="womac_r">Right Knee WOMAC (0-96):</label>
-                <input type="number" id="womac_r" min="0" max="96" step="0.1" required>
+                <input type="number" id="womac_r" min="0" max="96" step="0.1" placeholder="Optional">
               </div>
               
               <div class="form-field" id="womac_l_field">
                 <label for="womac_l">Left Knee WOMAC (0-96):</label>
-                <input type="number" id="womac_l" min="0" max="96" step="0.1" required>
+                <input type="number" id="womac_l" min="0" max="96" step="0.1" placeholder="Optional">
               </div>
               
               <!-- VAS Fields (hidden by default) -->
               <div class="form-field" id="vas_r_field" style="display: none;">
                 <label for="vas_r">Right Knee VAS Pain (0-10):</label>
-                <input type="number" id="vas_r" min="0" max="10" step="0.1" placeholder="0-10">
+                <input type="number" id="vas_r" min="0" max="10" step="0.1" placeholder="Optional">
                 <small style="display: block; margin-top: 4px; color: #666;">
                   Estimated WOMAC: <span id="vas_r_womac">--</span>
                 </small>
@@ -118,7 +125,7 @@
               
               <div class="form-field" id="vas_l_field" style="display: none;">
                 <label for="vas_l">Left Knee VAS Pain (0-10):</label>
-                <input type="number" id="vas_l" min="0" max="10" step="0.1" placeholder="0-10">
+                <input type="number" id="vas_l" min="0" max="10" step="0.1" placeholder="Optional">
                 <small style="display: block; margin-top: 4px; color: #666;">
                   Estimated WOMAC: <span id="vas_l_womac">--</span>
                 </small>
@@ -264,19 +271,21 @@
         <div class="requirements">
           <h3>Required CSV Columns:</h3>
           <ul>
-            <li><strong>age</strong> - Patient age (45-79 years)</li>
+            <li><strong>age</strong> - Patient age (30-85 years) - Required</li>
             <li><strong>sex</strong> - 1=Male, 0=Female</li>
             <li><strong>bmi</strong> - Body Mass Index (15-50 kg/m²)</li>
             <li>
               <strong>womac_r</strong> - Right knee WOMAC score (0-96)
               <br><em style="margin-left: 20px;">OR <strong>vas_r</strong> - Right knee VAS pain (0-10) - will auto-convert to WOMAC</em>
+              <br><em style="margin-left: 20px; color: #666;">*Optional - improves accuracy but not required</em>
             </li>
             <li>
               <strong>womac_l</strong> - Left knee WOMAC score (0-96)
               <br><em style="margin-left: 20px;">OR <strong>vas_l</strong> - Left knee VAS pain (0-10) - will auto-convert to WOMAC</em>
+              <br><em style="margin-left: 20px; color: #666;">*Optional - improves accuracy but not required</em>
             </li>
-            <li><strong>kl_r</strong> - Right knee KL grade (0-4)</li>
-            <li><strong>kl_l</strong> - Left knee KL grade (0-4)</li>
+            <li><strong>kl_r</strong> - Right knee KL grade (0-4) - Required (at least one knee must have KL ≥1)</li>
+            <li><strong>kl_l</strong> - Left knee KL grade (0-4) - Required (at least one knee must have KL ≥1)</li>
             <li>
               <strong>fam_hx</strong> - Family history (1=Yes, 0=No)
               <em>*Optional - defaults to 0 (No) if not provided</em>

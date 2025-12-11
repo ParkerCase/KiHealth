@@ -33,17 +33,11 @@ def vas_to_womac(vas_score, scale="0-10"):
 
 def validate_data(df):
     """Validate input data format and ranges"""
-    # Check if we have WOMAC or VAS
+    # Check if we have WOMAC or VAS (all optional now)
     has_womac_r = "womac_r" in df.columns
     has_womac_l = "womac_l" in df.columns
     has_vas_r = "vas_r" in df.columns
     has_vas_l = "vas_l" in df.columns
-
-    # Must have either WOMAC or VAS for both knees
-    if not (has_womac_r or has_vas_r):
-        return False, "Must provide either 'womac_r' or 'vas_r' (Right knee)"
-    if not (has_womac_l or has_vas_l):
-        return False, "Must provide either 'womac_l' or 'vas_l' (Left knee)"
 
     # Cannot have both WOMAC and VAS for same knee
     if has_womac_r and has_vas_r:
@@ -58,29 +52,47 @@ def validate_data(df):
 
     # Family history is optional - will default to 0 (No) if missing
 
-    if not df["age"].between(45, 79).all():
-        return False, "Age must be 45-79"
+    # Age range expanded to 30-85
+    if not df["age"].between(30, 85).all():
+        return False, "Age must be 30-85"
     if not df["bmi"].between(15, 50).all():
         return False, "BMI must be 15-50"
 
-    # Validate WOMAC if provided (optional if VAS is provided)
-    if has_womac_r and not df["womac_r"].between(0, 96).all():
-        return False, "Right WOMAC must be 0-96"
-    if has_womac_l and not df["womac_l"].between(0, 96).all():
-        return False, "Left WOMAC must be 0-96"
-
-    # Note: WOMAC is optional if VAS is provided - validation already ensures one or the other
-
-    # Validate VAS if provided
-    if has_vas_r and not df["vas_r"].between(0, 10).all():
-        return False, "Right VAS must be 0-10"
-    if has_vas_l and not df["vas_l"].between(0, 10).all():
-        return False, "Left VAS must be 0-10"
-
-    if not df["kl_r"].isin([0, 1, 2, 3, 4]).all():
+    # Validate KL grades - at least one must be ≥ 1
+    kl_r_valid = df["kl_r"].isin([0, 1, 2, 3, 4]).all()
+    kl_l_valid = df["kl_l"].isin([0, 1, 2, 3, 4]).all()
+    if not kl_r_valid:
         return False, "Right KL grade must be 0-4"
-    if not df["kl_l"].isin([0, 1, 2, 3, 4]).all():
+    if not kl_l_valid:
         return False, "Left KL grade must be 0-4"
+
+    # Check that at least one knee has KL ≥ 1 for each patient
+    if ((df["kl_r"] == 0) & (df["kl_l"] == 0)).any():
+        return (
+            False,
+            "At least one knee must have OA findings (KL grade ≥ 1). Both knees cannot be KL grade 0.",
+        )
+
+    # Validate WOMAC if provided (now optional)
+    if has_womac_r:
+        # Only validate non-null values
+        womac_r_valid = df["womac_r"].isna() | df["womac_r"].between(0, 96)
+        if not womac_r_valid.all():
+            return False, "Right WOMAC must be 0-96 (or empty)"
+    if has_womac_l:
+        womac_l_valid = df["womac_l"].isna() | df["womac_l"].between(0, 96)
+        if not womac_l_valid.all():
+            return False, "Left WOMAC must be 0-96 (or empty)"
+
+    # Validate VAS if provided (now optional)
+    if has_vas_r:
+        vas_r_valid = df["vas_r"].isna() | df["vas_r"].between(0, 10)
+        if not vas_r_valid.all():
+            return False, "Right VAS must be 0-10 (or empty)"
+    if has_vas_l:
+        vas_l_valid = df["vas_l"].isna() | df["vas_l"].between(0, 10)
+        if not vas_l_valid.all():
+            return False, "Left VAS must be 0-10 (or empty)"
 
     return True, "Valid"
 
@@ -100,16 +112,28 @@ def preprocess_data(df, imputer, scaler, feature_names):
         X["fam_hx"] = 0  # Default to No if not provided
 
     # Handle WOMAC/VAS conversion
-    # Convert VAS to WOMAC if VAS is provided
+    # Convert VAS to WOMAC if VAS is provided, otherwise use WOMAC (can be missing)
     if "vas_r" in df.columns:
-        X["womac_r"] = df["vas_r"].apply(lambda x: vas_to_womac(x, scale="0-10"))
-    else:
+        # Convert VAS to WOMAC, handling NaN values
+        X["womac_r"] = df["vas_r"].apply(
+            lambda x: vas_to_womac(x, scale="0-10") if pd.notna(x) else np.nan
+        )
+    elif "womac_r" in df.columns:
         X["womac_r"] = df["womac_r"]
+    else:
+        # No WOMAC or VAS provided - will be imputed later
+        X["womac_r"] = np.nan
 
     if "vas_l" in df.columns:
-        X["womac_l"] = df["vas_l"].apply(lambda x: vas_to_womac(x, scale="0-10"))
-    else:
+        # Convert VAS to WOMAC, handling NaN values
+        X["womac_l"] = df["vas_l"].apply(
+            lambda x: vas_to_womac(x, scale="0-10") if pd.notna(x) else np.nan
+        )
+    elif "womac_l" in df.columns:
         X["womac_l"] = df["womac_l"]
+    else:
+        # No WOMAC or VAS provided - will be imputed later
+        X["womac_l"] = np.nan
 
     # Rename to match model expectations
     X.rename(
@@ -127,9 +151,10 @@ def preprocess_data(df, imputer, scaler, feature_names):
     )
 
     # Feature engineering (matches training pipeline)
-    X["worst_womac"] = X[["V00WOMTSR", "V00WOMTSL"]].max(axis=1)
+    # Handle missing WOMAC values in feature engineering
+    X["worst_womac"] = X[["V00WOMTSR", "V00WOMTSL"]].max(axis=1, skipna=True)
     X["worst_kl_grade"] = X[["V00XRKLR", "V00XRKLL"]].max(axis=1)
-    X["avg_womac"] = X[["V00WOMTSR", "V00WOMTSL"]].mean(axis=1)
+    X["avg_womac"] = X[["V00WOMTSR", "V00WOMTSL"]].mean(axis=1, skipna=True)
 
     # Age groups: 0=<55, 1=55-64, 2=65-74, 3=75+
     X["age_group"] = pd.cut(
