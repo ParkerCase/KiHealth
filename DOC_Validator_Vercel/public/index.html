@@ -135,6 +135,7 @@
                 <label for="kl_r">Right Knee KL Grade (0-4):</label>
                 <select id="kl_r" required>
                   <option value="">Select...</option>
+                  <option value="na">Not available</option>
                   <option value="0">0 - No OA</option>
                   <option value="1">1 - Doubtful</option>
                   <option value="2">2 - Mild</option>
@@ -147,6 +148,7 @@
                 <label for="kl_l">Left Knee KL Grade (0-4):</label>
                 <select id="kl_l" required>
                   <option value="">Select...</option>
+                  <option value="na">Not available</option>
                   <option value="0">0 - No OA</option>
                   <option value="1">1 - Doubtful</option>
                   <option value="2">2 - Mild</option>
@@ -284,8 +286,16 @@
               <br><em style="margin-left: 20px;">OR <strong>vas_l</strong> - Left knee VAS pain (0-10) - will auto-convert to WOMAC</em>
               <br><em style="margin-left: 20px; color: #666;">*Optional - improves accuracy but not required</em>
             </li>
-            <li><strong>kl_r</strong> - Right knee KL grade (0-4) - Required (at least one knee must have KL ≥1)</li>
-            <li><strong>kl_l</strong> - Left knee KL grade (0-4) - Required (at least one knee must have KL ≥1)</li>
+            <li>
+              <strong>kl_r</strong> - Right knee KL grade (0-4) or "na" for Not available
+              <br><em style="margin-left: 20px;">Required - at least one knee must have imaging data (KL grade or "na")</em>
+              <br><em style="margin-left: 20px; color: #666;">*If both knees have KL grades, at least one must be ≥1</em>
+            </li>
+            <li>
+              <strong>kl_l</strong> - Left knee KL grade (0-4) or "na" for Not available
+              <br><em style="margin-left: 20px;">Required - at least one knee must have imaging data (KL grade or "na")</em>
+              <br><em style="margin-left: 20px; color: #666;">*If both knees have KL grades, at least one must be ≥1</em>
+            </li>
             <li>
               <strong>fam_hx</strong> - Family history (1=Yes, 0=No)
               <em>*Optional - defaults to 0 (No) if not provided</em>

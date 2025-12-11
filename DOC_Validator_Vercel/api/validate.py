@@ -344,6 +344,21 @@ class handler(BaseHTTPRequestHandler):
                 # No pain score columns at all
                 patients_without_pain_scores = len(df)
 
+            # Check for missing KL grades (single knee imaging)
+            # Convert "na" strings to NaN if present
+            if "kl_r" in df.columns:
+                df["kl_r"] = df["kl_r"].replace(["na", "NA", ""], np.nan)
+            if "kl_l" in df.columns:
+                df["kl_l"] = df["kl_l"].replace(["na", "NA", ""], np.nan)
+
+            # Count patients with single knee imaging (one KL grade missing)
+            patients_with_single_knee_imaging = 0
+            if "kl_r" in df.columns and "kl_l" in df.columns:
+                patients_with_single_knee_imaging = (
+                    (df["kl_r"].isna() & df["kl_l"].notna())
+                    | (df["kl_r"].notna() & df["kl_l"].isna())
+                ).sum()
+
             # Calculate summary statistics
             summary = {
                 "total_patients": int(len(df)),
@@ -352,6 +367,9 @@ class handler(BaseHTTPRequestHandler):
                 "high_risk_pct": float((predictions > 0.15).mean() * 100),
                 "risk_distribution": df["risk_category"].value_counts().to_dict(),
                 "patients_without_pain_scores": int(patients_without_pain_scores),
+                "patients_with_single_knee_imaging": int(
+                    patients_with_single_knee_imaging
+                ),
             }
 
             # Prepare risk distribution data for client-side chart

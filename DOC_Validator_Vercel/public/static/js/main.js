@@ -133,15 +133,36 @@ function displayResults(data) {
   const resultsDiv = document.getElementById("results");
   let html = "<h2>Analysis Results</h2>";
 
-  // Check for missing pain scores and display warning
+  // Check for missing data and display warnings
   const hasMissingPainScores = data.summary?.patients_without_pain_scores > 0;
-  if (hasMissingPainScores) {
+  const hasSingleKneeImaging =
+    data.summary?.patients_with_single_knee_imaging > 0;
+
+  if (hasMissingPainScores || hasSingleKneeImaging) {
     html +=
       '<div style="margin: 20px 0; padding: 12px; background: #fff3cd; border-left: 4px solid #ff9800; border-radius: 4px;">';
     html += "<strong>⚠️ Reduced Confidence Warning:</strong><br>";
-    html += `${data.summary.patients_without_pain_scores} patient(s) are missing pain scores (WOMAC/VAS). `;
-    html += "Predictions for these patients may be less precise. ";
-    html += "Pain scores are optional but improve prediction accuracy.";
+
+    const warnings = [];
+    if (hasMissingPainScores) {
+      warnings.push(
+        `${data.summary.patients_without_pain_scores} patient(s) are missing pain scores (WOMAC/VAS). Predictions may be less precise.`
+      );
+    }
+    if (hasSingleKneeImaging) {
+      warnings.push(
+        `${data.summary.patients_with_single_knee_imaging} patient(s) have single knee imaging. Predictions based on one knee only.`
+      );
+    }
+
+    if (hasMissingPainScores && hasSingleKneeImaging) {
+      html += `${data.summary.patients_without_pain_scores} patient(s) missing pain scores and ${data.summary.patients_with_single_knee_imaging} patient(s) with single knee imaging. `;
+      html +=
+        "Predictions for these patients may be less precise due to limited baseline data.";
+    } else {
+      html += warnings.join(" ");
+    }
+
     html += "</div>";
   }
 
@@ -894,15 +915,49 @@ document.getElementById("vas_l")?.addEventListener("input", function () {
 document.getElementById("patientForm").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  // Validate KL grades - at least one must be ≥ 1
-  const kl_r = parseInt(document.getElementById("kl_r").value);
-  const kl_l = parseInt(document.getElementById("kl_l").value);
+  // Validate KL grades - at least one must be available (not "Not available")
+  const kl_r_value = document.getElementById("kl_r").value;
+  const kl_l_value = document.getElementById("kl_l").value;
 
-  if ((isNaN(kl_r) || kl_r === 0) && (isNaN(kl_l) || kl_l === 0)) {
+  // Check if both are "Not available" or empty
+  if (
+    (kl_r_value === "" || kl_r_value === "na") &&
+    (kl_l_value === "" || kl_l_value === "na")
+  ) {
     alert(
-      "At least one knee must have OA findings (KL grade ≥ 1). Both knees cannot be KL grade 0."
+      "At least one knee must have imaging data. Both knees cannot be 'Not available'."
     );
     return;
+  }
+
+  // Parse KL grades (treat "na" as null)
+  let kl_r = null;
+  let kl_l = null;
+
+  if (kl_r_value !== "" && kl_r_value !== "na") {
+    kl_r = parseInt(kl_r_value);
+    if (isNaN(kl_r) || kl_r < 0 || kl_r > 4) {
+      alert("Invalid right knee KL grade. Please select a valid option.");
+      return;
+    }
+  }
+
+  if (kl_l_value !== "" && kl_l_value !== "na") {
+    kl_l = parseInt(kl_l_value);
+    if (isNaN(kl_l) || kl_l < 0 || kl_l > 4) {
+      alert("Invalid left knee KL grade. Please select a valid option.");
+      return;
+    }
+  }
+
+  // Check that at least one knee has OA findings (KL ≥ 1) if both are available
+  if (kl_r !== null && kl_l !== null) {
+    if (kl_r === 0 && kl_l === 0) {
+      alert(
+        "At least one knee must have OA findings (KL grade ≥ 1). Both knees cannot be KL grade 0."
+      );
+      return;
+    }
   }
 
   // Determine which pain score type is selected
@@ -993,10 +1048,11 @@ document.getElementById("patientForm").addEventListener("submit", function (e) {
     bmi: parseFloat(document.getElementById("bmi").value),
     womac_r: womac_r, // Can be null
     womac_l: womac_l, // Can be null
-    kl_r: parseInt(document.getElementById("kl_r").value),
-    kl_l: parseInt(document.getElementById("kl_l").value),
+    kl_r: kl_r, // Can be null if "Not available"
+    kl_l: kl_l, // Can be null if "Not available"
     fam_hx: fam_hx,
     _pain_scores_missing: painScoresMissing, // Flag for display
+    _kl_missing: kl_r === null || kl_l === null, // Flag for display
   };
 
   // Store VAS info for display if VAS was used
@@ -1074,6 +1130,14 @@ function updatePatientList() {
           ? `WOMAC: R=N/A, L=${p.womac_l.toFixed(1)}`
           : `WOMAC: Not provided`;
 
+      // KL grade display
+      const kl_r_display = p.kl_r !== null ? p.kl_r : "N/A";
+      const kl_l_display = p.kl_l !== null ? p.kl_l : "N/A";
+      let klNote = "";
+      if (p._kl_missing) {
+        klNote = `<br><small style="color: #ff9800;">⚠️ Single knee imaging - reduced confidence</small>`;
+      }
+
       return `
         <div class="patient-card">
             <div class="patient-card-header">
@@ -1092,7 +1156,7 @@ function updatePatientList() {
                 <br>
                 ${womacDisplay}${painScoreNote}
                 <br>
-                KL Grade: R=${p.kl_r}, L=${p.kl_l}
+                KL Grade: R=${kl_r_display}, L=${kl_l_display}${klNote}
             </div>
         </div>
     `;
@@ -1168,6 +1232,7 @@ async function analyzeBatch() {
 
   try {
     // Convert batch to CSV - exclude internal _patient_id field
+    // Convert KL grade null to "na" string for CSV
     const csvHeaders = [
       "age",
       "sex",
@@ -1193,6 +1258,10 @@ async function analyzeBatch() {
             const value = p[h];
             // Handle null/undefined for optional fields
             if (value === null || value === undefined) {
+              // For KL grades, use "na" string to indicate "Not available"
+              if (h === "kl_r" || h === "kl_l") {
+                return "na";
+              }
               return "";
             }
             return value;

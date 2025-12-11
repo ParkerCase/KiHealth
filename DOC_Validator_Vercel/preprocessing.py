@@ -58,20 +58,42 @@ def validate_data(df):
     if not df["bmi"].between(15, 50).all():
         return False, "BMI must be 15-50"
 
-    # Validate KL grades - at least one must be ≥ 1
-    kl_r_valid = df["kl_r"].isin([0, 1, 2, 3, 4]).all()
-    kl_l_valid = df["kl_l"].isin([0, 1, 2, 3, 4]).all()
-    if not kl_r_valid:
-        return False, "Right KL grade must be 0-4"
-    if not kl_l_valid:
-        return False, "Left KL grade must be 0-4"
+    # Validate KL grades - allow NaN/null for "Not available"
+    # Convert "na" string to NaN if present
+    if "kl_r" in df.columns:
+        # Replace "na" string with NaN
+        df["kl_r"] = df["kl_r"].replace(["na", "NA", ""], np.nan)
+        # Validate non-null values are 0-4
+        kl_r_valid = df["kl_r"].isna() | df["kl_r"].isin([0, 1, 2, 3, 4])
+        if not kl_r_valid.all():
+            return False, "Right KL grade must be 0-4 or 'Not available'"
 
-    # Check that at least one knee has KL ≥ 1 for each patient
-    if ((df["kl_r"] == 0) & (df["kl_l"] == 0)).any():
+    if "kl_l" in df.columns:
+        # Replace "na" string with NaN
+        df["kl_l"] = df["kl_l"].replace(["na", "NA", ""], np.nan)
+        # Validate non-null values are 0-4
+        kl_l_valid = df["kl_l"].isna() | df["kl_l"].isin([0, 1, 2, 3, 4])
+        if not kl_l_valid.all():
+            return False, "Left KL grade must be 0-4 or 'Not available'"
+
+    # Check that at least one knee has imaging data (not both NaN)
+    if ((df["kl_r"].isna()) & (df["kl_l"].isna())).any():
         return (
             False,
-            "At least one knee must have OA findings (KL grade ≥ 1). Both knees cannot be KL grade 0.",
+            "At least one knee must have imaging data. Both knees cannot be 'Not available'.",
         )
+
+    # Check that at least one knee has KL ≥ 1 for patients where both KL grades are available
+    both_available = (~df["kl_r"].isna()) & (~df["kl_l"].isna())
+    if both_available.any():
+        if (
+            (df.loc[both_available, "kl_r"] == 0)
+            & (df.loc[both_available, "kl_l"] == 0)
+        ).any():
+            return (
+                False,
+                "At least one knee must have OA findings (KL grade ≥ 1). Both knees cannot be KL grade 0.",
+            )
 
     # Validate WOMAC if provided (now optional)
     if has_womac_r:
@@ -105,7 +127,19 @@ def preprocess_data(df, imputer, scaler, feature_names):
 
     # Create a copy for processing
     # Family history is optional - default to 0 (No) if missing
-    X = df[["age", "sex", "bmi", "kl_r", "kl_l"]].copy()
+    X = df[["age", "sex", "bmi"]].copy()
+
+    # Handle KL grades - convert "na" to NaN if not already
+    if "kl_r" in df.columns:
+        X["kl_r"] = df["kl_r"].replace(["na", "NA", ""], np.nan)
+    else:
+        X["kl_r"] = np.nan
+
+    if "kl_l" in df.columns:
+        X["kl_l"] = df["kl_l"].replace(["na", "NA", ""], np.nan)
+    else:
+        X["kl_l"] = np.nan
+
     if "fam_hx" in df.columns:
         X["fam_hx"] = df["fam_hx"].fillna(0).astype(int)
     else:
@@ -153,7 +187,8 @@ def preprocess_data(df, imputer, scaler, feature_names):
     # Feature engineering (matches training pipeline)
     # Handle missing WOMAC values in feature engineering
     X["worst_womac"] = X[["V00WOMTSR", "V00WOMTSL"]].max(axis=1, skipna=True)
-    X["worst_kl_grade"] = X[["V00XRKLR", "V00XRKLL"]].max(axis=1)
+    # Handle missing KL grades in feature engineering
+    X["worst_kl_grade"] = X[["V00XRKLR", "V00XRKLL"]].max(axis=1, skipna=True)
     X["avg_womac"] = X[["V00WOMTSR", "V00WOMTSL"]].mean(axis=1, skipna=True)
 
     # Age groups: 0=<55, 1=55-64, 2=65-74, 3=75+
