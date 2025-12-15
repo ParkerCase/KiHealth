@@ -55,13 +55,21 @@ class RailwayHandler(BaseHTTPRequestHandler):
     
     def do_POST(self):
         """Handle POST requests"""
-        parsed_path = urlparse(self.path)
-        
-        if parsed_path.path == '/api/validate':
-            h = ValidateHandler(self, self.client_address, self.server)
-            h.do_POST()
-        else:
-            self.send_error(404)
+        try:
+            parsed_path = urlparse(self.path)
+            print(f"POST request to: {parsed_path.path}")
+            
+            if parsed_path.path == '/api/validate':
+                h = ValidateHandler(self, self.client_address, self.server)
+                h.do_POST()
+            else:
+                print(f"404: POST to unknown path: {parsed_path.path}")
+                self.send_error(404)
+        except Exception as e:
+            print(f"Error in do_POST: {e}")
+            import traceback
+            traceback.print_exc()
+            self.send_error(500)
     
     def do_OPTIONS(self):
         """Handle CORS preflight"""
