@@ -479,11 +479,11 @@ class handler(BaseHTTPRequestHandler):
                     # Load outcome model
                     load_outcome_model()
 
-                    # Filter to moderate/high-risk patients (>5% surgery risk)
-                    high_risk_mask = predictions > 0.05
-                    X_high_risk = X_preprocessed[high_risk_mask]
+                    # Run outcome predictions for ALL patients (not just moderate/high risk)
+                    # User wants to see outcomes for all risk categories
+                    X_all_patients = X_preprocessed
 
-                    if len(X_high_risk) > 0:
+                    if len(X_all_patients) > 0:
                         # Predict improvement
                         improvement_pred = OUTCOME_MODEL.predict(X_all_patients)
 
