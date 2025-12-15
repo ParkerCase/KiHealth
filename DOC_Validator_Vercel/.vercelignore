@@ -1,5 +1,28 @@
-# Vercel ignore file
-# Files/directories to exclude from Vercel deployment
+# Vercel ignore file - Frontend only deployment
+# Exclude all Python/backend files since API is on Railway
+
+# Python files and dependencies
+*.py
+requirements.txt
+runtime.txt
+main.py
+Procfile
+railway.json
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# API directory (backend on Railway)
+api/
+
+# Models (backend on Railway)
+models/
+api/models/
+
+# Preprocessing (backend on Railway)
+preprocessing.py
 
 # Development files
 *.md
