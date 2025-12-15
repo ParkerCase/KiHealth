@@ -36,7 +36,17 @@ class RailwayHandler(BaseHTTPRequestHandler):
         
         # API routes
         if parsed_path.path == '/api/template':
-            h = TemplateHandler(self, self.client_address, self.server)
+            h = TemplateHandler.__new__(TemplateHandler)
+            h.rfile = self.rfile
+            h.wfile = self.wfile
+            h.headers = self.headers
+            h.path = self.path
+            h.command = self.command
+            h.client_address = self.client_address
+            h.server = self.server
+            h.requestline = self.requestline
+            h.request_version = self.request_version
+            h.close_connection = self.close_connection
             h.do_GET()
             return
         
@@ -60,7 +70,23 @@ class RailwayHandler(BaseHTTPRequestHandler):
             print(f"POST request to: {parsed_path.path}")
             
             if parsed_path.path == '/api/validate':
-                h = ValidateHandler(self, self.client_address, self.server)
+                # Create handler instance - BaseHTTPRequestHandler expects (request, client_address, server)
+                # We need to pass self as the request object, but BaseHTTPRequestHandler.__init__ 
+                # will try to call setup() which expects self.connection
+                # Instead, we'll create the handler and manually set the necessary attributes
+                h = ValidateHandler.__new__(ValidateHandler)
+                # Copy necessary attributes from self to handler
+                h.rfile = self.rfile
+                h.wfile = self.wfile
+                h.headers = self.headers
+                h.path = self.path
+                h.command = self.command
+                h.client_address = self.client_address
+                h.server = self.server
+                h.requestline = self.requestline
+                h.request_version = self.request_version
+                h.close_connection = self.close_connection
+                # Now call the handler's do_POST method
                 h.do_POST()
             else:
                 print(f"404: POST to unknown path: {parsed_path.path}")
