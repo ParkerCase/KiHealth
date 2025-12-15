@@ -69,10 +69,12 @@ async function analyzeData() {
   document.getElementById("results").style.display = "none";
 
   try {
+    console.log("Calling API:", `${API_BASE_URL}/api/validate`);
     const response = await fetch(`${API_BASE_URL}/api/validate`, {
       method: "POST",
       body: formData,
     });
+    console.log("Response status:", response.status, response.statusText);
 
     // Read response body once (can only be read once)
     let responseText;
@@ -82,7 +84,7 @@ async function analyzeData() {
       document.getElementById("loading").style.display = "none";
       alert("Error: Failed to read server response. Please try again.");
       console.error("Response read error:", e);
-      return;
+      return false;
     }
 
     // Check if response is OK
@@ -131,8 +133,13 @@ async function analyzeData() {
     }
   } catch (error) {
     document.getElementById("loading").style.display = "none";
-    alert("Error processing file: " + error.message);
-    console.error("Error:", error);
+    console.error("Fetch error:", error);
+    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+      alert("Error: Cannot connect to API server. Please check:\n1. Railway server is running\n2. API URL is correct: " + API_BASE_URL + "\n3. Check browser console for details");
+    } else {
+      alert("Error processing file: " + error.message);
+    }
+    return false;
   }
 }
 
