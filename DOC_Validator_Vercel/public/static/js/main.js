@@ -545,7 +545,7 @@ async function predictOutcomes() {
   formData.append("run_outcome", "true");
 
   try {
-    const response = await fetch("/api/validate", {
+    const response = await fetch(`${API_BASE_URL}/api/validate`, {
       method: "POST",
       body: formData,
     });
