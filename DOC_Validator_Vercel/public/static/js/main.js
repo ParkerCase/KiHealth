@@ -533,7 +533,7 @@ function downloadPredictions() {
 window.outcomesPredicted = false;
 
 async function predictOutcomes() {
-  if (!selectedFile || window.outcomesPredicted) return;
+  if (window.outcomesPredicted) return;
 
   const btn = document.getElementById("predictOutcomesBtn");
   const btnText = document.getElementById("outcomeBtnText");
@@ -544,7 +544,56 @@ async function predictOutcomes() {
   btnText.textContent = "Analyzing outcomes...";
 
   const formData = new FormData();
-  formData.append("file", selectedFile);
+  
+  // Handle both CSV upload and manual entry
+  if (selectedFile) {
+    // CSV upload path
+    formData.append("file", selectedFile);
+  } else if (patientBatch && patientBatch.length > 0) {
+    // Manual entry path - convert batch to CSV
+    const csvHeaders = [
+      "age",
+      "sex",
+      "bmi",
+      "womac_r",
+      "womac_l",
+      "kl_r",
+      "kl_l",
+      "fam_hx",
+    ];
+    
+    const hasOutcome = patientBatch.some((p) => p.tkr_outcome !== undefined);
+    if (hasOutcome) {
+      csvHeaders.push("tkr_outcome");
+    }
+    
+    const csv = [
+      csvHeaders.join(","),
+      ...patientBatch.map((p) =>
+        csvHeaders
+          .map((h) => {
+            const value = p[h];
+            if (value === null || value === undefined) {
+              if (h === "kl_r" || h === "kl_l") {
+                return "na";
+              }
+              return "";
+            }
+            return value;
+          })
+          .join(",")
+      ),
+    ].join("\n");
+    
+    const blob = new Blob([csv], { type: "text/csv" });
+    formData.append("file", blob, "manual_entry.csv");
+  } else {
+    alert("No patients to analyze. Please add patients or upload a CSV file.");
+    btn.disabled = false;
+    btnText.textContent = "Analyze Expected Surgical Outcomes";
+    return;
+  }
+  
   formData.append("run_outcome", "true");
 
   try {
