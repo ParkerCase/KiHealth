@@ -1,5 +1,12 @@
 // DOC Validator - Main JavaScript
 
+// API Configuration - Use Railway backend URL
+// In production (Vercel), this will be the Railway API URL
+// In development, use relative URLs for local testing
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? '' // Use relative URLs for local development
+  : 'https://doc-production-5888.up.railway.app'; // Railway API URL for production
+
 let selectedFile = null;
 
 // File input handling
