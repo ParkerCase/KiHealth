@@ -640,10 +640,14 @@ async function predictOutcomes() {
       }
     }
   } catch (error) {
-    alert("Error predicting outcomes: " + error.message);
-    console.error("Error:", error);
-  } finally {
+    console.error("Error predicting outcomes:", error);
+    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+      alert("Error: Cannot connect to API server. Please check:\n1. Railway server is running\n2. API URL is correct: " + API_BASE_URL);
+    } else {
+      alert("Error predicting outcomes: " + error.message);
+    }
     btn.disabled = false;
+    btnText.textContent = "Analyze Expected Surgical Outcomes";
   }
 }
 
