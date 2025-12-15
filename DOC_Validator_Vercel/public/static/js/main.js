@@ -1282,7 +1282,7 @@ async function analyzeBatch() {
     const formData = new FormData();
     formData.append("file", blob, "manual_entry.csv");
 
-    const response = await fetch("/api/validate", {
+    const response = await fetch(`${API_BASE_URL}/api/validate`, {
       method: "POST",
       body: formData,
     });
