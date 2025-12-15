@@ -2,20 +2,10 @@
   "version": 2,
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "/public/$1"
     }
   ],
-  "functions": {
-    "api/**/*.py": {
-      "maxDuration": 30,
-      "includeFiles": "api/models/**",
-      "excludeFiles": "**/*.pyc,__pycache__/**,*.pyo,*.pyd,.git/**,*.md,*.txt,!requirements.txt,!runtime.txt,!*.md"
-    }
-  },
-  "buildCommand": "echo 'No build needed'"
+  "buildCommand": "echo 'No build needed - frontend only'",
+  "outputDirectory": "public"
 }
