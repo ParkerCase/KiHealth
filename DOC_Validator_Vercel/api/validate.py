@@ -485,7 +485,7 @@ class handler(BaseHTTPRequestHandler):
 
                     if len(X_high_risk) > 0:
                         # Predict improvement
-                        improvement_pred = OUTCOME_MODEL.predict(X_high_risk)
+                        improvement_pred = OUTCOME_MODEL.predict(X_all_patients)
 
                         # Create improvement bands
                         improvement_pred_series = pd.Series(improvement_pred)
@@ -503,7 +503,7 @@ class handler(BaseHTTPRequestHandler):
 
                         # Calculate statistics
                         outcome_predictions = {
-                            "n_analyzed": int(len(X_high_risk)),
+                            "n_analyzed": int(len(X_all_patients)),
                             "mean_improvement": float(improvement_pred.mean()),
                             "median_improvement": float(np.median(improvement_pred)),
                             "std_improvement": float(improvement_pred.std()),
@@ -527,13 +527,13 @@ class handler(BaseHTTPRequestHandler):
                         }
 
                         # Add to patient data for download
-                        df_high_risk = df[high_risk_mask].copy()
-                        df_high_risk["predicted_improvement"] = improvement_pred
-                        df_high_risk["improvement_band"] = bands.astype(str)
+                        df_all_patients = df.copy()
+                        df_all_patients["predicted_improvement"] = improvement_pred
+                        df_all_patients["improvement_band"] = bands.astype(str)
 
                         # Merge with original predictions
-                        if "patient_id" in df_high_risk.columns:
-                            outcome_download = df_high_risk[
+                        if "patient_id" in df_all_patients.columns:
+                            outcome_download = df_all_patients[
                                 [
                                     "patient_id",
                                     "predicted_risk",
@@ -543,7 +543,7 @@ class handler(BaseHTTPRequestHandler):
                                 ]
                             ].copy()
                         else:
-                            outcome_download = df_high_risk[
+                            outcome_download = df_all_patients[
                                 [
                                     "predicted_risk",
                                     "risk_category",
@@ -552,7 +552,7 @@ class handler(BaseHTTPRequestHandler):
                                 ]
                             ].copy()
                             outcome_download.insert(
-                                0, "patient_number", range(1, len(df_high_risk) + 1)
+                                0, "patient_number", range(1, len(df_all_patients) + 1)
                             )
 
                         # Format risk as percentage
@@ -569,7 +569,7 @@ class handler(BaseHTTPRequestHandler):
 
                     else:
                         outcome_predictions = {
-                            "error": "No moderate/high-risk patients (>5% surgery risk) to analyze"
+                            "error": "No patients to analyze"
                         }
 
                 except Exception as e:

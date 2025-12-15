@@ -309,19 +309,15 @@ function displayResults(data) {
   // Render charts
   renderCharts(data.plots);
 
-  // NEW: Check if there are moderate/high-risk patients for outcome analysis
-  const moderateHighRisk =
-    data.summary.total_patients * (data.summary.high_risk_pct / 100);
-
-  if (moderateHighRisk > 0) {
+  // NEW: Show outcome analysis for ALL patients (not just moderate/high risk)
+  // User wants to see outcomes for all risk categories
+  if (data.summary.total_patients > 0) {
     const outcomeSection = document.getElementById("outcomeSection");
     const outcomeBtnText = document.getElementById("outcomeBtnText");
 
     if (outcomeSection && outcomeBtnText) {
       outcomeSection.style.display = "block";
-      outcomeBtnText.textContent = `Analyze Expected Surgical Outcomes (${Math.round(
-        moderateHighRisk
-      )} patients)`;
+      outcomeBtnText.textContent = `Analyze Expected Surgical Outcomes (${data.summary.total_patients} patients)`;
 
       // Reset state
       window.outcomesPredicted = false;
