@@ -1383,3 +1383,32 @@ function showNotification(message) {
     setTimeout(() => notification.remove(), 300);
   }, 2000);
 }
+
+// Initialize outcome prediction button handler
+function attachOutcomeHandler() {
+  const predictOutcomesBtn = document.getElementById("predictOutcomesBtn");
+  if (predictOutcomesBtn) {
+    // Remove any existing listeners by cloning the button
+    const newBtn = predictOutcomesBtn.cloneNode(true);
+    predictOutcomesBtn.parentNode.replaceChild(newBtn, predictOutcomesBtn);
+    
+    newBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("Outcome prediction button clicked");
+      predictOutcomes();
+      return false;
+    });
+    console.log("✓ Outcome prediction handler attached");
+  } else {
+    // Retry if button not found yet (might be hidden initially)
+    setTimeout(attachOutcomeHandler, 500);
+  }
+}
+
+// Initialize outcome handler when DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", attachOutcomeHandler);
+} else {
+  attachOutcomeHandler();
+}
