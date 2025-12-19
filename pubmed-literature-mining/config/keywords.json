@@ -1,0 +1,60 @@
+{
+  "high_value_keywords": {
+    "predictive_factors": [
+      "predictor", "risk factor", "prognostic", "baseline", "predictive",
+      "prediction", "prognosis", "risk", "association", "correlate"
+    ],
+    "outcomes": [
+      "total knee replacement", "tkr", "arthroplasty", "surgery", "progression",
+      "knee replacement", "joint replacement", "surgical intervention"
+    ],
+    "imaging": [
+      "kl grade", "kellgren-lawrence", "radiographic", "mri", "x-ray", "xray",
+      "joint space narrowing", "osteophyte", "cartilage", "bone marrow lesion"
+    ],
+    "symptoms": [
+      "womac", "koos", "pain score", "functional outcome", "pain", "stiffness",
+      "disability", "function", "quality of life", "qol"
+    ],
+    "statistical": [
+      "cohort study", "longitudinal", "prediction model", "machine learning",
+      "multivariable", "regression", "hazard ratio", "odds ratio", "auc",
+      "roc curve", "c-index"
+    ]
+  },
+  "study_designs": {
+    "cohort_study": ["cohort", "prospective cohort", "retrospective cohort", "longitudinal cohort"],
+    "rct": ["randomized controlled trial", "rct", "randomized trial", "clinical trial"],
+    "case_control": ["case-control", "case control"],
+    "systematic_review": ["systematic review", "meta-analysis", "meta analysis"],
+    "cross_sectional": ["cross-sectional", "cross sectional"]
+  },
+  "predictive_factors": {
+    "demographics": ["age", "sex", "gender", "bmi", "body mass index", "race", "ethnicity"],
+    "symptoms": ["pain", "womac", "koos", "walking distance", "stiffness", "disability"],
+    "imaging": ["kl grade", "kellgren-lawrence", "joint space narrowing", "osteophyte", "mri", "x-ray"],
+    "biomarkers": ["ctx-ii", "ha", "hyaluronic acid", "mmp-3", "matrix metalloproteinase", "inflammatory marker", "crp", "esr"],
+    "comorbidities": ["diabetes", "cardiovascular disease", "depression", "anxiety", "obesity"],
+    "functional": ["gait analysis", "muscle strength", "range of motion", "rom", "quadriceps strength"],
+    "psychosocial": ["depression", "anxiety", "catastrophizing", "fear", "kinesiophobia"]
+  },
+  "top_tier_journals": [
+    "new england journal of medicine",
+    "nejm",
+    "lancet",
+    "jama",
+    "journal of the american medical association",
+    "arthritis & rheumatology",
+    "arthritis and rheumatology"
+  ],
+  "mid_tier_journals": [
+    "osteoarthritis and cartilage",
+    "osteoarthritis & cartilage",
+    "journal of bone and joint surgery",
+    "jbjs",
+    "bone & joint journal",
+    "clinical orthopaedics and related research",
+    "journal of orthopaedic research"
+  ]
+}
+
