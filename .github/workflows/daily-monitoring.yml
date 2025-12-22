@@ -6,6 +6,10 @@ on:
     - cron: "0 7 * * 1"
   workflow_dispatch: # Allows manual triggering
 
+# Grant write permissions to push commits
+permissions:
+  contents: write
+
 jobs:
   oa-scraping:
     name: OA Literature Mining
@@ -91,7 +95,7 @@ jobs:
               - Articles processed: $(cat pubmed-literature-mining/logs/daily_count.txt 2>/dev/null || echo 'N/A')
               - Paywalled articles: $(cat pubmed-literature-mining/logs/paywalled_count.txt 2>/dev/null || echo 'N/A')
               - Predictive factors: $(cat pubmed-literature-mining/logs/factors_count.txt 2>/dev/null || echo 'N/A')" || echo "Commit failed"
-              git push || echo "Push failed"
+              git push || echo "Push failed - this is OK, data is still stored"
             else
               echo "No changes to commit"
             fi
