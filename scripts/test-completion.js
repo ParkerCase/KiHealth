@@ -26,7 +26,7 @@ if (fs.existsSync(dashboardEnvPath)) {
   require("dotenv").config();
 }
 
-const { buildClient } = require("@xata.io/client");
+const { getXataClient } = require("./file-storage"); // Use file storage instead
 
 // Setup logging
 const logDir = path.join(__dirname, "..", "logs");
@@ -45,46 +45,7 @@ function log(message) {
   fs.appendFileSync(logFile, logMessage);
 }
 
-// Initialize Xata client (with better error handling)
-function getXataClient() {
-  if (!process.env.XATA_API_KEY) {
-    // Check if .env file exists
-    const envPath = path.join(__dirname, ".env");
-    const parentEnvPath = path.join(__dirname, "..", ".env");
-    const envExists = fs.existsSync(envPath) || fs.existsSync(parentEnvPath);
-
-    if (!envExists) {
-      throw new Error(
-        "XATA_API_KEY is not set. Please create a .env file in the scripts directory or root directory with XATA_API_KEY and XATA_DB_URL."
-      );
-    } else {
-      throw new Error(
-        "XATA_API_KEY is not set in environment variables, but .env file exists. Make sure the .env file contains XATA_API_KEY=your_key"
-      );
-    }
-  }
-
-  const XataClient = buildClient();
-  const options = {
-    apiKey: process.env.XATA_API_KEY,
-  };
-
-  if (process.env.XATA_DB_URL) {
-    const url = process.env.XATA_DB_URL;
-    const dbMatch = url.match(/\/db\/([^:]+):(.+)$/);
-    if (dbMatch) {
-      const baseUrl = url.substring(0, url.lastIndexOf(":"));
-      options.databaseURL = baseUrl;
-      options.branch = dbMatch[2];
-    } else {
-      options.databaseURL = url;
-    }
-  } else if (process.env.XATA_BRANCH) {
-    options.branch = process.env.XATA_BRANCH;
-  }
-
-  return new XataClient(options);
-}
+// Xata client is now imported from file-storage.js (file-based, no API key needed)
 
 // Test results
 const results = {

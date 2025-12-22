@@ -9,7 +9,7 @@
  */
 
 require("dotenv").config();
-const { buildClient } = require("@xata.io/client");
+const { getXataClient } = require("./file-storage"); // Use file storage instead
 const Anthropic = require("@anthropic-ai/sdk");
 const OpenAI = require("openai");
 const { exec } = require("child_process");
@@ -41,33 +41,7 @@ function log(message) {
   fs.appendFileSync(logFile, logMessage);
 }
 
-// Initialize Xata client
-function getXataClient() {
-  if (!process.env.XATA_API_KEY) {
-    throw new Error("XATA_API_KEY is not set in environment variables");
-  }
-
-  const XataClient = buildClient();
-  const options = {
-    apiKey: process.env.XATA_API_KEY,
-  };
-
-  if (process.env.XATA_DB_URL) {
-    const url = process.env.XATA_DB_URL;
-    const dbMatch = url.match(/\/db\/([^:]+):(.+)$/);
-    if (dbMatch) {
-      const baseUrl = url.substring(0, url.lastIndexOf(":"));
-      options.databaseURL = baseUrl;
-      options.branch = dbMatch[2];
-    } else {
-      options.databaseURL = url;
-    }
-  } else if (process.env.XATA_BRANCH) {
-    options.branch = process.env.XATA_BRANCH;
-  }
-
-  return new XataClient(options);
-}
+// Xata client is now imported from file-storage.js (file-based, no API key needed)
 
 // Initialize AI client for generating explanations
 function getAIClient() {
