@@ -18,7 +18,7 @@
 
 require("dotenv").config();
 const axios = require("axios");
-const { getXataClient } = require("./file-storage"); // Use file storage instead
+const { getXataClient } = require("./google-sheets-storage"); // Use Google Sheets (falls back to file storage)
 const fs = require("fs");
 const path = require("path");
 

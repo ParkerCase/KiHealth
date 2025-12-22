@@ -1,9 +1,9 @@
-name: Daily Monitoring System
+name: Weekly Monitoring System
 
 on:
   schedule:
-    # Runs daily at 2 AM EST (7 AM UTC)
-    - cron: "0 7 * * *"
+    # Runs weekly on Mondays at 2 AM EST (7 AM UTC)
+    - cron: "0 7 * * 1"
   workflow_dispatch: # Allows manual triggering
 
 jobs:
@@ -27,6 +27,10 @@ jobs:
 
       - name: Run PubMed monitor
         working-directory: ./scripts
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
         run: npm run monitor
         continue-on-error: true
 
@@ -59,6 +63,10 @@ jobs:
 
       - name: Run LINCS monitor
         working-directory: ./scripts
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
         run: node lincs-monitor.js
         continue-on-error: true
 
@@ -93,6 +101,9 @@ jobs:
       - name: Run AI analysis
         working-directory: ./scripts
         env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
           AI_PROVIDER: ${{ secrets.AI_PROVIDER || 'anthropic' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -140,6 +151,10 @@ jobs:
 
       - name: Run recalculation
         working-directory: ./scripts
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
         run: node auto-recalculate.js
         continue-on-error: true
 
@@ -174,6 +189,9 @@ jobs:
       - name: Run completion test
         working-directory: ./scripts
         env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
           AI_PROVIDER: ${{ secrets.AI_PROVIDER || 'anthropic' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY || '' }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY || '' }}

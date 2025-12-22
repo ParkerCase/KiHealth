@@ -9,7 +9,7 @@
  */
 
 require("dotenv").config();
-const { getXataClient } = require("./file-storage"); // Use file storage instead
+const { getXataClient } = require("./google-sheets-storage"); // Use Google Sheets (falls back to file storage)
 const Anthropic = require("@anthropic-ai/sdk");
 const OpenAI = require("openai");
 const { exec } = require("child_process");
