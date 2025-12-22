@@ -1,0 +1,24 @@
+{
+  "pmid": "41233101",
+  "title": "Updates in Enhanced Recovery Pathways for Total Knee Arthroplasty.",
+  "abstract": "Over 800,000 total knee arthroplasties (TKAs) are performed annually in the United States, with costs exceeding $18 billion. As the prevalence of knee osteoarthritis rises, enhanced recovery after surgery (ERAS) protocols have become vital to improve outcomes and reduce costs. ERAS in TKA focuses on optimizing pain control, minimizing hospital stays, and reducing complications. Key preoperative interventions include correcting anemia, improving nutritional status, encouraging smoking cessation, and cautiously evaluating carbohydrate loading. These measures have been shown to lower transfusion rates, reduce perioperative complications, and improve recovery. This review outlines the evidence supporting ERAS strategies tailored to orthopedic patients undergoing TKA.",
+  "authors": "Davies, Stephen; Kumar, Amanda H; Grant, Stuart A; Gadsden, Jeff",
+  "journal": "Anesthesiology clinics",
+  "doi": "10.1016/j.anclin.2025.07.006",
+  "publication_date": "2025-12-22T20:04:14.360949",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 11,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "$18 billion. as the prevalence of knee osteoarthritis rises, enhanced recovery after surgery (eras) protocols have become vital to improve outcomes and reduce costs. eras in tka focuses on optimizing pain control, minimizing hospital stays, and reducing complications. key preoperative interventions include correcting anemia, improving nutritional status, encouraging smoking cessation, and cautiously e"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:15.652228",
+  "updated_at": "2025-12-22T20:04:15.652231"
+}

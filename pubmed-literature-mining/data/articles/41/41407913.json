@@ -1,0 +1,31 @@
+{
+  "pmid": "41407913",
+  "title": "Denosumab attenuates knee osteoarthritis progression by inhibiting synovial inflammation via the RANK/TRAF6/FSTL1 signalling.",
+  "abstract": "Synovitis has recently been shown to be a critical early stage in development of osteoarthritis (OA), and inhibiting synovitis significantly alleviates OA symptoms. Denosumab, a monoclonal antibody targeting RANKL, previously developed for osteoporosis. Here, we report the effect of denosumab on fibroblast-like synoviocytes (FLSs), attenuating synovitis and consequently OA progression. We first demonstrate that RANKL is highly expressed in the knee synovium of OA mice, as well as in patients. Next, we show that denosumab, injected systemically, accumulates in the synovium and effectively reduces synovitis through RANK/TRAF6/FSTL1 signalling in post-traumatic, inflammatory, and aged OA murine models and a beagle dog OA model, delaying OA progression. Finally, a single-arm clinical trial with primary endpoints of VAS and OKS scores, and secondary endpoints of WOMAC score and adverse events rate, shows that denosumab alleviates synovitis and pain, improving joint function in knee OA patients. These findings provide a translational basis for using denosumab to treat knee OA in the clinic.",
+  "authors": "Hu, Yuxiang; Chen, Wei; Lan, Shenghui; Ming, Chaochang; Xu, Dongdong; Li, Haitao; Xu, Hao; Shi, Deyao; Liu, Weijian; Dai, Zhipeng; Wang, Jian; He, Zhili; Xu, Weihua; Shao, Zengwu; Liu, Yong; Tian, Hongtao; Tong, Wei",
+  "journal": "Nature communications",
+  "doi": "10.1038/s41467-025-66202-z",
+  "publication_date": "2025-12-22T20:02:38.833699",
+  "access_type": "open_access",
+  "pdf_url": "https://doi.org/10.1038/s41467-025-66202-z",
+  "relevance_score": 32,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ssion. finally, a single-arm clinical trial with primary endpoints of vas and oks scores, and secondary endpoints of womac score and adverse events rate, shows that denosumab alleviates synovitis and pain, improving joint function in knee oa patients. these findings provide a translational basis for using denosumab to treat knee oa in the clinic."
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "flammatory, and aged oa murine models and a beagle dog oa model, delaying oa progression. finally, a single-arm clinical trial with primary endpoints of vas and oks scores, and secondary endpoints of womac score and adverse events rate, shows that denosumab alleviates synovitis and pain, improving joint function in knee oa patients. these findings provide a translational basis for using denosumab to tr"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:02:40.142896",
+  "updated_at": "2025-12-22T20:02:40.142898"
+}

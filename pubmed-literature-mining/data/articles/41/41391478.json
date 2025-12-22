@@ -1,0 +1,88 @@
+{
+  "pmid": "41391478",
+  "title": "What is the clinical and cost-effectiveness of surgery with Medial Opening wedge high TIbial Osteotomy compared with Non-surgical treatment (MOTION) in the management of osteoarthritis of the knee in patients younger than 60 years? : a protocol for a multicentre, randomized controlled trial.",
+  "abstract": "For patients aged < 60 years with symptomatic medial compartment knee osteoarthritis (OA), there is uncertainty regarding the most effective management (surgical or non-surgical). Surgical realignment with a high tibial osteotomy (HTO) can relieve pain and improve function, while also potentially avoiding or delaying a knee arthroplasty. However, HTO has never been compared with non-surgical treatment in this patient group. MOTION (Medial Opening wedge high TIbial Osteotomy compared with Non-surgical treatment) aims to determine the relative clinical effectiveness and cost-effectiveness of HTO compared with non-surgical management for patients aged < 60 years with medial compartment knee OA. MOTION is a pragmatic, multicentre, prospective randomized open blinded endpoint (PROBE) parallel group-controlled superiority trial. A total of 224 patients (112 per arm) will be recruited from approximately 20 UK sites. Patients aged < 60 years with moderate to severe symptomatic knee OA localized to the medial compartment, in whom surgical intervention is indicated, are eligible. The intervention is surgery with medial opening wedge HTO followed by standard postoperative rehabilitation, compared with a non-surgical intervention in the form of personalized knee therapy (PKT) focused on a structured, progressive, and tailored exercise programme of rehabilitation. Participants will be randomly assigned to one of the two treatment arms in a 1:1 ratio. The primary outcome is the Knee Injury and Osteoarthritis Outcome Score (KOOS) at 24 months post randomization. Secondary outcomes include the Oxford Knee Score (OKS), Forgotten Joint Score (FJS), EuroQol five-dimension questionnaire (EQ-5D), Sleep Problem Scale, return to work, need for secondary surgical intervention, and adverse events at 12 and 24 months. Health economic evaluation will determine the cost-effectiveness of the interventions. MOTION is funded by the National Institute for Health and Care Research (Ref: NIHR129820). MOTION aims to determine whether HTO is a superior option to non-surgical management (PKT) for patients aged < 60 years with medial compartment knee OA with regard to both the clinical benefit for patients and cost-effectiveness for the NHS.",
+  "authors": "Amin, Anish K; Locherty, Rachel; Agarwal, Nikhil; Rickman, Hannah; Metcalfe, Andrew; Blyth, Mark John Graham; Scott, Chloe E H; Clement, Nick D; Miller, Martine; Dobbie, Fiona; Stoddart, Andrew; Hamilton, David F; Ralston, Stuart H; Lewis, Steff; Duckworth, Andrew D",
+  "journal": "Bone & joint open",
+  "doi": "10.1302/2633-1462.612.BJO-2025-0185.R1",
+  "publication_date": "2025-12-22T20:02:52.602373",
+  "access_type": "open_access",
+  "pdf_url": "https://boneandjoint.org.uk/article/10.1302/2633-1462.612.BJO-2025-0185.R1/pdf",
+  "pdf_path": "data/pdfs/41391478.pdf",
+  "relevance_score": 43,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "for patients aged < 60 years with symptomatic medial compartment knee osteoarthritis (oa), there is uncertainty regarding the most effective management (surgical or non-surgical). surgical realignment with a high tibial osteotomy (hto) can relieve pain and improve function, while also potentially avoiding or delaying a knee arthroplasty. however"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "medial compartment knee oa. balanced, a minimization algorithm will incorporate age, sex,"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "bmi, and baseline knee injury and osteoarthritis outcome"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "dial compartment knee osteoarthritis (oa), there is uncertainty regarding the most effective management (surgical or non-surgical). surgical realignment with a high tibial osteotomy (hto) can relieve pain and improve function, while also potentially avoiding or delaying a knee arthroplasty. however, hto has never been compared with non-surgical treatment in this patient group. motion (medial opening w"
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "what is the minimum clinically important difference for the womac 41. willis-owen ca, brust k, alsop h, miraldo m, cobb jp. unicondylar"
+    },
+    {
+      "factor": "Koos",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "exercise programme of rehabilitation. participants will be randomly assigned to one of the two treatment arms in a 1:1 ratio. the primary outcome is the knee injury and osteoarthritis outcome score (koos) at 24 months post randomization. secondary outcomes include the oxford knee score (oks), forgotten joint score (fjs), euroqol five-dimension questionnaire (eq-5d), sleep problem scale, return to wor"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "and disability worldwide,1,2 with the knee most commonly personalized knee therapy (pkt). the setting will be within the"
+    },
+    {
+      "factor": "Ha",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "surgical or non-surgical). surgical realignment with a high tibial osteotomy (hto) can relieve pain and improve function, while also potentially avoiding or delaying a knee arthroplasty. however, hto has never been compared with non-surgical treatment in this patient group. motion (medial opening wedge high tibial osteotomy compared with non-surgical treatment) aims to determine the relative clinica"
+    },
+    {
+      "factor": "Depression",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "nhs waiting lists. in the pkt group, data will be collected pain/discomfort, and anxiety/depression.22 the answers given"
+    },
+    {
+      "factor": "Anxiety",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "nhs waiting lists. in the pkt group, data will be collected pain/discomfort, and anxiety/depression.22 the answers given"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:02:57.192863",
+  "updated_at": "2025-12-22T20:02:57.192865"
+}

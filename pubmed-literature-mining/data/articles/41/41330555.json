@@ -1,0 +1,24 @@
+{
+  "pmid": "41330555",
+  "title": "Social Deprivation as a Risk Factor for Manipulation Under Anesthesia Following Total Knee Arthroplasty.",
+  "abstract": "Manipulation under anesthesia (MUA) is an undesirable outcome after total knee arthroplasty (TKA). Black patients have higher odds of MUA than White patients. Social deprivation is also linked to worse TKA outcomes. We examined the associations between an area- and person-level indicator of social deprivation and odds of MUA within 1 year after TKA. This retrospective cohort study included fee-for-service Medicare beneficiaries 65+ (Medicare Limited Data Set, 5% claims) undergoing unilateral inpatient or outpatient primary elective TKA in 2016 to 2020 with an accompanying diagnosis of knee osteoarthritis. Area-level social deprivation was assessed using the county-level Social Deprivation Index (SDI). Person-level social deprivation was operationalized as dual Medicare/Medicaid eligibility. We assessed the relationship between social deprivation and 1-year MUA in separate mixed effects generalized linear models with a binary distribution and logit link. We report adjusted odds ratios (OR) and 95% confidence intervals (CI). Our cohort included 34,749 TKA patients (median age: 73 [interquartile range (IQR): 69-77]; 63.4% women). Median SDI was 42 (IQR: 20-66); 4.7% were dual-eligible. There were 748 cases of MUA (2.2%). Median time to MUA was 63.5 days (IQR: 49-91). Odds of MUA receipt were significantly lower for the most deprived quintile compared with the second most deprived quintile (OR: 0.77; 95% CI: 0.60-0.98; ",
+  "authors": "Balachandran, Uma; Stern, Brocha Z; Dhanjani, Suraj; Poeran, Jashvant; Hayden, Brett L; Moucha, Calin S",
+  "journal": "The journal of knee surgery",
+  "doi": "10.1055/a-2756-0368",
+  "publication_date": "2025-12-22T20:03:00.659863",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 40,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "xed effects generalized linear models with a binary distribution and logit link. we report adjusted odds ratios (or) and 95% confidence intervals (ci). our cohort included 34,749 tka patients (median age: 73 [interquartile range (iqr): 69-77]; 63.4% women). median sdi was 42 (iqr: 20-66); 4.7% were dual-eligible. there were 748 cases of mua (2.2%). median time to mua was 63.5 days (iqr: 49-91). odds"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:02.004803",
+  "updated_at": "2025-12-22T20:03:02.004806"
+}

@@ -1,0 +1,45 @@
+{
+  "pmid": "41324708",
+  "title": "Comparable outcomes between cruciate-retaining and posterior-stabilized implants following functionally aligned robotic-assisted total knee arthroplasty for varus knee osteoarthritis.",
+  "abstract": "This study aimed to investigate the impact of implant type, cruciate-retaining (CR) vs. posterior-stabilized (PS), on the clinical results of robotic-assisted total knee arthroplasty (RA-TKA) performed with a functional alignment (FA) strategy in varus knee osteoarthritis (KOA). We retrospectively analyzed 221 RA-TKA procedures performed using an FA strategy, including 109 CR and 112 PS implants, with a minimum follow-up period of 18 months (mean: 23.3 months; range: 18-28 months). Patient-reported outcome measures (PROMs) were captured using KOOS-JR, FJS, WOMAC, KSS function, and a 5-point Likert scale. Performance-based outcomes were assessed through the 2-minute walk test (2MWT) and the Timed Up-and-Go test (TUG). Additionally, range of motion (ROM), complications, manipulation under anesthesia (MUA), reoperations, and revisions were evaluated. Functional scores, patient satisfaction with daily or recreational activities, performance-based outcomes, and ROM, showed no significant differences between the CR and PS groups. No complications occurred, and no patients required MUA, reoperations, or revisions in either group. CR and PS implant designs provided comparable functional scores, patient satisfaction, performance-based outcomes, and ROM following functionally aligned RA-TKA for varus KOA. No complications occurred, and no patients required MUA, reoperations, or revisions in either group.",
+  "authors": "Huang, Zhenchao; Chen, Fan; Wang, Wenzhe; Mu, Feiyu; Zhang, Haining; Zhang, Zian",
+  "journal": "Journal of robotic surgery",
+  "doi": "10.1007/s11701-025-03008-7",
+  "publication_date": "2025-12-22T20:04:01.872859",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 15,
+  "predictive_factors": [
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ncluding 109 cr and 112 ps implants, with a minimum follow-up period of 18 months (mean: 23.3 months; range: 18-28 months). patient-reported outcome measures (proms) were captured using koos-jr, fjs, womac, kss function, and a 5-point likert scale. performance-based outcomes were assessed through the 2-minute walk test (2mwt) and the timed up-and-go test (tug). additionally, range of motion (rom), comp"
+    },
+    {
+      "factor": "Koos",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "fa strategy, including 109 cr and 112 ps implants, with a minimum follow-up period of 18 months (mean: 23.3 months; range: 18-28 months). patient-reported outcome measures (proms) were captured using koos-jr, fjs, womac, kss function, and a 5-point likert scale. performance-based outcomes were assessed through the 2-minute walk test (2mwt) and the timed up-and-go test (tug). additionally, range of mot"
+    },
+    {
+      "factor": "Range Of Motion",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "d using koos-jr, fjs, womac, kss function, and a 5-point likert scale. performance-based outcomes were assessed through the 2-minute walk test (2mwt) and the timed up-and-go test (tug). additionally, range of motion (rom), complications, manipulation under anesthesia (mua), reoperations, and revisions were evaluated. functional scores, patient satisfaction with daily or recreational activities, performance-based"
+    },
+    {
+      "factor": "Rom",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "edures performed using an fa strategy, including 109 cr and 112 ps implants, with a minimum follow-up period of 18 months (mean: 23.3 months; range: 18-28 months). patient-reported outcome measures (proms) were captured using koos-jr, fjs, womac, kss function, and a 5-point likert scale. performance-based outcomes were assessed through the 2-minute walk test (2mwt) and the timed up-and-go test (tug)."
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:03.159874",
+  "updated_at": "2025-12-22T20:04:03.159877"
+}

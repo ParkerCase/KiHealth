@@ -1,0 +1,88 @@
+{
+  "pmid": "41396557",
+  "title": "Lateral unicompartmental knee arthroplasty anatomy, indications, technique, and outcomes: a narrative review.",
+  "abstract": "Lateral unicompartmental knee arthroplasty (UKA) is an effective surgical option for isolated lateral compartment osteoarthritis, though it remains less common than medial UKA. The lateral compartment differs substantially from the medial compartment in osseous morphology, meniscal mobility, and reliance on soft tissue stabilizers, resulting in unique kinematics that require distinct implant designs and surgical strategies. While earlier guidelines delineated narrow indications, contemporary evidence supports expanded indications, with good outcomes even in younger patients, those with higher body mass index, or mild patellofemoral joint disease. Technical considerations include surgical approach, alignment goals, and implant choice, with fixed-bearing implants preferred due to lower dislocation risk and robotic-assisted techniques showing promise for optimizing implant positioning. Modern series demonstrate survivorship exceeding 90% at 10-15 years, with functional outcomes comparable to medial UKA and superior to total knee arthroplasty in some areas such as recovery, patient satisfaction, and wound infection and other complication rates. This review summarizes the anatomy and biomechanics of the lateral compartment of the knee, indications, surgical technique, implant options, and clinical outcomes of lateral UKA.",
+  "authors": "Hong, Jennifer; Tjoumakaris, Paul; Sanghavi, Sahil; Alnemri, Ahab; Thota, Praneeth; Smith, Weston; Eiel, Emily; Sheth, Neil",
+  "journal": "Archives of orthopaedic and trauma surgery",
+  "doi": "10.1007/s00402-025-06157-4",
+  "publication_date": "2025-12-22T20:02:45.327003",
+  "access_type": "open_access",
+  "pdf_url": "https://link.springer.com/content/pdf/10.1007/s00402-025-06157-4.pdf",
+  "pdf_path": "data/pdfs/41396557.pdf",
+  "relevance_score": 13,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "10 page 2 of 15 archives of orthopaedic and trauma surgery (2026) 146:10"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "inter-individual differences mass index (bmi), and mild pfj disease are no longer con-"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ns and surgical strategies. while earlier guidelines delineated narrow indications, contemporary evidence supports expanded indications, with good outcomes even in younger patients, those with higher body mass index, or mild patellofemoral joint disease. technical considerations include surgical approach, alignment goals, and implant choice, with fixed-bearing implants preferred due to lower dislocation risk and"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "tion, and low pain scores among 77 robotic-assisted lateral"
+    },
+    {
+      "factor": "Koos",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "survivorship. studies examining the effects of age, obesity, tis outcome score (koos) and kujala scores did not vary"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "xue et al. 248 fixed, 70.6 5 99.5% knee stiffness (1%) manual release"
+    },
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "jennifer hong1 · paul tjoumakaris1 · sahil sanghavi2 · ahab alnemri1 · praneeth thota1 · weston smith1 · emily eiel1 ·"
+    },
+    {
+      "factor": "Ha",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "lateral unicompartmental knee arthroplasty (uka) is an effective surgical option for isolated lateral compartment osteoarthritis, though it remains less common than medial uka. the lateral compartment differs substantially from the medial compartment in osseous morphology, meniscal mobility, and reliance on soft tissue stabilizers, resulting in unique kinematic"
+    },
+    {
+      "factor": "Obesity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "skolnick and colleagues in 1975 with a small case series obesity"
+    },
+    {
+      "factor": "Range Of Motion",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "relatively greater range of motion in the lateral compart- lateral compartment oa. each increase in valgus malalign-"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:02:52.089077",
+  "updated_at": "2025-12-22T20:02:52.089079"
+}

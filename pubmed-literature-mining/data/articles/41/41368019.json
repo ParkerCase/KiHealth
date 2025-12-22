@@ -1,0 +1,24 @@
+{
+  "pmid": "41368019",
+  "title": "Severe knee osteoarthritis is associated with histological and ultrastructural changes in the semitendinosus tendon.",
+  "abstract": "This study aimed to assess degenerative changes in the semitendinosus tendon in patients with knee osteoarthritis (OA). The hypothesis was that individuals with severe OA would demonstrate more pronounced histological and ultrastructural tendon degeneration than those with mild-to-moderate OA. Tendon samples were obtained from 45 patients with knee OA. Twenty patients (median age: 53 [30-63] years) with mild-to-moderate OA underwent high tibial osteotomy (HTO), while 25 patients (median age: 71 [51-88] years) with severe OA underwent total knee arthroplasty (TKA). Semitendinosus tendon biopsies were collected at the time of surgery and examined histologically and ultrastructurally using light and electron microscopy. The severe OA group exhibited a significantly larger mean fibril diameter than did the mild-to-moderate OA group. Histological analysis revealed significant differences across all components of the semiquantitative scoring system, except in cellularity, which remained similar between groups. The overall degenerative score was significantly higher in the severe OA group. Advanced knee OA is associated with significant histological and ultrastructural degeneration of the semitendinosus tendon, which could be interpreted as an adaptive response to chronic joint degeneration and biomechanical stress. Level III.",
+  "authors": "Qadir, Dlshad; Meknas, Khaled; Steigen, Sonja Eriksson; Olsen, Randi; Sernert, Ninni; Kartus, Jüri-Toomas; Karikis, Ioannis",
+  "journal": "Journal of experimental orthopaedics",
+  "doi": "10.1002/jeo2.70565",
+  "publication_date": "2025-12-22T20:03:23.601535",
+  "access_type": "open_access",
+  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12683678/",
+  "relevance_score": 11,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "monstrate more pronounced histological and ultrastructural tendon degeneration than those with mild-to-moderate oa. tendon samples were obtained from 45 patients with knee oa. twenty patients (median age: 53 [30-63] years) with mild-to-moderate oa underwent high tibial osteotomy (hto), while 25 patients (median age: 71 [51-88] years) with severe oa underwent total knee arthroplasty (tka). semitendino"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:23.982448",
+  "updated_at": "2025-12-22T20:03:23.982450"
+}

@@ -1,0 +1,31 @@
+{
+  "pmid": "41376347",
+  "title": "Enhancing total knee replacement prediction: a longitudinal joint space radiomic model integrated with clinical symptoms.",
+  "abstract": "Total knee replacement (TKR) patients often experience severe joint space structural changes and osteoarthritis (OA) symptoms. However, there is currently no integrated model combining joint space radiomics and clinical symptoms for TKR prediction. We aimed to develop and test a joint space plus clinical variable radiomic model (JSC-RM) to predict TKR within 4-year. We selected 442 knees with symptomatic knee OA but without TKR at baseline from the Osteoarthritis Initiative cohort. There were 1227 knee MRIs included during 4-year follow-up. Each knee MRI visit was split into development and test cohorts in 1:1. The predictive model was developed by total development cohorts (n = 613, 309 TKRs vs. 304 controls), and tested by total test cohorts (n = 614, 306 TKRs vs. 308 controls). The total test cohort included four visits: baseline (test cohort 1), three-year prior to TKR (test cohort 2), two-year prior to TKR (test cohort 3), and one-year prior to TKR (test cohort 4). Using deep learning, MRI-based features of joint space radiomics, including those of the meniscus and femorotibial cartilage, were extracted. Final model integrated KOOS scores (baseline data) and joint space radiomics, which were developed and tested using machine learning. Subsequently, the model's performance was evaluated across all cohorts. Seven resident and four senior surgeons performed MRI reader experiment with or without the assistance of JSC-RM. In the total test cohort, the JSC-RM predicted TKR with an AUC (95% CI) of 0.85 (0.82-0.88). The output of JSC-RM predicted an elevated TKR risk (OR: 22.9, 95% CI: 13.8-37.9). Surgeons using JSC-RM significantly improved TKR prediction with mean sensitivity increased from 42% (123/306) to 72% (143/306) and specificity from 45% (213/308) to 78% (123/308). The model that combined joint space radiomic features with KOOS scores could be a useful tool in predicting TKR.",
+  "authors": "Wang, Ting; Liu, Hao; Rong, Huiqun; Liu, Zhengrui; Cao, Peihua; Li, Jia; Chen, Tianyu; Wang, Yang; Zhao, Wenbo; Chen, Lan; Chen, Lili; Liao, Ruyu; Liu, Shanhong; Ruan, Guangfeng; Zhang, Yan; Wang, Xiaoshuai; Dang, Qin; Wang, Qianyi; Zhang, Mengdi; Bai, Qiushun; Akbar, Arafat; Tack, Alexander; Hunter, David; Ding, Changhai; Li, Shengfa",
+  "journal": "International journal of surgery (London, England)",
+  "doi": "10.1097/JS9.0000000000004427",
+  "publication_date": "2025-12-22T20:03:07.722524",
+  "access_type": "open_access",
+  "pdf_url": "https://doi.org/10.1097/js9.0000000000004427",
+  "relevance_score": 70,
+  "predictive_factors": [
+    {
+      "factor": "Koos",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "year prior to tkr (test cohort 4). using deep learning, mri-based features of joint space radiomics, including those of the meniscus and femorotibial cartilage, were extracted. final model integrated koos scores (baseline data) and joint space radiomics, which were developed and tested using machine learning. subsequently, the model's performance was evaluated across all cohorts. seven resident and fo"
+    },
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "riable radiomic model (jsc-rm) to predict tkr within 4-year. we selected 442 knees with symptomatic knee oa but without tkr at baseline from the osteoarthritis initiative cohort. there were 1227 knee mris included during 4-year follow-up. each knee mri visit was split into development and test cohorts in 1:1. the predictive model was developed by total development cohorts (n = 613, 309 tkrs vs. 304 c"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:08.177196",
+  "updated_at": "2025-12-22T20:03:08.177199"
+}

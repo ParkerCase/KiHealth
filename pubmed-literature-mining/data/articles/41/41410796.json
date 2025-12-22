@@ -1,0 +1,88 @@
+{
+  "pmid": "41410796",
+  "title": "Synovial Parasitosis and Inflammatory Biomarker Profiles in Osteoarthritis: Associations with Host and Therapeutic Factors.",
+  "abstract": "Knee osteoarthritis (OA) is a major cause of chronic disability worldwide, affecting millions and posing a substantial public health burden. It leads to progressive cartilage degeneration, inflammation, and impaired joint function, underscoring the need for early diagnostic biomarkers and insight into contributory factors such as parasitic infections. Recent evidence suggests a connection between knee OA and low-grade intestinal inflammation, as well as alterations in the gut microbiota. We aimed to examine synovial fluid for parasitosis (SP) among osteoarthritic patients (OPs) and to detect associated biomarkers. Synovial fluid samples were aspirated and divided into three portions. The first portion was spread to make thin films and stained with various stains. The second portion was centrifuged, and the resulting pellets were inoculated using Jones' media. The third one was analyzed using the enzyme-linked immunosorbent assay (ELISA) technique to assess Tumor necrosis factor (TNF-α) and matrix metalloproteases-9 (MMP9) biomarkers. Synovial parasitosis was detected in 57% of OA patients, with Blastocystis sp. being the most prevalent (40%), followed by microsporidia (16%). Corticosteroid-treated (CST) patients had a higher prevalence of SP, while TNF-α and MMP9 levels were elevated in infected compared with noninfected patients. Elevated biomarker levels correlated with infection multiplicity, indicating inflammatory activation. This study highlights a significant prevalence of SP among OPs (57%), with Blastocystis sp. being the most common parasite. CST-treated patients had a higher SP than those with non-CST. Elevated TNF-α and MMP-9 levels could be biomarkers for identifying patients at risk for disease progression due to SP. Further research should be conducted using molecular techniques, along with studies utilizing antiparasitic treatment among infected OA patients.",
+  "authors": "Hassanein, Faika; Shehata, Amany I; Aldawoudy, Akram M; Masoud, Inas M",
+  "journal": "Acta parasitologica",
+  "doi": "10.1007/s11686-025-01180-2",
+  "publication_date": "2025-12-22T20:02:30.045501",
+  "access_type": "open_access",
+  "pdf_url": "https://link.springer.com/content/pdf/10.1007/s11686-025-01180-2.pdf",
+  "pdf_path": "data/pdfs/41410796.pdf",
+  "relevance_score": 15,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "knee osteoarthritis (oa) is a major cause of chronic disability worldwide, affecting millions and posing a substantial public health burden. it leads to progressive cartilage degeneration, inflammation, and impaired joint function, underscoring the need for early diagnostic biomarkers and insight into contributory factors such as parasitic infections. recent evidence sugg"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "gender males 80 40.0"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "center, alexandria, egypt, for their help in sample collection, and of the knee and hip due to a high body mass index in china and"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "acute oa is a sudden exacerbation of joint pain and proteins via various molecules to establish infections, modi-"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "pain, stiffness, and functional limitations. it develops over ing the ir during early infection. however, excessive mmp"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "knee osteoarthritis (oa) is a major cause of chronic disability worldwide, affecting millions and posing a substantial public health burden. it leads to progressive cartilage degeneration, inflammation, and impaired joint function, underscoring the need for early"
+    },
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "tion of knee effusion from limited mri data. sci rep. 12(3155):1– effects of corticosteroid injections for musculoskeletal indica-"
+    },
+    {
+      "factor": "Ha",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "mmp9) biomarkers. synovial parasitosis was detected in 57% of oa patients, with blastocystis sp. being the most prevalent (40%), followed by microsporidia (16%). corticosteroid-treated (cst) patients had a higher prevalence of sp, while tnf-α and mmp9 levels were elevated in infected compared with noninfected patients. elevated biomarker levels correlated with infection multiplicity, indicating infl"
+    },
+    {
+      "factor": "Hyaluronic Acid",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "injections of hyaluronic acid, corticosteroids, or platelet-"
+    },
+    {
+      "factor": "Mmp-3",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "able from: https:// www.ncb i.nlm.n ih.g ov/books/nbk538176/ metalloproteinase’s (mmp-1, mmp-3, and mmp-9) and tnf-α"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:02:36.992645",
+  "updated_at": "2025-12-22T20:02:36.992647"
+}

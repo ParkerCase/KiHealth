@@ -1,0 +1,88 @@
+{
+  "pmid": "41094076",
+  "title": "Safety of Knee Arthroplasty Following Genicular Artery Embolization for Knee Osteoarthritis.",
+  "abstract": "Concerns may exist as to potential healing complications after knee arthroplasty (KA) following genicular artery embolization (GAE) for knee osteoarthritis (OA). This study evaluates the adverse events related to KA following GAE. This IRB-approved multi-institution retrospective study (2019-2024) analyzed 47 patients who underwent 48 KA's following 48 GAEs (out of a total of 300 GAEs).. Post KA records were reviewed for the presence of adverse events. KA was performed by one of 16 orthopedic surgeons at 10 hospitals. Mean time between GAE and KA was 512 ± 330 days. There were 39/48 (81.2%) TKAs and 9/48 (18.8%) partial KAs. Follow-up time after KA was a mean of 369 (± 350) days. Four (4/48 = 8.3%) AEs were reported including two (2/48 = 4.2%) cases of wound healing issues, a stitch abscess and non-infected fluid discharge at the surgical incision. All AEs resolved. There were no significant differences between mean age (64.3 ± 4.2 vs. 68.7 ± 10.7 years, P = 0.239), BMI (25.4 ± 2.67 vs. 27.9 ± 5.2, P = 0.324), number of arteries treated (2.0 ± 0.8 vs. 1.8 ± 0.7, P = 0.693), and time between GAE and KA (491.8 ± 416.5 vs 513.4 ± 326.6 days, P = 0.787) between groups with and without AEs, respectively. Adverse events related to GAE for patients undergoing KA are low. GAE should not be considered a contraindication for future KA and may serve as a bridge in those trying to defer KA to a future date.",
+  "authors": "Albrecht, Helen; Cusumano, Lucas R; Little, Mark; Zeegen, Erik N; Al-Rekabi, Ahmad; Davies, Nev; Padia, Siddharth A",
+  "journal": "Cardiovascular and interventional radiology",
+  "doi": "10.1007/s00270-025-04227-z",
+  "publication_date": "2025-12-22T20:04:32.982384",
+  "access_type": "open_access",
+  "pdf_url": "https://link.springer.com/content/pdf/10.1007/s00270-025-04227-z.pdf",
+  "pdf_path": "data/pdfs/41094076.pdf",
+  "relevance_score": 11,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "uding two (2/48 = 4.2%) cases of wound healing issues, a stitch abscess and non-infected fluid discharge at the surgical incision. all aes resolved. there were no significant differences between mean age (64.3 ± 4.2 vs. 68.7 ± 10.7 years, p = 0.239), bmi (25.4 ± 2.67 vs. 27.9 ± 5.2, p = 0.324), number of arteries treated (2.0 ± 0.8 vs. 1.8 ± 0.7, p = 0.693), and time between gae and ka (491.8 ± 416.5"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "es, a stitch abscess and non-infected fluid discharge at the surgical incision. all aes resolved. there were no significant differences between mean age (64.3 ± 4.2 vs. 68.7 ± 10.7 years, p = 0.239), bmi (25.4 ± 2.67 vs. 27.9 ± 5.2, p = 0.324), number of arteries treated (2.0 ± 0.8 vs. 1.8 ± 0.7, p = 0.693), and time between gae and ka (491.8 ± 416.5 vs 513.4 ± 326.6 days, p = 0.787) between groups w"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "angiogram (dsa) performed with the catheter in the ipsi- mean body mass index of 27.7 ± 5.1 kg/m2. the proce-"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "pain (cid:2) osteoarthritis the rationale for concern is that gae, by reducing"
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "current literature supporting findings of skin or bone (e.g. womac, koos) were not performed in patients"
+    },
+    {
+      "factor": "Koos",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "current literature supporting findings of skin or bone (e.g. womac, koos) were not performed in patients"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "events, periprosthetic fractures, stiffness, and aseptic"
+    },
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "on patient symptoms and mri findings. in all patients, patient characteristics"
+    },
+    {
+      "factor": "Ha",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "as. follow-up time after ka was a mean of 369 (± 350) days. four (4/48 = 8.3%) aes were reported including two (2/48 = 4.2%) cases of wound healing issues, a stitch abscess and non-infected fluid discharge at the surgical incision. all aes resolved. there were no significant differences between mean age (64.3 ± 4.2 vs. 68.7 ± 10.7 years, p = 0.239), bmi (25.4 ± 2.67 vs. 27.9 ± 5.2, p = 0.324), numbe"
+    },
+    {
+      "factor": "Diabetes",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "related risk factors (e.g., diabetes, obesity, peripheral vas-"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:35.313213",
+  "updated_at": "2025-12-22T20:04:35.313215"
+}

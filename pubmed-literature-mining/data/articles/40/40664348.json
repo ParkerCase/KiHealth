@@ -1,0 +1,31 @@
+{
+  "pmid": "40664348",
+  "title": "Clinical outcomes of fixed-bearing unicompartmental knee arthroplasty in patients with ACL degeneration and patellofemoral joint degeneration: A retrospective cohort study.",
+  "abstract": "This study re-evaluates the clinical outcomes and prosthesis survival of fixed-bearing UKA in patients with ACL degeneration, PFJ degeneration, or both, compared to standard indications of UKA by examining its clinical outcomes in patients with anterior cruciate ligament-degeneration or deficient (ACLD) and patellofemoral joint degeneration (PFJ). These findings suggest a paradigm shift in patient selection, offering a broader surgical option for knee OA management. The transition from traditional contraindications to potential indications for UKA in selected ACLD and PFJ cases may significantly impact clinical decision-making. A retrospective analysis was conducted on 375 patients with knee osteoarthritis who underwent UKA from January 2014 to January 2019. Patients were divided into ACLD (n = 52), PFJ (n = 101), ACLD + PFJ (n = 16), and other (n = 206) groups. Postoperative complications, including polyethylene wear, infection, and revision procedures, were retrospectively recorded and analyzed across all patient groups. Postoperative outcomes, including the Knee Society Score (KSS), Western Ontario and McMaster University Arthritis Index (WOMAC), and prosthesis survival rates, were compared across groups. Preoperatively, the ACLD + PFJ group had higher Kellgren-Lawrence (KL) grades and poorer knee function (p < 0.05). After a median follow-up of 7 years, all groups demonstrated significant improvements in KSS and WOMAC scores (p < 0.0001), with no significant differences between groups. During the follow-up period, a total of 4 patients required revision surgery, prosthesis survival rates also showed no significant differences (p = 0.16), with an overall survival rate of 98.93% (371/375). Fixed-bearing UKA demonstrated promising clinical outcomes and high prosthesis survival rates in this study, including in patients with ACLD and PFJ degeneration. While ACL degeneration (excluding total deficiency) and medial PFJ osteoarthritis (excluding lateral condyle involvement) may be considered as possible indications for UKA, this approach requires careful patient selection and the surgeon's expertise. These findings highlight the potential for expanding UKA indications and call for further studies to validate its use in more complex knee pathologies. III; Retrospective Cohort Study.",
+  "authors": "Zhang, Xi; Liu, Yishu; Shengyuan, Yu; Gao, Ming; Han, Chaozhe; Xue, Bing; Liu, Jingsong; Zhou, Yong",
+  "journal": "Orthopaedics & traumatology, surgery & research : OTSR",
+  "doi": "10.1016/j.otsr.2025.104333",
+  "publication_date": "2025-12-22T20:04:58.220497",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 41,
+  "predictive_factors": [
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "cedures, were retrospectively recorded and analyzed across all patient groups. postoperative outcomes, including the knee society score (kss), western ontario and mcmaster university arthritis index (womac), and prosthesis survival rates, were compared across groups. preoperatively, the acld + pfj group had higher kellgren-lawrence (kl) grades and poorer knee function (p < 0.05). after a median follow-"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "knee society score (kss), western ontario and mcmaster university arthritis index (womac), and prosthesis survival rates, were compared across groups. preoperatively, the acld + pfj group had higher kellgren-lawrence (kl) grades and poorer knee function (p < 0.05). after a median follow-up of 7 years, all groups demonstrated significant improvements in kss and womac scores (p < 0.0001), with no significant differ"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:59.545162",
+  "updated_at": "2025-12-22T20:04:59.545164"
+}

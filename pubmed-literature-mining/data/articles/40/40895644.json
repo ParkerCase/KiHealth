@@ -1,0 +1,24 @@
+{
+  "pmid": "40895644",
+  "title": "Usability testing of an individualized decision aid for total knee arthroplasty.",
+  "abstract": "Osteoarthritis (OA) is a leading cause of total knee arthroplasty (TKA), affecting over 15 % of Canadians. With an aging population and suboptimal use of non-surgical options, TKA rates and wait times are rising. Although TKA is effective, 30 % of patients are dissatisfied due to unmet expectations, suggesting some surgeries may be inappropriate. Patient decision aids can set realistic expectations, improve decision quality, and enhance satisfaction. We developed an  Participants were recruited from a high-volume urban hip and knee clinic. Eligible adults diagnosed with knee OA completed the decision aid online and subsequently filled out demographics and survey forms, including the Preparation for Decision Making Scale (PDMS), System Usability Scale (SUS), and Acceptability Scale. Data were analyzed using descriptive statistics and content analysis of open-ended responses. There were 20 participants (mean age 68 years, 65 % female). The average PDMS score was 66.4, indicating above-average preparedness for decision-making. The SUS score averaged 63.4, suggesting marginal usability. Females and participants under 70 years reported higher PDMS and SUS scores. Most participants rated the information presentation as \"good\" or \"excellent,\" with 75 % finding the decision aid's length appropriate and information balanced. Feedback highlighted the need to simplify content, reduce variables, and offer the aid earlier in treatment. The decision aid demonstrated reasonable usability, acceptability, and usefulness for routine practice. Future research should explore its impact on long-term patient outcomes and satisfaction, including among non-surgical populations. Incorporating this decision aid into routine practice can help patients set realistic expectations and make informed decisions, reducing dissatisfaction. Offering it earlier in the patient journey may enhance its impact, especially for non-surgical options.",
+  "authors": "Johnson, Jeffrey A; Itiola, Ademola Joshua; Rahman, Shakib; Smith, Christopher; Soprovich, Allison; Wozniak, Lisa A; Marshall, Deborah A",
+  "journal": "PEC innovation",
+  "doi": "10.1016/j.pecinn.2025.100421",
+  "publication_date": "2025-12-22T20:04:49.192028",
+  "access_type": "open_access",
+  "pdf_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/12395153",
+  "relevance_score": 11,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ing scale (pdms), system usability scale (sus), and acceptability scale. data were analyzed using descriptive statistics and content analysis of open-ended responses. there were 20 participants (mean age 68 years, 65 % female). the average pdms score was 66.4, indicating above-average preparedness for decision-making. the sus score averaged 63.4, suggesting marginal usability. females and participant"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:49.661107",
+  "updated_at": "2025-12-22T20:04:49.661110"
+}

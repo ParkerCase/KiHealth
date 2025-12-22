@@ -1,0 +1,38 @@
+{
+  "pmid": "40900877",
+  "title": "Impact of depression on functional status in elderly patients undergoing total knee arthroplasty.",
+  "abstract": "The prevalence of depressive symptoms in patients undergoing total knee arthroplasty (TKA) ranges from 22% to 26%. The impact of depression on functional status post-TKA remains controversial. To be the first study in Latin American population to evaluate the association between depression and functional status one year after TKA, hypothesizing that elderly patients with depression will demonstrate lower rates of functional improvement. We conducted an observational, descriptive and analytic, retrospective cohort study involving patients over 65 years old who were indicated for TKA. Assessments were made  Of the 100 patients analyzed, 22 (22%) screened positive for depression. The mean age was 80 years ± 6.3 years, with an average of 77.6 years ± 6 years in the depressed group and 80.6 years ± 6.3 years in the non-depressed group ( Depression in patients with osteoarthritis should not hinder surgical planning. Identifying and treating depression preoperatively may enhance outcomes such as pain relief and reduce risks of acute confusional syndrome, cognitive impairment, and frailty.",
+  "authors": "Nicolino, Tomas Ignacio; Smietniansky, Maximiliano; Boietti, Bruno; Garcia-Mansilla, Ignacio; Carbo, Lisandro; Martinez, Cintia Belen",
+  "journal": "World journal of methodology",
+  "doi": "10.5662/wjm.v15.i4.102758",
+  "publication_date": "2025-12-22T20:02:11.616520",
+  "access_type": "open_access",
+  "pdf_url": "https://pubmed.ncbi.nlm.nih.gov/40900877/",
+  "relevance_score": 35,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "c, retrospective cohort study involving patients over 65 years old who were indicated for tka. assessments were made  of the 100 patients analyzed, 22 (22%) screened positive for depression. the mean age was 80 years ± 6.3 years, with an average of 77.6 years ± 6 years in the depressed group and 80.6 years ± 6.3 years in the non-depressed group ( depression in patients with osteoarthritis should not"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "6.3 years in the non-depressed group ( depression in patients with osteoarthritis should not hinder surgical planning. identifying and treating depression preoperatively may enhance outcomes such as pain relief and reduce risks of acute confusional syndrome, cognitive impairment, and frailty."
+    },
+    {
+      "factor": "Depression",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "the prevalence of depressive symptoms in patients undergoing total knee arthroplasty (tka) ranges from 22% to 26%. the impact of depression on functional status post-tka remains controversial. to be the first study in latin american population to evaluate the association between depression and functional status one year after tka, hypoth"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:02:12.061619",
+  "updated_at": "2025-12-22T20:02:12.061621"
+}

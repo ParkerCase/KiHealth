@@ -1,0 +1,31 @@
+{
+  "pmid": "41362476",
+  "title": "The Rosenberg view outperforms conventional AP radiographs in detecting medial knee osteoarthritis: A matched-pair analysis using intraoperative cartilage status.",
+  "abstract": "This study aimed to compare the diagnostic performance of the Rosenberg view against conventional anteroposterior (AP) radiographs for detecting knee osteoarthritis (OA). Using intraoperative cartilage status as the gold standard, the diagnostic accuracy of both views was evaluated in a matched-pair analysis. It was hypothesised that the Rosenberg view would demonstrate superior sensitivity in detecting cartilage wear, particularly in the medial compartment. This retrospective matched-pair analysis evaluated 150 knee OA patients undergoing arthroplasty with same-day preoperative AP and Rosenberg radiographs (≤1 week before surgery). Two blinded observers independently graded medial and lateral compartments using the KL scale (1-4), with interobserver reliability assessed via weighted kappa coefficients. Intraoperative cartilage status ('worn'/'unworn') served as the reference standard. Statistical analysis included Firth's penalised logistic regression (to address complete separation), ROC curve analysis with DeLong's test for AUC comparisons and performance metrics at optimal probability thresholds determined by Youden's index. The cohort (93 females, 57 males; mean age 65.6 ± 8.8 years; mean BMI 30.2 ± 5.44 kg/m²) demonstrated superior diagnostic performance for Rosenberg views in medial compartment assessment (AUC 0.976, 95% CI 0.96-0.99 vs AP 0.899,  These findings support the consideration of the Rosenberg view in routine diagnostic workflows for knee OA to improve detection of medial compartment disease and better inform treatment planning. Level II, retrospective sub-analysis of a randomised controlled trial.",
+  "authors": "Clar, Clemens; Koutp, Amir; Leitner, Lukas; Tettmann, Jakob; Leithner, Andreas; Sadoghi, Patrick",
+  "journal": "Journal of experimental orthopaedics",
+  "doi": "10.1002/jeo2.70582",
+  "publication_date": "2025-12-22T20:03:28.044160",
+  "access_type": "open_access",
+  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12682230/",
+  "relevance_score": 40,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "this study aimed to compare the diagnostic performance of the rosenberg view against conventional anteroposterior (ap) radiographs for detecting knee osteoarthritis (oa). using intraoperative cartilage status as the gold standard, the diagnostic accuracy of both views was evaluated in a matched-pair analysis. it was hypothesised that the rosenberg view would demonstrate superior sensitivity in dete"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "alysis with delong's test for auc comparisons and performance metrics at optimal probability thresholds determined by youden's index. the cohort (93 females, 57 males; mean age 65.6 ± 8.8 years; mean bmi 30.2 ± 5.44 kg/m²) demonstrated superior diagnostic performance for rosenberg views in medial compartment assessment (auc 0.976, 95% ci 0.96-0.99 vs ap 0.899,  these findings support the consideratio"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:28.432958",
+  "updated_at": "2025-12-22T20:03:28.432960"
+}

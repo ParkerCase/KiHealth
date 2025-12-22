@@ -1,0 +1,46 @@
+{
+  "pmid": "41104872",
+  "title": "PINK1 overexpression suppresses p38 MAPK/NF‑κB signaling to attenuate chondrocyte senescence in osteoarthritis.",
+  "abstract": "PTEN‑induced putative kinase 1 (PINK1), a master regulator of mitophagy, is implicated in mitochondrial homeostasis, yet its role in knee osteoarthritis (OA) pathogenesis remains unclear. The present study investigated the mechanisms by which PINK1 modulates chondrocyte senescence during OA progression. Utilizing a destabilization of the medial meniscus‑induced OA murine model, decreased PINK1 expression, impaired mitochondrial function and suppressed mitophagy were observed in OA cartilage. ",
+  "authors": "Jie, Lishi; Zhang, Yuanhui; Liu, Jiangyu; Fu, Houyu; Zhu, Zaishi; Huang, Zeling; Shi, Xiaoqing; Wang, Peimin; Yin, Songjiang",
+  "journal": "International journal of molecular medicine",
+  "doi": "10.3892/ijmm.2025.5665",
+  "publication_date": "2025-12-22T20:04:26.840447",
+  "access_type": "open_access",
+  "pdf_url": "http://www.spandidos-publications.com/10.3892/ijmm.2025.5665/download",
+  "pdf_path": "data/pdfs/41104872.pdf",
+  "relevance_score": 11,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "progression. utilizing a destabilization of the medial meniscus‑induced oa murine model, decreased pink1 expression, impaired mitochondrial function and suppressed mitophagy were observed in oa cartilage.  international journal of molecular medicine 56: 224, 2025"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "senescence during oa progression. utilizing a destabilization of age‑associated mobility disability (1,2). epidemiological"
+    },
+    {
+      "factor": "Osteophyte",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "the mechanisms by which pink1 modulates chondrocyte vial inflammation and osteophyte formation, is a leading cause"
+    },
+    {
+      "factor": "Obesity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "mitophagy‑senescence axis through multimodal validation. mediates age‑ and obesity‑induced leydig cell senescence."
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:32.454627",
+  "updated_at": "2025-12-22T20:04:32.454630"
+}

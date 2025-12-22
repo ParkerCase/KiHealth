@@ -1,0 +1,38 @@
+{
+  "pmid": "41358719",
+  "title": "Reliable pain and function outcomes but limited sport performance after high tibial osteotomy for medial knee osteoarthritis in the grey zone between osteotomy and unicompartmental replacement.",
+  "abstract": "To evaluate mid-term outcomes of high tibial osteotomy (HTO) in patients with medial knee osteoarthritis presenting borderline indication between osteotomy and unicompartmental knee arthroplasty (UKA) and to identify clinical and radiographic factors associated with success in pain, function and sport. Retrospective multicentre cohort of consecutive HTOs performed between 2005 and 2015 with ≥2 years of follow-up, including patients classified within the grey zone according to the AKUMA framework. Preoperative and postoperative long-leg radiographs were obtained to measure hip-knee-ankle (HKA) angle, mechanical lateral distal femoral angle (LDFA), medial proximal tibial angle (MPTA) and joint line convergence angle (JLCA). Primary outcomes were Western Ontario and McMaster Universities Osteoarthritis Index (WOMAC), Tegner and modified Weiss (mW) scores; secondary outcomes included satisfaction, sports relevance, symptom-free return to sport and forgotten-knee. Success thresholds were WOMAC ≥ 80, Tegner ≥5 and mW ≥6. Univariate analyses compared successes versus non-successes, and multivariable logistic regression was performed for WOMAC. Eighty-four patients were analysed with a mean follow-up 8.0 ± 3.2 (2.0-14.3) years. Success rates were 72.0% for WOMAC, 6.8% for Tegner and 7.5% for mW. Postoperative MPTA was higher in WOMAC successes than in non-successes. In multivariable analysis, Ahlbäck Grade 3 lowered the odds of achieving WOMAC ≥ 80 (odds ratio [OR]: 0.20, 95% confidence interval [CI]: 0.04-0.94). Tegner success was associated with greater LDFA and with rating sport as very important. mW success was associated with lower preoperative MPTA, lower LDFA, higher tibial extra-articular deformity (TEAD) and very high sport priority. Higher Ahlbäck and Kellgren-Lawrence (KL) grades were linked to worse satisfaction; the forgotten-knee endpoint showed no significant associations. In medial OA knees within the AKUMA grey zone, HTO provides reliable pain relief and functional improvement, while sport success remains limited. Osteoarthritis burden reduces the probability of high pain and function-related scores, while sport-oriented outcomes depend more on coronal alignment features and the patient's sport priority. Level IV.",
+  "authors": "Pineda, Tomas; Piercecchi, Antoine; Jacquet, Christophe; Gaggero, Nicolás; Kley, Kristian; Ollivier, Matthieu",
+  "journal": "Knee surgery, sports traumatology, arthroscopy : official journal of the ESSKA",
+  "doi": "10.1002/ksa.70223",
+  "publication_date": "2025-12-22T20:03:25.414058",
+  "access_type": "open_access",
+  "pdf_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/ksa.70223",
+  "relevance_score": 60,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "medial knee osteoarthritis presenting borderline indication between osteotomy and unicompartmental knee arthroplasty (uka) and to identify clinical and radiographic factors associated with success in pain, function and sport. retrospective multicentre cohort of consecutive htos performed between 2005 and 2015 with ≥2 years of follow-up, including patients classified within the grey zone according to t"
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "lateral distal femoral angle (ldfa), medial proximal tibial angle (mpta) and joint line convergence angle (jlca). primary outcomes were western ontario and mcmaster universities osteoarthritis index (womac), tegner and modified weiss (mw) scores; secondary outcomes included satisfaction, sports relevance, symptom-free return to sport and forgotten-knee. success thresholds were womac ≥ 80, tegner ≥5 and"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ith rating sport as very important. mw success was associated with lower preoperative mpta, lower ldfa, higher tibial extra-articular deformity (tead) and very high sport priority. higher ahlbäck and kellgren-lawrence (kl) grades were linked to worse satisfaction; the forgotten-knee endpoint showed no significant associations. in medial oa knees within the akuma grey zone, hto provides reliable pain relief and fun"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:25.704943",
+  "updated_at": "2025-12-22T20:03:25.704945"
+}

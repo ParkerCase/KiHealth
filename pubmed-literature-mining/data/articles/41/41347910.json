@@ -1,0 +1,24 @@
+{
+  "pmid": "41347910",
+  "title": "Effectiveness of a Physical Therapist-Administered Physical Activity Intervention after Total Knee Replacement: A Randomized Trial.",
+  "abstract": "While total knee replacement (TKR) is the definitive treatment for knee osteoarthritis, physical activity remains unchanged after surgery. The objective of this trial was to examine the efficacy of a physical therapist-administered physical activity intervention to increase moderate-to-vigorous physical activity (MVPA) over 6 months for adults after TKR. This was a randomized controlled trial. The study took place in an outpatient physical therapist clinic. Included were 120 adults over the age of 45 years seeking outpatient physical therapy following a unilateral TKR. Participants received standardized physical therapy after TKR and a wearable activity tracking device, individualized step goals, and face-to-face feedback provided by a physical therapist (intervention), or standardized physical therapy alone (control). The primary outcome was change in MVPA recorded by a hip-worn Actigraph GT3X accelerometer from baseline to 6 months after discharge from physical therapy. MVPA similarly increased from baseline to 6 months within the intervention (median = 6.0 minutes per day [semi-interquartile range = 11.9]) and control group (median = 5.9 minutes per day [semi-interquartile range = 14.3]). There was no between-group difference in MVPA change over time. A physical therapist-administered physical activity intervention resulted in a similar increase in MVPA over 6 months compared to standardized physical therapy for adults after TKR. Adding a wearable activity tracking device and individualized step goals may not increase physical activity for adults after TKR receiving outpatient physical therapy.",
+  "authors": "White, Daniel K; Jakiela, Jason; Liles, Sydney; Master, Hiral; Voinier, Dana; Brunette, Meredith; Copson, Jennifer; Bye, Tom; Schmitt, Laura A; Thoma, Louise M",
+  "journal": "Physical therapy",
+  "doi": "10.1093/ptj/pzaf140",
+  "publication_date": "2025-12-22T20:03:40.278806",
+  "access_type": "open_access",
+  "pdf_url": "https://academic.oup.com/ptj/advance-article-pdf/doi/10.1093/ptj/pzaf140/65778711/pzaf140.pdf",
+  "relevance_score": 48,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "physical activity (mvpa) over 6 months for adults after tkr. this was a randomized controlled trial. the study took place in an outpatient physical therapist clinic. included were 120 adults over the age of 45 years seeking outpatient physical therapy following a unilateral tkr. participants received standardized physical therapy after tkr and a wearable activity tracking device, individualized step"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:40.756021",
+  "updated_at": "2025-12-22T20:03:40.756024"
+}

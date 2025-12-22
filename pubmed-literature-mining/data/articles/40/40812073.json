@@ -1,0 +1,38 @@
+{
+  "pmid": "40812073",
+  "title": "Association of autophagy-related proteins in serum and synovial fluid with the severity of knee osteoarthritis.",
+  "abstract": "Osteoarthritis (OA) is a highly prevalent painful joint disease that significantly reduces the quality of life and causes physical disability. Recently, autophagy has gained significant attention due to its role in the pathogenesis of OA. However, there is no study examining the role of autophagy-related proteins (ATGs) in the serum and synovial fluid (SF) of OA patients. Here, we aim to investigate the relationship of ATGs with the radiographic findings and symptomatic severity of knee OA. We enrolled 43 OA patients and 37 patients with other knee joint disorders (non-OA knee disease) in the study. The radiographic grading and symptomatic severity of OA were evaluated using the Western Ontario McMaster University Osteoarthritis Index (WOMAC) scores and the Kellgren-Lawrence (KL) classification, respectively. ATGs, including BECN1, LC3A and ATG3 were measured with an enzyme-linked immunosorbent assay. BECN1 expressions in the OA group were higher than in the non-OA knee disease group (p < 0.05). The SF LC3A and SF ATG3 expressions in OA were markedly elevated compared to the non-OA knee disease group (p < 0.05). SF LC3A and SF ATG3 expressions in grade 4 OA patients were higher than in grade 3 OA patients (p < 0.05). Moreover, SF ATG3 was significantly correlated with the severity of OA symptoms. We found that the area under the ROC curve for serum BECN1, SF BECN1, SF LC3A, and SF ATG3 was 0.6908, 0.6496, 0.6681, and 0.7034, respectively (p < 0.05). We report that ATGs might indicate potential diagnostic value and are closely associated with the severity and progression of OA.",
+  "authors": "Okuyan, Hamza Malik; Dogan, Serdar; Erdoğan, Hazal Fatma; Kalacı, Aydıner",
+  "journal": "The Knee",
+  "doi": "10.1016/j.knee.2025.07.022",
+  "publication_date": "2025-12-22T20:04:52.230446",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 25,
+  "predictive_factors": [
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "her knee joint disorders (non-oa knee disease) in the study. the radiographic grading and symptomatic severity of oa were evaluated using the western ontario mcmaster university osteoarthritis index (womac) scores and the kellgren-lawrence (kl) classification, respectively. atgs, including becn1, lc3a and atg3 were measured with an enzyme-linked immunosorbent assay. becn1 expressions in the oa group we"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) is a highly prevalent painful joint disease that significantly reduces the quality of life and causes physical disability. recently, autophagy has gained significant attention due to its role in the pathogenesis of oa. however, there is no study examining the role of autophagy-related proteins (atgs) in the serum and sy"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "rs (non-oa knee disease) in the study. the radiographic grading and symptomatic severity of oa were evaluated using the western ontario mcmaster university osteoarthritis index (womac) scores and the kellgren-lawrence (kl) classification, respectively. atgs, including becn1, lc3a and atg3 were measured with an enzyme-linked immunosorbent assay. becn1 expressions in the oa group were higher than in the non-oa knee"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:53.783726",
+  "updated_at": "2025-12-22T20:04:53.783728"
+}

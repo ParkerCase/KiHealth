@@ -1,0 +1,24 @@
+{
+  "pmid": "41308271",
+  "title": "Altered muscle synergies in knee osteoarthritis patients during locomotion tasks persist over six-week valgus brace intervention.",
+  "abstract": "Knee osteoarthritis (KOA) can alter gait biomechanics and neuromuscular activity. Valgus brace (VB) treatment aims to reduce medial compartment loading. While the mechanical efficacy of VBs is well-documented, their effect on neuromuscular deviations in KOA patients remains unclear. This study assesses the potential of VB to modulate altered muscle synergy activation patterns in KOA patients. Forty participants (twenty KOA, twenty age-matched controls) performed five locomotion tasks: overground walking, ramp and stair ascent / descent. Trials with and without VB were conducted at baseline and after six weeks of regular brace use. Muscle synergies were calculated based on electromyographic data of eight lower limb muscles per side. Inverse dynamics were calculated using marker-based motion capture data. A statistical parametric mapping three-way ANOVA with the factors group affiliation, brace condition, and measurement time point was conducted for each task. Four synergies were identified across groups, tasks, brace conditions, and time points. The KOA cohort exhibited increased knee flexor synergy activity during early- to mid-stance, increased sagittal trunk flexion, increased hip flexion angles and moments, and decreased knee flexion angles and moments. Brace condition and time point had no effect on synergy activity or sagittal joint moments. Persistently increased hip flexion moments in the KOA group, possibly caused by increased sagittal trunk flexion, appeared to drive elevated activity of the biarticular knee flexor synergy. Increased knee flexor synergy activity can result in elevated knee joint contact forces, potentially aggravating KOA progression. Rather than being caused solely by the need for local stability, increased knee flexor synergy activity may be driven by altered trunk dynamics, which remained unaffected throughout the brace intervention.",
+  "authors": "Hansen, Lasse; Rogoschin, Jana; Ebbecke, Jonas; Komnik, Igor; Potthast, Wolfgang",
+  "journal": "Gait & posture",
+  "doi": "10.1016/j.gaitpost.2025.110062",
+  "publication_date": "2025-12-22T20:01:46.166662",
+  "access_type": "open_access",
+  "pdf_url": "https://doi.org/10.1016/j.gaitpost.2025.110062",
+  "relevance_score": 24,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ular deviations in koa patients remains unclear. this study assesses the potential of vb to modulate altered muscle synergy activation patterns in koa patients. forty participants (twenty koa, twenty age-matched controls) performed five locomotion tasks: overground walking, ramp and stair ascent / descent. trials with and without vb were conducted at baseline and after six weeks of regular brace use."
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:01:46.824800",
+  "updated_at": "2025-12-22T20:01:46.824802"
+}

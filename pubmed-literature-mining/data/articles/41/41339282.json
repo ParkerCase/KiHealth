@@ -1,0 +1,16 @@
+{
+  "pmid": "41339282",
+  "title": "Lactylation Genes LDHA and LDHC Alleviate Osteoarthritis by Reducing Specific B-Cell Expression: Mechanistic Exploration and Experimental Validation.",
+  "abstract": "This study aims to elucidate the correlation between the lactylation-related genes and the progression of knee osteoarthritis (KOA). Integrating genome-wide association study data and expression quantitative trait locus data, Mendelian randomisation (MR) and summary-data-based MR analyses assessed the correlation between lactylation-related genes and KOA, validated candidates in chondrocytes by RNA-seq, western blotting (WB) and quantitative reverse transcriptase PCR (qRT-PCR). Moreover, CCK-8, transwell migration and scratch assays were conducted to assess the proliferation/migration. Finally, mediation analysis was utilised to explore the downstream mechanisms. LDHA and LDHC expression was significantly downregulated in the KOA group, as confirmed by RNA-seq, WB and qRT-PCR analyses. Functional experiments also confirmed that the down-regulation of LDHA or LDHC expression could produce a chondrocyte proliferation and migration inhibitory effect similar to that of the OA group, while restoring the expression of these two genes could significantly reverse this phenotype. Furthermore, mediation analysis revealed that CD38 on IgD + CD24- B lymphocytes mediated the protective effect of these genes against KOA, with CD25+ memory B cells also serving as mediators for LDHC's impact on KOA. LDHA and LDHC are identified as therapeutic targets for KOA, providing promising targets and ideas for the development of new treatment strategies.",
+  "authors": "Di, Jingkai; Guo, Zijian; Di, Yijing; Chen, Tingting; Qin, Yingda; Xing, Xinglong; Xiang, Chuan",
+  "journal": "Journal of cellular and molecular medicine",
+  "doi": "10.1111/jcmm.70935",
+  "publication_date": "2025-12-22T20:04:00.860492",
+  "access_type": "open_access",
+  "pdf_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/jcmm.70935",
+  "relevance_score": 9,
+  "predictive_factors": [],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:01.148237",
+  "updated_at": "2025-12-22T20:04:01.148239"
+}

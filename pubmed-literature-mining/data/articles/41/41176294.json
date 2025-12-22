@@ -1,0 +1,31 @@
+{
+  "pmid": "41176294",
+  "title": "Exploring senescence markers as potential drivers of osteoarthritis pain in aging adults.",
+  "abstract": "Senescent cells (SnCs) contribute to various age-related diseases, such as osteoarthritis (OA), a degenerative joint condition that causes persistent pain and reduces physical functioning in older adults. The pathogenesis of OA includes subchondral bone remodeling, synovial inflammation, and cartilage breakdown. Cellular senescence, particularly the pro-inflammatory senescence-associated secretory phenotype (SASP), may have a pivotal role in the progression of OA. SASP factors could exacerbate OA by releasing inflammatory cytokines, chemokines, and proteases, which sensitize nociceptors and accelerate degenerative joint processes, thereby contributing to the chronic pain experienced by OA patients. This contribution of SASPs in chronic pain may lead to mobility limitations and decreased independence of individuals. Thus, the interplay between SASP-driven inflammation and OA pathogenesis may be critical for understanding knee OA pain and functional impairment in older adults. Here, we aim to discuss the parallels between SASP-driven inflammation and OA pathophysiology, which could identify novel therapeutic targets for improving pain management and treatment outcomes in OA.",
+  "authors": "Abbas, Muhammad; Cruz, Carlos J; Tamargo, Javier A; Lipat, Ania L; Fareed, Rameesha; Deaton, Laurel; Gordon, Carson; Johnson, Alisa; Sharma, Blanka; Leeuwenburgh, Christiaan; Allen, Kyle D; Cruz-Almeida, Yenisel",
+  "journal": "Experimental gerontology",
+  "doi": "10.1016/j.exger.2025.112950",
+  "publication_date": "2025-12-22T20:04:18.114397",
+  "access_type": "open_access",
+  "pdf_url": "https://doaj.org/article/df1b3c91c4a24dc4b2d60763ab8cbb97",
+  "relevance_score": 21,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "senescent cells (sncs) contribute to various age-related diseases, such as osteoarthritis (oa), a degenerative joint condition that causes persistent pain and reduces physical functioning in older adults. the pathogenesis of oa includes subchondral"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "senescent cells (sncs) contribute to various age-related diseases, such as osteoarthritis (oa), a degenerative joint condition that causes persistent pain and reduces physical functioning in older adults. the pathogenesis of oa includes subchondral bone remodeling, synovial inflammation, and cartilage breakdown. cellular senescence, particularly the pr"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:18.697027",
+  "updated_at": "2025-12-22T20:04:18.697030"
+}

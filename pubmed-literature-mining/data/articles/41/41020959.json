@@ -1,0 +1,24 @@
+{
+  "pmid": "41020959",
+  "title": "Patellofemoral arthroplasty and chondrocalcinosis: a twenty year follow-up.",
+  "abstract": "Calcium pyrophosphate dihydrate (CPPD) deposition, often visible radiographically as chondrocalcinosis, frequently accompanies knee osteoarthritis and is usually encountered at the time of arthroplasty. Whether its presence influences the outcome of patellofemoral arthroplasty (PFA) remains uncertain. We reviewed 100 PFAs performed in 82 patients between 1997 and 2005, and followed them for an average of 22 years (range, 20-25 years). At surgery, 35 knees showed radiographic chondrocalcinosis, and an additional 33 developed calcification during follow-up. Fifteen knees (15%) required revision to total knee arthroplasty (TKA) at a mean of 12 years after PFA. The main reasons for revision were tibiofemoral osteoarthritis progression (6 knees), patellar malalignment (7 knees), one implant loosening, and one patella fracture. The 20-year survival rates were 87% for knees without chondrocalcinosis and 90% for those with chondrocalcinosis, with no significant difference in revision timing between groups (log-rank p = 0.64). Although chondrocalcinosis became more prevalent with age and follow-up, it did not increase the risk of conversion to TKA. These findings suggest that PFA remains a suitable option in carefully selected patients, regardless of the presence of chondrocalcinosis.",
+  "authors": "Hernigou, Philippe; Caton, Jacques",
+  "journal": "International orthopaedics",
+  "doi": "10.1007/s00264-025-06663-5",
+  "publication_date": "2025-12-22T20:04:42.491036",
+  "access_type": "open_access",
+  "pdf_url": "https://link.springer.com/content/pdf/10.1007/s00264-025-06663-5.pdf",
+  "relevance_score": 23,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": ". whether its presence influences the outcome of patellofemoral arthroplasty (pfa) remains uncertain. we reviewed 100 pfas performed in 82 patients between 1997 and 2005, and followed them for an average of 22 years (range, 20-25 years). at surgery, 35 knees showed radiographic chondrocalcinosis, and an additional 33 developed calcification during follow-up. fifteen knees (15%) required revision to t"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:43.729484",
+  "updated_at": "2025-12-22T20:04:43.729486"
+}

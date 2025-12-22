@@ -1,0 +1,31 @@
+{
+  "pmid": "41362328",
+  "title": "Progression and influencing factors of knee osteoarthritis based on a multi-state Markov model: Data from OAI.",
+  "abstract": "Knee osteoarthritis (KOA) is a chronic disorder marked by progressive cartilage loss and functional decline. Current classifications miss bidirectional transitions, particularly in early and late stages, hindering early intervention. Participants aged 45-79 years from the Osteoarthritis Initiative (OAI) were analyzed over eight years, classifying KOA states as normal, early-KOA, radiographic KOA (rKOA), and end-stage KOA (es-KOA) using Kellgren-Lawrence (K-L) grades, symptoms, and patient-reported outcomes. A Multi-state Markov (MSM) model evaluated state transitions and risk factors. The study comprised 2043 individuals (55.0 ​% female, 85.9 ​% White) with a total of 13,997 records of KOA state assessment. Of the individuals currently classified as early-KOA, 34.0 ​% returned to normal state, 60.9 ​% remained in early-KOA, and 5.1 ​% progressed to rKOA or es-KOA at next follow-up. The transition intensity from early-KOA to rKOA (0.05, 95 ​% CI: 0.04-0.06) was 2.6 times greater than that from normal to rKOA (0.02, 95 ​% CI: 0.01-0.02). The longest sojourn time was observed in rKOA, with a mean of 15.17 years. In covariate analysis, progression risk increased with obesity (HR: 2.57, Normal to rKOA), poor contralateral knee condition (HR: 3.68, Normal to rKOA), and depressive symptoms (HR: 2.16, rKOA to es-KOA). Better physical function reduced risk (HR: 0.65, Normal to early-KOA). This study reveals dynamic KOA transitions, with early-KOA and es-KOA showing recovery potential. Identifying risk factors like obesity and contralateral knee condition offers opportunities for targeted interventions to slow progression and improve joint health, emphasizing early management's role in KOA care.",
+  "authors": "Nuer, Aerman; Yang, Yasi; Sun, Boran; Wang, Yunhan; Xiao, Wenbo; Wang, Lei; Wang, Shu; Lu, Wenli",
+  "journal": "Osteoarthritis and cartilage open",
+  "doi": "10.1016/j.ocarto.2025.100703",
+  "publication_date": "2025-12-22T20:01:40.809844",
+  "access_type": "open_access",
+  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12681718/",
+  "relevance_score": 32,
+  "predictive_factors": [
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ipants aged 45-79 years from the osteoarthritis initiative (oai) were analyzed over eight years, classifying koa states as normal, early-koa, radiographic koa (rkoa), and end-stage koa (es-koa) using kellgren-lawrence (k-l) grades, symptoms, and patient-reported outcomes. a multi-state markov (msm) model evaluated state transitions and risk factors. the study comprised 2043 individuals (55.0 ​% female, 85.9 ​% whi"
+    },
+    {
+      "factor": "Obesity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "es greater than that from normal to rkoa (0.02, 95 ​% ci: 0.01-0.02). the longest sojourn time was observed in rkoa, with a mean of 15.17 years. in covariate analysis, progression risk increased with obesity (hr: 2.57, normal to rkoa), poor contralateral knee condition (hr: 3.68, normal to rkoa), and depressive symptoms (hr: 2.16, rkoa to es-koa). better physical function reduced risk (hr: 0.65, normal t"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:01:41.248849",
+  "updated_at": "2025-12-22T20:01:41.248852"
+}

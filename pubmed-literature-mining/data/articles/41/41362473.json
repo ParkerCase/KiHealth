@@ -1,0 +1,59 @@
+{
+  "pmid": "41362473",
+  "title": "Age-related varus progression of femoral bowing and its related factors in the Iwaki cohort study.",
+  "abstract": "To investigate age-related changes of femoral bowing and its association with bone mineral density (BMD) and bone metabolism using real-world data from the Iwaki cohort study. Data from 709 participants were collected within 10 days in June 2022. The right femoral bowing angle was measured on full-length standing radiographs of the lower limbs, with varus alignment recorded as positive. BMD was assessed using dual-energy X-ray absorptiometry and evaluated based on T-scores. Bone metabolism was assessed via serum levels of type I procollagen N-terminal propeptide, type I collagen cross-linked N-telopeptide, tartrate-resistant acid phosphatase 5b and pentosidine. Knee symptoms were evaluated using the Knee Injury and Osteoarthritis Outcome Score. Age-related changes in femoral bowing angle were analyzed by sex and age group, and regression analysis was performed to identify factors associated with femoral bowing angle. The mean femoral bowing angle was -1.4 ± 3.8° (31.9% femoral bowing angle showed varus) in male participants and -0.9 ± 3.9° (35.3% femoral bowing angle showed varus) in female participants. In both sexes, femoral bowing angle significantly increased with age, particularly after 60 years. Regression analysis demonstrated that femoral bowing angle was positively associated with age and body mass index (BMI) and bone metabolism markers in female participants. Femoral bowing angle was negatively associated with BMD and grip strength in both sexes. Higher BMI and lower BMD were independently associated with increased femoral bowing angle in both sexes. Femoral bowing angle negatively correlated with the Knee Injury and Osteoarthritis Outcome Score subscale scores. Femoral lateral bowing progressed towards varus in male and female participants >60 years of age, and was associated with aging, obesity, muscle weakness, reduced bone mineral density and high-turnover bone metabolism. Knee symptoms were negatively correlated with varus progression of femoral bowing. Level II.",
+  "authors": "Uehara, Takamasa; Sasaki, Eiji; Ishibashi, Kyota; Tomita, Ryo; Kura, Ryoto; Sakamoto, Yukiko; Kimura, Yuka; Tanaka, Sunao; Tsuda, Eiichi; Ishibashi, Yasuyuki",
+  "journal": "Journal of experimental orthopaedics",
+  "doi": "10.1002/jeo2.70587",
+  "publication_date": "2025-12-22T20:03:28.961142",
+  "access_type": "open_access",
+  "pdf_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/jeo2.70587",
+  "relevance_score": 46,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "to investigate age-related changes of femoral bowing and its association with bone mineral density (bmd) and bone metabolism using real-world data from the iwaki cohort study. data from 709 participants were collected"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "rtrate-resistant acid phosphatase 5b and pentosidine. knee symptoms were evaluated using the knee injury and osteoarthritis outcome score. age-related changes in femoral bowing angle were analyzed by sex and age group, and regression analysis was performed to identify factors associated with femoral bowing angle. the mean femoral bowing angle was -1.4 ± 3.8° (31.9% femoral bowing angle showed varus)"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "femoral bowing angle significantly increased with age, particularly after 60 years. regression analysis demonstrated that femoral bowing angle was positively associated with age and body mass index (bmi) and bone metabolism markers in female participants. femoral bowing angle was negatively associated with bmd and grip strength in both sexes. higher bmi and lower bmd were independently associated wi"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "s. in both sexes, femoral bowing angle significantly increased with age, particularly after 60 years. regression analysis demonstrated that femoral bowing angle was positively associated with age and body mass index (bmi) and bone metabolism markers in female participants. femoral bowing angle was negatively associated with bmd and grip strength in both sexes. higher bmi and lower bmd were independently associat"
+    },
+    {
+      "factor": "X-Ray",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "10 days in june 2022. the right femoral bowing angle was measured on full-length standing radiographs of the lower limbs, with varus alignment recorded as positive. bmd was assessed using dual-energy x-ray absorptiometry and evaluated based on t-scores. bone metabolism was assessed via serum levels of type i procollagen n-terminal propeptide, type i collagen cross-linked n-telopeptide, tartrate-resista"
+    },
+    {
+      "factor": "Obesity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "with the knee injury and osteoarthritis outcome score subscale scores. femoral lateral bowing progressed towards varus in male and female participants >60 years of age, and was associated with aging, obesity, muscle weakness, reduced bone mineral density and high-turnover bone metabolism. knee symptoms were negatively correlated with varus progression of femoral bowing. level ii."
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:29.288250",
+  "updated_at": "2025-12-22T20:03:29.288252"
+}

@@ -1,0 +1,31 @@
+{
+  "pmid": "40995335",
+  "title": "Preoperative neuropathic-like pain and central sensitisation are risk factors for chronic pain after total knee arthroplasty: A systematic review and meta-analysis.",
+  "abstract": "To investigate the effects of preoperative neuropathic-like pain and central sensitisation on clinical outcomes after total knee arthroplasty (TKA). This systematic review and meta-analysis followed PRISMA guidelines and was prospectively registered. Studies were included if they assessed preoperative neuropathic-like pain or central sensitisation before TKA and clinical outcomes after surgery, such as pain, function, or psychological status. Cross-sectional studies and case reports were excluded. Two authors independently screened, extracted data and rated articles' quality using a quality assessment tool. A meta-analysis was performed for studies reporting comparable methods and outcomes. From 6061 identified records, 15 studies met the inclusion criteria (total sample: 2385 individuals; follow-up periods: less than 1 year to 5 years). Most studies exhibited low/moderate risk of bias, primarily due to small sample sizes. The risk ratio of chronic pain (VAS ≥3 after at least 3 months) was 2.75 (CI: 1.78; 4.26) for patients with neuropathic-like pain (PainDETECT score ≥13). Seven out of eleven studies identified neuropathic-like pain and central sensitisation as risk factors for clinical outcomes such as decreased self-reported function, satisfaction, and anxiety (p ​< ​0.05). Studies that adjusted for covariates showed mixed results, with some losing statistical significance. The presence of neuropathic-like pain and central sensitisation in candidates for TKA is a risk factor for postoperative chronic pain. Evidence for decreased function, satisfaction, and psychological conditions is inconsistent. Screening and managing neuropathic-like pain and central sensitisation preoperatively could possibly improve clinical outcomes. Further research with standardized methods is needed. CRD42024622693.",
+  "authors": "Gonzalez, Felipe F; Barone, Alessandro; Palaniappan, Rithik; Russo, Raffaella; Gasparini, Giorgio; Metsavaht, Leonardo; Chahla, Jorge; Familiari, Filippo",
+  "journal": "Osteoarthritis and cartilage open",
+  "doi": "10.1016/j.ocarto.2025.100674",
+  "publication_date": "2025-12-22T20:04:44.255499",
+  "access_type": "open_access",
+  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12454881/",
+  "relevance_score": 70,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "to investigate the effects of preoperative neuropathic-like pain and central sensitisation on clinical outcomes after total knee arthroplasty (tka). this systematic review and meta-analysis followed prisma guidelines and was prospectively registered. studies were"
+    },
+    {
+      "factor": "Anxiety",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ct score ≥13). seven out of eleven studies identified neuropathic-like pain and central sensitisation as risk factors for clinical outcomes such as decreased self-reported function, satisfaction, and anxiety (p ​< ​0.05). studies that adjusted for covariates showed mixed results, with some losing statistical significance. the presence of neuropathic-like pain and central sensitisation in candidates for t"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:44.623220",
+  "updated_at": "2025-12-22T20:04:44.623223"
+}

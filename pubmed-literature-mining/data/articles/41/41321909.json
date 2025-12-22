@@ -1,0 +1,66 @@
+{
+  "pmid": "41321909",
+  "title": "Demographic and Clinical Determinants of Unicondylar Vs Total Knee Arthroplasty Selection.",
+  "abstract": "Knee osteoarthritis is the most common degenerative joint disease in the elderly. Depending on affected compartments, treatment options include unicondylar knee arthroplasty (UKA) or total knee arthroplasty (TKA). Studies show higher osteoarthritis incidence and disparities in arthroplasty use and outcomes among minority groups. This study aimed to compare demographic and clinical differences in UKA and TKA procedures. Patients who underwent primary UKA or TKA at 2 different institutions between 2014 and 2024 were identified. Variables compared between UKA and TKA groups included patient sex, age, body mass index (BMI), ethnicity, smoking status, comorbidities, assistance in activities of daily living (ADL), number of falls, and the American Society of Anesthesiologists (ASA) class. Of the 58,794 patients identified, 2421 received a UKA, and 56,373 received a TKA. The UKA group had a higher proportion of men and a lower average BMI. UKA patients had a higher percentage of White patients and a lower percentage of African American patients. Fewer UKA patients required assistance in ADL, and fewer had experienced falls in the past year. TKA patients had higher percentages of diabetes, heart disease, and hypertension. A higher percentage of UKA patients were ASA class II, and a lower percentage were ASA class III. Patients who underwent primary UKA vs TKA showed significant differences in sex, BMI, race, ADL, comorbidities, falls in the past year, and ASA class. The results suggest that UKA patients are generally younger, have lower BMI, fewer comorbidities, and better functional status compared to TKA patients.",
+  "authors": "Golovachev, Nikita; Ghayyad, Kassem; Yakkanti, Ramakanth; Adigweme, Obinna",
+  "journal": "Arthroplasty today",
+  "doi": "10.1016/j.artd.2025.101904",
+  "publication_date": "2025-12-22T20:04:04.725524",
+  "access_type": "open_access",
+  "pdf_url": "https://www.arthroplastytoday.org/article/S2352-3441(25)00291-2/pdf",
+  "relevance_score": 28,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ka and tka procedures. patients who underwent primary uka or tka at 2 different institutions between 2014 and 2024 were identified. variables compared between uka and tka groups included patient sex, age, body mass index (bmi), ethnicity, smoking status, comorbidities, assistance in activities of daily living (adl), number of falls, and the american society of anesthesiologists (asa) class. of the 58"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "in uka and tka procedures. patients who underwent primary uka or tka at 2 different institutions between 2014 and 2024 were identified. variables compared between uka and tka groups included patient sex, age, body mass index (bmi), ethnicity, smoking status, comorbidities, assistance in activities of daily living (adl), number of falls, and the american society of anesthesiologists (asa) class. of t"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "patients who underwent primary uka or tka at 2 different institutions between 2014 and 2024 were identified. variables compared between uka and tka groups included patient sex, age, body mass index (bmi), ethnicity, smoking status, comorbidities, assistance in activities of daily living (adl), number of falls, and the american society of anesthesiologists (asa) class. of the 58,794 patients identifi"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "d tka procedures. patients who underwent primary uka or tka at 2 different institutions between 2014 and 2024 were identified. variables compared between uka and tka groups included patient sex, age, body mass index (bmi), ethnicity, smoking status, comorbidities, assistance in activities of daily living (adl), number of falls, and the american society of anesthesiologists (asa) class. of the 58,794 patients ide"
+    },
+    {
+      "factor": "Race",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "d hypertension. a higher percentage of uka patients were asa class ii, and a lower percentage were asa class iii. patients who underwent primary uka vs tka showed significant differences in sex, bmi, race, adl, comorbidities, falls in the past year, and asa class. the results suggest that uka patients are generally younger, have lower bmi, fewer comorbidities, and better functional status compared to"
+    },
+    {
+      "factor": "Ethnicity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "nts who underwent primary uka or tka at 2 different institutions between 2014 and 2024 were identified. variables compared between uka and tka groups included patient sex, age, body mass index (bmi), ethnicity, smoking status, comorbidities, assistance in activities of daily living (adl), number of falls, and the american society of anesthesiologists (asa) class. of the 58,794 patients identified, 2421 rec"
+    },
+    {
+      "factor": "Diabetes",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "e patients and a lower percentage of african american patients. fewer uka patients required assistance in adl, and fewer had experienced falls in the past year. tka patients had higher percentages of diabetes, heart disease, and hypertension. a higher percentage of uka patients were asa class ii, and a lower percentage were asa class iii. patients who underwent primary uka vs tka showed significant differ"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:05.352031",
+  "updated_at": "2025-12-22T20:04:05.352034"
+}

@@ -1,0 +1,38 @@
+{
+  "pmid": "40895366",
+  "title": "Factors influencing the insertion of a size 1 minimum-sized tibial baseplate in fixed-bearing unicompartmental knee arthroplasty for Japanese patients.",
+  "abstract": "An overhang of the tibial baseplate in unicompartmental knee arthroplasty (UKA) has been associated with postoperative pain and impaired function. There are significant patient factors that influence the insertion of a size 1 minimum-sized tibial baseplate in fixed-bearing (FB) UKA for Japanese patients with varus knee osteoarthritis (KOA). This study investigated the above-hypothesized factors. We conducted a retrospective study of 74 consecutive patients who underwent FB-UKA between March 2023 and July 2025. The endpoints were the Kellgren and Lawrence (KL) grade; patient height (m); weight (kg); body mass index (BMI, kg/m Univariate analysis revealed significant difference between the group concerning patient height (1.47 ± 0.1 in Group 1 and 1.57 ± 0.1 in Group O, P < 0.001). Logistic regression demonstrated that shorter height (OR: 3.07e-19, 95 % CI: 7.54e-35- 1.25e-03, P = 0.020), the size of the femoral component that were actually inserted (OR: 9.16e-3, 95 % CI: 1.48e-4-0.57, P = 0.026). ROC analysis identified cutoff values of <1.51 m for patient height (AUC: 0.872, 95 % CI: 0.765-0.980), and size 2 femoral component (AUC: 0.832, 95 % CI: 0.748-0.917). Patient height and femoral component size were significant factors that influence the insertion of a size 1 minimum-sized tibial baseplate in FB-UKA for Japanese patients with varus KOA.",
+  "authors": "Shioiri, Hironao; Takahashi, Tsuneari; Takeshita, Katsushi",
+  "journal": "Journal of orthopaedics",
+  "doi": "10.1016/j.jor.2025.08.025",
+  "publication_date": "2025-12-22T20:04:50.139293",
+  "access_type": "open_access",
+  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12397810/",
+  "relevance_score": 19,
+  "predictive_factors": [
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "tive study of 74 consecutive patients who underwent fb-uka between march 2023 and july 2025. the endpoints were the kellgren and lawrence (kl) grade; patient height (m); weight (kg); body mass index (bmi, kg/m univariate analysis revealed significant difference between the group concerning patient height (1.47 ± 0.1 in group 1 and 1.57 ± 0.1 in group o, p < 0.001). logistic regression demonstrated th"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ucted a retrospective study of 74 consecutive patients who underwent fb-uka between march 2023 and july 2025. the endpoints were the kellgren and lawrence (kl) grade; patient height (m); weight (kg); body mass index (bmi, kg/m univariate analysis revealed significant difference between the group concerning patient height (1.47 ± 0.1 in group 1 and 1.57 ± 0.1 in group o, p < 0.001). logistic regression demonstrat"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "an overhang of the tibial baseplate in unicompartmental knee arthroplasty (uka) has been associated with postoperative pain and impaired function. there are significant patient factors that influence the insertion of a size 1 minimum-sized tibial baseplate in fixed-bearing (fb) uka for japanese patients with varus knee os"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:50.519550",
+  "updated_at": "2025-12-22T20:04:50.519552"
+}

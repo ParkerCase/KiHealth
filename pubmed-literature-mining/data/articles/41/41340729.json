@@ -1,0 +1,31 @@
+{
+  "pmid": "41340729",
+  "title": "Effect of photobiomodulation on pain and clinical outcomes after total knee arthroplasty in individuals with knee osteoarthritis: A scoping review.",
+  "abstract": "Photobiomodulation (PBM) is a noninvasive technique that has emerged as an effective intervention for the management of various disorders by targeting tissue healing and repair. The objective of this review was to summarize the evidence on the effects of PBM on pain and clinical outcomes after total knee arthroplasty (TKA) in individuals with knee osteoarthritis (OA). A literature search was conducted in PubMed, Scopus, Web of Science, CINAHL, EMBASE, and ProQuest to identify evidence on the effect of PBM on pain and clinical outcomes after TKA in individuals with knee OA. The Joanna Briggs Institute critical appraisal tool was used for critical appraisal of the randomized controlled trials included in this scoping review. The literature search identified a total of 376 records. After removing duplications, 299 abstracts were retrieved for further analysis, of which 25 full-text articles were reviewed, and 3 studies were analyzed in this review. The methodological quality of the studies was moderate to good. These studies revealed that PBM treatments enabled earlier recovery post-TKA by significantly reducing pain ( PBM has a positive effect on reducing pain and swelling and improving knee flexion ROM and function in the immediate postsurgical period post-TKA in individuals with knee OA. However, the results concerning pain relief and improved ROM are inconsistent highlighting the need for high-quality research to establish its clinical utility.",
+  "authors": "Shetty, Saidan; Vijayan, Sandeep; George, Bincy M; Mohandas Rao, K G; Arany, Praveen; Bensadoun, René Jean; Houreld, Nicolette; Laakso, E-Liisa; Maiya, G Arun",
+  "journal": "Journal of orthopaedics",
+  "doi": "10.1016/j.jor.2025.11.009",
+  "publication_date": "2025-12-22T20:01:45.055848",
+  "access_type": "open_access",
+  "pdf_url": "https://doi.org/10.1016/j.jor.2025.11.009",
+  "relevance_score": 38,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "merged as an effective intervention for the management of various disorders by targeting tissue healing and repair. the objective of this review was to summarize the evidence on the effects of pbm on pain and clinical outcomes after total knee arthroplasty (tka) in individuals with knee osteoarthritis (oa). a literature search was conducted in pubmed, scopus, web of science, cinahl, embase, and proque"
+    },
+    {
+      "factor": "Rom",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "good. these studies revealed that pbm treatments enabled earlier recovery post-tka by significantly reducing pain ( pbm has a positive effect on reducing pain and swelling and improving knee flexion rom and function in the immediate postsurgical period post-tka in individuals with knee oa. however, the results concerning pain relief and improved rom are inconsistent highlighting the need for high-qu"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:01:45.639904",
+  "updated_at": "2025-12-22T20:01:45.639906"
+}

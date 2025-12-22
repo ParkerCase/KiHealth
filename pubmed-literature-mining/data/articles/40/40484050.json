@@ -1,0 +1,24 @@
+{
+  "pmid": "40484050",
+  "title": "Short Tibial Extensions Are Associated With Reduced Tibial Component Loosening for Primary, Cemented Total Knee Arthroplasty: A Systematic Review and Meta-Analysis.",
+  "abstract": "Total knee arthroplasty (TKA) successfully treats end-stage knee osteoarthritis; however, aseptic loosening and subsequent revision remain concerns. Use of tibial stem extensions may enhance component fixation and reduce loosening. This study evaluated whether short tibial extensions reduce revision due to aseptic loosening in primary TKA for: (1) all patients identified in the systematic review; and (2) patients in specific subgroups. A systematic review and meta-analysis were conducted per the Preferred Reporting Items for Systematic Reviews and Meta-Analyses guidelines. PubMed and Embase databases were searched for studies published between 2010 and 2023, focusing on primary cemented TKA with short (30 mm) tibial stem extensions. A total of 23,235 patients were included for analysis, who had a mean age of 66.3 years for tibial stem extension (test) groups and 66.6 years for standard tibial stems (controls). The quality of included studies was assessed using the Newcastle-Ottawa Scale, and a random-effects model was used to perform the meta-analysis. Meta-analysis showed that a short tibial extension was associated with a significant reduction in revisions due to aseptic loosening for all patients (odds ratio 0.34, P = 0.0001). Subgroup analysis showed that significantly fewer revisions (α = 0.025 following multiple comparison adjustment) were associated with a tibial extension for overweight/obese patients (P = 0.011), but not for those who had a preoperative varus (> 8°) (P = 0.027). This systematic review and meta-analysis indicate that short tibial extensions are associated with a significant reduction in the likelihood of revision due to aseptic loosening after primary TKA. A reduced incidence of revisions was observed specifically in overweight/obese patients. Short tibial extensions may enhance fixation in select patients. While additional high-quality studies are still needed, these findings suggest orthopaedic surgeons should consider short tibial extensions for certain TKA patients.",
+  "authors": "Al-Sarraj, Mohammed K; Hasan, Laith K; Woodhams, William H; Srivastava, Ajay K; Atkinson, Patrick J; Atkinson, Theresa S",
+  "journal": "The Journal of arthroplasty",
+  "doi": "10.1016/j.arth.2025.06.006",
+  "publication_date": "2025-12-22T20:02:01.347484",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 46,
+  "predictive_factors": [
+    {
+      "factor": "analysis showed that a short tibial extension",
+      "outcome": "a significant reduction in revisions due to aseptic loosening for all patients",
+      "effect_size": "OR/HR: 1",
+      "significance": "p-value in context",
+      "context": "the Newcastle-Ottawa Scale, and a random-effects model was used to perform the meta-analysis. Meta-analysis showed that a short tibial extension was associated with a significant reduction in revisions due to aseptic loosening for all patients (odds ratio 0.34, P = 0.0001). Subgroup analysis showed that significantly fewer revisions (α = 0.025 following multiple comparis"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:02:02.776400",
+  "updated_at": "2025-12-22T20:02:02.776403"
+}

@@ -1,0 +1,59 @@
+{
+  "pmid": "41349859",
+  "title": "Arthroscopically Confirmed Cartilage Degeneration in the Lateral Tibial Plateau Over Two Years Following Anterior Cruciate Ligament and Meniscus Injury: A Retrospective Study.",
+  "abstract": "Articular cartilage injuries, frequently associated with anterior cruciate ligament (ACL) injuries and may lead to early knee osteoarthritis (OA) if left untreated. Although ACL and meniscus injuries are commonly treated simultaneously, cartilage injuries are often left in situ. This study aimed to evaluate the progression of the cartilage injury in the lateral compartment following ACL reconstruction (ACLR) combined with lateral meniscus (LM) repairs. A retrospective review of ACL and LM injuries was conducted in patients who underwent ACLR and meniscus repair. Patients were categorized into three groups: radial/flap tears (group R), longitudinal tears (group L), and controls without LM injuries (group C). Articular cartilage status in the lateral compartment was assessed by arthroscopic grading according to the International Cartilage Repair Society (ICRS) classification at primary surgery and at second-look arthroscopy. Clinical assessments (pain, range of motion, swelling, Lachman test), and radiographic and magnetic resonance imaging (MRI) findings were also evaluated. ACLR restored knee stability in 92 patients (34, 28, and 30 in groups R, L, and C, respectively). No statistically significant differences were identified in the demographics or preoperative bone bruises on MRI among the groups. However, cartilage injury in the lateral tibial plateau progressed arthroscopically in groups R and L. In addition, marginal osteophyte formation was significantly frequent in group R. Logistic regression analysis further revealed that higher body mass index and the presence of meniscus injury were independently associated with the progression of cartilage injury. Cartilage damage may progress even after ACLR and meniscus repair, potentially increasing the risk of future OA. Cartilage injury progressed in patients with an elevated BMI and the presence of meniscus injury. Level III - retrospective cohort study.",
+  "authors": "Tsujii, Akira; Yonetani, Yasukazu; Kinugasa, Kazutaka; Matsuo, Tomohiko; Sato, Seira; Ohori, Tomoki; Kanamoto, Takashi; Tanaka, Hiroyuki; Okada, Seiji; Nakata, Ken; Hamada, Masayuki",
+  "journal": "Journal of ISAKOS : joint disorders & orthopaedic sports medicine",
+  "doi": "10.1016/j.jisako.2025.101049",
+  "publication_date": "2025-12-22T20:03:46.114082",
+  "access_type": "open_access",
+  "pdf_url": "https://www.jisakos.com/article/S2059-7754(25)00667-4/pdf",
+  "relevance_score": 62,
+  "predictive_factors": [
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "gression of cartilage injury. cartilage damage may progress even after aclr and meniscus repair, potentially increasing the risk of future oa. cartilage injury progressed in patients with an elevated bmi and the presence of meniscus injury. level iii - retrospective cohort study."
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "bial plateau progressed arthroscopically in groups r and l. in addition, marginal osteophyte formation was significantly frequent in group r. logistic regression analysis further revealed that higher body mass index and the presence of meniscus injury were independently associated with the progression of cartilage injury. cartilage damage may progress even after aclr and meniscus repair, potentially increasing t"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "compartment was assessed by arthroscopic grading according to the international cartilage repair society (icrs) classification at primary surgery and at second-look arthroscopy. clinical assessments (pain, range of motion, swelling, lachman test), and radiographic and magnetic resonance imaging (mri) findings were also evaluated. aclr restored knee stability in 92 patients (34, 28, and 30 in groups r,"
+    },
+    {
+      "factor": "Osteophyte",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "in the demographics or preoperative bone bruises on mri among the groups. however, cartilage injury in the lateral tibial plateau progressed arthroscopically in groups r and l. in addition, marginal osteophyte formation was significantly frequent in group r. logistic regression analysis further revealed that higher body mass index and the presence of meniscus injury were independently associated with the p"
+    },
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "society (icrs) classification at primary surgery and at second-look arthroscopy. clinical assessments (pain, range of motion, swelling, lachman test), and radiographic and magnetic resonance imaging (mri) findings were also evaluated. aclr restored knee stability in 92 patients (34, 28, and 30 in groups r, l, and c, respectively). no statistically significant differences were identified in the demogr"
+    },
+    {
+      "factor": "Range Of Motion",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "tment was assessed by arthroscopic grading according to the international cartilage repair society (icrs) classification at primary surgery and at second-look arthroscopy. clinical assessments (pain, range of motion, swelling, lachman test), and radiographic and magnetic resonance imaging (mri) findings were also evaluated. aclr restored knee stability in 92 patients (34, 28, and 30 in groups r, l, and c, respec"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:46.613008",
+  "updated_at": "2025-12-22T20:03:46.613011"
+}

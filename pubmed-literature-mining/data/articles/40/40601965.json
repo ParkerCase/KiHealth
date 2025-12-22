@@ -1,0 +1,45 @@
+{
+  "pmid": "40601965",
+  "title": "Preoperative knee joint hypothermia reduces inflammation and recovery time and increases range of motion after total knee arthroplasty: A randomized controlled trial.",
+  "abstract": "Cryotherapy modulates synovial fluid composition by reducing inflammatory mediators and altering metabolite concentrations, resulting in both anti-inflammatory and anti-oxidative effects. The aim was to investigate whether preoperative cryocompression would (1) maintain deep tissue hypothermia during the surgical procedure, (2) attenuate inflammatory response and tissue damage and (3) improve post-operative outcomes. The study enroled patients undergoing total knee arthroplasty (TKA) surgery who were randomly assigned to either the control group (n = 50) receiving post-operative cryocompression therapy, or the intervention group (n = 50) receiving both preoperative and post-operative cryocompression. coagulation/psychiatric disorders. monolateral primary Kellgren-Lawrence Grade IV knee osteoarthritis. Multiple outcomes, including patient-reported outcomes (PROs), discharge milestones, cutaneous/osseous temperature and inflammatory biomarkers, were assessed. The primary end point was the difference in inflammatory markers across cohorts, while secondary end points included differences in pain, patient-reported outcome measures (PROMs) and range of motion (ROM). Chi-square test was used for categorical variables and the Mann-Whitney U-test for continuous variables. The minimally clinically important difference was calculated using the 0.5 SD approach. Linear mixed-effects models analyzed the differences in inflammatory markers between the cohorts over time. The alpha value was set at 0.05. Differences between the contralateral and the operated knee skin temperatures (Z = -4.5, p < 0.001), as well as between the contralateral knee skin temperature and the operated knee bone temperature (Z = -4.9, p < 0.001) were found. (2) Erythrocyte sedimentation rate was lower in the intervention group on post-operative Days 1 and 2 compared to the control group. Fibrinogen had a greater increase from preoperative to post-operative in the control group (U = 746.5, p = 0.018). (3) Higher ROM (p = 0.001) and shorter time to reach the rehabilitation milestones to discharge (p = 0.007) were found in the intervention group. Preoperative cryocompression therapy before TKA might reduce early post-operative inflammation, accelerate rehabilitation milestones, and improve early ROM. Level IV.",
+  "authors": "Pieri, Leonardo; Leggieri, Filippo; Bartoli, Dimitri; Ponti, Marco; Caparrini, Chiara; Baldini, Andrea",
+  "journal": "Knee surgery, sports traumatology, arthroscopy : official journal of the ESSKA",
+  "doi": "10.1002/ksa.12756",
+  "publication_date": "2025-12-22T20:05:00.043201",
+  "access_type": "open_access",
+  "pdf_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/ksa.12756",
+  "relevance_score": 32,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ous/osseous temperature and inflammatory biomarkers, were assessed. the primary end point was the difference in inflammatory markers across cohorts, while secondary end points included differences in pain, patient-reported outcome measures (proms) and range of motion (rom). chi-square test was used for categorical variables and the mann-whitney u-test for continuous variables. the minimally clinically"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "iving post-operative cryocompression therapy, or the intervention group (n = 50) receiving both preoperative and post-operative cryocompression. coagulation/psychiatric disorders. monolateral primary kellgren-lawrence grade iv knee osteoarthritis. multiple outcomes, including patient-reported outcomes (pros), discharge milestones, cutaneous/osseous temperature and inflammatory biomarkers, were assessed. the primar"
+    },
+    {
+      "factor": "Range Of Motion",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "were assessed. the primary end point was the difference in inflammatory markers across cohorts, while secondary end points included differences in pain, patient-reported outcome measures (proms) and range of motion (rom). chi-square test was used for categorical variables and the mann-whitney u-test for continuous variables. the minimally clinically important difference was calculated using the 0.5 sd approach."
+    },
+    {
+      "factor": "Rom",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "iomarkers, were assessed. the primary end point was the difference in inflammatory markers across cohorts, while secondary end points included differences in pain, patient-reported outcome measures (proms) and range of motion (rom). chi-square test was used for categorical variables and the mann-whitney u-test for continuous variables. the minimally clinically important difference was calculated usin"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:05:00.324234",
+  "updated_at": "2025-12-22T20:05:00.324236"
+}

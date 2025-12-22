@@ -1,0 +1,74 @@
+{
+  "pmid": "41331075",
+  "title": "Determining the effect of femoral anteversion and hip alignment parameters on lower limb and knee alignment post-total hip arthroplasty.",
+  "abstract": "Total hip arthroplasty (THA) aims to restore hip joint alignment in patients with osteoarthritis (OA) or osteonecrosis of the femoral head (ONFH). While THA directly affects hip alignment, it also influences leg and patellar alignment, potentially altering knee biomechanics and accelerating osteoarthritis progression. Postoperative alignment changes commonly include increased varus alignment in the operative leg and valgus alignment in the contralateral leg. However, the factors contributing to these changes remain unclear, particularly the role of femoral anteversion. This study analyzed 228 patients who underwent hybrid THA, assessing preoperative and postoperative radiographic parameters, including femoral anteversion, femoral offset, hip center shift, and leg length. Multiple linear regression identified factors influencing alignment changes. Femoral anteversion emerged as a key independent determinant affecting valgus alignment of the operative leg and lateral patellar tilt. Increased femoral offset and diagnosis of hip OA were also associated with alignment changes, while contralateral alignment was influenced by ipsilateral HKAA changes and patient age. These findings suggest that increased femoral anteversion following THA may mitigate excessive varus loading and protect against secondary knee OA. Accurate control of anteversion, supported by navigation or artificial intelligence (AI)-assisted planning, could optimize postoperative biomechanical balance and long-term outcomes.",
+  "authors": "Yokota, Shunichi; Shimizu, Tomohiro; Ishizu, Hotaka; Takahashi, Daisuke; Iwasaki, Norimasa",
+  "journal": "Scientific reports",
+  "doi": "10.1038/s41598-025-30987-2",
+  "publication_date": "2025-12-22T20:03:50.375132",
+  "access_type": "open_access",
+  "pdf_url": "https://www.nature.com/articles/s41598-025-30987-2_reference.pdf",
+  "pdf_path": "data/pdfs/41331075.pdf",
+  "relevance_score": 20,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "teral patellar tilt. increased femoral offset and diagnosis of hip oa were also associated with alignment changes, while contralateral alignment was influenced by ipsilateral hkaa changes and patient age. these findings suggest that increased femoral anteversion following tha may mitigate excessive varus loading and protect against secondary knee oa. accurate control of anteversion, supported by navi"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "103 demographic data, including age, sex, body mass index (bmi), diagnosis,"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "103 demographic data, including age, sex, body mass index (bmi), diagnosis,"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "103 demographic data, including age, sex, body mass index (bmi), diagnosis,"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "243 with hip oa tend to suffer from prolonged joint deterioration, pain, and restricted range of"
+    },
+    {
+      "factor": "Kl Grade",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "kl grade 3: grade 4 29s: 129"
+    },
+    {
+      "factor": "Muscle Strength",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "399 mild-to-moderate hip osteoarthritis have lower limb muscle strength and volume"
+    },
+    {
+      "factor": "Range Of Motion",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "433 based on postoperative range of motion simulation. clin biomech (bristol) 92,"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:58.449095",
+  "updated_at": "2025-12-22T20:03:58.449097"
+}

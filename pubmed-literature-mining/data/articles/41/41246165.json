@@ -1,0 +1,45 @@
+{
+  "pmid": "41246165",
+  "title": "Comparison of periarticular knee anatomy between patients with knee osteoarthritis and normal adults.",
+  "abstract": "This study aims to investigate the anatomical differences in the distal femur between OA and non-OA patients, providing evidence for personalized surgical planning. A total of 137 patients who underwent bilateral lower limb three-dimensional computed tomography (3D-CT) and full-length standing radiographs at Fuyang People's Hospital were included. Patients were classified into an OA group and a non-OA group based on radiographic findings. Demographic characteristics, including sex, age, height, weight, and body mass index (BMI), were recorded. Key radiographic parameters, including the hip-knee-ankle angle (HKA), lateral distal femoral angle (LDFA), posterior condylar angle (PCA), medial proximal tibial angle (MPTA), joint line convergence angle (JLCA), and anatomical mechanical femoral angle (aMFA), were measured and compared between the two groups. One-way analysis of variance (ANOVA) and analysis of covariance (ANCOVA) were used to assess differences in PCA between groups after adjusting for confounding factors. Significant differences were observed between the OA and non-OA groups in terms of age, sex, BMI, HKA, and PCA ( Patients with knee OA exhibit significant differences in PCA and HKA compared to normal adults. These findings highlight the importance of preoperative assessment and planning in TKA, underscoring the need for personalized surgical approaches to optimize implant positioning and alignment.",
+  "authors": "Liu, Yuandong; Zhao, Wanmin; Chang, Yinong; Wang, Shuguang; Fan, Zongqing; Fu, Donglin",
+  "journal": "Journal of orthopaedics",
+  "doi": "10.1016/j.jor.2025.08.054",
+  "publication_date": "2025-12-22T20:01:51.166768",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 14,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "tanding radiographs at fuyang people's hospital were included. patients were classified into an oa group and a non-oa group based on radiographic findings. demographic characteristics, including sex, age, height, weight, and body mass index (bmi), were recorded. key radiographic parameters, including the hip-knee-ankle angle (hka), lateral distal femoral angle (ldfa), posterior condylar angle (pca),"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "gth standing radiographs at fuyang people's hospital were included. patients were classified into an oa group and a non-oa group based on radiographic findings. demographic characteristics, including sex, age, height, weight, and body mass index (bmi), were recorded. key radiographic parameters, including the hip-knee-ankle angle (hka), lateral distal femoral angle (ldfa), posterior condylar angle (p"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "pital were included. patients were classified into an oa group and a non-oa group based on radiographic findings. demographic characteristics, including sex, age, height, weight, and body mass index (bmi), were recorded. key radiographic parameters, including the hip-knee-ankle angle (hka), lateral distal femoral angle (ldfa), posterior condylar angle (pca), medial proximal tibial angle (mpta), joint"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "yang people's hospital were included. patients were classified into an oa group and a non-oa group based on radiographic findings. demographic characteristics, including sex, age, height, weight, and body mass index (bmi), were recorded. key radiographic parameters, including the hip-knee-ankle angle (hka), lateral distal femoral angle (ldfa), posterior condylar angle (pca), medial proximal tibial angle (mpta),"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:01:52.668435",
+  "updated_at": "2025-12-22T20:01:52.668437"
+}

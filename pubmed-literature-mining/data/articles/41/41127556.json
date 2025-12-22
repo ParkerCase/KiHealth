@@ -1,0 +1,45 @@
+{
+  "pmid": "41127556",
+  "title": "Peripheral blood DNA methylation changes are predictive of incident radiographic osteoarthritis development: Data and biospecimens from the osteoarthritis initiative.",
+  "abstract": "The lack of biomarkers to predict knee osteoarthritis (OA) progression is a key unmet need in the OA field. The objective of this study was to evaluate epigenetic changes in baseline peripheral blood cells of healthy individuals who subsequently developed radiographic knee OA (incident OA) as a preclinical biomarker. Genome-wide DNA methylation data were generated using Illumina Methylation EPICv2 arrays on baseline blood samples from 234 incident OA patients and 234 controls matched by age±5y, sex, ethnicity, and BMI±5 units. Peripheral blood cellular composition was estimated. Lasso was used for CpG selection. Models were first trained using a 40-round Monte Carlo cross-validated generalized logistic modeling approach, then parsimonious models developed using CpG sites selected in ≥10 rounds. Future incident OA cases were estimated to have increased monocyte frequency (0.089 ​± ​0.0001 vs. 0.083 ​± ​0.0001 mean ​± ​SEM,  Blood-based DNA methylation models may predict incident knee OA in healthy individuals using a small set of CpG sites. Further work should focus on evaluating the pathophysiological role of DNA methylation in incident OA.",
+  "authors": "Brawner, Cindy Miranda; Dyson, Gabriella; Barrett, Montana; Hanebutt, Nicholas; Szymczak, Aleksander; Mehta-D'souza, Padmaja; Jeffries, Matlock A",
+  "journal": "Osteoarthritis and cartilage open",
+  "doi": "10.1016/j.ocarto.2025.100692",
+  "publication_date": "2025-12-22T20:04:25.858127",
+  "access_type": "open_access",
+  "pdf_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/12538419",
+  "relevance_score": 22,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "s a preclinical biomarker. genome-wide dna methylation data were generated using illumina methylation epicv2 arrays on baseline blood samples from 234 incident oa patients and 234 controls matched by age±5y, sex, ethnicity, and bmi±5 units. peripheral blood cellular composition was estimated. lasso was used for cpg selection. models were first trained using a 40-round monte carlo cross-validated gene"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "linical biomarker. genome-wide dna methylation data were generated using illumina methylation epicv2 arrays on baseline blood samples from 234 incident oa patients and 234 controls matched by age±5y, sex, ethnicity, and bmi±5 units. peripheral blood cellular composition was estimated. lasso was used for cpg selection. models were first trained using a 40-round monte carlo cross-validated generalized"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "enome-wide dna methylation data were generated using illumina methylation epicv2 arrays on baseline blood samples from 234 incident oa patients and 234 controls matched by age±5y, sex, ethnicity, and bmi±5 units. peripheral blood cellular composition was estimated. lasso was used for cpg selection. models were first trained using a 40-round monte carlo cross-validated generalized logistic modeling ap"
+    },
+    {
+      "factor": "Ethnicity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "al biomarker. genome-wide dna methylation data were generated using illumina methylation epicv2 arrays on baseline blood samples from 234 incident oa patients and 234 controls matched by age±5y, sex, ethnicity, and bmi±5 units. peripheral blood cellular composition was estimated. lasso was used for cpg selection. models were first trained using a 40-round monte carlo cross-validated generalized logistic mo"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:26.302331",
+  "updated_at": "2025-12-22T20:04:26.302334"
+}

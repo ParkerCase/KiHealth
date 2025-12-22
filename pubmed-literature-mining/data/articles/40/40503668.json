@@ -1,0 +1,31 @@
+{
+  "pmid": "40503668",
+  "title": "Evaluation of enhanced pain management programs for patients undergoing surgery for severe knee osteoarthritis: a retrospective study.",
+  "abstract": "Surgical intervention is a primary treatment for advanced knee osteoarthritis (OA), yet effective postoperative pain management remains suboptimal. This study aimed to evaluate the clinical outcomes of different postoperative analgesic protocols to inform optimized perioperative pain strategies. A retrospective analysis was conducted on 714 patients with knee OA who underwent total knee arthroplasty (TKA,  Significant differences in VAS scores at 24 h (static), 72 h (static), and 24 h (dynamic), ROM at 72 h, and HSS scores at 3 months were identified among groups, surgical procedures, and their interactions ( Optimized perioperative analgesic protocols are associated with improved pain control, enhanced functional recovery, and reduced complication rates in knee osteoarthritis surgery. Further validation through prospective, multicenter studies is recommended.",
+  "authors": "Liu, Peng; Li, Jiabing; Liang, Weimin; Yang, Xiao; Hu, Jiang; Huang, Chongxin; Zhou, Ji",
+  "journal": "Annals of medicine",
+  "doi": "10.1080/07853890.2025.2517818",
+  "publication_date": "2025-12-22T20:05:00.842294",
+  "access_type": "open_access",
+  "pdf_url": "https://doaj.org/article/52443d99f6e24911a8e30a384d01bd0f",
+  "relevance_score": 31,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "surgical intervention is a primary treatment for advanced knee osteoarthritis (oa), yet effective postoperative pain management remains suboptimal. this study aimed to evaluate the clinical outcomes of different postoperative analgesic protocols to inform optimized perioperative pain strategies. a retrospective ana"
+    },
+    {
+      "factor": "Rom",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "trospective analysis was conducted on 714 patients with knee oa who underwent total knee arthroplasty (tka,  significant differences in vas scores at 24 h (static), 72 h (static), and 24 h (dynamic), rom at 72 h, and hss scores at 3 months were identified among groups, surgical procedures, and their interactions ( optimized perioperative analgesic protocols are associated with improved pain control,"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:05:01.271751",
+  "updated_at": "2025-12-22T20:05:01.271753"
+}

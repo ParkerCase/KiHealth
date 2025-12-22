@@ -1,0 +1,45 @@
+{
+  "pmid": "41050370",
+  "title": "Biochemical biomarkers of knee osteoarthritis progression: Results from the FNIH biomarkers consortium progress OA study.",
+  "abstract": "The Foundation for National Institutes of Health (FNIH) OA Biomarkers Consortium aims to identify and qualify biomarkers to support drug development in knee osteoarthritis (OA). The PROGRESS OA study aims to externally validate prognostic biomarkers identified in the earlier Phase I study. PROGRESS OA included data from the control arms of several completed randomized controlled trials (RCTs) for knee OA. The primary outcome was medial or lateral joint space width loss (JSWL) ≥0.7 ​mm. Secondary outcomes included medial or lateral JSWL combined with symptomatic progression. Nine biochemical biomarkers identified in Phase I were included here. Logistic regression with elastic net selection examined associations between baseline biomarkers and outcomes over 12-36 months, separately for subgroups with available serum, urine, and both serum and urine biomarkers. In total, the study included 827 participants across three RCTs, 159 (19 ​%) with JSWL≥0.7 ​mm. In 681 participants with both serum and urine biospecimens, the combination of serum hyaluronan (HA), urinary C2C-HUSA, body mass index (BMI), and Kellgren-Lawrence grade (KLG) yielded AUC 0.627 (95 ​% CI: 0.573, 0.681) for predicting JSWL≥0.7 ​mm, compared to AUC 0.612 (95 ​% CI: 0.557, 0.667) for BMI and KLG alone. Serum (HA) and urinary C2C-HUSA were consistently selected as predictors of disease progression in elastic net models across the subgroups. Biomarker associations were consistent with Phase I findings, but predictive performance remained modest. Future work in the FNIH OA Biomarkers consortium project will focus on evaluating short term changes in biomarkers to assess their potential for monitoring treatment efficacy.",
+  "authors": "Collins, Jamie E; Robinson, Douglas; Arden, Nigel; Bay-Jensen, Anne Christine; Deveza, Leticia A; Karsdal, Morten; Ladel, Christoph; Perry, Thomas A; Swearingen, Christopher J; Hunter, David J; Kraus, Virginia B",
+  "journal": "Osteoarthritis and cartilage open",
+  "doi": "10.1016/j.ocarto.2025.100677",
+  "publication_date": "2025-12-22T20:04:40.746631",
+  "access_type": "open_access",
+  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12495463/",
+  "relevance_score": 55,
+  "predictive_factors": [
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "participants across three rcts, 159 (19 ​%) with jswl≥0.7 ​mm. in 681 participants with both serum and urine biospecimens, the combination of serum hyaluronan (ha), urinary c2c-husa, body mass index (bmi), and kellgren-lawrence grade (klg) yielded auc 0.627 (95 ​% ci: 0.573, 0.681) for predicting jswl≥0.7 ​mm, compared to auc 0.612 (95 ​% ci: 0.557, 0.667) for bmi and klg alone. serum (ha) and urinar"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "udy included 827 participants across three rcts, 159 (19 ​%) with jswl≥0.7 ​mm. in 681 participants with both serum and urine biospecimens, the combination of serum hyaluronan (ha), urinary c2c-husa, body mass index (bmi), and kellgren-lawrence grade (klg) yielded auc 0.627 (95 ​% ci: 0.573, 0.681) for predicting jswl≥0.7 ​mm, compared to auc 0.612 (95 ​% ci: 0.557, 0.667) for bmi and klg alone. serum (ha) and u"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ts across three rcts, 159 (19 ​%) with jswl≥0.7 ​mm. in 681 participants with both serum and urine biospecimens, the combination of serum hyaluronan (ha), urinary c2c-husa, body mass index (bmi), and kellgren-lawrence grade (klg) yielded auc 0.627 (95 ​% ci: 0.573, 0.681) for predicting jswl≥0.7 ​mm, compared to auc 0.612 (95 ​% ci: 0.557, 0.667) for bmi and klg alone. serum (ha) and urinary c2c-husa were consiste"
+    },
+    {
+      "factor": "Ha",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ium aims to identify and qualify biomarkers to support drug development in knee osteoarthritis (oa). the progress oa study aims to externally validate prognostic biomarkers identified in the earlier phase i study. progress oa included data from the control arms of several completed randomized controlled trials (rcts) for knee oa. the primary outcome was medial or lateral joint space width loss (jswl"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:41.141029",
+  "updated_at": "2025-12-22T20:04:41.141032"
+}

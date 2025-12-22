@@ -1,0 +1,38 @@
+{
+  "pmid": "41187641",
+  "title": "Total knee radiomic feature atlas derived from magnetic resonance imaging segmentation: Insights into osteoarthritis incidence predictors.",
+  "abstract": "Early identification of patients at risk of knee osteoarthritis (KOA) is critical for proactive management. This article investigates KOA risk predictors using the Radkneeatlas, a total knee radiomic feature atlas derived from the segmentation of 29 knee structures on magnetic resonance imaging (MRI). The study included Osteoarthritis Initiative (OAI) participants with a Kellgren-Lawrence (KL) grade < 2 at baseline who underwent knee MRI scans. Participants were categorized as having KOA occurrence or non-occurrence based on KL grade progression to ≥ 2 during a four-year follow-up and matched for confounders using propensity score matching (PSM). A segmentation model of 29 knee structures was trained, and radiomic features were selected, ranked, and integrated into Radkneeatlas. A a risk prediction model for KOA occurrence in four-year was constructed and the explainable predictors were identified based on predictive value. A total of 386 matched subjects were analyzed to construct and validate a predictive model for KOA occurrence. The segmentation of 29 knee structures achieved an average Dice value of 0.958. 129 radiomic features were integrated into Radkneeatlas. The model predicting four-year KOA occurrence demonstrated strong performance, with an area under the receiver operating characteristic curve of 0.918 (95% CI 0.841-0.954). The 18 feature-specific predictors and three structure-specific predictors including femoral trochlear cartilage, tibial subchondral bone and effusion were most influential in forecasting KOA risk prior to diagnosis. Radkneeatlas, visualized through the segmentation of 29 knee structures, proved instrumental in predicting KOA occurrence and advancing understanding of the KOA pathogenic process.",
+  "authors": "Mu, Lin; Fu, Jiahui; Li, Mingyang; Liu, Haoyu; Dong, Dong; Gong, Jiaqi; Jiang, Yueluan; Huai, Xiaochen; Xu, Peng; Zhang, Huimao",
+  "journal": "European journal of radiology",
+  "doi": "10.1016/j.ejrad.2025.112480",
+  "publication_date": "2025-12-22T20:01:57.032417",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 35,
+  "predictive_factors": [
+    {
+      "factor": "Kl Grade",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ritis initiative (oai) participants with a kellgren-lawrence (kl) grade < 2 at baseline who underwent knee mri scans. participants were categorized as having koa occurrence or non-occurrence based on kl grade progression to ≥ 2 during a four-year follow-up and matched for confounders using propensity score matching (psm). a segmentation model of 29 knee structures was trained, and radiomic features were s"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "as, a total knee radiomic feature atlas derived from the segmentation of 29 knee structures on magnetic resonance imaging (mri). the study included osteoarthritis initiative (oai) participants with a kellgren-lawrence (kl) grade < 2 at baseline who underwent knee mri scans. participants were categorized as having koa occurrence or non-occurrence based on kl grade progression to ≥ 2 during a four-year follow-up and"
+    },
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "anagement. this article investigates koa risk predictors using the radkneeatlas, a total knee radiomic feature atlas derived from the segmentation of 29 knee structures on magnetic resonance imaging (mri). the study included osteoarthritis initiative (oai) participants with a kellgren-lawrence (kl) grade < 2 at baseline who underwent knee mri scans. participants were categorized as having koa occurre"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:01:58.707526",
+  "updated_at": "2025-12-22T20:01:58.707529"
+}

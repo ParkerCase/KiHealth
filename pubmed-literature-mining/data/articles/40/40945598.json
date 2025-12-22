@@ -1,0 +1,24 @@
+{
+  "pmid": "40945598",
+  "title": "Knee osteoarthritis bone shape from computed tomography is associated with subchondral bone attenuation and marginal cortical bone thickness: A cross-sectional study.",
+  "abstract": "Bone remodelling plays a role in osteoarthritis. Shape analysis using Computed Tomography (CT) enables 3-D evaluation of periarticular bone by combining statistical shape modelling (SSM) and cortical bone mapping (CBM). In a cross-sectional analysis, we explored the relationship between 3-D bone shape, cortical thickness (CTh) and trabecular attenuation (TA) in individuals with knee osteoarthritis. The distal femur and proximal tibia were segmented from 133 CT-scans with knee osteoarthritis. Canonical objects were registered to each individual object for SSM. Generalized estimating equations looked for associations of shape modes with Kellgren-Lawrence-Grade (KLG). Statistical parametric mapping (SPM) then established any dependence of CTh and TA on bone shape. Shape mode 2 (SM2) was significantly associated with KLG (OR 1.43 per SD, 95%CI: 1.28-1.59, p<0.05). Marginal articular bone showed significant CTh dependence on SM2 (increase of up to 0.2 mm per SD, p<0.05). TA was significantly dependent on SM2 across nearly all the femoral articular surface (decrease of 40 HU per SD, p<0.05) and in the posterolateral tibial plateau (decrease of 20 HU per SD, p<0.05). We uncovered a 3-D shape mode recognisable as osteoarthritic that was associated with radiographic disease status in patients with pre- to moderate knee OA and overweight. Increase in this shape mode was associated with greater cortical thickening at the joint margins, likely related to osteophytosis, and reduced subchondral trabecular attenuation, the implications of which are not yet understood. Further work on combining 3-D shape and bone parameter distributions could improve identification of structural disease progression.",
+  "authors": "Nielsen, Camilla T; Boesen, Mikael; Gudbergsen, Henrik; Hansen, Philip; Müller, Felix; Nybing, Janus U; Henriksen, Marius; Bliddal, Henning; Poole, Kenneth E S; Turmezei, Tom D",
+  "journal": "Osteoarthritis and cartilage",
+  "doi": "10.1016/j.joca.2025.09.006",
+  "publication_date": "2025-12-22T20:04:47.989874",
+  "access_type": "open_access",
+  "pdf_url": "https://www.oarsijournal.com/article/S1063-4584(25)01153-7/pdf",
+  "relevance_score": 21,
+  "predictive_factors": [
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "segmented from 133 ct-scans with knee osteoarthritis. canonical objects were registered to each individual object for ssm. generalized estimating equations looked for associations of shape modes with kellgren-lawrence-grade (klg). statistical parametric mapping (spm) then established any dependence of cth and ta on bone shape. shape mode 2 (sm2) was significantly associated with klg (or 1.43 per sd, 95%ci: 1.28-1."
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:48.479270",
+  "updated_at": "2025-12-22T20:04:48.479272"
+}

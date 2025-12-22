@@ -1,0 +1,31 @@
+{
+  "pmid": "41283165",
+  "title": "Post-traumatic genu recurvatum with slope reversal and arthritis treated with imageless robotic total knee replacement - Case report.",
+  "abstract": "Post-traumatic bony genu recurvatum is not so rare a condition in orthopedic practice. Multiple surgical options are available and are duly reported in literature, i.e., arthrodesis, tibial osteotomy, and soft tissue procedures. But no procedure has perfect relief of symptoms, as arthritis component is never corrected. We present a case of a 65-years old male who had a proximal tibia intra-articular fracture at age of 13, treated conservatively. And, now presenting with post-traumatic severe genu recurvatum with tibial slope reversal and secondary knee osteoarthritis. The patient reported progressive functional limitations and significant pain interfering with daily activities. Given the severity of the deformity and the associated degenerative changes, the patient was managed with an imageless robotic-assisted total knee arthroplasty (TKA). The procedure allowed for precise correction of the deformity and optimal prosthetic alignment without the need for preoperative imaging for navigation. With good functional outcome.",
+  "authors": "Jafri, Sayyadshadab; Mahajan, Unmesh; Daxini, Anurag",
+  "journal": "Journal of clinical orthopaedics and trauma",
+  "doi": "10.1016/j.jcot.2025.103257",
+  "publication_date": "2025-12-22T20:04:08.795153",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 15,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "e procedures. but no procedure has perfect relief of symptoms, as arthritis component is never corrected. we present a case of a 65-years old male who had a proximal tibia intra-articular fracture at age of 13, treated conservatively. and, now presenting with post-traumatic severe genu recurvatum with tibial slope reversal and secondary knee osteoarthritis. the patient reported progressive functional"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "y. and, now presenting with post-traumatic severe genu recurvatum with tibial slope reversal and secondary knee osteoarthritis. the patient reported progressive functional limitations and significant pain interfering with daily activities. given the severity of the deformity and the associated degenerative changes, the patient was managed with an imageless robotic-assisted total knee arthroplasty (tka"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:10.061194",
+  "updated_at": "2025-12-22T20:04:10.061196"
+}

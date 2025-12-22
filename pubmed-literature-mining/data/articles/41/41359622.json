@@ -1,0 +1,31 @@
+{
+  "pmid": "41359622",
+  "title": "3D-MRI evaluation of cartilage thickness changes and their location in the patellofemoral joint after open wedge high tibial osteotomy for knee osteoarthritis: A retrospective cohort study.",
+  "abstract": "Open wedge high tibial osteotomy (OWHTO) has been widely established as a safe surgical procedure for medial compartmental knee osteoarthritis. However, concerns remain regarding the progression of patellofemoral (PF) osteoarthritis following surgery. Recent advances in 3D-MRI analysis have enabled quantitative cartilage thickness measurement. We hypothesized that OWHTO would result in measurable decreases in the PF joint cartilage thickness, predominantly medially and detectable using quantitative 3D-MRI. This study evaluated the clinical utility of quantitative 3D-MRI for assessing PF joint cartilage changes before and after OWHTO. Patients were included if they had undergone OWHTO without lateral retinacular release for medial osteoarthritis and had both the preoperative and post-hardware-removal 3D-MRI datasets required for this analysis. Radiographic evaluations were performed before and after OWHTO. Trochlear and patellar cartilage thicknesses were measured from 3D-MRI images at both time points. Changes exceeding 0.1 mm (the validated measurement precision threshold) were considered significant. To assess cartilage loss location, each 3D image was divided into medial, central, and lateral thirds. Superimposed images were observed to determine spatial correspondence of the cartilage defects. In total, 13 knees from 13 patients (median age 55 [32-74] years) were evaluated. Postoperatively, patellar height and lateral tilt significantly decreased (p < 0.001 for both). Of these 13 cases, 7 (54%) showed thickness reductions exceeding 0.1 mm in the trochlear cartilage, and 7 cases showed reductions in the patellar cartilage, with 4 cases showing reductions in both. All cases demonstrated predominantly medial thickness decreases (p = 0.008). Of the 3 cases with patellar cartilage defects, 2 cases showed spatial correspondence with trochlear defects. Quantitative 3D-MRI analysis revealed significant cartilage thickness decreases after OWHTO, predominantly in the medial aspect of the PF joint. This method proved useful for evaluating postoperative PF joint changes and detecting cartilage defect locations.",
+  "authors": "Fuchioka, Yusuke; Ozeki, Nobutake; Koga, Hideyuki; Nakamura, Tomomasa; Nakagawa, Yusuke; Amemiya, Masaki; Asami, Asuka; Katano, Hisako; Sekiya, Ichiro",
+  "journal": "PloS one",
+  "doi": "10.1371/journal.pone.0333961",
+  "publication_date": "2025-01-01T00:00:00",
+  "access_type": "open_access",
+  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12685179/",
+  "relevance_score": 62,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "tal knee osteoarthritis. however, concerns remain regarding the progression of patellofemoral (pf) osteoarthritis following surgery. recent advances in 3d-mri analysis have enabled quantitative cartilage thickness measurement. we hypothesized that owhto would result in measurable decreases in the pf joint cartilage thickness, predominantly medially and detectable using quantitative 3d-mri. this study"
+    },
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "safe surgical procedure for medial compartmental knee osteoarthritis. however, concerns remain regarding the progression of patellofemoral (pf) osteoarthritis following surgery. recent advances in 3d-mri analysis have enabled quantitative cartilage thickness measurement. we hypothesized that owhto would result in measurable decreases in the pf joint cartilage thickness, predominantly medially and det"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:24.898253",
+  "updated_at": "2025-12-22T20:03:24.898256"
+}

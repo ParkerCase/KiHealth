@@ -1,0 +1,38 @@
+{
+  "pmid": "41177097",
+  "title": "Circulating biomarkers in osteoarthritis: a systematic review unveiling key trends and future prospects.",
+  "abstract": "Osteoarthritis (OA) is a progressive and chronic joint disorder characterized by cartilage degradation, joint inflammation, and pain, leading to reduced mobility and quality of life. One of the major challenges in OA management is the early diagnosis and effective monitoring of disease progression, due to the lack of specific and sensitive biomarkers. This systematic review aimed to evaluate circulating biomarkers, including serum proteins and microRNAs (miRNAs), for their potential diagnostic and prognostic value in OA. A comprehensive literature search was conducted across PubMed, Web of Science, and Scopus for studies published from March 18, 2015, to March 18, 2025, resulting in 471 studies. After applying inclusion and exclusion criteria, 18 clinical studies and among them, 12 investigated circulating proteins and 6 focused on miRNAs. Several serum proteins such as interleukins (IL-6, IL-1β, IL-38), complement 3 (C3), autotaxin (ATX), pentraxin 3 (PTX3), hyaluronic acid (HA), and clusterin (CLU) showed significant elevation in OA patients and were linked to disease severity. Regarding miRNAs, some (e.g., let-7e, miR-33b-3p) were downregulated, while others (e.g., miR-146a-5p, miR-92a-3p) were upregulated in OA. Functional analyses using STRING and miRNet tools revealed that these biomarkers are not only diagnostic indicators but may actively contribute to OA pathogenesis, particularly through inflammation and cartilage-related pathways. In conclusion, circulating proteins and miRNAs hold promise as non-invasive biomarkers for knee OA. By integrating evidence from 18 clinical studies with network analyses, we identify two predominant molecular phenotypes: an inflammatory-metabolic axis and a cartilage-turnover axis. However, further large-scale, standardized studies are necessary to confirm their clinical applicability and integration into routine practice.",
+  "authors": "Veronesi, Francesca; Salamanna, Francesca; Sacchi, Giulia; Borsari, Veronica; Giavaresi, Gianluca",
+  "journal": "Pathology, research and practice",
+  "doi": "10.1016/j.prp.2025.156281",
+  "publication_date": "2025-12-22T20:04:16.320019",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 39,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) is a progressive and chronic joint disorder characterized by cartilage degradation, joint inflammation, and pain, leading to reduced mobility and quality of life. one of the major challenges in oa management is the early diagnosis and effective monitoring of disease progression, due to the lack of specific and"
+    },
+    {
+      "factor": "Ha",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) is a progressive and chronic joint disorder characterized by cartilage degradation, joint inflammation, and pain, leading to reduced mobility and quality of life. one of the major challenges in oa management is the early diagnosis and effective mo"
+    },
+    {
+      "factor": "Hyaluronic Acid",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "and among them, 12 investigated circulating proteins and 6 focused on mirnas. several serum proteins such as interleukins (il-6, il-1β, il-38), complement 3 (c3), autotaxin (atx), pentraxin 3 (ptx3), hyaluronic acid (ha), and clusterin (clu) showed significant elevation in oa patients and were linked to disease severity. regarding mirnas, some (e.g., let-7e, mir-33b-3p) were downregulated, while others (e.g., mi"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:17.602443",
+  "updated_at": "2025-12-22T20:04:17.602445"
+}

@@ -1,0 +1,16 @@
+{
+  "pmid": "41134489",
+  "title": "Association of macrophage colony-stimulating factor 1 and its locus with osteoarthritis: Mendelian randomization and colocalization analysis.",
+  "abstract": "With the rising prevalence of osteoarthritis (OA), this disease places a substantial economic burden on society. Nevertheless, there is still a lack of effective therapeutic agents to completely cure OA. This study thus aims to identify potential genetic targets that might influence the progression of OA. Using Mendelian randomization (MR), the correlation between the levels of macrophage colony-stimulating factor (CSF-1) and its associated genetic loci with OA at different anatomical sites was investigated. Data were primarily obtained from the arcOGEN Consortium, the UK Biobank, and other relevant sources. Additionally, Summary Data-based Mendelian Randomization (SMR), Mendelian Randomization, and colocalization analysis were used to examine the relation of 16,989 cis-eQTL genes from the eQTLGen database with OA at various locations, to facilitate the identification of potential genetic loci that might affect the progression of OA. Through MR analysis of two databases, we found a direct correlation between CSF-1 levels and knee OA (OR = 1.08, 95% CI = 1.02-1.15; OR = 1.18, 95% CI = 1.03-1.35). Further gene screening and colocalization analysis confirmed that FLOT1, IER3, and STRIP1 are positively correlated with knee OA, while TMEM171 is negatively correlated with hand OA. This study employed MR analysis to explore the causal relationship between CSF-1 and osteoarthritis, revealing a potential causal link between high levels of macrophage colony-stimulating factor and increased risk of knee osteoarthritis. Additionally, through various analytical methods, we identified four potential genetic targets: FLOT1, IER3, STRIP1, and TMEM171. These findings offer new insights into the genetic foundation of osteoarthritis and provide potential targets for future treatment strategies. Key Points • We provided genetic evidence supporting the use of MR methods to demonstrate a causal relationship between knee osteoarthritis and CSF-1 and its genetic loci. • Four genetic loci are potentially associated with the progression of osteoarthritis.",
+  "authors": "Wang, Junjie; Li, Yuxuan; Wang, Husen; Li, Jun; Ma, Qing; Li, Yu; Ma, Qinghu; Yang, Lvlin",
+  "journal": "Clinical rheumatology",
+  "doi": "10.1007/s10067-025-07765-6",
+  "publication_date": "2025-12-22T20:04:24.053003",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 15,
+  "predictive_factors": [],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:25.350833",
+  "updated_at": "2025-12-22T20:04:25.350835"
+}

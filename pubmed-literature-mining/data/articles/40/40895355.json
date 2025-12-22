@@ -1,0 +1,16 @@
+{
+  "pmid": "40895355",
+  "title": "Global trends and hotspots related to complications following total knee arthroplasty.",
+  "abstract": "This bibliometric analysis aims to assess the global research landscape on the topic of complications of knee arthroplasty. Understanding the research being done on knee arthroplasty can help identify prominent areas in the field. Over the past two decades, knee arthroplasty has become one of the most common surgical procedures done to treat knee osteoarthritis. While it is used widely, many patients experience severe complications after surgery and often have to undergo revision surgery. This bibliometric analysis seeks to provide researchers with an up-to-date, relevant analysis and visualization of key authors and contributors, institutions, and trends in countries. The following search query was used to find literature on the topic: query = knee arthroplasty (Topic) AND complications (Topic). The search yielded a total of 10,000 articles, which served as the main dataset for further analysis. VOSviewer was utilized to perform co-authorship, institutional, and country analyses. Annual publication trends were visualized through bar graphs generated using metadata from the database. The United States and China were prominent countries in the field of complications after knee arthroplasty. Prominent institutions included The Hospital for Special Surgery, Thomas Jefferson University, Cleveland Clinic, and Mayo Clinic. A prominent contributing author was Michael Mont, who is also from the United States, showing the country's dominance in this field. This analysis highlights the distribution of countries and institutions in knee arthroplasty research in the growing field of complications post-surgery, and these findings offer valuable insights into areas of improvement, and it demonstrates how the field is growing.",
+  "authors": "Eraniyan, Keerthi; Iftikhar, Nofel; Ganti, Latha",
+  "journal": "Journal of orthopaedics",
+  "doi": "10.1016/j.jor.2025.08.005",
+  "publication_date": "2025-12-22T20:04:51.234406",
+  "access_type": "open_access",
+  "pdf_url": "https://doi.org/10.1016/j.jor.2025.08.005",
+  "relevance_score": 27,
+  "predictive_factors": [],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:51.715257",
+  "updated_at": "2025-12-22T20:04:51.715259"
+}

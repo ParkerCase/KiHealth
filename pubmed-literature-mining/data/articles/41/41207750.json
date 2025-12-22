@@ -1,0 +1,24 @@
+{
+  "pmid": "41207750",
+  "title": "High Tibial Osteotomy Versus Unicompartmental Knee Replacement: How Do We Choose?",
+  "abstract": "Deciding the appropriate procedure for an active patient with medial compartment knee osteoarthritis can be challenging, and both medial opening wedge high tibial osteotomy (HTO) and medial unicompartmental knee arthroplasty have great long-term outcomes. However, the literature suggests that HTO may be most appropriate in patients who want to maintain a very active lifestyle, specifically continuing high-impact activities. Unicompartmental knee arthroplasty may be more appropriate for patients who are seeking pain relief and are more accepting of only participating in lower impact activities.",
+  "authors": "Bertha, Nicholas; Stokes, Daniel J; Gonzalez-Lomas, Guillem; Frank, Rachel M",
+  "journal": "Clinics in sports medicine",
+  "doi": "10.1016/j.csm.2025.01.003",
+  "publication_date": "2025-12-22T20:01:55.254296",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 13,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "riate in patients who want to maintain a very active lifestyle, specifically continuing high-impact activities. unicompartmental knee arthroplasty may be more appropriate for patients who are seeking pain relief and are more accepting of only participating in lower impact activities."
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:01:56.516851",
+  "updated_at": "2025-12-22T20:01:56.516853"
+}

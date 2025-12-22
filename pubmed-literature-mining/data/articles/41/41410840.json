@@ -1,0 +1,38 @@
+{
+  "pmid": "41410840",
+  "title": "Sex-related differences in circulating inflammatory cytokines in knee osteoarthritis: a prospective clinical study.",
+  "abstract": "Osteoarthritis (OA) is a multifactorial joint disorder in which inflammatory cytokines are increasingly recognized as key drivers of disease progression. Biological sex influences OA risk and severity, yet the underlying immunological mechanisms remain unclear. To assess sex-related differences in circulating cytokine levels and explore their potential clinical implications in knee osteoarthritis (KOA). In this prospective observational study, 80 KOA patients (40 men, 40 women) were enrolled. All participants discontinued nonsteroidal anti-inflammatory drugs and physical therapy for one month before blood sampling. Serum cytokine concentrations were quantified using a 12-plex multiplex assay, and clinical outcomes were evaluated with standardized pain and function scores. KOA patients exhibited elevated pro-inflammatory cytokines compared with reference values. Significant sex-based differences were observed for IL-1β (mean difference [MD] 31.9; 95% CI 3.5-60.4; P = 0.028), IL-5 (MD 6.3; 95% CI 2.2-10.5; P = 0.004), IL-6 (MD 9.3; 95% CI 1.5-17.1; P = 0.021), and TNF-α (MD 13.5; 95% CI 1.0-26.1; P = 0.035). Anti-inflammatory cytokines (IL-4, IL-10) remained within normal ranges without sex differences. Clinical scores (VAS, WOMAC, SF-36) did not significantly differ between sexes. Circulating IL-1β, IL-5, IL-6, and TNF-α show significant sex-related differences in KOA, independent of radiographic severity or symptom scores. These findings highlight potential biological mechanisms underlying sex disparities in OA and may inform more individualized diagnostic and therapeutic strategies. Key Points • Pro-inflammatory cytokines (IL-1β, IL-5, IL-6, TNF-α) showed significant sex-related differences in patients with knee osteoarthritis. • Anti-inflammatory cytokines (IL-4, IL-10) remained within reference ranges and did not differ between sexes. • Clinical scores (VAS, WOMAC, SF-36) were comparable between sexes, suggesting biochemical alterations may precede clinical manifestations. • Recognition of sex-specific cytokine patterns may help inform individualized assessment and management strategies in knee osteoarthritis.",
+  "authors": "Zhu, Xiaohang; Fu, Pengfei; Xu, Pingcheng; Guo, Jiong Jiong",
+  "journal": "Clinical rheumatology",
+  "doi": "10.1007/s10067-025-07877-z",
+  "publication_date": "2025-12-22T20:02:28.180607",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 19,
+  "predictive_factors": [
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) is a multifactorial joint disorder in which inflammatory cytokines are increasingly recognized as key drivers of disease progression. biological sex influences oa risk and severity, yet the underlying immunological mechanisms remain unclear. to assess sex-related differences in circulating cytokine levels and explore their potential clinical impl"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "y drugs and physical therapy for one month before blood sampling. serum cytokine concentrations were quantified using a 12-plex multiplex assay, and clinical outcomes were evaluated with standardized pain and function scores. koa patients exhibited elevated pro-inflammatory cytokines compared with reference values. significant sex-based differences were observed for il-1β (mean difference [md] 31.9; 9"
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "3; 95% ci 1.5-17.1; p = 0.021), and tnf-α (md 13.5; 95% ci 1.0-26.1; p = 0.035). anti-inflammatory cytokines (il-4, il-10) remained within normal ranges without sex differences. clinical scores (vas, womac, sf-36) did not significantly differ between sexes. circulating il-1β, il-5, il-6, and tnf-α show significant sex-related differences in koa, independent of radiographic severity or symptom scores. t"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:02:29.520194",
+  "updated_at": "2025-12-22T20:02:29.520196"
+}

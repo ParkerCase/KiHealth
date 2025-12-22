@@ -1,0 +1,52 @@
+{
+  "pmid": "41423136",
+  "title": "Sex Differences in Preoperative Pain Intensity Among Patients Undergoing Total Knee Arthroplasty: A Propensity Score-Matched Cross-Sectional Study.",
+  "abstract": "Although sex differences in knee osteoarthritis (OA) pain are well documented, previous studies have not adequately adjusted for structural and inflammatory confounders. Clarifying whether preoperative sex differences in pain persist after such adjustment is clinically important in advanced OA because it may influence surgical decision-making, preoperative counselling, and strategies to prevent persistent postoperative pain. To compare preoperative pain intensity, pain sensitivity, psychosocial characteristics, and physical function between women and men with advanced knee OA using propensity score-matched analysis. In this cross-sectional study, 120 patients (60 women and 60 men) with advanced knee OA were propensity score-matched 1:1 on age, body mass index, Kellgren-Lawrence grade, C-reactive protein, synovitis, and bone marrow lesions. Primary outcomes were pain intensity at rest and during movement. Secondary outcomes were central sensitization-related symptoms (CSI-9), pressure pain thresholds (PPTs), psychosocial measures, and physical function. After matching, women reported significantly greater resting pain (23.3 ± 22.3 vs. 11.0 ± 15.2; mean difference = 12.3 mm, 95% CI: 5.1 to 19.5) but similar movement pain (47.2 ± 25.0 vs. 45.3 ± 24.6; mean difference = 1.9 mm, 95% CI: -7.4 to 11.2). They also showed higher CSI-9 scores, lower PPTs at the knee and forearm, and poorer physical function, with no significant differences in psychosocial measures. Women with advanced knee OA awaiting surgery showed greater pain sensitivity and human-assumed central sensitization than men, independent of structural and inflammatory factors. This supports sex-specific mechanisms and underscores individualized pain assessment and rehabilitation.",
+  "authors": "Tanaka, So; Tomooka, Yuta; Mibu, Akira; Imai, Ryota; Yamashita, Hirofumi; Manfuku, Masahiro; Yamada, Keiko; Tokunaga, Masami; Yoshimoto, Takaaki; Ushida, Takahiro; Nishigami, Tomohiko",
+  "journal": "Osteoarthritis and cartilage",
+  "doi": "10.1016/j.joca.2025.12.009",
+  "publication_date": "2025-12-22T20:02:12.584662",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 56,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "men and men with advanced knee oa using propensity score-matched analysis. in this cross-sectional study, 120 patients (60 women and 60 men) with advanced knee oa were propensity score-matched 1:1 on age, body mass index, kellgren-lawrence grade, c-reactive protein, synovitis, and bone marrow lesions. primary outcomes were pain intensity at rest and during movement. secondary outcomes were central se"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "although sex differences in knee osteoarthritis (oa) pain are well documented, previous studies have not adequately adjusted for structural and inflammatory confounders. clarifying whether preoperative sex differ"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "nd men with advanced knee oa using propensity score-matched analysis. in this cross-sectional study, 120 patients (60 women and 60 men) with advanced knee oa were propensity score-matched 1:1 on age, body mass index, kellgren-lawrence grade, c-reactive protein, synovitis, and bone marrow lesions. primary outcomes were pain intensity at rest and during movement. secondary outcomes were central sensitization-relat"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "although sex differences in knee osteoarthritis (oa) pain are well documented, previous studies have not adequately adjusted for structural and inflammatory confounders. clarifying whether preoperative sex differences in pain persist after such adjustment i"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ced knee oa using propensity score-matched analysis. in this cross-sectional study, 120 patients (60 women and 60 men) with advanced knee oa were propensity score-matched 1:1 on age, body mass index, kellgren-lawrence grade, c-reactive protein, synovitis, and bone marrow lesions. primary outcomes were pain intensity at rest and during movement. secondary outcomes were central sensitization-related symptoms (csi-9)"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:02:13.861001",
+  "updated_at": "2025-12-22T20:02:13.861004"
+}

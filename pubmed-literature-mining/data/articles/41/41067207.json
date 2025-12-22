@@ -1,0 +1,38 @@
+{
+  "pmid": "41067207",
+  "title": "Imageless robotic surgery and a personalized approach: optimizing TKA after ACL reconstruction.",
+  "abstract": "Anterior cruciate ligament reconstruction (ACLR) increases the risk of knee osteoarthritis (OA) and the need for total knee arthroplasty (TKA), with an increased rate of complications. The aim of this prospective study is to evaluate the role of imageless robotic surgery and a personalized approach in TKA after prior ACLR. This prospective study involved 70 patients who underwent primary TKA: 35 with prior ACLR and 35 with primary OA. All surgeries were performed using an imageless robotic system. Demographic, intraoperative, and postoperative data were analyzed, including knee function (ROM, KSS, WOMAC), complications, and radiographic outcomes. Despite significantly lower preoperative values in the ACLR group for maximum flexion (p = 0.021), KSS-knee (p = 0.041), KSS-function (p = 0.032), WOMAC-stiffness (p = 0.017), and WOMAC-function (p = 0.035), postoperative outcomes were comparable between the two groups, except for a residual reduction in knee flexion in the ACLR group (114.41° vs 128.61°, p < 0.001). Intraoperative adjustments were more frequent in the ACLR group, with a significantly higher rate of tibial recuts (20 % vs 2.8 %, p = 0.017). No major complications or revisions were reported at the three-year follow-up. The use of imageless robotic surgery combined with a personalized approach can achieve comparable postoperative outcomes between patients undergoing TKA after ACLR and those with primary OA, while also reducing common issues associated with TKA in patients with a history of ACLR. The overall results indicate that robotic-assisted TKA is a safe and effective option for these patients. Level II.",
+  "authors": "Andriollo, Luca; Picchi, Aurelio; Demattia, Gerardo; Marescalchi, Marina; Sangaletti, Rudy; Benazzo, Francesco; Rossi, Stefano Marco Paolo",
+  "journal": "The Knee",
+  "doi": "10.1016/j.knee.2025.09.007",
+  "publication_date": "2025-12-22T20:04:38.542228",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 33,
+  "predictive_factors": [
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "rior aclr and 35 with primary oa. all surgeries were performed using an imageless robotic system. demographic, intraoperative, and postoperative data were analyzed, including knee function (rom, kss, womac), complications, and radiographic outcomes. despite significantly lower preoperative values in the aclr group for maximum flexion (p = 0.021), kss-knee (p = 0.041), kss-function (p = 0.032), womac-st"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ac), complications, and radiographic outcomes. despite significantly lower preoperative values in the aclr group for maximum flexion (p = 0.021), kss-knee (p = 0.041), kss-function (p = 0.032), womac-stiffness (p = 0.017), and womac-function (p = 0.035), postoperative outcomes were comparable between the two groups, except for a residual reduction in knee flexion in the aclr group (114.41° vs 128.61°, p <"
+    },
+    {
+      "factor": "Rom",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "35 with prior aclr and 35 with primary oa. all surgeries were performed using an imageless robotic system. demographic, intraoperative, and postoperative data were analyzed, including knee function (rom, kss, womac), complications, and radiographic outcomes. despite significantly lower preoperative values in the aclr group for maximum flexion (p = 0.021), kss-knee (p = 0.041), kss-function (p = 0.03"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:39.846676",
+  "updated_at": "2025-12-22T20:04:39.846678"
+}

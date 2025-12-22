@@ -1,0 +1,24 @@
+{
+  "pmid": "41374707",
+  "title": "A Wearable System for Knee Osteoarthritis: Based on Multimodal Physiological Signal Assessment and Intelligent Rehabilitation.",
+  "abstract": "Knee osteoarthritis (KOA), a common degenerative joint disease, affects a large patient population and poses significant challenges in early diagnosis and rehabilitation. Achieving precise assessment of knee function and efficient home-based intelligent rehabilitation is crucial for alleviating pain, slowing disease progression, and improving patients' quality of life. This study proposes a smart wearable knee function assessment based on multimodal physiological signals and a rehabilitation system. The system integrates surface electromyography (sEMG), pressure sensors, and an inertial measurement unit (IMU) to synchronously capture gait, posture, and muscle activity. It quantifies knee function by extracting gait and EMG features. Additionally, a wearable massage device driven by airbags was designed and implemented to simulate the traditional Chinese medicine \"seated knee-adjustment method\" and deliver precise intelligent rehabilitation interventions. Experimental results validated the system's accuracy in functional assessment and reliability in rehabilitation assistance. The average relative error in gait feature extraction was below 8%, while the massage head displacement error remained within clinically acceptable ranges. By integrating multimodal sensing technology with intelligent rehabilitation devices, this system offers KOA patients a convenient, efficient, and sustainable home-based rehabilitation solution with strong clinical application potential and promotional value.",
+  "authors": "Hu, Jingyi; Wang, Shuyi; Shen, Yichun; Miao, Xinrong",
+  "journal": "Sensors (Basel, Switzerland)",
+  "doi": "10.3390/s25237334",
+  "publication_date": "2025-12-22T20:03:49.448159",
+  "access_type": "open_access",
+  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12694558/",
+  "relevance_score": 17,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "on and poses significant challenges in early diagnosis and rehabilitation. achieving precise assessment of knee function and efficient home-based intelligent rehabilitation is crucial for alleviating pain, slowing disease progression, and improving patients' quality of life. this study proposes a smart wearable knee function assessment based on multimodal physiological signals and a rehabilitation sys"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:49.841056",
+  "updated_at": "2025-12-22T20:03:49.841059"
+}

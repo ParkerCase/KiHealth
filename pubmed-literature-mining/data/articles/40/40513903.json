@@ -1,0 +1,24 @@
+{
+  "pmid": "40513903",
+  "title": "Does Relative Femoral and Tibial Component Size Influence Revision Risk Following Primary Total Knee Arthroplasty?",
+  "abstract": "Most total knee arthroplasty (TKA) implant manufacturers provide recommendations about relative femoral and tibial component sizing. Few studies have investigated whether relative femoral and tibial component size influences revision rate following primary TKA. We analyzed 86,584 primary, cruciate-retaining, TKA procedures from a popular implant system recorded by the Australian Orthopaedic Association National Joint Replacement Registry to investigate all-cause revision rates for matched (femoral size = tibial size) and unmatched (femur = tibia ± one) component combinations. Revision rates for infection, loosening, instability, patello-femoral reasons, and pain were determined. For the unmatched group, subanalysis was performed for procedures with femoral size > tibial size and femoral size < tibial size. A TKA with unmatched component combinations had a higher rate of all-cause revision than those with matched component combinations (hazard ratio [HR] 1.15; confidence interval [CI] 1.06 to 1.25; P = 0.001). The unmatched group had higher rates of revision for loosening (HR 1.38; CI 1.09 to 1.74; P = 0.006) and instability (HR 1.38; CI 1.08 to 1.75; P = 0.008). There was no difference in revision rates for infection, patello-femoral reasons, or pain. The rate of all-cause revision (3 years +; HR 1.52; CI 1.31 to 1.77; P < 0.001), revision for loosening (6.5 years +; HR 3.64; CI 1.95 to 6.77; P < 0.001), and revision for instability (HR 1.35; CI 1.03 to 1.77; P = 0.030) was higher for procedures with femoral size > tibial size than the matched group. The TKA procedures with femoral size > tibial size using the implant system analyzed in this study have a higher rate of revision for loosening and instability than procedures with matched component size. Surgeons should be mindful of this risk when considering relative component size during TKA.",
+  "authors": "Brown, Zak G; Loch, Alan R; Holder, Carl; Wall, Christopher J",
+  "journal": "The Journal of arthroplasty",
+  "doi": "10.1016/j.arth.2025.06.033",
+  "publication_date": "2025-12-22T20:01:59.217369",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 23,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "revision rates for matched (femoral size = tibial size) and unmatched (femur = tibia ± one) component combinations. revision rates for infection, loosening, instability, patello-femoral reasons, and pain were determined. for the unmatched group, subanalysis was performed for procedures with femoral size > tibial size and femoral size < tibial size. a tka with unmatched component combinations had a hi"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:02:00.858444",
+  "updated_at": "2025-12-22T20:02:00.858447"
+}

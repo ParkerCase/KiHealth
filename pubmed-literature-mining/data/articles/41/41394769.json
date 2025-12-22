@@ -1,0 +1,88 @@
+{
+  "pmid": "41394769",
+  "title": "A Nomogram Model for Predicting Prolonged Postoperative LOS After Total Knee Arthroplasty in Osteoarthritis Patients.",
+  "abstract": "The purpose of this study was to construct and validate a preoperative and intraoperative factor-based nomogram model to predict the risk of prolonged postoperative length of stay after primary total knee arthroplasty for osteoarthritis patients. The study included patients undergoing primary TKA for knee osteoarthritis between June 2022 and November 2024. Patients were randomly split into training (70%) and validation (30%) cohorts. Potential predictors were screened using LASSO regression and subsequently incorporated into a multivariate logistic regression to build the nomogram. The model's performance was assessed using the area under the receiver operating characteristic curve, calibration curves, and decision curve analysis. A total of 295 patients were included, with an average age of 66.58 ± 6.88 years. Least absolute shrinkage and selection operator regression identified 12 potential predictors, and multivariate logistic regression further refined these to four independent risk factors: age, knee flexion range of motion, operation time, and American Society of Anesthesiologists classification. The nomogram demonstrated strong predictive performance, with the area under the receiver operating characteristic curve values of 0.912 (95% CI: 0.858-0.966) in the training set and 0.817 (95% CI: 0.697-0.938) in the validation set. Calibration curves showed excellent agreement between predicted and observed outcomes, and decision curve analysis indicated significant clinical utility across a wide range of threshold probabilities. The model, based on age, knee flexion range of motion, operation time, and American Society of Anesthesiologists classification, provides a practical tool for clinicians to assess individual risks, optimize resource allocation, and improve patient outcomes. It is important to note that this was a single-center, retrospective study, and further validation in multi-center, prospective cohorts is recommended to confirm its generalizability.",
+  "authors": "Qi, Haoran; Zhang, Bo; Lu, Daifeng; Lian, Feng",
+  "journal": "Clinical interventions in aging",
+  "doi": "10.2147/CIA.S556772",
+  "publication_date": "2025-01-01T00:00:00",
+  "access_type": "open_access",
+  "pdf_url": "https://www.dovepress.com/article/download/109703",
+  "pdf_path": "data/pdfs/41394769.pdf",
+  "relevance_score": 43,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "model's performance was assessed using the area under the receiver operating characteristic curve, calibration curves, and decision curve analysis. a total of 295 patients were included, with an average age of 66.58 ± 6.88 years. least absolute shrinkage and selection operator regression identified 12 potential predictors, and multivariate logistic regression further refined these to four independen"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "the predictive factors used in this study include: (1) socio-demographic variables such as age, sex, body mass"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "gender 0.567"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "index (bmi), marital status, insurance status, and household registration, (2) comorbidities such as hypertension,"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "abbreviations: bmi, body mass index; asa, american society of anesthesiologists’ physical status"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "cause of chronic pain and long-term disability in the elderly.2,3 the progression of koa is typically accompanied by"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "significantly influences the final rom after tka, and patients with knee stiffness typically exhibit poorer postoperative"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "cause of chronic pain and long-term disability in the elderly.2,3 the progression of koa is typically accompanied by"
+    },
+    {
+      "factor": "Hyaluronic Acid",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "pharmacotherapy includes oral analgesics/anti-inflammatory drugs and intra-articular injections of hyaluronic acid, platelet-"
+    },
+    {
+      "factor": "Diabetes",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "diabetes, (3) preoperative variables such as american society of anesthesiologists’ physical status classification"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:03:23.087679",
+  "updated_at": "2025-12-22T20:03:23.087681"
+}

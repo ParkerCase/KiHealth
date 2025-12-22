@@ -1,0 +1,24 @@
+{
+  "pmid": "41138538",
+  "title": "The Impact of varus and valgus alignment on knee cartilage quality assessed by magnetic resonance imaging: insights from the IMI-APPROACH cohort.",
+  "abstract": "Lower limb malalignment increases the risk of unicompartmental knee osteoarthritis (KOA). This study investigates the association between knee cartilage quality, assessed via MRI-based T2 mapping, and lower limb malalignment. It also examines whether cartilage quality is more influenced by bony or intra-articular malalignment. In this cross-sectional analysis of 156 knees from the IMI-APPROACH cohort, tibiofemoral cartilage T2 values were measured using high-resolution MRI, distinguishing superficial and deep layers. Malalignment was categorized into entire leg, bony, and intra-articular malalignment (via the Joint Line Convergence Angle). Correlations between T2 values and alignment were assessed using Spearman's rho. A subgroup analysis evaluated cartilage quality in constitutional malalignment (malalignment without intra-articular deviation). Cartilage T2 values were significantly associated with alignment. Varus knees showed significantly longer T2 in the superficial medial cartilage (ρ = -0.2, p = 0.04), and valgus knees in the lateral compartment (ρ = 0.1, p = 0.35). Associations were strongest for intra-articular malalignment (ρ = 0.3, p < 0.01). In constitutional varus, a non-significant medial T2 prolongation was observed (ρ = -0.2, p = 0.28); no changes were found in constitutional valgus. Lower limb malalignment, particularly intra-articular malalignment, is associated with compartment-specific lower cartilage quality, as reflected by longer T2 values. Distinguishing between bony and intra-articular malalignment, rather than overall limb alignment, should be a focus of future studies on malalignment. Future research should explore whether constitutional malalignment and early cartilage alterations may trigger cartilage degeneration and KOA progression.",
+  "authors": "Bax, Eva A; Kerkhof, Joost A J; van Egmond, Nienke; Kuiper, Ruurd J A; Rayegan, Hassan; Kloppenburg, Margreet; Blanco, Francisco J; Haugen, Ida K; Berenbaum, Francis; Mastbergen, Simon C; Eckstein, Felix; Wirth, Wolfgang; Roemer, Frank W; Kruyt, Moyo C; Weinans, Harrie; Custers, Roel J H",
+  "journal": "The Knee",
+  "doi": "10.1016/j.knee.2025.10.005",
+  "publication_date": "2025-12-22T20:04:23.150402",
+  "access_type": "open_access",
+  "pdf_url": "https://www.thekneejournal.com/article/S0968-0160(25)00257-1/pdf",
+  "relevance_score": 50,
+  "predictive_factors": [
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "lower limb malalignment increases the risk of unicompartmental knee osteoarthritis (koa). this study investigates the association between knee cartilage quality, assessed via mri-based t2 mapping, and lower limb malalignment. it also examines whether cartilage quality is more influenced by bony or intra-articular malalignment. in this cross-sectional analysis of 156 knees fro"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2025-12-22T20:04:23.572759",
+  "updated_at": "2025-12-22T20:04:23.572761"
+}
