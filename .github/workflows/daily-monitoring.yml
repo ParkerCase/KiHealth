@@ -57,6 +57,7 @@ jobs:
         continue-on-error: true
 
       - name: Commit article data
+        continue-on-error: true
         run: |
           git config user.name "OA Literature Monitor"
           git config user.email "actions@github.com"
@@ -76,6 +77,7 @@ jobs:
           fi
 
       - name: Generate and commit daily summary
+        continue-on-error: true
         run: |
           git config user.name "OA Literature Monitor"
           git config user.email "actions@github.com"
@@ -88,11 +90,13 @@ jobs:
               
               - Articles processed: $(cat pubmed-literature-mining/logs/daily_count.txt 2>/dev/null || echo 'N/A')
               - Paywalled articles: $(cat pubmed-literature-mining/logs/paywalled_count.txt 2>/dev/null || echo 'N/A')
-              - Predictive factors: $(cat pubmed-literature-mining/logs/factors_count.txt 2>/dev/null || echo 'N/A')"
-              git push
+              - Predictive factors: $(cat pubmed-literature-mining/logs/factors_count.txt 2>/dev/null || echo 'N/A')" || echo "Commit failed"
+              git push || echo "Push failed"
             else
               echo "No changes to commit"
             fi
+          else
+            echo "LATEST_FINDINGS.md not found"
           fi
 
       - name: Upload logs
