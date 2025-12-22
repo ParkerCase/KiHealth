@@ -355,8 +355,17 @@ async function main() {
     // Initialize clients
     const xata = getXataClient();
     const aiClient = getAIClient();
+    
+    if (!aiClient) {
+      log("⚠️  No AI API key found - skipping AI analysis");
+      log("⚠️  Papers will be stored but not analyzed for relevance");
+      log("⚠️  To enable AI analysis, set ANTHROPIC_API_KEY or OPENAI_API_KEY");
+      log("✓ Connected to file storage");
+      return; // Exit early if no AI client
+    }
+    
     log(
-      `✓ Connected to Xata and ${
+      `✓ Connected to file storage and ${
         aiClient.provider === "openai" ? "OpenAI GPT-4" : "Anthropic Claude"
       }`
     );
