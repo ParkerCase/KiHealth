@@ -1,0 +1,32 @@
+name: Test Google Sheets Connection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-connection:
+    name: Test Connection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: scripts/package.json
+
+      - name: Install dependencies
+        working-directory: ./scripts
+        run: npm ci
+
+      - name: Test Google Sheets Connection
+        working-directory: ./scripts
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+        run: node test-google-sheets.js
+

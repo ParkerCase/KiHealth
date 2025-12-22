@@ -216,9 +216,13 @@ async function main() {
   log("=".repeat(80));
 
   try {
-    // Initialize file storage (replaces Xata)
+    // Initialize storage (Google Sheets or file storage)
     const xata = getXataClient();
-    log("✓ Connected to file storage");
+    if (process.env.GOOGLE_SHEET_ID) {
+      log("✓ Connected to Google Sheets");
+    } else {
+      log("✓ Connected to file storage");
+    }
 
     const allRecords = [];
 
