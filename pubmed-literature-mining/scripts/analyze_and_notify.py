@@ -16,7 +16,7 @@ from collections import defaultdict
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from scripts.file_storage import FileStorage
+from scripts.google_sheets_storage import get_storage_client
 
 load_dotenv()
 
@@ -37,7 +37,7 @@ class NotificationSystem:
     """Handles GitHub-based notifications"""
     
     def __init__(self):
-        self.storage = FileStorage()  # Free file-based storage
+        self.storage = get_storage_client()  # Google Sheets if available, else file storage
         self.relevance_threshold = int(os.getenv('RELEVANCE_THRESHOLD', '70'))
         self.github_token = os.getenv('GITHUB_TOKEN')
         self.repo_owner = os.getenv('GITHUB_REPO_OWNER')

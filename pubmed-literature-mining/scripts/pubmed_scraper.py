@@ -19,7 +19,7 @@ import xml.etree.ElementTree as ET
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, parent_dir)
 
-from scripts.file_storage import FileStorage
+from scripts.google_sheets_storage import get_storage_client
 from scripts.open_access_detector import OpenAccessDetector
 from scripts.relevance_scoring import RelevanceScorer
 from scripts.factor_extraction import FactorExtractor
@@ -51,7 +51,7 @@ class PubMedScraper:
         self.email = os.getenv('PUBMED_EMAIL', 'parker@stroomai.com')
         self.tool = os.getenv('PUBMED_TOOL', 'PubMedLiteratureMining')
         self.max_articles = int(os.getenv('MAX_ARTICLES_PER_RUN', '100'))
-        self.storage = FileStorage()  # Free file-based storage
+        self.storage = get_storage_client()  # Google Sheets if available, else file storage
         self.oa_detector = OpenAccessDetector()
         self.relevance_scorer = RelevanceScorer()
         self.factor_extractor = FactorExtractor()

@@ -13,7 +13,7 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from scripts.file_storage import FileStorage
+from scripts.google_sheets_storage import get_storage_client
 
 
 def generate_paywalled_list(output_file: str = "PAYWALLED_ARTICLES.txt", threshold: int = 70):
@@ -24,7 +24,7 @@ def generate_paywalled_list(output_file: str = "PAYWALLED_ARTICLES.txt", thresho
         output_file: Output file path
         threshold: Minimum relevance score
     """
-    storage = FileStorage()
+    storage = get_storage_client()
     
     # Get paywalled articles
     paywalled = storage.get_paywalled_articles(threshold=threshold)

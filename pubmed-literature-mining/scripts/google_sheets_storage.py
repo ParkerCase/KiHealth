@@ -1,0 +1,290 @@
+#!/usr/bin/env python3
+"""
+Google Sheets Storage System for Python
+Replaces file storage with Google Sheets for easy monitoring
+100% free, easy to view and filter data
+"""
+
+import os
+import json
+import logging
+from typing import Dict, List, Optional
+from datetime import datetime
+from pathlib import Path
+
+logger = logging.getLogger(__name__)
+
+# Try to import Google Sheets libraries
+try:
+    import gspread
+    from google.oauth2.service_account import Credentials
+    GOOGLE_SHEETS_AVAILABLE = True
+except ImportError:
+    GOOGLE_SHEETS_AVAILABLE = False
+    logger.warning("Google Sheets libraries not installed. Install with: pip install gspread google-auth")
+
+
+class GoogleSheetsStorage:
+    """Google Sheets storage using gspread"""
+    
+    def __init__(self, sheet_name: str = "oa_articles"):
+        """
+        Initialize Google Sheets storage
+        
+        Args:
+            sheet_name: Name of the sheet tab to use
+        """
+        self.sheet_name = sheet_name
+        self.client = None
+        self.spreadsheet = None
+        self.sheet = None
+        self.initialized = False
+        
+    def _initialize(self):
+        """Initialize Google Sheets connection"""
+        if self.initialized:
+            return
+        
+        if not GOOGLE_SHEETS_AVAILABLE:
+            raise ImportError(
+                "Google Sheets libraries not installed. "
+                "Install with: pip install gspread google-auth"
+            )
+        
+        sheet_id = os.getenv('GOOGLE_SHEET_ID')
+        service_account_email = os.getenv('GOOGLE_SERVICE_ACCOUNT_EMAIL')
+        private_key = os.getenv('GOOGLE_PRIVATE_KEY', '').replace('\\n', '\n')
+        
+        if not all([sheet_id, service_account_email, private_key]):
+            raise ValueError(
+                "Google Sheets credentials not found. "
+                "Set GOOGLE_SHEET_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL, and GOOGLE_PRIVATE_KEY"
+            )
+        
+        try:
+            # Create credentials from service account info
+            creds_dict = {
+                "type": "service_account",
+                "project_id": "oa-literature-mining",
+                "private_key_id": "dummy",
+                "private_key": private_key,
+                "client_email": service_account_email,
+                "client_id": "dummy",
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "token_uri": "https://oauth2.googleapis.com/token",
+                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                "client_x509_cert_url": f"https://www.googleapis.com/robot/v1/metadata/x509/{service_account_email}"
+            }
+            
+            scopes = ['https://www.googleapis.com/auth/spreadsheets']
+            creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+            
+            # Initialize client
+            self.client = gspread.authorize(creds)
+            self.spreadsheet = self.client.open_by_key(sheet_id)
+            
+            # Get or create sheet
+            try:
+                self.sheet = self.spreadsheet.worksheet(self.sheet_name)
+            except gspread.exceptions.WorksheetNotFound:
+                # Create new sheet
+                self.sheet = self.spreadsheet.add_worksheet(
+                    title=self.sheet_name,
+                    rows=1000,
+                    cols=20
+                )
+                # Add headers
+                self._setup_headers()
+            
+            self.initialized = True
+            logger.info(f"Connected to Google Sheets: {self.sheet_name}")
+            
+        except Exception as e:
+            logger.error(f"Error initializing Google Sheets: {e}")
+            raise
+    
+    def _setup_headers(self):
+        """Set up column headers"""
+        headers = [
+            'id', 'pmid', 'title', 'abstract', 'authors', 'journal',
+            'publication_date', 'doi', 'access_type', 'relevance_score',
+            'predictive_factors', 'pdf_url', 'processing_status',
+            'created_at', 'updated_at'
+        ]
+        self.sheet.append_row(headers)
+    
+    def get_article_by_pmid(self, pmid: str) -> Optional[Dict]:
+        """Get article by PMID"""
+        self._initialize()
+        
+        try:
+            # Search for row with matching PMID
+            cell = self.sheet.find(pmid, in_column=2)  # Column 2 is pmid
+            if cell:
+                row = self.sheet.row_values(cell.row)
+                headers = self.sheet.row_values(1)
+                return dict(zip(headers, row))
+        except gspread.exceptions.CellNotFound:
+            pass
+        except Exception as e:
+            logger.error(f"Error getting article {pmid}: {e}")
+        
+        return None
+    
+    def insert_article(self, article_data: Dict) -> bool:
+        """
+        Insert or update article
+        
+        Args:
+            article_data: Dictionary with article fields
+            
+        Returns:
+            True if successful
+        """
+        self._initialize()
+        
+        if 'pmid' not in article_data:
+            logger.error("PMID is required")
+            return False
+        
+        pmid = article_data['pmid']
+        
+        try:
+            # Check if article exists
+            existing = self.get_article_by_pmid(pmid)
+            
+            # Prepare row data
+            row_data = [
+                article_data.get('pmid', ''),  # id (use pmid as id)
+                article_data.get('pmid', ''),
+                article_data.get('title', ''),
+                article_data.get('abstract', '')[:5000],  # Limit abstract length
+                article_data.get('authors', ''),
+                article_data.get('journal', ''),
+                article_data.get('publication_date', ''),
+                article_data.get('doi', ''),
+                article_data.get('access_type', 'unknown'),
+                article_data.get('relevance_score', 0),
+                json.dumps(article_data.get('predictive_factors', [])),  # JSON string
+                article_data.get('pdf_url', ''),
+                article_data.get('processing_status', 'processed'),
+                article_data.get('created_at', datetime.now().isoformat()),
+                article_data.get('updated_at', datetime.now().isoformat())
+            ]
+            
+            if existing:
+                # Update existing row
+                cell = self.sheet.find(pmid, in_column=2)
+                if cell:
+                    # Update row
+                    for col_idx, value in enumerate(row_data, start=1):
+                        self.sheet.update_cell(cell.row, col_idx, value)
+                    logger.info(f"Updated article {pmid} in Google Sheets")
+            else:
+                # Insert new row
+                self.sheet.append_row(row_data)
+                logger.info(f"Inserted article {pmid} into Google Sheets")
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error saving article {pmid} to Google Sheets: {e}")
+            return False
+    
+    def get_paywalled_articles(self, threshold: int = 70) -> List[Dict]:
+        """Get paywalled articles with relevance >= threshold"""
+        self._initialize()
+        
+        try:
+            articles = []
+            all_records = self.sheet.get_all_records()
+            
+            for record in all_records:
+                if (record.get('access_type') == 'paywalled' and 
+                    float(record.get('relevance_score', 0)) >= threshold):
+                    articles.append(record)
+            
+            return articles
+        except Exception as e:
+            logger.error(f"Error getting paywalled articles: {e}")
+            return []
+    
+    def get_high_relevance_articles(self, threshold: int = 70) -> List[Dict]:
+        """Get articles with relevance score >= threshold"""
+        self._initialize()
+        
+        try:
+            articles = []
+            all_records = self.sheet.get_all_records()
+            
+            for record in all_records:
+                if float(record.get('relevance_score', 0)) >= threshold:
+                    articles.append(record)
+            
+            return articles
+        except Exception as e:
+            logger.error(f"Error getting high relevance articles: {e}")
+            return []
+    
+    def count_paywalled_articles(self) -> int:
+        """Count paywalled articles"""
+        self._initialize()
+        
+        try:
+            count = 0
+            all_records = self.sheet.get_all_records()
+            
+            for record in all_records:
+                if record.get('access_type') == 'paywalled':
+                    count += 1
+            
+            return count
+        except Exception as e:
+            logger.error(f"Error counting paywalled articles: {e}")
+            return 0
+    
+    def count_predictive_factors(self) -> int:
+        """Count total number of predictive factors"""
+        self._initialize()
+        
+        try:
+            total = 0
+            all_records = self.sheet.get_all_records()
+            
+            for record in all_records:
+                factors_json = record.get('predictive_factors', '[]')
+                try:
+                    factors = json.loads(factors_json) if isinstance(factors_json, str) else factors_json
+                    if isinstance(factors, list):
+                        total += len(factors)
+                except:
+                    pass
+            
+            return total
+        except Exception as e:
+            logger.error(f"Error counting predictive factors: {e}")
+            return 0
+
+
+def get_storage_client():
+    """
+    Get storage client - Google Sheets if available, otherwise file storage
+    
+    Returns:
+        Storage client instance
+    """
+    # Check if Google Sheets credentials are available
+    if (os.getenv('GOOGLE_SHEET_ID') and 
+        os.getenv('GOOGLE_SERVICE_ACCOUNT_EMAIL') and 
+        os.getenv('GOOGLE_PRIVATE_KEY')):
+        try:
+            return GoogleSheetsStorage()
+        except Exception as e:
+            logger.warning(f"Failed to initialize Google Sheets, falling back to file storage: {e}")
+            from scripts.file_storage import FileStorage
+            return FileStorage()
+    else:
+        # Fall back to file storage
+        from scripts.file_storage import FileStorage
+        return FileStorage()
+
