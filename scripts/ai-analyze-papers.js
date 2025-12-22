@@ -53,10 +53,12 @@ function log(message) {
 // Xata client is now imported from file-storage.js (file-based, no API key needed)
 
 // Initialize AI client (supports both Claude and OpenAI)
+// Initialize AI client for generating explanations
+// Returns null if no API key available (AI analysis is optional)
 function getAIClient() {
   if (AI_PROVIDER === "openai") {
     if (!process.env.OPENAI_API_KEY) {
-      throw new Error("OPENAI_API_KEY is not set in environment variables");
+      return null; // Optional, can skip AI analysis
     }
     return {
       provider: "openai",
@@ -66,7 +68,7 @@ function getAIClient() {
     };
   } else {
     if (!process.env.ANTHROPIC_API_KEY) {
-      throw new Error("ANTHROPIC_API_KEY is not set in environment variables");
+      return null; // Optional, can skip AI analysis
     }
     return {
       provider: "anthropic",
