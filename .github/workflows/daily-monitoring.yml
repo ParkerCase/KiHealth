@@ -60,6 +60,12 @@ jobs:
           python scripts/analyze_and_notify.py
         continue-on-error: true
 
+      - name: Generate paywalled articles list
+        working-directory: ./pubmed-literature-mining
+        run: |
+          python scripts/generate_paywalled_list.py --threshold 70
+        continue-on-error: true
+
       - name: Commit article data
         continue-on-error: true
         run: |
@@ -86,21 +92,28 @@ jobs:
           git config user.name "OA Literature Monitor"
           git config user.email "actions@github.com"
           
+          # Add summary and paywalled list
           if [ -f pubmed-literature-mining/LATEST_FINDINGS.md ]; then
             git add pubmed-literature-mining/LATEST_FINDINGS.md
+          fi
+          
+          if [ -f pubmed-literature-mining/PAYWALLED_ARTICLES.txt ]; then
+            git add pubmed-literature-mining/PAYWALLED_ARTICLES.txt
+          fi
+          
+          if [ -f pubmed-literature-mining/PAYWALLED_ARTICLES.csv ]; then
+            git add pubmed-literature-mining/PAYWALLED_ARTICLES.csv
+          fi
+          
+          if ! git diff --staged --quiet; then
+            git commit -m "📊 OA Literature Summary - $(date +%Y-%m-%d)
             
-            if ! git diff --staged --quiet; then
-              git commit -m "📊 OA Literature Summary - $(date +%Y-%m-%d)
-              
-              - Articles processed: $(cat pubmed-literature-mining/logs/daily_count.txt 2>/dev/null || echo 'N/A')
-              - Paywalled articles: $(cat pubmed-literature-mining/logs/paywalled_count.txt 2>/dev/null || echo 'N/A')
-              - Predictive factors: $(cat pubmed-literature-mining/logs/factors_count.txt 2>/dev/null || echo 'N/A')" || echo "Commit failed"
-              git push || echo "Push failed - this is OK, data is still stored"
-            else
-              echo "No changes to commit"
-            fi
+            - Articles processed: $(cat pubmed-literature-mining/logs/daily_count.txt 2>/dev/null || echo 'N/A')
+            - Paywalled articles: $(cat pubmed-literature-mining/logs/paywalled_count.txt 2>/dev/null || echo 'N/A')
+            - Predictive factors: $(cat pubmed-literature-mining/logs/factors_count.txt 2>/dev/null || echo 'N/A')" || echo "Commit failed"
+            git push || echo "Push failed - this is OK, data is still stored"
           else
-            echo "LATEST_FINDINGS.md not found"
+            echo "No changes to commit"
           fi
 
       - name: Upload logs
