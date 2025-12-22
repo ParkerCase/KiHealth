@@ -62,22 +62,45 @@ class GoogleSheetsStorage:
             )
         
         try:
-            # Create credentials from service account info
-            creds_dict = {
-                "type": "service_account",
-                "project_id": "oa-literature-mining",
-                "private_key_id": "dummy",
-                "private_key": private_key,
-                "client_email": service_account_email,
-                "client_id": "dummy",
-                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                "token_uri": "https://oauth2.googleapis.com/token",
-                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                "client_x509_cert_url": f"https://www.googleapis.com/robot/v1/metadata/x509/{service_account_email}"
-            }
-            
-            scopes = ['https://www.googleapis.com/auth/spreadsheets']
-            creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+            # Try to parse as JSON first (if full service account JSON provided)
+            try:
+                creds_json = json.loads(private_key) if private_key.startswith('{') else None
+                if creds_json and 'type' in creds_json:
+                    # Full service account JSON provided
+                    scopes = ['https://www.googleapis.com/auth/spreadsheets']
+                    creds = Credentials.from_service_account_info(creds_json, scopes=scopes)
+                else:
+                    # Only private key provided, construct minimal creds dict
+                    creds_dict = {
+                        "type": "service_account",
+                        "project_id": "oa-literature-mining",
+                        "private_key_id": "dummy",
+                        "private_key": private_key,
+                        "client_email": service_account_email,
+                        "client_id": "dummy",
+                        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                        "token_uri": "https://oauth2.googleapis.com/token",
+                        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                        "client_x509_cert_url": f"https://www.googleapis.com/robot/v1/metadata/x509/{service_account_email}"
+                    }
+                    scopes = ['https://www.googleapis.com/auth/spreadsheets']
+                    creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+            except (json.JSONDecodeError, ValueError):
+                # Not JSON, use as private key only
+                creds_dict = {
+                    "type": "service_account",
+                    "project_id": "oa-literature-mining",
+                    "private_key_id": "dummy",
+                    "private_key": private_key,
+                    "client_email": service_account_email,
+                    "client_id": "dummy",
+                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri": "https://oauth2.googleapis.com/token",
+                    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                    "client_x509_cert_url": f"https://www.googleapis.com/robot/v1/metadata/x509/{service_account_email}"
+                }
+                scopes = ['https://www.googleapis.com/auth/spreadsheets']
+                creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
             
             # Initialize client
             self.client = gspread.authorize(creds)
