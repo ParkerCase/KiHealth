@@ -62,12 +62,17 @@ jobs:
           git config user.email "actions@github.com"
           
           if [ -d pubmed-literature-mining/data/articles ]; then
-            git add pubmed-literature-mining/data/articles/
+            # Force add even if in .gitignore (we want to track article data)
+            git add -f pubmed-literature-mining/data/articles/ || echo "No articles to add"
             
             if ! git diff --staged --quiet; then
               git commit -m "📚 OA Literature Update - $(date +%Y-%m-%d)" || echo "No changes to commit"
               git push || echo "Nothing to push"
+            else
+              echo "No new articles to commit"
             fi
+          else
+            echo "No articles directory found"
           fi
 
       - name: Generate and commit daily summary

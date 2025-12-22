@@ -23,6 +23,7 @@ models/*.pkl
 *.csv
 !DOC_Validator_Vercel/api/template.py  # Keep template code
 data/
+!pubmed-literature-mining/data/articles/  # Allow OA scraper article data
 outputs/
 logs/
 

@@ -305,13 +305,27 @@ class PubMedScraper:
         """Main execution method"""
         logger.info("Starting PubMed scraper")
         
-        # Build search query
+        # Build search query - less restrictive to find more articles
+        # Try with publication type filters first
         query = '("knee osteoarthritis" OR "knee OA") AND ("progression" OR "total knee replacement" OR "arthroplasty" OR "TKR") AND (human[Filter]) AND (Clinical Trial[ptyp] OR Cohort Studies[ptyp] OR Systematic Review[ptyp])'
         
         # Search PubMed
         pmids = self.search_pubmed(query, max_results=self.max_articles)
+        
+        # If no results with strict filters, try without publication type filter
         if not pmids:
-            logger.warning("No articles found")
+            logger.info("No articles found with strict filters, trying broader search...")
+            query = '("knee osteoarthritis" OR "knee OA") AND ("progression" OR "total knee replacement" OR "arthroplasty" OR "TKR") AND (human[Filter])'
+            pmids = self.search_pubmed(query, max_results=self.max_articles)
+        
+        # If still no results, try even broader (just OA progression)
+        if not pmids:
+            logger.info("Still no articles, trying even broader search...")
+            query = '("knee osteoarthritis" OR "knee OA") AND ("progression" OR "total knee replacement" OR "arthroplasty")'
+            pmids = self.search_pubmed(query, max_results=self.max_articles)
+        
+        if not pmids:
+            logger.warning("No articles found with any search query")
             return
         
         # Process each article
