@@ -11,7 +11,7 @@
 
 require("dotenv").config();
 const axios = require("axios");
-const { buildClient } = require("@xata.io/client");
+const { getXataClient } = require("./file-storage"); // Use file storage instead
 const fs = require("fs");
 const path = require("path");
 
@@ -45,33 +45,7 @@ function log(message) {
   fs.appendFileSync(logFile, logMessage);
 }
 
-// Initialize Xata client
-function getXataClient() {
-  if (!process.env.XATA_API_KEY) {
-    throw new Error("XATA_API_KEY is not set in environment variables");
-  }
-
-  const XataClient = buildClient();
-  const options = {
-    apiKey: process.env.XATA_API_KEY,
-  };
-
-  if (process.env.XATA_DB_URL) {
-    const url = process.env.XATA_DB_URL;
-    const dbMatch = url.match(/\/db\/([^:]+):(.+)$/);
-    if (dbMatch) {
-      const baseUrl = url.substring(0, url.lastIndexOf(":"));
-      options.databaseURL = baseUrl;
-      options.branch = dbMatch[2];
-    } else {
-      options.databaseURL = url;
-    }
-  } else if (process.env.XATA_BRANCH) {
-    options.branch = process.env.XATA_BRANCH;
-  }
-
-  return new XataClient(options);
-}
+// Xata client is now imported from file-storage.js (file-based, no API key needed)
 
 // Rate limiting helper
 let lastRequestTime = 0;
@@ -242,9 +216,9 @@ async function main() {
   log("=".repeat(80));
 
   try {
-    // Initialize Xata
+    // Initialize file storage (replaces Xata)
     const xata = getXataClient();
-    log("✓ Connected to Xata");
+    log("✓ Connected to file storage");
 
     const allRecords = [];
 
@@ -273,7 +247,7 @@ async function main() {
 
     // Store in Xata
     if (allRecords.length > 0) {
-      log("\nStoring records in Xata...");
+      log("\nStoring records in file storage...");
       const results = await storeLINCSRecords(xata, allRecords);
       log(`✓ New records: ${results.newCount}`);
       log(`✓ Updated records: ${results.updatedCount}`);

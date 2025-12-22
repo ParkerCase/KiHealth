@@ -27,9 +27,6 @@ jobs:
 
       - name: Run PubMed monitor
         working-directory: ./scripts
-        env:
-          XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
-          XATA_DB_URL: ${{ secrets.XATA_DB_URL }}
         run: npm run monitor
         continue-on-error: true
 
@@ -62,9 +59,6 @@ jobs:
 
       - name: Run LINCS monitor
         working-directory: ./scripts
-        env:
-          XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
-          XATA_DB_URL: ${{ secrets.XATA_DB_URL }}
         run: node lincs-monitor.js
         continue-on-error: true
 
@@ -98,8 +92,6 @@ jobs:
       - name: Run AI analysis
         working-directory: ./scripts
         env:
-          XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
-          XATA_DB_URL: ${{ secrets.XATA_DB_URL }}
           AI_PROVIDER: ${{ secrets.AI_PROVIDER || 'anthropic' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -147,9 +139,6 @@ jobs:
 
       - name: Run recalculation
         working-directory: ./scripts
-        env:
-          XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
-          XATA_DB_URL: ${{ secrets.XATA_DB_URL }}
         run: node auto-recalculate.js
         continue-on-error: true
 
@@ -184,8 +173,6 @@ jobs:
       - name: Run completion test
         working-directory: ./scripts
         env:
-          XATA_API_KEY: ${{ secrets.XATA_API_KEY }}
-          XATA_DB_URL: ${{ secrets.XATA_DB_URL }}
           AI_PROVIDER: ${{ secrets.AI_PROVIDER || 'anthropic' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
