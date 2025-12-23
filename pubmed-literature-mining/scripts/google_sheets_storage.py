@@ -365,9 +365,119 @@ class GoogleSheetsStorage:
             return 0
 
 
+class HybridStorage:
+    """Hybrid storage that checks both Google Sheets and file storage"""
+    
+    def __init__(self):
+        self.sheets_storage = None
+        self.file_storage = None
+        
+        # Try to initialize Google Sheets
+        if (os.getenv('GOOGLE_SHEET_ID') and 
+            os.getenv('GOOGLE_SERVICE_ACCOUNT_EMAIL') and 
+            os.getenv('GOOGLE_PRIVATE_KEY')):
+            try:
+                self.sheets_storage = GoogleSheetsStorage()
+            except Exception as e:
+                logger.warning(f"Failed to initialize Google Sheets: {e}")
+        
+        # Always have file storage as fallback
+        from scripts.file_storage import FileStorage
+        self.file_storage = FileStorage()
+    
+    def get_article_by_pmid(self, pmid: str):
+        """Get article from Google Sheets first, then file storage"""
+        # Try Google Sheets first
+        if self.sheets_storage:
+            try:
+                article = self.sheets_storage.get_article_by_pmid(pmid)
+                if article:
+                    return article
+            except Exception as e:
+                logger.warning(f"Error getting article from Google Sheets: {e}")
+        
+        # Fall back to file storage
+        return self.file_storage.get_article_by_pmid(pmid)
+    
+    def insert_article(self, article_data: Dict) -> bool:
+        """Insert article into both Google Sheets and file storage"""
+        success = True
+        
+        # Insert into Google Sheets if available
+        if self.sheets_storage:
+            try:
+                sheets_success = self.sheets_storage.insert_article(article_data)
+                if not sheets_success:
+                    success = False
+            except Exception as e:
+                logger.warning(f"Error inserting into Google Sheets: {e}")
+                success = False
+        
+        # Always insert into file storage as backup
+        try:
+            file_success = self.file_storage.insert_article(article_data)
+            if not file_success:
+                success = False
+        except Exception as e:
+            logger.error(f"Error inserting into file storage: {e}")
+            success = False
+        
+        return success
+    
+    def get_paywalled_articles(self, threshold: int = 70) -> List[Dict]:
+        """Get paywalled articles from both sources"""
+        articles = []
+        
+        # Get from Google Sheets
+        if self.sheets_storage:
+            try:
+                sheets_articles = self.sheets_storage.get_paywalled_articles(threshold)
+                articles.extend(sheets_articles)
+            except Exception as e:
+                logger.warning(f"Error getting paywalled articles from Google Sheets: {e}")
+        
+        # Get from file storage
+        try:
+            file_articles = self.file_storage.get_paywalled_articles(threshold)
+            # Merge, avoiding duplicates by PMID
+            existing_pmids = {a.get('pmid') for a in articles}
+            for article in file_articles:
+                if article.get('pmid') not in existing_pmids:
+                    articles.append(article)
+        except Exception as e:
+            logger.warning(f"Error getting paywalled articles from file storage: {e}")
+        
+        return articles
+    
+    def get_high_relevance_articles(self, threshold: int = 70) -> List[Dict]:
+        """Get high relevance articles from both sources"""
+        articles = []
+        
+        # Get from Google Sheets
+        if self.sheets_storage:
+            try:
+                sheets_articles = self.sheets_storage.get_high_relevance_articles(threshold)
+                articles.extend(sheets_articles)
+            except Exception as e:
+                logger.warning(f"Error getting high relevance articles from Google Sheets: {e}")
+        
+        # Get from file storage
+        try:
+            file_articles = self.file_storage.get_high_relevance_articles(threshold)
+            # Merge, avoiding duplicates by PMID
+            existing_pmids = {a.get('pmid') for a in articles}
+            for article in file_articles:
+                if article.get('pmid') not in existing_pmids:
+                    articles.append(article)
+        except Exception as e:
+            logger.warning(f"Error getting high relevance articles from file storage: {e}")
+        
+        return articles
+
+
 def get_storage_client():
     """
-    Get storage client - Google Sheets if available, otherwise file storage
+    Get storage client - Hybrid (Google Sheets + file storage) if available, otherwise file storage
     
     Returns:
         Storage client instance
@@ -377,9 +487,9 @@ def get_storage_client():
         os.getenv('GOOGLE_SERVICE_ACCOUNT_EMAIL') and 
         os.getenv('GOOGLE_PRIVATE_KEY')):
         try:
-            return GoogleSheetsStorage()
+            return HybridStorage()
         except Exception as e:
-            logger.warning(f"Failed to initialize Google Sheets, falling back to file storage: {e}")
+            logger.warning(f"Failed to initialize hybrid storage, falling back to file storage: {e}")
             from scripts.file_storage import FileStorage
             return FileStorage()
     else:
