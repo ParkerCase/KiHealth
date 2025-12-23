@@ -1567,6 +1567,189 @@ function attachOutcomeHandler() {
   }
 }
 
+// ============================================================================
+// Filter and Sort Functionality for Patient Outcomes
+// ============================================================================
+
+let currentFilteredPatients = [];
+
+function displayFilteredPatients(patients) {
+  const container = document.getElementById("patientOutcomesContainer");
+  const filteredCountEl = document.getElementById("filteredCountValue");
+  const totalCountEl = document.getElementById("totalCountValue");
+  
+  if (!container) return;
+  
+  currentFilteredPatients = patients;
+  
+  if (patients.length === 0) {
+    container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">No patients match the current filters.</div>';
+    if (filteredCountEl) filteredCountEl.textContent = "0";
+    if (totalCountEl) totalCountEl.textContent = window.patientOutcomesData?.length || "0";
+    return;
+  }
+  
+  // Category color mapping (using actual hex colors)
+  const categoryColors = {
+    "Excellent Outcome": { bg: "#f0fdf4", text: "#15803d", border: "#bbf7d0" },
+    "Successful Outcome": { bg: "#eff6ff", text: "#1d4ed8", border: "#bfdbfe" },
+    "Moderate Improvement": { bg: "#fefce8", text: "#a16207", border: "#fef08a" },
+    "Limited Improvement": { bg: "#fff7ed", text: "#c2410c", border: "#fed7aa" },
+    "Minimal Improvement": { bg: "#fef2f2", text: "#dc2626", border: "#fecaca" },
+  };
+  
+  container.innerHTML = patients.map((patient, index) => {
+    const colors = categoryColors[patient.success_category] || { bg: "#f9fafb", text: "#374151", border: "#e5e7eb" };
+    const patientId = patient.patient_id || `Patient ${patient.patient_number || index + 1}`;
+    const sexDisplay = patient.sex === 1 ? "M" : patient.sex === 0 ? "F" : "N/A";
+    
+    return `
+      <div class="patient-outcome-card" style="background: white; border: 2px solid ${colors.border}; border-radius: 8px; padding: 15px; transition: all 0.2s;">
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+          <div>
+            <h5 style="margin: 0; font-size: 1.1rem; color: #2d3748;">${patientId}</h5>
+            <p style="margin: 4px 0 0 0; font-size: 0.85rem; color: #64748b;">
+              Age ${patient.age || 'N/A'} • ${sexDisplay} • BMI ${patient.bmi ? patient.bmi.toFixed(1) : 'N/A'}
+            </p>
+          </div>
+        </div>
+        
+        ${patient.surgery_risk !== null && patient.risk_category ? `
+          <div style="margin-bottom: 12px; padding: 8px; background: #f7fafc; border-radius: 6px;">
+            <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 4px;">Surgery Risk</div>
+            <div style="font-size: 1.3rem; font-weight: 600; color: #2d3748;">${patient.surgery_risk.toFixed(1)}%</div>
+            <div style="font-size: 0.8rem; color: #64748b;">${patient.risk_category}</div>
+          </div>
+        ` : ''}
+        
+        <div style="padding: 12px; background: ${colors.bg}; border-radius: 6px; border-left: 4px solid ${colors.border};">
+          <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 4px;">Expected Outcome</div>
+          <div style="font-size: 1.1rem; font-weight: 600; color: ${colors.text}; margin-bottom: 8px;">
+            ${patient.success_category}
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; color: #64748b;">Success Probability</span>
+            <span style="font-size: 1.4rem; font-weight: 700; color: ${colors.text};">
+              ${patient.success_probability}%
+            </span>
+          </div>
+          ${patient.category_description ? `
+            <div style="font-size: 0.8rem; color: #64748b; margin-top: 8px; font-style: italic;">
+              ${patient.category_description}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  if (filteredCountEl) filteredCountEl.textContent = patients.length;
+  if (totalCountEl) totalCountEl.textContent = window.patientOutcomesData?.length || "0";
+}
+
+function applyOutcomeFilters() {
+  if (!window.patientOutcomesData || window.patientOutcomesData.length === 0) {
+    alert("No patient outcome data available");
+    return;
+  }
+  
+  // Get selected categories
+  const categoryCheckboxes = document.querySelectorAll('.outcome-category-filter:checked');
+  const selectedCategories = Array.from(categoryCheckboxes).map(cb => cb.value);
+  
+  // Get minimum probability
+  const minProbInput = document.getElementById('minSuccessProbFilter');
+  const minProbability = minProbInput ? parseInt(minProbInput.value) : 0;
+  
+  // Filter patients
+  let filtered = window.patientOutcomesData.filter(patient => {
+    // Category filter
+    if (selectedCategories.length > 0 && !selectedCategories.includes(patient.success_category)) {
+      return false;
+    }
+    
+    // Probability filter
+    if (patient.success_probability < minProbability) {
+      return false;
+    }
+    
+    return true;
+  });
+  
+  // Apply current sort
+  applyOutcomeSort(filtered);
+}
+
+function applyOutcomeSort(preFiltered = null) {
+  const patients = preFiltered || currentFilteredPatients || window.patientOutcomesData || [];
+  
+  const sortBySelect = document.getElementById('outcomeSortBy');
+  const sortOrderRadios = document.querySelectorAll('input[name="outcomeSortOrder"]:checked');
+  
+  if (!sortBySelect) {
+    displayFilteredPatients(patients);
+    return;
+  }
+  
+  const sortBy = sortBySelect.value;
+  const sortOrder = sortOrderRadios.length > 0 ? sortOrderRadios[0].value : 'desc';
+  
+  // Category order for sorting
+  const categoryOrder = {
+    "Excellent Outcome": 5,
+    "Successful Outcome": 4,
+    "Moderate Improvement": 3,
+    "Limited Improvement": 2,
+    "Minimal Improvement": 1
+  };
+  
+  const sorted = [...patients].sort((a, b) => {
+    let comparison = 0;
+    
+    switch (sortBy) {
+      case 'successProbability':
+        comparison = (a.success_probability || 0) - (b.success_probability || 0);
+        break;
+      case 'category':
+        comparison = (categoryOrder[a.success_category] || 0) - (categoryOrder[b.success_category] || 0);
+        break;
+      case 'surgeryRisk':
+        comparison = (a.surgery_risk || 0) - (b.surgery_risk || 0);
+        break;
+      case 'patientId':
+        const idA = a.patient_id || `Patient ${a.patient_number || 0}`;
+        const idB = b.patient_id || `Patient ${b.patient_number || 0}`;
+        comparison = idA.localeCompare(idB);
+        break;
+      default:
+        comparison = 0;
+    }
+    
+    return sortOrder === 'asc' ? comparison : -comparison;
+  });
+  
+  currentFilteredPatients = sorted;
+  displayFilteredPatients(sorted);
+}
+
+function clearOutcomeFilters() {
+  // Check all category filters
+  document.querySelectorAll('.outcome-category-filter').forEach(cb => {
+    cb.checked = true;
+  });
+  
+  // Reset probability filter
+  const minProbInput = document.getElementById('minSuccessProbFilter');
+  if (minProbInput) {
+    minProbInput.value = 0;
+    const minProbValue = document.getElementById('minProbValue');
+    if (minProbValue) minProbValue.textContent = '0';
+  }
+  
+  // Show all patients
+  applyOutcomeFilters();
+}
+
 // Initialize outcome handler when DOM is ready
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", attachOutcomeHandler);
