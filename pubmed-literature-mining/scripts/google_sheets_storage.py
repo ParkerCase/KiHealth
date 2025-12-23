@@ -278,14 +278,34 @@ class GoogleSheetsStorage:
             articles = []
             all_records = self.sheet.get_all_records()
             
+            logger.info(f"Checking {len(all_records)} records for paywalled articles...")
+            
             for record in all_records:
-                if (record.get('access_type') == 'paywalled' and 
-                    float(record.get('relevance_score', 0)) >= threshold):
+                access_type = record.get('access_type', '').lower().strip()
+                relevance_score = record.get('relevance_score', 0)
+                
+                # Try to convert relevance_score to float
+                try:
+                    score = float(relevance_score) if relevance_score else 0
+                except (ValueError, TypeError):
+                    score = 0
+                
+                # Check if paywalled (case-insensitive)
+                is_paywalled = access_type == 'paywalled'
+                
+                # Debug logging for first few records
+                if len(articles) < 3:
+                    logger.debug(f"Record: access_type='{access_type}', score={score}, is_paywalled={is_paywalled}")
+                
+                if is_paywalled and score >= threshold:
                     articles.append(record)
             
+            logger.info(f"Found {len(articles)} paywalled articles with score >= {threshold}")
             return articles
         except Exception as e:
             logger.error(f"Error getting paywalled articles: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
             return []
     
     def get_high_relevance_articles(self, threshold: int = 70) -> List[Dict]:
