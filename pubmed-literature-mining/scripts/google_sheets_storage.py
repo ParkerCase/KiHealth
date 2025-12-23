@@ -199,9 +199,21 @@ class GoogleSheetsStorage:
                 # Update existing row
                 cell = self.sheet.find(pmid, in_column=2)
                 if cell:
-                    # Update row
-                    for col_idx, value in enumerate(row_data, start=1):
-                        self.sheet.update_cell(cell.row, col_idx, value)
+                    # Get headers to map columns correctly
+                    headers = self.sheet.row_values(1)
+                    # Update only non-empty fields (preserve existing data if new data is empty)
+                    for col_idx, header in enumerate(headers, start=1):
+                        if col_idx <= len(row_data):
+                            new_value = row_data[col_idx - 1]
+                            # Only update if new value is not empty
+                            if new_value and str(new_value).strip():
+                                self.sheet.update_cell(cell.row, col_idx, new_value)
+                    # Always update updated_at timestamp
+                    updated_at_idx = headers.index('updated_at') + 1 if 'updated_at' in headers else len(headers) + 1
+                    if updated_at_idx > len(headers):
+                        # Add updated_at column if missing
+                        self.sheet.update_cell(1, updated_at_idx, 'updated_at')
+                    self.sheet.update_cell(cell.row, updated_at_idx, datetime.now().isoformat())
                     logger.info(f"Updated article {pmid} in Google Sheets")
             else:
                 # Insert new row

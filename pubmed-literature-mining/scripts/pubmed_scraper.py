@@ -233,8 +233,20 @@ class PubMedScraper:
             # Check if already exists in storage
             existing = self.storage.get_article_by_pmid(pmid)
             if existing:
-                logger.info(f"Article {pmid} already exists, skipping")
-                return True
+                # Check if article has missing details (title, journal, etc.)
+                has_details = (
+                    existing.get('title') and 
+                    existing.get('title') != 'No title' and
+                    existing.get('journal') and
+                    existing.get('journal') != 'Unknown Journal'
+                )
+                
+                if has_details:
+                    logger.info(f"Article {pmid} already exists with full details, skipping")
+                    return True
+                else:
+                    logger.info(f"Article {pmid} exists but missing details, will update")
+                    # Continue to fetch and update
             
             # Fetch article details
             article_data = self.fetch_article_details(pmid)

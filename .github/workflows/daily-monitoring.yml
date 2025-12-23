@@ -66,6 +66,19 @@ jobs:
           python scripts/analyze_and_notify.py
         continue-on-error: true
 
+      - name: Backfill articles with missing details
+        working-directory: ./pubmed-literature-mining
+        env:
+          UNPAYWALL_EMAIL: parker@stroomai.com
+          PUBMED_EMAIL: parker@stroomai.com
+          PUBMED_TOOL: PubMedLiteratureMining
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+        run: |
+          python scripts/backfill_articles.py --all-missing --threshold 70
+        continue-on-error: true
+
       - name: Generate paywalled articles list
         working-directory: ./pubmed-literature-mining
         env:
