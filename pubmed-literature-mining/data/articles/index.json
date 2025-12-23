@@ -798,5 +798,13 @@
     "access_type": "open_access",
     "journal": "European radiology",
     "updated_at": "2025-12-22T20:05:21.857805"
+  },
+  "41429527": {
+    "pmid": "41429527",
+    "title": "[Study on the genetic correlation between polyunsaturated fatty acids and knee osteoarthritis].",
+    "relevance_score": 5,
+    "access_type": "paywalled",
+    "journal": "Zhonghua liu xing bing xue za zhi = Zhonghua liuxingbingxue zazhi",
+    "updated_at": "2025-12-23T17:31:48.775695"
   }
 }
