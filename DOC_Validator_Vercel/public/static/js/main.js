@@ -817,12 +817,15 @@ function displayOutcomeResults(outcomes) {
                 Expected Outcome Categories:
               </label>
               <div style="display: flex; flex-direction: column; gap: 6px;">
-                ${categoryOrder.map(category => `
+                ${categoryOrder.map(category => {
+                  const colorClass = categoryColors[category] || "";
+                  return `
                   <label style="display: flex; align-items: center; cursor: pointer; padding: 4px;">
                     <input type="checkbox" class="outcome-category-filter" value="${category}" checked style="margin-right: 8px;">
-                    <span class="${categoryColors[category]}" style="font-size: 0.9rem;">${category}</span>
+                    <span class="${colorClass}" style="font-size: 0.9rem;">${category}</span>
                   </label>
-                `).join('')}
+                `;
+                }).join('')}
               </div>
             </div>
             
