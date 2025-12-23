@@ -54,8 +54,8 @@ The monitoring system now uses **Google Sheets** for data storage, making it eas
 ### Step 5: Get Sheet ID
 
 1. Open your Google Sheet
-2. Look at the URL: `https://docs.google.com/spreadsheets/d/SHEET_ID_HERE/edit`
-3. Copy the `SHEET_ID_HERE` part
+2. Look at the URL: `https://docs.google.com/spreadsheets/d/1ejqaP2PVv1w1ygkLUocIPDnUrkWl9wtyzCoVrhuCxkQ/edit`
+3. Copy the `1ejqaP2PVv1w1ygkLUocIPDnUrkWl9wtyzCoVrhuCxkQ` part
 
 ### Step 6: Extract Credentials from JSON
 
