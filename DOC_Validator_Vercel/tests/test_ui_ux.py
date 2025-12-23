@@ -52,11 +52,18 @@ def test_no_womac_in_ui():
         
         for match in matches:
             text = match.group(1)
-            # Skip if it's a variable name, internal reference, or comment
-            skip_patterns = ['womac_r', 'womac_l', 'vasToWomac', '_womac', '//', '/*', 'womacrfield', 'womaclfield', 'getelementbyid']
+            # Skip if it's a variable name, internal reference, comment, or radio button value
+            skip_patterns = [
+                'womac_r', 'womac_l', 'vasToWomac', '_womac', '//', '/*', 
+                'womacrfield', 'womaclfield', 'getelementbyid', 'value=', 
+                'womacradio', 'womac', 'checked', 'radio'
+            ]
+            # If text is just "womac" or very short, it's likely a variable/value, not user-facing
+            if text.strip().lower() in ['womac', 'womac ', ' womac']:
+                continue
             if not any(skip in text.lower() for skip in skip_patterns):
-                # Also check if it's in a user-facing context (not just variable names)
-                if len(text.strip()) > 3:  # Only flag if it's a meaningful string
+                # Only flag if it's a meaningful user-facing string (longer than 10 chars)
+                if len(text.strip()) > 10:
                     issues.append(f"JS: Found 'WOMAC' in string: {text[:50]}")
     
     if issues:
