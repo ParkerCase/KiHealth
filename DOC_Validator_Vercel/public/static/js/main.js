@@ -160,7 +160,7 @@ function displayResults(data) {
     const warnings = [];
     if (hasMissingPainScores) {
       warnings.push(
-        `${data.summary.patients_without_pain_scores} patient(s) are missing pain scores (WOMAC/VAS). Predictions may be less precise.`
+        `${data.summary.patients_without_pain_scores} patient(s) are missing symptom assessments. Predictions may be less precise.`
       );
     }
     if (hasSingleKneeImaging) {
@@ -522,7 +522,7 @@ function downloadPredictions() {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "DOC_predictions.csv";
+  a.download = "DOC_Surgery_Risk_Predictions.csv";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -655,72 +655,97 @@ function displayOutcomeResults(outcomes) {
   const resultsDiv = document.getElementById("outcomeResults");
   if (!resultsDiv) return;
 
+  // Use success metrics if available, fallback to old format
+  const hasSuccessMetrics = outcomes.success_distribution !== undefined;
+  const successRate = outcomes.success_rate || 0;
+  const meanSuccessProb = outcomes.mean_success_probability || 0;
+  const medianSuccessProb = outcomes.median_success_probability || 0;
+
   let html = `
     <div class="outcome-results-container">
-      <h3>Surgical Outcome Analysis</h3>
+      <h3>Surgical Success Probability Analysis</h3>
       
       <div class="metrics-grid">
         <div class="metric-card outcome-card">
           <div class="metric-value">${outcomes.n_analyzed}</div>
           <div class="metric-label">Patients Analyzed</div>
         </div>
-        <div class="metric-card outcome-card">
-          <div class="metric-value">${outcomes.mean_improvement.toFixed(
-            1
-          )}</div>
-          <div class="metric-label">Mean Improvement (points)</div>
+        <div class="metric-card outcome-card highlight-card">
+          <div class="metric-value">${successRate.toFixed(1)}%</div>
+          <div class="metric-label">Success Rate (≥30 improvement)</div>
         </div>
         <div class="metric-card outcome-card">
-          <div class="metric-value">${outcomes.median_improvement.toFixed(
-            1
-          )}</div>
-          <div class="metric-label">Median Improvement (points)</div>
+          <div class="metric-value">${meanSuccessProb.toFixed(1)}%</div>
+          <div class="metric-label">Mean Success Probability</div>
         </div>
         <div class="metric-card outcome-card">
-          <div class="metric-value">±${outcomes.std_improvement.toFixed(
-            1
-          )}</div>
-          <div class="metric-label">Std Deviation</div>
+          <div class="metric-value">${medianSuccessProb.toFixed(1)}%</div>
+          <div class="metric-label">Median Success Probability</div>
         </div>
       </div>
       
       <div class="plot-section">
-        <h4>Expected Improvement Distribution</h4>
+        <h4>Surgical Success Category Distribution</h4>
         <canvas id="improvementChart"></canvas>
-        <p class="plot-caption">Distribution of expected WOMAC improvement across surgical candidates</p>
+        <p class="plot-caption">Distribution of expected surgical success categories across patients</p>
       </div>
       
       <div class="improvement-bands-table">
-        <h4>Improvement Band Breakdown</h4>
+        <h4>Success Category Breakdown</h4>
         <table>
           <thead>
             <tr>
-              <th>Improvement Band</th>
+              <th>Success Category</th>
               <th>Number of Patients</th>
               <th>Percentage</th>
+              <th>Typical Success Probability</th>
             </tr>
           </thead>
           <tbody>
   `;
 
   const totalPatients = outcomes.n_analyzed;
-  const sortedBands = [
-    "Likely Worse",
-    "Minimal (0-10)",
-    "Moderate (10-20)",
-    "Good (20-30)",
-    "Excellent (>30)",
+  const categoryOrder = [
+    "Excellent Outcome",
+    "Successful Outcome",
+    "Moderate Improvement",
+    "Limited Improvement",
+    "Minimal Improvement",
   ];
 
-  for (const band of sortedBands) {
-    const count = outcomes.improvement_distribution[band] || 0;
-    const pct = ((count / totalPatients) * 100).toFixed(1);
+  // Category color mapping
+  const categoryColors = {
+    "Excellent Outcome": "text-green-600",
+    "Successful Outcome": "text-blue-600",
+    "Moderate Improvement": "text-yellow-600",
+    "Limited Improvement": "text-orange-600",
+    "Minimal Improvement": "text-red-600",
+  };
+
+  const categoryProbRanges = {
+    "Excellent Outcome": "85-100%",
+    "Successful Outcome": "70-85%",
+    "Moderate Improvement": "40-70%",
+    "Limited Improvement": "20-40%",
+    "Minimal Improvement": "0-20%",
+  };
+
+  const distribution = hasSuccessMetrics 
+    ? outcomes.success_distribution 
+    : outcomes.improvement_distribution || {};
+
+  for (const category of categoryOrder) {
+    const count = distribution[category] || 0;
+    const pct = totalPatients > 0 ? ((count / totalPatients) * 100).toFixed(1) : "0.0";
+    const colorClass = categoryColors[category] || "";
+    const probRange = categoryProbRanges[category] || "";
 
     html += `
       <tr>
-        <td><strong>${band}</strong></td>
+        <td><strong class="${colorClass}">${category}</strong></td>
         <td>${count}</td>
         <td>${pct}%</td>
+        <td>${probRange}</td>
       </tr>
     `;
   }
@@ -730,25 +755,59 @@ function displayOutcomeResults(outcomes) {
         </table>
       </div>
       
-      <div class="clinical-interpretation">
-        <h4> Clinical Interpretation</h4>
-        <div class="interpretation-box">
-          <p><strong>WOMAC Improvement Scale:</strong></p>
-          <ul>
-            <li><strong>Minimal (0-10 points):</strong> Slight improvement, may not meet patient expectations</li>
-            <li><strong>Moderate (10-20 points):</strong> Noticeable improvement, clinically significant</li>
-            <li><strong>Good (20-30 points):</strong> Substantial improvement, strong surgical candidate</li>
-            <li><strong>Excellent (>30 points):</strong> Exceptional improvement, ideal surgical candidate</li>
-          </ul>
-          <p><strong>Note:</strong> These predictions are based on OAI data and should be validated 
-          against Bergman Clinics' surgical outcomes before clinical use.</p>
+      <div class="success-category-legend">
+        <h4>Outcome Categories</h4>
+        <div class="legend-grid">
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #10b981;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Excellent Outcome</span>
+              <span class="legend-description">Substantial improvement expected (85-100% success probability)</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #3b82f6;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Successful Outcome</span>
+              <span class="legend-description">Significant improvement expected (70-85% success probability)</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #eab308;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Moderate Improvement</span>
+              <span class="legend-description">Noticeable improvement expected (40-70% success probability)</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #f97316;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Limited Improvement</span>
+              <span class="legend-description">Some improvement expected (20-40% success probability)</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #ef4444;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Minimal Improvement</span>
+              <span class="legend-description">Limited improvement expected (0-20% success probability)</span>
+            </div>
+          </div>
         </div>
+        <p class="legend-note">
+          <strong>Success Definition:</strong> A successful outcome is defined as ≥30 points improvement in symptoms and function.
+          Categories are based on validated clinical outcome measures.
+        </p>
+        <p class="legend-note" style="margin-top: 8px; font-size: 0.9em; color: #666;">
+          <strong>Note:</strong> These predictions are based on OAI data and should be validated 
+          against Bergman Clinics' surgical outcomes before clinical use.
+        </p>
       </div>
       
       <div class="download-section">
-        <h4> Download Outcome Predictions</h4>
+        <h4>Download Outcome Predictions</h4>
         <button class="btn-primary" onclick="downloadOutcomes()">
-          Download CSV (Surgery Risk + Expected Outcomes)
+          Download CSV (Surgery Risk + Success Probability)
         </button>
       </div>
     </div>
@@ -760,10 +819,11 @@ function displayOutcomeResults(outcomes) {
   // Store CSV for download
   window.outcomeCSV = outcomes.csv;
 
-  // Render improvement distribution chart
-  if (outcomes.improvement_plot) {
+  // Render success category distribution chart
+  if (outcomes.success_plot || outcomes.improvement_plot) {
     setTimeout(() => {
-      renderImprovementChart(outcomes.improvement_plot);
+      const plotData = outcomes.success_plot || outcomes.improvement_plot;
+      renderImprovementChart(plotData);
     }, 100);
   }
 
@@ -775,6 +835,23 @@ function renderImprovementChart(plotData) {
   const ctx = document.getElementById("improvementChart");
   if (!ctx || !plotData || !plotData.data) return;
 
+  // Map labels to colors based on success categories
+  const getColorForLabel = (label) => {
+    if (label.includes("Excellent")) return "#10b981"; // green-500
+    if (label.includes("Successful")) return "#3b82f6"; // blue-500
+    if (label.includes("Moderate")) return "#eab308"; // yellow-500
+    if (label.includes("Limited")) return "#f97316"; // orange-500
+    if (label.includes("Minimal")) return "#ef4444"; // red-500
+    // Fallback for old labels
+    if (label.includes("Excellent") || label.includes(">30")) return "#10b981";
+    if (label.includes("Good") || label.includes("20-30")) return "#22c55e";
+    if (label.includes("Moderate") || label.includes("10-20")) return "#eab308";
+    if (label.includes("Minimal") || label.includes("0-10")) return "#f97316";
+    return "#6b7280"; // gray-500
+  };
+
+  const colors = plotData.data.labels.map(getColorForLabel);
+
   new Chart(ctx, {
     type: "bar",
     data: {
@@ -783,13 +860,7 @@ function renderImprovementChart(plotData) {
         {
           label: plotData.ylabel,
           data: plotData.data.values,
-          backgroundColor: [
-            "#ef4444",
-            "#f97316",
-            "#eab308",
-            "#22c55e",
-            "#10b981",
-          ],
+          backgroundColor: colors,
           borderColor: "black",
           borderWidth: 1,
         },
@@ -834,7 +905,7 @@ function downloadOutcomes() {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "doc_surgery_and_outcome_predictions.csv";
+  a.download = "DOC_Surgical_Outcomes_Report.csv";
   document.body.appendChild(a);
   a.click();
   window.URL.revokeObjectURL(url);
@@ -1077,7 +1148,7 @@ document.getElementById("patientForm").addEventListener("submit", function (e) {
         womac_r = parseFloat(womac_r_str);
         if (isNaN(womac_r) || womac_r < 0 || womac_r > 96) {
           alert(
-            "Please enter a valid WOMAC score (0-96) for right knee, or leave empty."
+            "Please enter a valid symptom score (0-96) for right knee, or leave empty."
           );
           return;
         }
@@ -1087,7 +1158,7 @@ document.getElementById("patientForm").addEventListener("submit", function (e) {
         womac_l = parseFloat(womac_l_str);
         if (isNaN(womac_l) || womac_l < 0 || womac_l > 96) {
           alert(
-            "Please enter a valid WOMAC score (0-96) for left knee, or leave empty."
+            "Please enter a valid symptom score (0-96) for left knee, or leave empty."
           );
           return;
         }
@@ -1179,19 +1250,19 @@ function updatePatientList() {
       if (p._vas_used) {
         const vasR = p._vas_r !== null ? p._vas_r.toFixed(1) : "N/A";
         const vasL = p._vas_l !== null ? p._vas_l.toFixed(1) : "N/A";
-        painScoreNote = `<br><small style="color: #666;">WOMAC estimated from VAS (R: ${vasR}, L: ${vasL})</small>`;
+        painScoreNote = `<br><small style="color: #666;">Symptom scores estimated from VAS (R: ${vasR}, L: ${vasL})</small>`;
       } else if (p._pain_scores_missing) {
-        painScoreNote = `<br><small style="color: #ff9800;">⚠️ No pain scores - reduced confidence</small>`;
+        painScoreNote = `<br><small style="color: #ff9800;">⚠️ No symptom assessment - reduced confidence</small>`;
       }
 
-      const womacDisplay =
+      const symptomDisplay =
         p.womac_r !== null && p.womac_l !== null
-          ? `WOMAC: R=${p.womac_r.toFixed(1)}, L=${p.womac_l.toFixed(1)}`
+          ? `Symptoms: R=${p.womac_r.toFixed(1)}, L=${p.womac_l.toFixed(1)}`
           : p.womac_r !== null
-          ? `WOMAC: R=${p.womac_r.toFixed(1)}, L=N/A`
+          ? `Symptoms: R=${p.womac_r.toFixed(1)}, L=N/A`
           : p.womac_l !== null
-          ? `WOMAC: R=N/A, L=${p.womac_l.toFixed(1)}`
-          : `WOMAC: Not provided`;
+          ? `Symptoms: R=N/A, L=${p.womac_l.toFixed(1)}`
+          : `Symptoms: Not assessed`;
 
       // KL grade display
       const kl_r_display = p.kl_r !== null ? p.kl_r : "N/A";
@@ -1217,7 +1288,7 @@ function updatePatientList() {
         p.sex === 1 ? "M" : "F"
       }, BMI: ${p.bmi.toFixed(1)}
                 <br>
-                ${womacDisplay}${painScoreNote}
+                ${symptomDisplay}${painScoreNote}
                 <br>
                 KL Grade: R=${kl_r_display}, L=${kl_l_display}${klNote}
             </div>

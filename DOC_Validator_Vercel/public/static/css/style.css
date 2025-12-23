@@ -404,6 +404,20 @@ footer a:hover {
   color: white;
 }
 
+.outcome-card.highlight-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+.outcome-card.highlight-card .metric-value {
+  color: white;
+}
+
+.outcome-card.highlight-card .metric-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .outcome-card .metric-label {
   color: rgba(255, 255, 255, 0.9);
 }
@@ -467,6 +481,71 @@ footer a:hover {
 
 .improvement-bands-table tr:hover {
   background: #f8fafc;
+}
+
+.success-category-legend {
+  background: #f7fafc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 30px;
+  border: 2px solid #e2e8f0;
+}
+
+.success-category-legend h4 {
+  color: #2d3748;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.legend-grid {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.legend-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.legend-category {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.95rem;
+}
+
+.legend-description {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.legend-note {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+  color: #495057;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .clinical-interpretation {

@@ -17,6 +17,11 @@ import os
 # Add parent directory to path to import preprocessing
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from preprocessing import preprocess_data, validate_data
+from api.success_calculation import (
+    calculate_success_metrics,
+    calculate_success_category,
+    get_success_probability,
+)
 
 # Load models lazily (only when needed) to reduce initial bundle size
 MODEL_DIR = None
@@ -469,6 +474,21 @@ class handler(BaseHTTPRequestHandler):
                 download_df["predicted_risk"] * 100
             ).round(1)
             download_df = download_df.drop("predicted_risk", axis=1)
+            
+            # Rename columns to be surgeon-friendly
+            column_rename_map = {
+                "patient_id": "Patient ID",
+                "patient_number": "Patient Number",
+                "predicted_risk_pct": "Surgery Risk (%)",
+                "risk_category": "Risk Category",
+            }
+            download_df = download_df.rename(columns=column_rename_map)
+            
+            # Reorder columns
+            if "Patient ID" in download_df.columns:
+                download_df = download_df[["Patient ID", "Surgery Risk (%)", "Risk Category"]]
+            else:
+                download_df = download_df[["Patient Number", "Surgery Risk (%)", "Risk Category"]]
 
             predictions_csv = download_df.to_csv(index=False)
 
@@ -487,7 +507,87 @@ class handler(BaseHTTPRequestHandler):
                         # Predict improvement
                         improvement_pred = OUTCOME_MODEL.predict(X_all_patients)
 
-                        # Create improvement bands
+                        # Calculate success metrics for each patient
+                        success_metrics_list = []
+                        success_categories = []
+                        success_probabilities = []
+                        
+                        for improvement in improvement_pred:
+                            metrics = calculate_success_metrics(float(improvement))
+                            success_metrics_list.append(metrics)
+                            success_categories.append(metrics["success_category"])
+                            success_probabilities.append(metrics["success_probability"])
+
+                        # Create success category distribution
+                        success_category_series = pd.Series(success_categories)
+                        success_distribution = success_category_series.value_counts().to_dict()
+                        
+                        # Calculate statistics
+                        mean_success_prob = float(np.mean(success_probabilities))
+                        median_success_prob = float(np.median(success_probabilities))
+                        
+                        # Count successful outcomes (≥30 points = Successful or Excellent)
+                        successful_count = sum(
+                            1 for cat in success_categories 
+                            if cat in ["Successful Outcome", "Excellent Outcome"]
+                        )
+                        success_rate = (successful_count / len(success_categories)) * 100
+
+                        outcome_predictions = {
+                            "n_analyzed": int(len(X_all_patients)),
+                            "mean_improvement": float(improvement_pred.mean()),
+                            "median_improvement": float(np.median(improvement_pred)),
+                            "std_improvement": float(improvement_pred.std()),
+                            # Success metrics (primary display)
+                            "mean_success_probability": round(mean_success_prob, 1),
+                            "median_success_probability": round(median_success_prob, 1),
+                            "success_rate": round(success_rate, 1),  # % with ≥30 improvement
+                            "success_distribution": {
+                                str(k): int(v) for k, v in success_distribution.items()
+                            },
+                            # Keep old distribution for backward compatibility (hidden in UI)
+                            "improvement_distribution": {
+                                "Minimal Improvement": success_distribution.get("Minimal Improvement", 0),
+                                "Limited Improvement": success_distribution.get("Limited Improvement", 0),
+                                "Moderate Improvement": success_distribution.get("Moderate Improvement", 0),
+                                "Successful Outcome": success_distribution.get("Successful Outcome", 0),
+                                "Excellent Outcome": success_distribution.get("Excellent Outcome", 0),
+                            },
+                            # Per-patient success data
+                            "patient_success_data": success_metrics_list,
+                        }
+
+                        # Create plot data for success category distribution (client-side rendering)
+                        category_order = [
+                            "Excellent Outcome",
+                            "Successful Outcome",
+                            "Moderate Improvement",
+                            "Limited Improvement",
+                            "Minimal Improvement",
+                        ]
+                        category_counts = [
+                            success_distribution.get(cat, 0) for cat in category_order
+                        ]
+                        outcome_predictions["success_plot"] = {
+                            "type": "bar",
+                            "title": "Surgical Success Probability Distribution",
+                            "xlabel": "Success Category",
+                            "ylabel": "Number of Patients",
+                            "data": {
+                                "labels": category_order,
+                                "values": category_counts,
+                            },
+                        }
+                        # Keep old plot for backward compatibility
+                        outcome_predictions["improvement_plot"] = outcome_predictions["success_plot"]
+
+                        # Add to patient data for download
+                        df_all_patients = df.copy()
+                        df_all_patients["predicted_improvement_points"] = [round(float(x), 1) for x in improvement_pred]
+                        df_all_patients["success_category"] = success_categories
+                        df_all_patients["success_probability"] = [round(p, 1) for p in success_probabilities]
+                        
+                        # Keep WOMAC improvement band for internal reference (hidden column)
                         improvement_pred_series = pd.Series(improvement_pred)
                         bands = pd.cut(
                             improvement_pred_series,
@@ -500,36 +600,7 @@ class handler(BaseHTTPRequestHandler):
                                 "Excellent (>30)",
                             ],
                         )
-
-                        # Calculate statistics
-                        outcome_predictions = {
-                            "n_analyzed": int(len(X_all_patients)),
-                            "mean_improvement": float(improvement_pred.mean()),
-                            "median_improvement": float(np.median(improvement_pred)),
-                            "std_improvement": float(improvement_pred.std()),
-                            "improvement_distribution": {
-                                str(k): int(v)
-                                for k, v in bands.value_counts().to_dict().items()
-                            },
-                        }
-
-                        # Create plot data for improvement distribution (client-side rendering)
-                        band_counts = bands.value_counts().sort_index()
-                        outcome_predictions["improvement_plot"] = {
-                            "type": "bar",
-                            "title": "Expected Surgical Outcome Distribution",
-                            "xlabel": "Expected Improvement Band",
-                            "ylabel": "Number of Patients",
-                            "data": {
-                                "labels": [str(x) for x in band_counts.index.tolist()],
-                                "values": band_counts.values.tolist(),
-                            },
-                        }
-
-                        # Add to patient data for download
-                        df_all_patients = df.copy()
-                        df_all_patients["predicted_improvement"] = improvement_pred
-                        df_all_patients["improvement_band"] = bands.astype(str)
+                        df_all_patients["_womac_improvement_band"] = bands.astype(str)
 
                         # Merge with original predictions
                         if "patient_id" in df_all_patients.columns:
@@ -538,8 +609,10 @@ class handler(BaseHTTPRequestHandler):
                                     "patient_id",
                                     "predicted_risk",
                                     "risk_category",
-                                    "predicted_improvement",
-                                    "improvement_band",
+                                    "success_category",
+                                    "success_probability",
+                                    # Keep WOMAC data for reference (internal use)
+                                    "predicted_improvement_points",
                                 ]
                             ].copy()
                         else:
@@ -547,8 +620,9 @@ class handler(BaseHTTPRequestHandler):
                                 [
                                     "predicted_risk",
                                     "risk_category",
-                                    "predicted_improvement",
-                                    "improvement_band",
+                                    "success_category",
+                                    "success_probability",
+                                    "predicted_improvement_points",
                                 ]
                             ].copy()
                             outcome_download.insert(
@@ -562,6 +636,36 @@ class handler(BaseHTTPRequestHandler):
                         outcome_download = outcome_download.drop(
                             "predicted_risk", axis=1
                         )
+                        
+                        # Rename columns to be surgeon-friendly
+                        column_rename_map = {
+                            "patient_id": "Patient ID",
+                            "patient_number": "Patient Number",
+                            "predicted_risk_pct": "Surgery Risk (%)",
+                            "risk_category": "Risk Category",
+                            "success_category": "Expected Outcome",
+                            "success_probability": "Success Probability (%)",
+                            "predicted_improvement_points": "Technical: Symptom Improvement Score",
+                        }
+                        outcome_download = outcome_download.rename(columns=column_rename_map)
+                        
+                        # Reorder columns: primary info first, technical last
+                        primary_columns = []
+                        if "Patient ID" in outcome_download.columns:
+                            primary_columns.append("Patient ID")
+                        elif "Patient Number" in outcome_download.columns:
+                            primary_columns.append("Patient Number")
+                        primary_columns.extend([
+                            "Surgery Risk (%)",
+                            "Risk Category",
+                            "Expected Outcome",
+                            "Success Probability (%)",
+                        ])
+                        technical_columns = [
+                            col for col in outcome_download.columns 
+                            if col.startswith("Technical:") or (col not in primary_columns and col not in ["Patient ID", "Patient Number"])
+                        ]
+                        outcome_download = outcome_download[primary_columns + technical_columns]
 
                         outcome_predictions["csv"] = outcome_download.to_csv(
                             index=False

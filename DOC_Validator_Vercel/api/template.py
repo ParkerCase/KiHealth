@@ -22,8 +22,8 @@ class handler(BaseHTTPRequestHandler):
             "age": [52, 67, 58, 71, 49],
             "sex": [1, 0, 1, 0, 1],  # 1=Male, 0=Female
             "bmi": [28.5, 31.2, 25.8, 33.6, 27.3],
-            "womac_r": [45.2, 62.3, 22.4, 71.2, 35.6],
-            "womac_l": [38.1, 58.7, 19.8, 68.4, 41.2],
+            "womac_r": [45.2, 62.3, 22.4, 71.2, 35.6],  # Symptom score (0-96, higher = more symptoms)
+            "womac_l": [38.1, 58.7, 19.8, 68.4, 41.2],  # Symptom score (0-96, higher = more symptoms)
             "kl_r": [2, 3, 1, 3, 2],
             "kl_l": [2, 3, 1, 4, 2],
             "fam_hx": [0, 1, 0, 1, 0],  # 1=Yes, 0=No
