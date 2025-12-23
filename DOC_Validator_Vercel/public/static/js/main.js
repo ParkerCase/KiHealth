@@ -804,6 +804,90 @@ function displayOutcomeResults(outcomes) {
         </p>
       </div>
       
+      <div class="filters-and-sort-section" style="margin-top: 30px;">
+        <h4>Filter & Sort Patients by Outcome</h4>
+        <div class="filters-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+          <!-- Filter Controls -->
+          <div class="filter-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
+            <h5 style="margin-bottom: 15px; font-weight: 600;">Filter by Outcome</h5>
+            
+            <!-- Success Category Filter -->
+            <div style="margin-bottom: 15px;">
+              <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
+                Expected Outcome Categories:
+              </label>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                ${categoryOrder.map(category => `
+                  <label style="display: flex; align-items: center; cursor: pointer; padding: 4px;">
+                    <input type="checkbox" class="outcome-category-filter" value="${category}" checked style="margin-right: 8px;">
+                    <span class="${categoryColors[category]}" style="font-size: 0.9rem;">${category}</span>
+                  </label>
+                `).join('')}
+              </div>
+            </div>
+            
+            <!-- Success Probability Filter -->
+            <div>
+              <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
+                Minimum Success Probability: <span id="minProbValue">0</span>%
+              </label>
+              <input type="range" id="minSuccessProbFilter" min="0" max="100" step="5" value="0" 
+                     style="width: 100%;" oninput="document.getElementById('minProbValue').textContent = this.value">
+            </div>
+            
+            <button onclick="applyOutcomeFilters()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
+              Apply Filters
+            </button>
+            <button onclick="clearOutcomeFilters()" class="btn-secondary" style="width: 100%; margin-top: 8px; padding: 8px;">
+              Clear Filters
+            </button>
+          </div>
+          
+          <!-- Sort Controls -->
+          <div class="sort-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
+            <h5 style="margin-bottom: 15px; font-weight: 600;">Sort Patients</h5>
+            
+            <div style="margin-bottom: 15px;">
+              <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
+                Sort by:
+              </label>
+              <select id="outcomeSortBy" style="width: 100%; padding: 8px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem;">
+                <option value="successProbability">Success Probability</option>
+                <option value="category">Outcome Category</option>
+                <option value="surgeryRisk">Surgery Risk</option>
+                <option value="patientId">Patient ID</option>
+              </select>
+            </div>
+            
+            <div>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="outcomeSortOrder" value="desc" checked style="margin-right: 4px;">
+                <span style="font-size: 0.9rem;">Descending (High to Low)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 8px;">
+                <input type="radio" name="outcomeSortOrder" value="asc" style="margin-right: 4px;">
+                <span style="font-size: 0.9rem;">Ascending (Low to High)</span>
+              </label>
+            </div>
+            
+            <button onclick="applyOutcomeSort()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
+              Apply Sort
+            </button>
+          </div>
+        </div>
+        
+        <!-- Patient List Display -->
+        <div id="filteredPatientList" style="margin-top: 20px;">
+          <h4>Patient Outcomes</h4>
+          <div id="patientOutcomesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-top: 15px;">
+            <!-- Populated by JavaScript -->
+          </div>
+          <div id="filteredCount" style="margin-top: 15px; padding: 10px; background: #e2e8f0; border-radius: 6px; text-align: center;">
+            <strong>Showing <span id="filteredCountValue">0</span> of <span id="totalCountValue">0</span> patients</strong>
+          </div>
+        </div>
+      </div>
+      
       <div class="download-section">
         <h4>Download Outcome Predictions</h4>
         <button class="btn-primary" onclick="downloadOutcomes()">
@@ -818,6 +902,12 @@ function displayOutcomeResults(outcomes) {
 
   // Store CSV for download
   window.outcomeCSV = outcomes.csv;
+  
+  // Store patient outcomes data for filtering/sorting
+  window.patientOutcomesData = outcomes.patient_outcomes || [];
+  
+  // Initial display of all patients
+  displayFilteredPatients(window.patientOutcomesData);
 
   // Render success category distribution chart
   if (outcomes.success_plot || outcomes.improvement_plot) {

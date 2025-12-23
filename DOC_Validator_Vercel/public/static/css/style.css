@@ -829,6 +829,37 @@ footer a:hover {
   height: 14px;
 }
 
+/* Patient Outcome Cards */
+.patient-outcome-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.patient-outcome-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.filters-container {
+  margin-bottom: 20px;
+}
+
+.filter-panel,
+.sort-panel {
+  transition: border-color 0.2s;
+}
+
+.filter-panel:hover,
+.sort-panel:hover {
+  border-color: #cbd5e0;
+}
+
+/* Responsive filters */
+@media (max-width: 768px) {
+  .filters-container {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 .batch-actions {
   display: flex;
   gap: 10px;

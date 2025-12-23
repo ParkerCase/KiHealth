@@ -587,6 +587,27 @@ class handler(BaseHTTPRequestHandler):
                         df_all_patients["success_category"] = success_categories
                         df_all_patients["success_probability"] = [round(p, 1) for p in success_probabilities]
                         
+                        # Create per-patient data for filtering/sorting (include patient identifiers)
+                        patient_outcomes_list = []
+                        for i, row in df_all_patients.iterrows():
+                            patient_outcome = {
+                                "patient_id": row.get("patient_id", f"Patient {i+1}"),
+                                "patient_number": i + 1 if "patient_id" not in row else None,
+                                "age": row.get("age"),
+                                "sex": row.get("sex"),
+                                "bmi": row.get("bmi"),
+                                "surgery_risk": float(row.get("predicted_risk", 0) * 100) if "predicted_risk" in row else None,
+                                "risk_category": row.get("risk_category"),
+                                "success_category": success_categories[i],
+                                "success_probability": round(success_probabilities[i], 1),
+                                "category_color": success_metrics_list[i].get("category_color", {}),
+                                "category_description": success_metrics_list[i].get("category_description", ""),
+                                "_womac_improvement": round(float(improvement_pred[i]), 1),
+                            }
+                            patient_outcomes_list.append(patient_outcome)
+                        
+                        outcome_predictions["patient_outcomes"] = patient_outcomes_list
+                        
                         # Keep WOMAC improvement band for internal reference (hidden column)
                         improvement_pred_series = pd.Series(improvement_pred)
                         bands = pd.cut(
