@@ -196,24 +196,68 @@ class GoogleSheetsStorage:
             ]
             
             if existing:
-                # Update existing row
+                # Update existing row - only update fields that have new data
                 cell = self.sheet.find(pmid, in_column=2)
                 if cell:
                     # Get headers to map columns correctly
                     headers = self.sheet.row_values(1)
-                    # Update only non-empty fields (preserve existing data if new data is empty)
-                    for col_idx, header in enumerate(headers, start=1):
-                        if col_idx <= len(row_data):
-                            new_value = row_data[col_idx - 1]
-                            # Only update if new value is not empty
-                            if new_value and str(new_value).strip():
+                    current_row = self.sheet.row_values(cell.row)
+                    
+                    # Map headers to column indices
+                    header_map = {h: i+1 for i, h in enumerate(headers)}
+                    
+                    # Define which fields to update (only if new value is better)
+                    fields_to_update = {
+                        'title': article_data.get('title', ''),
+                        'abstract': article_data.get('abstract', '')[:5000],
+                        'authors': article_data.get('authors', ''),
+                        'journal': article_data.get('journal', ''),
+                        'publication_date': article_data.get('publication_date', ''),
+                        'doi': article_data.get('doi', ''),
+                        'access_type': article_data.get('access_type', ''),
+                        'relevance_score': article_data.get('relevance_score', 0),
+                        'predictive_factors': json.dumps(article_data.get('predictive_factors', [])),
+                        'pdf_url': article_data.get('pdf_url', ''),
+                        'processing_status': article_data.get('processing_status', 'processed'),
+                    }
+                    
+                    # Update fields only if new value is better (not empty, or existing is empty)
+                    for field_name, new_value in fields_to_update.items():
+                        if field_name in header_map:
+                            col_idx = header_map[field_name]
+                            current_value = current_row[col_idx - 1] if col_idx <= len(current_row) else ''
+                            
+                            # Update if:
+                            # 1. New value is not empty AND (current is empty OR new is better)
+                            # 2. For relevance_score, always update if new is higher
+                            should_update = False
+                            
+                            if field_name == 'relevance_score':
+                                # Always update if new score is higher
+                                new_score = float(new_value) if new_value else 0
+                                current_score = float(current_value) if current_value else 0
+                                should_update = new_score > current_score
+                            elif field_name in ['title', 'journal', 'authors']:
+                                # Update if current is empty/missing or new is better
+                                should_update = (
+                                    new_value and str(new_value).strip() and
+                                    (not current_value or not str(current_value).strip() or
+                                     current_value in ['No title', 'Unknown Journal', ''])
+                                )
+                            else:
+                                # Update if new value exists and current is empty
+                                should_update = (
+                                    new_value and str(new_value).strip() and
+                                    (not current_value or not str(current_value).strip())
+                                )
+                            
+                            if should_update:
                                 self.sheet.update_cell(cell.row, col_idx, new_value)
+                    
                     # Always update updated_at timestamp
-                    updated_at_idx = headers.index('updated_at') + 1 if 'updated_at' in headers else len(headers) + 1
-                    if updated_at_idx > len(headers):
-                        # Add updated_at column if missing
-                        self.sheet.update_cell(1, updated_at_idx, 'updated_at')
-                    self.sheet.update_cell(cell.row, updated_at_idx, datetime.now().isoformat())
+                    if 'updated_at' in header_map:
+                        self.sheet.update_cell(cell.row, header_map['updated_at'], datetime.now().isoformat())
+                    
                     logger.info(f"Updated article {pmid} in Google Sheets")
             else:
                 # Insert new row
