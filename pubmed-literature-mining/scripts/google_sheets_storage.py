@@ -147,10 +147,13 @@ class GoogleSheetsStorage:
                 row = self.sheet.row_values(cell.row)
                 headers = self.sheet.row_values(1)
                 return dict(zip(headers, row))
-        except gspread.exceptions.CellNotFound:
-            pass
         except Exception as e:
-            logger.error(f"Error getting article {pmid}: {e}")
+            # gspread doesn't raise CellNotFound, it returns None or raises other exceptions
+            # Check if it's a "not found" type error or just log and continue
+            if 'not found' in str(e).lower() or 'no matching' in str(e).lower():
+                pass  # Article not found, that's okay
+            else:
+                logger.error(f"Error getting article {pmid}: {e}")
         
         return None
     
@@ -197,7 +200,12 @@ class GoogleSheetsStorage:
             
             if existing:
                 # Update existing row - only update fields that have new data
-                cell = self.sheet.find(pmid, in_column=2)
+                try:
+                    cell = self.sheet.find(pmid, in_column=2)
+                except Exception as e:
+                    logger.error(f"Error finding cell for PMID {pmid}: {e}")
+                    return False
+                
                 if cell:
                     # Get headers to map columns correctly
                     headers = self.sheet.row_values(1)
@@ -272,7 +280,11 @@ class GoogleSheetsStorage:
     
     def get_paywalled_articles(self, threshold: int = 70) -> List[Dict]:
         """Get paywalled articles with relevance >= threshold"""
-        self._initialize()
+        try:
+            self._initialize()
+        except Exception as e:
+            logger.error(f"Error initializing Google Sheets: {e}")
+            return []
         
         try:
             articles = []
@@ -281,7 +293,7 @@ class GoogleSheetsStorage:
             logger.info(f"Checking {len(all_records)} records for paywalled articles...")
             
             for record in all_records:
-                access_type = record.get('access_type', '').lower().strip()
+                access_type = str(record.get('access_type', '')).lower().strip()
                 relevance_score = record.get('relevance_score', 0)
                 
                 # Try to convert relevance_score to float
@@ -290,12 +302,12 @@ class GoogleSheetsStorage:
                 except (ValueError, TypeError):
                     score = 0
                 
-                # Check if paywalled (case-insensitive)
-                is_paywalled = access_type == 'paywalled'
+                # Check if paywalled (case-insensitive, also check for empty/unknown)
+                is_paywalled = access_type == 'paywalled' or access_type == ''
                 
                 # Debug logging for first few records
-                if len(articles) < 3:
-                    logger.debug(f"Record: access_type='{access_type}', score={score}, is_paywalled={is_paywalled}")
+                if len(articles) < 5:
+                    logger.debug(f"Record PMID {record.get('pmid', 'N/A')}: access_type='{access_type}', score={score}, is_paywalled={is_paywalled}")
                 
                 if is_paywalled and score >= threshold:
                     articles.append(record)
@@ -427,26 +439,36 @@ class HybridStorage:
     def get_paywalled_articles(self, threshold: int = 70) -> List[Dict]:
         """Get paywalled articles from both sources"""
         articles = []
+        existing_pmids = set()
         
-        # Get from Google Sheets
-        if self.sheets_storage:
-            try:
-                sheets_articles = self.sheets_storage.get_paywalled_articles(threshold)
-                articles.extend(sheets_articles)
-            except Exception as e:
-                logger.warning(f"Error getting paywalled articles from Google Sheets: {e}")
-        
-        # Get from file storage
+        # Get from file storage first (more reliable, no quota issues)
         try:
             file_articles = self.file_storage.get_paywalled_articles(threshold)
-            # Merge, avoiding duplicates by PMID
-            existing_pmids = {a.get('pmid') for a in articles}
-            for article in file_articles:
-                if article.get('pmid') not in existing_pmids:
-                    articles.append(article)
+            articles.extend(file_articles)
+            existing_pmids = {a.get('pmid') for a in file_articles}
+            logger.info(f"Found {len(file_articles)} paywalled articles in file storage")
         except Exception as e:
             logger.warning(f"Error getting paywalled articles from file storage: {e}")
         
+        # Get from Google Sheets (may hit quota limits)
+        if self.sheets_storage:
+            try:
+                sheets_articles = self.sheets_storage.get_paywalled_articles(threshold)
+                # Merge, avoiding duplicates by PMID
+                for article in sheets_articles:
+                    pmid = article.get('pmid')
+                    if pmid and pmid not in existing_pmids:
+                        articles.append(article)
+                        existing_pmids.add(pmid)
+                logger.info(f"Found {len(sheets_articles)} paywalled articles in Google Sheets (after dedup: {len(articles) - len(file_articles)})")
+            except Exception as e:
+                # Quota errors are common, just warn
+                if '429' in str(e) or 'quota' in str(e).lower():
+                    logger.warning(f"Google Sheets quota exceeded, using file storage only: {e}")
+                else:
+                    logger.warning(f"Error getting paywalled articles from Google Sheets: {e}")
+        
+        logger.info(f"Total paywalled articles (threshold {threshold}): {len(articles)}")
         return articles
     
     def get_high_relevance_articles(self, threshold: int = 70) -> List[Dict]:
@@ -473,6 +495,44 @@ class HybridStorage:
             logger.warning(f"Error getting high relevance articles from file storage: {e}")
         
         return articles
+    
+    def count_paywalled_articles(self) -> int:
+        """Count paywalled articles from both sources"""
+        count = 0
+        
+        # Count from Google Sheets
+        if self.sheets_storage:
+            try:
+                count += self.sheets_storage.count_paywalled_articles()
+            except Exception as e:
+                logger.warning(f"Error counting paywalled articles from Google Sheets: {e}")
+        
+        # Count from file storage
+        try:
+            count += self.file_storage.count_paywalled_articles()
+        except Exception as e:
+            logger.warning(f"Error counting paywalled articles from file storage: {e}")
+        
+        return count
+    
+    def count_predictive_factors(self) -> int:
+        """Count predictive factors from both sources"""
+        count = 0
+        
+        # Count from Google Sheets
+        if self.sheets_storage:
+            try:
+                count += self.sheets_storage.count_predictive_factors()
+            except Exception as e:
+                logger.warning(f"Error counting predictive factors from Google Sheets: {e}")
+        
+        # Count from file storage
+        try:
+            count += self.file_storage.count_predictive_factors()
+        except Exception as e:
+            logger.warning(f"Error counting predictive factors from file storage: {e}")
+        
+        return count
 
 
 def get_storage_client():
