@@ -1,0 +1,64 @@
+{
+  "high_priority": {
+    "min_score": 80,
+    "description": "Must-read, actionable, high-quality articles",
+    "flags": ["high_value", "must_review"],
+    "action": "Review immediately"
+  },
+  "medium_high_priority": {
+    "min_score": 70,
+    "max_score": 79,
+    "description": "Very relevant, good quality",
+    "flags": ["medium_high", "should_review"],
+    "action": "Review soon"
+  },
+  "paywalled_high_value": {
+    "min_score": 80,
+    "access_type": "paywalled",
+    "description": "High-value paywalled articles that may need access",
+    "flags": ["paywalled", "high_value", "consider_access"],
+    "action": "Consider obtaining access"
+  },
+  "recent_high_value": {
+    "min_score": 70,
+    "max_age_days": 365,
+    "description": "Recent high-value articles",
+    "flags": ["recent", "high_value", "priority"],
+    "action": "Review for latest findings"
+  },
+  "large_sample": {
+    "min_sample_size": 500,
+    "min_score": 60,
+    "description": "Large sample size studies",
+    "flags": ["large_sample", "high_quality"],
+    "action": "Review for robust evidence"
+  },
+  "systematic_review": {
+    "study_type": "systematic_review",
+    "min_score": 60,
+    "description": "Systematic reviews and meta-analyses",
+    "flags": ["systematic_review", "comprehensive"],
+    "action": "Review for comprehensive overview"
+  },
+  "novel_findings": {
+    "min_novelty_score": 15,
+    "min_score": 70,
+    "description": "Articles with novel findings",
+    "flags": ["novel", "high_impact"],
+    "action": "Review for new insights"
+  },
+  "actionable": {
+    "min_actionability_score": 7,
+    "min_score": 70,
+    "description": "Articles with actionable insights",
+    "flags": ["actionable", "clinical_applicable"],
+    "action": "Review for clinical application"
+  },
+  "summary_thresholds": {
+    "high_value_min": 80,
+    "medium_high_min": 70,
+    "medium_min": 60,
+    "low_min": 40
+  }
+}
+

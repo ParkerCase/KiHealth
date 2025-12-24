@@ -17,6 +17,7 @@ from collections import defaultdict
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from scripts.google_sheets_storage import get_storage_client
+from scripts.article_flagging import ArticleFlaggingFramework
 
 load_dotenv()
 
@@ -42,6 +43,7 @@ class NotificationSystem:
         self.github_token = os.getenv('GITHUB_TOKEN')
         self.repo_owner = os.getenv('GITHUB_REPO_OWNER')
         self.repo_name = os.getenv('GITHUB_REPO_NAME')
+        self.flagging_framework = ArticleFlaggingFramework()  # New flagging framework
     
     def get_paywalled_articles(self, threshold: int = 70) -> List[Dict]:
         """Get paywalled articles above relevance threshold"""
@@ -230,35 +232,88 @@ class NotificationSystem:
             print(f"::notice title=Factor Patterns::{len(factor_patterns)} factors detected in multiple articles")
     
     def generate_daily_summary(self) -> str:
-        """Generate markdown summary of daily findings"""
-        articles = self.storage.get_high_relevance_articles(threshold=self.relevance_threshold)
-        paywalled = self.get_paywalled_articles(threshold=self.relevance_threshold)
-        factor_patterns = self.detect_factor_patterns(threshold=5)
-        
-        summary = f"""# PubMed Daily Summary - {datetime.now().strftime("%Y-%m-%d")}
+        """Generate markdown summary of daily findings with flagging framework"""
+        try:
+            # Get all articles for flagging analysis
+            all_articles = self.storage.get_all_articles()
+            logger.info(f"Analyzing {len(all_articles)} articles for flagging")
+            
+            # Get flagging summary
+            flagging_summary = self.flagging_framework.get_flagging_summary(all_articles)
+            
+            # Get prioritized review list
+            prioritized = self.flagging_framework.get_review_priority_list(all_articles)
+            
+            # Get traditional metrics
+            articles = self.storage.get_high_relevance_articles(threshold=self.relevance_threshold)
+            paywalled = self.get_paywalled_articles(threshold=self.relevance_threshold)
+            factor_patterns = self.detect_factor_patterns(threshold=5)
+            
+            summary = f"""# PubMed Daily Summary - {datetime.now().strftime("%Y-%m-%d")}
+
+## Overview
+
+- **Total Articles:** {len(all_articles)}
+- **Flagged for Review:** {flagging_summary['flagged_count']} ({flagging_summary['flagging_rate']:.1f}%)
+- **High-Relevance Articles:** {len(articles)} (score ≥ {self.relevance_threshold})
+- **Paywalled Articles:** {len(paywalled)}
+- **Factor Patterns Detected:** {len(factor_patterns)}
+
+## Articles Flagged for Review
+
+### Priority Breakdown
+
+- **High Priority (Must Review):** {flagging_summary['priority_counts']['high_priority']}
+- **Medium-High Priority (Should Review):** {flagging_summary['priority_counts']['medium_high_priority']}
+- **Paywalled High-Value:** {flagging_summary['priority_counts']['paywalled_high_value']}
+- **Recent High-Value:** {flagging_summary['priority_counts']['recent_high_value']}
+- **Large Sample Studies:** {flagging_summary['priority_counts']['large_sample']}
+- **Systematic Reviews:** {flagging_summary['priority_counts']['systematic_review']}
+- **Novel Findings:** {flagging_summary['priority_counts']['novel_findings']}
+- **Actionable Insights:** {flagging_summary['priority_counts']['actionable']}
+
+### Top Priority Articles for Review
+
+"""
+            
+            # Add top 20 prioritized articles
+            for i, item in enumerate(prioritized[:20], 1):
+                article = item['article']
+                summary += f"{i}. **{article.get('title', 'No title')[:80]}**\n"
+                summary += f"   - Score: {article.get('relevance_score', 0)}/100\n"
+                summary += f"   - Flags: {', '.join(item['flags'])}\n"
+                summary += f"   - Reason: {item['reason']}\n"
+                summary += f"   - Access: {article.get('access_type', 'unknown')}\n"
+                summary += f"   - [PubMed](https://pubmed.ncbi.nlm.nih.gov/{article.get('pmid', '')}/)\n\n"
+            
+            summary += "\n## Top Paywalled Articles\n\n"
+            
+            for i, article in enumerate(sorted(paywalled, key=lambda x: x.get('relevance_score', 0), reverse=True)[:10], 1):
+                summary += f"{i}. **{article.get('title', 'No title')}** (Score: {article.get('relevance_score', 0)}/100)\n"
+                summary += f"   - {article.get('journal', 'Unknown')}\n"
+                summary += f"   - DOI: {article.get('doi', 'N/A')}\n\n"
+            
+            if factor_patterns:
+                summary += "\n## Significant Factor Patterns\n\n"
+                sorted_factors = sorted(factor_patterns.items(), key=lambda x: len(x[1]), reverse=True)
+                for factor, articles_list in sorted_factors[:5]:
+                    summary += f"- **{factor.title()}**: Mentioned in {len(articles_list)} articles\n"
+            
+            return summary
+        except Exception as e:
+            logger.error(f"Error generating enhanced summary: {e}", exc_info=True)
+            # Fallback to basic summary
+            articles = self.storage.get_high_relevance_articles(threshold=self.relevance_threshold)
+            paywalled = self.get_paywalled_articles(threshold=self.relevance_threshold)
+            return f"""# PubMed Daily Summary - {datetime.now().strftime("%Y-%m-%d")}
 
 ## Overview
 
 - **High-Relevance Articles:** {len(articles)} (score ≥ {self.relevance_threshold})
 - **Paywalled Articles:** {len(paywalled)}
-- **Factor Patterns Detected:** {len(factor_patterns)}
 
-## Top Paywalled Articles
-
+*Note: Enhanced flagging analysis unavailable. Check logs for details.*
 """
-        
-        for i, article in enumerate(sorted(paywalled, key=lambda x: x.get('relevance_score', 0), reverse=True)[:10], 1):
-            summary += f"{i}. **{article.get('title', 'No title')}** (Score: {article.get('relevance_score', 0)}/100)\n"
-            summary += f"   - {article.get('journal', 'Unknown')}\n"
-            summary += f"   - DOI: {article.get('doi', 'N/A')}\n\n"
-        
-        if factor_patterns:
-            summary += "\n## Significant Factor Patterns\n\n"
-            sorted_factors = sorted(factor_patterns.items(), key=lambda x: len(x[1]), reverse=True)
-            for factor, articles_list in sorted_factors[:5]:
-                summary += f"- **{factor.title()}**: Mentioned in {len(articles_list)} articles\n"
-        
-        return summary
     
     def run(self):
         """Main execution method"""

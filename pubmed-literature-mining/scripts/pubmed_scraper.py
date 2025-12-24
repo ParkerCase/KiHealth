@@ -22,6 +22,7 @@ sys.path.insert(0, parent_dir)
 from scripts.google_sheets_storage import get_storage_client
 from scripts.open_access_detector import OpenAccessDetector
 from scripts.relevance_scoring import RelevanceScorer
+from scripts.enhanced_relevance_scoring import EnhancedRelevanceScorer
 from scripts.factor_extraction import FactorExtractor
 
 # Load environment variables
@@ -53,8 +54,24 @@ class PubMedScraper:
         self.max_articles = int(os.getenv('MAX_ARTICLES_PER_RUN', '100'))
         self.storage = get_storage_client()  # Google Sheets if available, else file storage
         self.oa_detector = OpenAccessDetector()
-        self.relevance_scorer = RelevanceScorer()
+        self.relevance_scorer = RelevanceScorer()  # Keep for backward compatibility
+        self.enhanced_scorer = EnhancedRelevanceScorer()  # New enhanced scorer
         self.factor_extractor = FactorExtractor()
+        
+        # Load search strategy configuration
+        try:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(script_dir)
+            strategy_path = os.path.join(project_root, 'config', 'search_strategy.json')
+            if os.path.exists(strategy_path):
+                with open(strategy_path, 'r') as f:
+                    self.search_config = json.load(f)
+            else:
+                logger.warning(f"Search strategy config not found at {strategy_path}, using defaults")
+                self.search_config = None
+        except Exception as e:
+            logger.warning(f"Could not load search strategy config: {e}, using defaults")
+            self.search_config = None
         
     def _make_request(self, url: str, params: Dict, retry_count: int = 0) -> Optional[requests.Response]:
         """Make HTTP request with retry logic and rate limiting"""
@@ -73,13 +90,14 @@ class PubMedScraper:
                 logger.error(f"Request failed after {self.MAX_RETRIES} retries: {e}")
                 return None
     
-    def search_pubmed(self, query: str, max_results: int = 100) -> List[str]:
+    def search_pubmed(self, query: str, max_results: int = 100, date_range_years: int = 10) -> List[str]:
         """
         Search PubMed and return list of PMIDs
         
         Args:
             query: PubMed search query
             max_results: Maximum number of results to return
+            date_range_years: Number of years to search back (default: 10)
             
         Returns:
             List of PMID strings
@@ -88,13 +106,13 @@ class PubMedScraper:
         params = {
             'db': 'pubmed',
             'term': query,
-            'retmax': max_results,
+            'retmax': min(max_results, 10000),  # PubMed API limit
             'retmode': 'json',
             'email': self.email,
             'tool': self.tool,
             'sort': 'pub_date',  # Most recent first
             'datetype': 'pdat',
-            'mindate': (datetime.now() - timedelta(days=5*365)).strftime('%Y/%m/%d'),
+            'mindate': (datetime.now() - timedelta(days=date_range_years*365)).strftime('%Y/%m/%d'),
             'maxdate': datetime.now().strftime('%Y/%m/%d')
         }
         
@@ -268,9 +286,24 @@ class PubMedScraper:
                 if pdf_path:
                     article_data['pdf_path'] = pdf_path
             
-            # Calculate relevance score
-            relevance_score = self.relevance_scorer.calculate_relevance_score(article_data)
-            article_data['relevance_score'] = relevance_score
+            # Calculate relevance score using enhanced scorer
+            try:
+                enhanced_score, score_breakdown = self.enhanced_scorer.calculate_relevance_score(article_data)
+                article_data['relevance_score'] = enhanced_score
+                article_data['relevance_score_breakdown'] = score_breakdown
+                article_data['value_category'] = self.enhanced_scorer.get_value_category(enhanced_score)
+                article_data['priority_level'] = self.enhanced_scorer.get_priority_level(enhanced_score)
+                
+                # Also calculate legacy score for backward compatibility
+                legacy_score = self.relevance_scorer.calculate_relevance_score(article_data)
+                article_data['relevance_score_legacy'] = legacy_score
+            except Exception as e:
+                logger.warning(f"Error calculating enhanced score for {pmid}, using legacy: {e}")
+                # Fallback to legacy scoring
+                relevance_score = self.relevance_scorer.calculate_relevance_score(article_data)
+                article_data['relevance_score'] = relevance_score
+                article_data['value_category'] = 'unknown'
+                article_data['priority_level'] = 'unknown'
             
             # Extract predictive factors
             text = article_data.get('abstract', '')
@@ -317,24 +350,49 @@ class PubMedScraper:
         """Main execution method"""
         logger.info("Starting PubMed scraper")
         
-        # Build search query - less restrictive to find more articles
-        # Try with publication type filters first
-        query = '("knee osteoarthritis" OR "knee OA") AND ("progression" OR "total knee replacement" OR "arthroplasty" OR "TKR") AND (human[Filter]) AND (Clinical Trial[ptyp] OR Cohort Studies[ptyp] OR Systematic Review[ptyp])'
+        # Determine which search strategy to use
+        use_enhanced = os.getenv('USE_ENHANCED_SEARCH', 'true').lower() == 'true'
+        search_strategy = os.getenv('SEARCH_STRATEGY', 'focused')  # 'comprehensive', 'focused', or 'current'
         
-        # Search PubMed
-        pmids = self.search_pubmed(query, max_results=self.max_articles)
-        
-        # If no results with strict filters, try without publication type filter
-        if not pmids:
-            logger.info("No articles found with strict filters, trying broader search...")
+        if use_enhanced and self.search_config:
+            # Use enhanced search strategy from config
+            try:
+                strategies = self.search_config.get('search_strategies', {})
+                
+                if search_strategy == 'comprehensive' and 'comprehensive' in strategies:
+                    query = strategies['comprehensive']['query']
+                    max_results = min(strategies['comprehensive'].get('max_results', 5000), self.max_articles)
+                    date_range = self.search_config.get('filters', {}).get('date_range_years', 10)
+                    logger.info(f"Using comprehensive search strategy (max_results: {max_results}, date_range: {date_range} years)")
+                elif search_strategy == 'focused' and 'focused' in strategies:
+                    query = strategies['focused']['query']
+                    max_results = min(strategies['focused'].get('max_results', 1000), self.max_articles)
+                    date_range = self.search_config.get('filters', {}).get('date_range_years', 10)
+                    logger.info(f"Using focused search strategy (max_results: {max_results}, date_range: {date_range} years)")
+                else:
+                    # Fallback to current strategy
+                    query = '("knee osteoarthritis" OR "knee OA") AND ("progression" OR "total knee replacement" OR "arthroplasty" OR "TKR") AND (human[Filter])'
+                    max_results = self.max_articles
+                    date_range = 5
+                    logger.info("Using current search strategy (fallback)")
+                
+                pmids = self.search_pubmed(query, max_results=max_results, date_range_years=date_range)
+                
+            except Exception as e:
+                logger.error(f"Error using enhanced search strategy: {e}, falling back to current")
+                query = '("knee osteoarthritis" OR "knee OA") AND ("progression" OR "total knee replacement" OR "arthroplasty" OR "TKR") AND (human[Filter])'
+                pmids = self.search_pubmed(query, max_results=self.max_articles, date_range_years=5)
+        else:
+            # Use current search strategy (backward compatible)
+            logger.info("Using current search strategy")
             query = '("knee osteoarthritis" OR "knee OA") AND ("progression" OR "total knee replacement" OR "arthroplasty" OR "TKR") AND (human[Filter])'
-            pmids = self.search_pubmed(query, max_results=self.max_articles)
-        
-        # If still no results, try even broader (just OA progression)
-        if not pmids:
-            logger.info("Still no articles, trying even broader search...")
-            query = '("knee osteoarthritis" OR "knee OA") AND ("progression" OR "total knee replacement" OR "arthroplasty")'
-            pmids = self.search_pubmed(query, max_results=self.max_articles)
+            pmids = self.search_pubmed(query, max_results=self.max_articles, date_range_years=5)
+            
+            # Progressive fallback if no results
+            if not pmids:
+                logger.info("No articles found with initial query, trying broader search...")
+                query = '("knee osteoarthritis" OR "knee OA") AND ("progression" OR "total knee replacement" OR "arthroplasty" OR "TKR")'
+                pmids = self.search_pubmed(query, max_results=self.max_articles, date_range_years=5)
         
         if not pmids:
             logger.warning("No articles found with any search query")

@@ -1,0 +1,140 @@
+{
+  "search_concepts": {
+    "disease": {
+      "terms": [
+        "knee osteoarthritis",
+        "knee OA",
+        "gonarthrosis",
+        "knee arthrosis",
+        "knee AND osteoarthritis"
+      ],
+      "mesh_terms": [
+        "Osteoarthritis, Knee[MeSH]",
+        "Knee Joint[MeSH]"
+      ]
+    },
+    "progression_outcome": {
+      "terms": [
+        "progression",
+        "total knee replacement",
+        "total knee arthroplasty",
+        "TKR",
+        "TKA",
+        "knee replacement",
+        "knee arthroplasty",
+        "disease progression",
+        "structural progression",
+        "radiographic progression",
+        "symptom progression",
+        "joint space narrowing",
+        "cartilage loss"
+      ],
+      "mesh_terms": [
+        "Arthroplasty, Replacement, Knee[MeSH]",
+        "Disease Progression[MeSH]"
+      ]
+    },
+    "prediction_prognosis": {
+      "terms": [
+        "predictor",
+        "risk factor",
+        "prognostic",
+        "prediction",
+        "prediction model",
+        "prognostic model",
+        "risk prediction",
+        "outcome prediction",
+        "prognosis",
+        "forecast"
+      ],
+      "mesh_terms": [
+        "Prognosis[MeSH]",
+        "Risk Factors[MeSH]"
+      ]
+    }
+  },
+  "filters": {
+    "date_range_years": 10,
+    "languages": ["English"],
+    "species": ["Humans"],
+    "publication_types": [
+      "Clinical Trial",
+      "Cohort Studies",
+      "Case-Control Studies",
+      "Systematic Review",
+      "Meta-Analysis",
+      "Observational Study",
+      "Longitudinal Studies"
+    ],
+    "exclude_types": [
+      "Editorial",
+      "Letter",
+      "Comment",
+      "News"
+    ]
+  },
+  "search_strategies": {
+    "comprehensive": {
+      "description": "Comprehensive systematic review-style search",
+      "query": "((\"knee osteoarthritis\"[Title/Abstract] OR \"knee OA\"[Title/Abstract] OR \"gonarthrosis\"[Title/Abstract] OR \"knee arthrosis\"[Title/Abstract] OR (knee[Title/Abstract] AND osteoarthritis[Title/Abstract]) OR \"Osteoarthritis, Knee\"[MeSH]) AND (progression[Title/Abstract] OR \"total knee replacement\"[Title/Abstract] OR \"total knee arthroplasty\"[Title/Abstract] OR TKR[Title/Abstract] OR TKA[Title/Abstract] OR \"knee replacement\"[Title/Abstract] OR \"knee arthroplasty\"[Title/Abstract] OR \"disease progression\"[Title/Abstract] OR \"structural progression\"[Title/Abstract] OR \"radiographic progression\"[Title/Abstract] OR \"symptom progression\"[Title/Abstract] OR \"joint space narrowing\"[Title/Abstract] OR \"cartilage loss\"[Title/Abstract] OR \"Arthroplasty, Replacement, Knee\"[MeSH] OR \"Disease Progression\"[MeSH]) AND (predictor[Title/Abstract] OR \"risk factor\"[Title/Abstract] OR prognostic[Title/Abstract] OR prediction[Title/Abstract] OR \"prediction model\"[Title/Abstract] OR \"prognostic model\"[Title/Abstract] OR \"risk prediction\"[Title/Abstract] OR \"outcome prediction\"[Title/Abstract] OR prognosis[Title/Abstract] OR forecast[Title/Abstract] OR \"Prognosis\"[MeSH] OR \"Risk Factors\"[MeSH])) AND (English[Language]) AND (Humans[Mesh])",
+      "max_results": 5000
+    },
+    "focused": {
+      "description": "Focused search for high-quality prediction studies",
+      "query": "((\"knee osteoarthritis\"[Title/Abstract] OR \"knee OA\"[Title/Abstract] OR \"Osteoarthritis, Knee\"[MeSH]) AND (\"prediction model\"[Title/Abstract] OR \"prognostic model\"[Title/Abstract] OR \"risk prediction\"[Title/Abstract] OR predictor[Title/Abstract] OR \"risk factor\"[Title/Abstract]) AND (\"total knee replacement\"[Title/Abstract] OR \"total knee arthroplasty\"[Title/Abstract] OR progression[Title/Abstract] OR TKR[Title/Abstract] OR TKA[Title/Abstract])) AND (English[Language]) AND (Humans[Mesh]) AND (\"Clinical Trial\"[Publication Type] OR \"Cohort Studies\"[Publication Type] OR \"Systematic Review\"[Publication Type])",
+      "max_results": 1000
+    },
+    "current": {
+      "description": "Current basic search (for comparison)",
+      "query": "(\"knee osteoarthritis\" OR \"knee OA\") AND (\"progression\" OR \"total knee replacement\" OR \"arthroplasty\" OR \"TKR\") AND (human[Filter])",
+      "max_results": 100
+    }
+  },
+  "relevance_thresholds": {
+    "high_value": 80,
+    "medium_value": 60,
+    "low_value": 40,
+    "very_low": 0
+  },
+  "value_categories": {
+    "high_priority": {
+      "min_score": 80,
+      "description": "Must-read, actionable, high-quality articles",
+      "criteria": [
+        "Directly predicts TKR or progression",
+        "Large sample size (>500)",
+        "Longitudinal/cohort design",
+        "Identifies modifiable factors",
+        "Recent (<3 years) or high-impact journal"
+      ]
+    },
+    "medium_priority": {
+      "min_score": 60,
+      "max_score": 79,
+      "description": "Relevant, good quality, may be useful",
+      "criteria": [
+        "Related to OA progression",
+        "Moderate sample size (100-500)",
+        "Good study design",
+        "May provide supporting evidence"
+      ]
+    },
+    "low_priority": {
+      "min_score": 40,
+      "max_score": 59,
+      "description": "Somewhat relevant, lower quality",
+      "criteria": [
+        "OA-related but not progression-focused",
+        "Small sample size (<100)",
+        "Cross-sectional or case study",
+        "Older (>5 years) or low-impact journal"
+      ]
+    },
+    "very_low_priority": {
+      "min_score": 0,
+      "max_score": 39,
+      "description": "Minimally relevant or poor quality"
+    }
+  }
+}
+

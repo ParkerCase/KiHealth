@@ -375,6 +375,17 @@ class GoogleSheetsStorage:
         except Exception as e:
             logger.error(f"Error counting predictive factors: {e}")
             return 0
+    
+    def get_all_articles(self) -> List[Dict]:
+        """Get all articles (for analysis)"""
+        self._initialize()
+        
+        try:
+            all_records = self.sheet.get_all_records()
+            return all_records
+        except Exception as e:
+            logger.error(f"Error getting all articles: {e}")
+            return []
 
 
 class HybridStorage:
@@ -533,6 +544,36 @@ class HybridStorage:
             logger.warning(f"Error counting predictive factors from file storage: {e}")
         
         return count
+    
+    def get_all_articles(self) -> List[Dict]:
+        """Get all articles from both sources, deduplicated by PMID"""
+        articles = []
+        seen_pmids = set()
+        
+        # Get from Google Sheets
+        if self.sheets_storage:
+            try:
+                sheets_articles = self.sheets_storage.get_all_articles()
+                for article in sheets_articles:
+                    pmid = article.get('pmid')
+                    if pmid and pmid not in seen_pmids:
+                        articles.append(article)
+                        seen_pmids.add(pmid)
+            except Exception as e:
+                logger.warning(f"Error getting all articles from Google Sheets: {e}")
+        
+        # Get from file storage
+        try:
+            file_articles = self.file_storage.get_all_articles()
+            for article in file_articles:
+                pmid = article.get('pmid')
+                if pmid and pmid not in seen_pmids:
+                    articles.append(article)
+                    seen_pmids.add(pmid)
+        except Exception as e:
+            logger.warning(f"Error getting all articles from file storage: {e}")
+        
+        return articles
 
 
 def get_storage_client():
