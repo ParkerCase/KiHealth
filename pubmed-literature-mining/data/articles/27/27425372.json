@@ -1,0 +1,48 @@
+{
+  "pmid": "27425372",
+  "title": "The MRI-detected osteophyte score is a predictor for undergoing joint replacement in patients with end-stage knee osteoarthritis.",
+  "abstract": "The aim of this prospective cohort study was to examine whether MRI-detected osteoarthritis (OA)-structural changes at baseline could predict knee OA patients who would undergo total knee arthroplasty (TKA). In total, 128 end-stage medial-type knee OA patients were enrolled and followed up for 6 months. MRI using the whole-organ MRI scoring (WORMS) method, radiographic findings, visual analog scale (VAS) for pain and a patient-oriented outcome measure, and the Japanese Knee Osteoarthritis Measure (JKOM) were recorded at baseline. The area under the curve (AUC) was estimated to determine the discriminative value of the prediction models. While 74 patients (57.8%) did not undergo TKA, the remaining 54 patients (42.2%) underwent TKA during this period. The AUCs of the receiver operating characteristic (ROC) curve for the activities of daily living (ADL) score evaluated by the JKOM ADL score [0.70 (95% CI: 0.60-0.79)] and osteophyte score [0.72 (0.64-0.81)] were 0.70 or greater. The JKOM ADL score (17/40) and the osteophyte score (30/98) showed relative risks (RR) of 2.61 (1.32-5.15) and 3.01 (1.39-6.52) for undergoing TKA, respectively. The osteophyte score detected by MRI, in addition to ADL score, was found to be an important factor in determining whether the patient should undergo TKA.",
+  "authors": "Liu, Lizu; Ishijima, Muneaki; Kaneko, Haruka; Sadatsuki, Ryo; Hada, Shinnosuke; Kinoshita, Mayuko; Aoki, Takako; Futami, Ippei; Yusup, Anwarjan; Arita, Hitoshi; Shiozawa, Jun; Takazawa, Yuji; Ikeda, Hiroshi; Kaneko, Kazuo",
+  "journal": "Modern rheumatology",
+  "doi": "10.1080/14397595.2016.1206509",
+  "publication_date": "2025-12-29T07:18:55.151582",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 42,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 18,
+    "study_quality": 14,
+    "novelty_impact": 8,
+    "actionability": 2,
+    "total_score": 42
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 60,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "otal, 128 end-stage medial-type knee oa patients were enrolled and followed up for 6 months. mri using the whole-organ mri scoring (worms) method, radiographic findings, visual analog scale (vas) for pain and a patient-oriented outcome measure, and the japanese knee osteoarthritis measure (jkom) were recorded at baseline. the area under the curve (auc) was estimated to determine the discriminative val"
+    },
+    {
+      "factor": "Osteophyte",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ent tka during this period. the aucs of the receiver operating characteristic (roc) curve for the activities of daily living (adl) score evaluated by the jkom adl score [0.70 (95% ci: 0.60-0.79)] and osteophyte score [0.72 (0.64-0.81)] were 0.70 or greater. the jkom adl score (17/40) and the osteophyte score (30/98) showed relative risks (rr) of 2.61 (1.32-5.15) and 3.01 (1.39-6.52) for undergoing tka, resp"
+    },
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "the aim of this prospective cohort study was to examine whether mri-detected osteoarthritis (oa)-structural changes at baseline could predict knee oa patients who would undergo total knee arthroplasty (tka). in total, 128 end-stage medial-type knee oa patients were e"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:18:56.631654",
+  "updated_at": "2025-12-29T07:18:57.516342"
+}

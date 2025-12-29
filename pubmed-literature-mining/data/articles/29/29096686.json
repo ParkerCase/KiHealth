@@ -1,0 +1,63 @@
+{
+  "pmid": "29096686",
+  "title": "VASO (Vitamin D and Arthroplasty Surgery Outcomes) study - supplementation of vitamin D deficiency to improve outcomes after total hip or knee replacement: study protocol for a randomised controlled feasibility trial.",
+  "abstract": "Vitamin D deficiency has been linked to poor outcomes after total hip replacement (THR) or total knee replacement (TKR), including lower patient-reported outcome measures (PROMs), peri-prosthetic infection and longer hospital stay. We present a randomised feasibility trial protocol designed to prospectively investigate the influence of vitamin D testing, and subsequent supplementation for deficiency, prior to THR/TKR. One hundred adult patients undergoing primary THR/TKR for osteoarthritis at two NHS hospital trusts in North East England will be recruited. Exclusion criteria include lack of mental capacity, revision surgery, participants already taking vitamin D/calcium supplements, or a known contraindication to vitamin D treatment. Participants will be ineligible for the trial if they have an estimated glomerular filtration rate < 30 ml/minute. We will measure patients' vitamin D levels at baseline, and those identified as deficient (vitamin D < 50 nmol/L) will be randomised to receive either vitamin D supplementation or no supplementation prior to, and for 6 months following, surgery. Patients with a normal vitamin D level (≥50 nmol/L) will receive no supplementation. Vitamin D levels will be rechecked on the day of surgery and again at 6 months. Patients will also complete a lifestyle questionnaire, as well as the Oxford hip or knee and EQ-5D-3 L PROM questionnaires, at baseline and at 6 months following surgery. The aims are to determine the feasibility of the methodology and to gather data to inform the conduct of a future, larger trial to investigate if supplementation with vitamin D, in those who are deficient, prior to THR/TKR improves outcomes as measured by PROM scores. Previous reports have measured vitamin D levels and correlated this to outcome, but we can find no randomised trial in which researchers investigated the effect of supplementation. The aim of this trial is to determine if vitamin D deficiency is a modifiable risk factor for poor outcome after THR/TKR. ISRCTN Registry, ISRCTN14533082 . Registered on 3 April 2017.",
+  "authors": "Morrison, Rory J M; Bunn, Deborah; Gray, William K; Baker, Paul N; White, Craig; Rangan, Amar; Rankin, Kenneth S; Reed, Mike R",
+  "journal": "Trials",
+  "doi": "10.1186/s13063-017-2255-2",
+  "publication_date": "2025-12-29T07:18:41.673426",
+  "access_type": "open_access",
+  "pdf_url": "https://trialsjournal.biomedcentral.com/track/pdf/10.1186/s13063-017-2255-2",
+  "pdf_path": "data/pdfs/29096686.pdf",
+  "relevance_score": 33,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 13,
+    "study_quality": 10,
+    "novelty_impact": 8,
+    "actionability": 2,
+    "total_score": 33
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 56,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "morrisonetal.trials (2017) 18:514 page2of8"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "body mass index x"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ciency and post-operative pain. the authors found that, status (central portfolio management system identifier"
+    },
+    {
+      "factor": "Depression",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "disease, cardio-respiratory disease and depression [1]. the oxford hip or knee score, as well as the eq-5d-3 l,"
+    },
+    {
+      "factor": "Anxiety",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "activities,pain/discomfort and anxiety/depression. notapplicable."
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:18:47.930591",
+  "updated_at": "2025-12-29T07:18:48.978244"
+}

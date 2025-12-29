@@ -1,0 +1,91 @@
+{
+  "pmid": "27542601",
+  "title": "Using discrete choice experiments as a decision aid in total knee arthroplasty: study protocol for a randomised controlled trial.",
+  "abstract": "Osteoarthritis (OA) is a leading cause of disability in developed nations. Total knee arthroplasty (TKA) is a clinically effective treatment for people with end-stage knee OA, and represents one of the highest volume medical interventions globally. However, up to one in three patients remain dissatisfied following TKA. Research indicates that the strongest predictor of patient dissatisfaction following TKA is unmet expectations. This study will use a discrete choice experiment (DCE) provided to patients to improve knowledge of the expected outcomes of TKA. This increased knowledge is based on actual outcome data and is hypothesised to optimise patient expectations of TKA outcomes, thereby increasing their satisfaction and self-reported health outcomes. One hundred and thirty-two people with end-stage OA on the waiting list for TKA will be recruited and randomly allocated to one of two groups using computer-generated block randomisation. A randomised controlled trial (RCT) adhering to SPIRIT and CONSORT guidelines will evaluate the effect of administering a DCE prior to surgery on patient-reported pain and function and satisfaction following TKA. Patients in the intervention arm will complete a survey containing the DCE, compared to the control group who will complete a modified survey that does not contain the DCE activity. The DCE contains information on actual risks of postoperative complications, as well as health status after TKA. The DCE encourages patients to actively make trade-offs between risks and health outcomes to elicit their preferences. Participants in both groups will be required to complete the survey after consenting to have the procedure, but prior to surgery during their routine preadmission appointment at St. Vincent's Hospital, Melbourne, Australia (SVHM). Patients in both the intervention and control groups will also be required to complete a brief patient expectation survey 1 week prior to scheduled TKA. In addition, orthopaedic surgeons will complete a brief expectations survey for each patient consented for TKA to compare matched surgeon and patient expectations for recovery following TKA. Primary outcomes will be evaluated by a blinded examiner at 12 months post surgery using a validated self-reported pain and physical function scale, and a validated patient satisfaction scale. Secondary outcomes will include a range of validated measures of health and psychological wellbeing. All analyses will be conducted on an intention-to-treat basis using linear regression models. This study is the first of its kind to use a DCE to provide information to patients to optimise their expectations of the outcomes of surgery. Reducing the rate of patient dissatisfaction commonly seen in patients following TKA will help to reduce the burden associated with poor outcomes on the health system. Australian New Zealand Clinical Trials Registry ( ACTRN12615001226594p ). Version 1; registered on 9 November 2015.",
+  "authors": "Dowsey, Michelle M; Scott, Anthony; Nelson, Elizabeth A; Li, Jinhu; Sundararajan, Vijaya; Nikpour, Mandana; Choong, Peter F M",
+  "journal": "Trials",
+  "doi": "10.1186/s13063-016-1536-5",
+  "publication_date": "2025-12-29T07:18:58.168303",
+  "access_type": "open_access",
+  "pdf_url": "https://trialsjournal.biomedcentral.com/track/pdf/10.1186/s13063-016-1536-5",
+  "pdf_path": "data/pdfs/27542601.pdf",
+  "relevance_score": 39,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 10,
+    "novelty_impact": 11,
+    "actionability": 7,
+    "total_score": 39
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 46,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) is a leading cause of disability in developed nations. total knee arthroplasty (tka) is a clinically effective treatment for people with end-stage knee oa, and represents one of the highest volume medical interventions globally. however, up to one in three patients remain dissatisfied following tka. research indicates that the strongest predict"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "background tka, including: age and gender [14], body mass index"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "background tka, including: age and gender [14], body mass index"
+    },
+    {
+      "factor": "Ethnicity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) is one of the most disabling diseases [9, 10], ethnicity [15], psychological distress [16, 17],"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "puter-generated block randomisation. a randomised controlled trial (rct) adhering to spirit and consort guidelines will evaluate the effect of administering a dce prior to surgery on patient-reported pain and function and satisfaction following tka. patients in the intervention arm will complete a survey containing the dce, compared to the control group who will complete a modified survey that does no"
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "thedepartmentoforthopaedicsatsvhm;arheumatolo- mcmaster universities (womac) osteoarthritis index"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "experimentaldesign operative pain, stiffness, quality of life, complications and"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) is a leading cause of disability in developed nations. total knee arthroplasty (tka) is a clinically effective treatment for people with end-stage knee oa, and represents one of the highest volume medical interventions globally. how"
+    },
+    {
+      "factor": "Fear",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "demographic information collected at baseline will in- (cid:1) fearavoidancebeliefs:measuredusingthe 5-item"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:19:05.423863",
+  "updated_at": "2025-12-29T07:19:06.390057"
+}

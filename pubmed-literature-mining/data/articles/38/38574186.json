@@ -1,0 +1,34 @@
+{
+  "pmid": "38574186",
+  "title": "Vitamin D Deficiency Leads to Poorer Health Outcomes and Greater Length of Stay After Total Knee Arthroplasty and Supplementation Improves Outcomes: A Systematic Review and Meta-Analysis.",
+  "abstract": "Vitamin D deficiency is increasingly identified as a predictor of poorer outcomes in musculoskeletal disease affecting as many as 1 in 4 people. This study aimed to evaluate the effect of vitamin D supplementation on outcomes after primary total knee arthroplasty (TKA). A targeted search of terms related to vitamin D and TKA outcomes was performed in PubMed, Cochrane Central Register of Controlled Trials, ClinicalTrials.gov, American Academy of Orthopaedic Surgeons, and British Orthopaedic Association databases. The results were analyzed using forest plots with I2 heterogeneity statistics and pooled effects with 95% confidence intervals (CIs) and p values. A p < 0.05 was considered statistically significant. A total of 146,054 patients with 150,107 TKRs were analyzed in 10 studies that complied with the inclusion criteria, of which 3 were suitable for meta-analysis. Of these, 4 of the 10 studies showed that vitamin D deficiency resulted in poorer functional outcome scores (Western Ontario and McMasters Universities Osteoarthritis Index, Knee Society Scoring System, and American Knee Society scores), as well as increased risk of revision surgery, incidence of joint infection, and postoperative stiffness. Meta-analysis of length of hospital stay (LOS) demonstrated a significant increase in LOS in patients with vitamin D deficiency (standardized mean difference, -0.54, 95% CI, -0.69 to -0.38, p < 0.00001). Furthermore, outcomes were improved with vitamin D supplementation in 6 of 10 studies. Vitamin D deficiency results in poorer outcomes of primary TKA, with improved outcomes after supplementation. Further studies should examine the role of preoperative vitamin D screening and/or perioperative supplementation in primary TKA and standardize outcome measures to assess their effect. Level I/II. See Instructions for Authors for a complete description of levels of evidence.",
+  "authors": "Vivek, Kavyesh; Kamal, Rayan; Perera, Edward; Gupte, Chinmay M",
+  "journal": "JBJS reviews",
+  "doi": "10.2106/JBJS.RVW.23.00150",
+  "publication_date": "2025-12-29T07:16:47.790556",
+  "access_type": "open_access",
+  "pdf_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/10990007",
+  "relevance_score": 57,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 13,
+    "study_quality": 25,
+    "novelty_impact": 14,
+    "actionability": 5,
+    "total_score": 57
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 61,
+  "predictive_factors": [
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "sters universities osteoarthritis index, knee society scoring system, and american knee society scores), as well as increased risk of revision surgery, incidence of joint infection, and postoperative stiffness. meta-analysis of length of hospital stay (los) demonstrated a significant increase in los in patients with vitamin d deficiency (standardized mean difference, -0.54, 95% ci, -0.69 to -0.38, p < 0.00"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:16:48.756209",
+  "updated_at": "2025-12-29T07:16:49.833750"
+}

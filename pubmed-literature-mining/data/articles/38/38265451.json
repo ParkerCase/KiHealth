@@ -1,0 +1,55 @@
+{
+  "pmid": "38265451",
+  "title": "Clinical prediction models for knee pain in patients with knee osteoarthritis: a systematic review.",
+  "abstract": "To identify and describe existing models for predicting knee pain in patients with knee osteoarthritis. The electronic databases PubMed, EMBASE, CINAHL, Web of Science, and Cochrane Library were searched from their inception to May 2023 for any studies to develop and validate a prediction model for predicting knee pain in patients with knee osteoarthritis. Two reviewers independently screened titles, abstracts, and full-text qualifications, and extracted data. Risk of bias was assessed using the PROBAST. Data extraction of eligible articles was extracted by a data extraction form based on CHARMS. The quality of evidence was graded according to GRADE. The results were summarized with descriptive statistics. The search identified 2693 records. Sixteen articles reporting on 26 prediction models were included targeting occurrence (n = 9), others (n = 7), progression (n = 5), persistent (n = 2), incident (n = 1), frequent (n = 1), and flares (n = 1) of knee pain. Most of the studies (94%) were at high risk of bias. Model discrimination was assessed by the AUROC ranging from 0.62 to 0.81. The most common predictors were age, BMI, gender, baseline pain, and joint space width. Only frequent knee pain had a moderate quality of evidence; all other types of knee pain had a low quality of evidence. There are many prediction models for knee pain in patients with knee osteoarthritis that do show promise. However, the clinical extensibility, applicability, and interpretability of predictive tools should be considered during model development.",
+  "authors": "Tong, Beibei; Chen, Hongbo; Wang, Cui; Zeng, Wen; Li, Dan; Liu, Peiyuan; Liu, Ming; Jin, Xiaoyan; Shang, Shaomei",
+  "journal": "Skeletal radiology",
+  "doi": "10.1007/s00256-024-04590-x",
+  "publication_date": "2025-12-29T07:16:43.657555",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 45,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 14,
+    "study_quality": 17,
+    "novelty_impact": 8,
+    "actionability": 6,
+    "total_score": 45
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 63,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "n = 1), and flares (n = 1) of knee pain. most of the studies (94%) were at high risk of bias. model discrimination was assessed by the auroc ranging from 0.62 to 0.81. the most common predictors were age, bmi, gender, baseline pain, and joint space width. only frequent knee pain had a moderate quality of evidence; all other types of knee pain had a low quality of evidence. there are many prediction m"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "d flares (n = 1) of knee pain. most of the studies (94%) were at high risk of bias. model discrimination was assessed by the auroc ranging from 0.62 to 0.81. the most common predictors were age, bmi, gender, baseline pain, and joint space width. only frequent knee pain had a moderate quality of evidence; all other types of knee pain had a low quality of evidence. there are many prediction models for kne"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "), and flares (n = 1) of knee pain. most of the studies (94%) were at high risk of bias. model discrimination was assessed by the auroc ranging from 0.62 to 0.81. the most common predictors were age, bmi, gender, baseline pain, and joint space width. only frequent knee pain had a moderate quality of evidence; all other types of knee pain had a low quality of evidence. there are many prediction models"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "to identify and describe existing models for predicting knee pain in patients with knee osteoarthritis. the electronic databases pubmed, embase, cinahl, web of science, and cochrane library were searched from their inception to may 2023 for any studies to develop a"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:16:45.833760",
+  "updated_at": "2025-12-29T07:16:47.064037"
+}

@@ -1,0 +1,26 @@
+{
+  "pmid": "29714073",
+  "title": "Migration of all-polyethylene compared with metal-backed tibial components in cemented total knee arthroplasty.",
+  "abstract": "Background and purpose - With a rapidly increasing population in need of total knee arthroplasty (TKA), there is renewed interest in cost-saving all-polyethylene designs. Differences between metal-backed and all-polyethylene designs in initial component migration assessed by radiostereometric analysis (RSA), a proven predictor for late aseptic loosening, have been scantily reported. The purpose of this study was to compare implant migration and clinical outcomes of all-polyethylene tibial components versus metal-backed trays of similar geometrical shape. Patients and methods - In this randomized controlled trial, 59 patients received a cemented Triathlon condylar-stabilizing implant (Stryker, Mahwah, NJ, USA) with either an all-polyethylene (n = 29) or a metal-backed tibial component (n = 30). RSA measurements and clinical scores (the Knee Society Score, Forgotten Joint Score, and Knee Osteoarthritis and Injury Outcome Score) were evaluated at baseline and postoperatively at 3, 12, and 24 months. A linear mixed-effects model was used to analyze the repeated measurements. Results - A statistically significant difference in mean migration after 2 years was found in favor of the all-polyethylene group, with a mean maximum total point motion of 0.61 mm (95% CI 0.49-0.74) versus 0.81 mm (95% CI 0.68-0.96) for the cemented group (p = 0.03). However, this difference was smaller and not statistically significant after post hoc adjustment for surgeon effect. Both groups showed comparable improvements on all clinical outcome scores over time. Interpretation - The Triathlon all-polyethylene tibial component showed less migration, suggesting a lower risk of late loosening as compared with its metal-backed counterpart. However, the found surgeon effect warrants further investigation.",
+  "authors": "Van Hamersveld, Koen T; Marang-Van De Mheen, Perla J; Nelissen, Rob G H H; Toksvig-Larsen, Sören",
+  "journal": "Acta orthopaedica",
+  "doi": "10.1080/17453674.2018.1464317",
+  "publication_date": "2025-12-29T07:18:25.593286",
+  "access_type": "open_access",
+  "pdf_url": "https://www.tandfonline.com/doi/pdf/10.1080/17453674.2018.1464317?needAccess=true",
+  "relevance_score": 41,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 12,
+    "novelty_impact": 13,
+    "actionability": 5,
+    "total_score": 41
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 32,
+  "predictive_factors": [],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:18:26.038985",
+  "updated_at": "2025-12-29T07:18:26.224465"
+}

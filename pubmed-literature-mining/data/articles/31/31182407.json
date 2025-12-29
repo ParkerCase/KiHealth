@@ -1,0 +1,55 @@
+{
+  "pmid": "31182407",
+  "title": "Preoperative Patient Factors Affecting Length of Stay following Total Knee Arthroplasty: A Systematic Review and Meta-Analysis.",
+  "abstract": "Total knee arthroplasty (TKA) yields substantial improvements in quality of life for patients with severe osteoarthritis. Previous research has shown that TKA outcomes are inferior in patients with certain demographic and clinical factors. Length of stay (LOS) following TKA is a major component of costs incurred by healthcare providers. It is hypothesized that patient-related factors may influence LOS following TKA. The purpose of this systematic review and meta-analysis is to investigate these factors. Three databases (PubMed, Embase, and OVID Medline) were searched using variants of the terms \"total knee arthroplasty\" and \"length of stay\". Studies were screened and data abstracted in duplicate. The primary outcome was the effect of prognostic variables on LOS following TKA. Meta-analysis was performed using the Review Manager (RevMan) software (version 5.3. Copenhagen: The Nordic Cochrane Center, The Cochrane Collaboration, 2014). A total of 68 studies met all inclusion criteria for this review. These studies comprised 21,494,459 patients undergoing TKA with mean age 66.82 years (range, 15-95 years) and 63.8% (12,165,160 of 19,060,572 reported) females. The mean MINORS score was 7, suggesting that studies had a low quality of evidence. Mean LOS following TKA has steadily decreased over the past 4 decades, partially because of the implementation of fast-track programs. Demographic factors associated with increased LOS were age >70 years (mean difference [MD] = 0.81; 95% confidence interval [CI] = 0.38-1.24), female gender (MD = 0.32; 95% CI = 0.29-0.48), body mass index >30 (MD = 0.09; 95% CI = 0.01-0.16), and non-White race (MD = 0.20; 95% CI = 0.10-0.29). Clinical factors associated with increased LOS were American Society of Anesthesiologists score 3-4 vs 1-2 (MD = 1.12; 95% CI = 0.58 to 1.66), Charlson Comorbidity Index > 0 vs 0 (MD = 0.77; 95% CI = 0.32 to 1.22), and preoperative hemoglobin < 130 g/L (MD = 0.66; 95% CI = 0.34 to 0.98). This systematic review and meta-analysis showed that increased age, female gender, body mass index ≥ 30, non-White race, American Society of Anesthesiologists > 2, Charlson Comorbidity Index > 0, and preoperative hemoglobin < 130 g/L were predictors of increased LOS. Mean LOS has steadily decreased over the past decades with the implementation of perioperative \"fast-track\" programs. Future research should investigate the benefits of preoperative risk factor modification on LOS, in addition to novel surgical approaches, anesthetic adjuvants, and physiotherapy modifications. IV, systematic review, and meta-analysis of level III and IV evidence.",
+  "authors": "Shah, Ajay; Memon, Muzammil; Kay, Jeffrey; Wood, Thomas J; Tushinski, Daniel M; Khanna, Vickas",
+  "journal": "The Journal of arthroplasty",
+  "doi": "10.1016/j.arth.2019.04.048",
+  "publication_date": "2025-12-29T07:18:08.243823",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 58,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 15,
+    "study_quality": 25,
+    "novelty_impact": 11,
+    "actionability": 7,
+    "total_score": 58
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 54,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ngth of stay\". studies were screened and data abstracted in duplicate. the primary outcome was the effect of prognostic variables on los following tka. meta-analysis was performed using the review manager (revman) software (version 5.3. copenhagen: the nordic cochrane center, the cochrane collaboration, 2014). a total of 68 studies met all inclusion criteria for this review. these studies comprised 2"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ause of the implementation of fast-track programs. demographic factors associated with increased los were age >70 years (mean difference [md] = 0.81; 95% confidence interval [ci] = 0.38-1.24), female gender (md = 0.32; 95% ci = 0.29-0.48), body mass index >30 (md = 0.09; 95% ci = 0.01-0.16), and non-white race (md = 0.20; 95% ci = 0.10-0.29). clinical factors associated with increased los were american"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "programs. demographic factors associated with increased los were age >70 years (mean difference [md] = 0.81; 95% confidence interval [ci] = 0.38-1.24), female gender (md = 0.32; 95% ci = 0.29-0.48), body mass index >30 (md = 0.09; 95% ci = 0.01-0.16), and non-white race (md = 0.20; 95% ci = 0.10-0.29). clinical factors associated with increased los were american society of anesthesiologists score 3-4 vs 1-2 (md"
+    },
+    {
+      "factor": "Race",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ge >70 years (mean difference [md] = 0.81; 95% confidence interval [ci] = 0.38-1.24), female gender (md = 0.32; 95% ci = 0.29-0.48), body mass index >30 (md = 0.09; 95% ci = 0.01-0.16), and non-white race (md = 0.20; 95% ci = 0.10-0.29). clinical factors associated with increased los were american society of anesthesiologists score 3-4 vs 1-2 (md = 1.12; 95% ci = 0.58 to 1.66), charlson comorbidity in"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:18:09.621337",
+  "updated_at": "2025-12-29T07:18:09.804509"
+}

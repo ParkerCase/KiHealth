@@ -1,0 +1,35 @@
+{
+  "pmid": "30635012",
+  "title": "Risk factors associated with cardiac complication after total joint arthroplasty of the hip and knee: a systematic review.",
+  "abstract": "Cardiac complication represents a major cause of morbidity and mortality after total joint arthroplasty, thus necessitating investigation into the associated risks in total hip arthroplasty and total knee arthroplasty. There remains a lack of clarity for many risk factors in the current literature. The aim of this systematic review is to assess the most recent published literature and identify the risk factors associated with cardiac complication in total hip arthroplasty and total knee arthroplasty. Scopus, PubMed, CINHAL, and Cochrane were searched to identify studies published since 2008 reporting on risk factors associated with cardiac complication in elective primary in total hip arthroplasty and total knee arthroplasty in patients ≥18 years old with osteoarthritis. Reported odds ratios, hazard ratios, and relative risk were the principal summary measures collected. The included studies were too heterogeneous to enable meta-analysis. Fifteen studies were included in this systematic review. Increasing age and history of cardiac disease were found by most studies to be positively associated with risk of cardiac complication. There was no strong association found between obesity and cardiac complication. The evidence for other risk factors was less clear in the examined literature, although there is suggestive evidence for male gender and cerebrovascular disease increasing risk. Increasing age and history of cardiac disease increases the risk of cardiac complication after total hip arthroplasty and total knee arthroplasty. Other risk factors commonly attributed to increased risk in non-cardiac surgery including hypertension and obesity require further evaluation in arthroplasty. A detailed protocol was published in the PROSPERO database (registration number CRD42018095887 ) for this systematic review.",
+  "authors": "Elsiwy, Yassin; Jovanovic, Ivana; Doma, Kenji; Hazratwala, Kaushik; Letson, Hayley",
+  "journal": "Journal of orthopaedic surgery and research",
+  "doi": "10.1186/s13018-018-1058-9",
+  "publication_date": "2025-12-29T07:18:10.603164",
+  "access_type": "open_access",
+  "pdf_url": "https://josr-online.biomedcentral.com/track/pdf/10.1186/s13018-018-1058-9",
+  "pdf_path": "data/pdfs/30635012.pdf",
+  "relevance_score": 34,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 9,
+    "study_quality": 15,
+    "novelty_impact": 8,
+    "actionability": 2,
+    "total_score": 34
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 65,
+  "predictive_factors": [
+    {
+      "factor": "apnoea",
+      "outcome": "greater odds of cardiac com-\naccountedfor. plication",
+      "effect_size": "OR/HR: 1",
+      "significance": "p-value in context",
+      "context": "nts, Memtsoudis et al. showed that sleep\nby studies in this series and some risk factors may be un- apnoea was associated with greater odds of cardiac com-\naccountedfor. plication (adjusted OR 1.59; CI 95% 1.48–1.71; p<0.001)\nTo reduce the confounding effect of other disease pro- [54]. With an increasing prevalence of sleep"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:18:16.651289",
+  "updated_at": "2025-12-29T07:18:16.838621"
+}

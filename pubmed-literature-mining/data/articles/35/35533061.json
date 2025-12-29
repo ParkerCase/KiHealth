@@ -1,0 +1,34 @@
+{
+  "pmid": "35533061",
+  "title": "The Influence of Athletes' Age in the Onset of Osteoarthritis: A Systematic Review.",
+  "abstract": "Whether sport participation is a risk factor for osteoarthritis (OA) development or progression is controversial. Mechanical overload, injuries, genetics, and acquired disorders concur to the onset of OA, with high variability between sports and participants. This study investigated the association between participation in specific sports and the risk of developing knee and hip OA in athletes at different ages. We hypothesized that young athletes who are exposed to high levels of physical activities have a greater risk of developing OA. This systematic review was conducted according to the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) guidelines. PubMed, Google scholar, EMABSE, and Web of Science were accessed in October 2021. No time constrains were used for the search. All the published clinical studies reporting data about relationship between physical activity, OA, and age were included. The Newcastle-Ottawa Scale resulted in a final score ≥7 for all studies, attesting good quality of the methodological assessment. Data from 27,364 patients were retrieved. The mean age was 48.2±16.7 years. In all, 21.8% were women. Our systematic review suggests an association between high levels of physical activities and knee and hip OA in men younger than 50 years. People who practice intense physical activity, such as professional athletes or heavy workers, are more prone to develop early-onset OA.",
+  "authors": "Migliorini, Filippo; Vecchio, Gianluca; Pintore, Andrea; Oliva, Francesco; Maffulli, Nicola",
+  "journal": "Sports medicine and arthroscopy review",
+  "doi": "10.1097/JSA.0000000000000345",
+  "publication_date": "2025-12-29T07:17:36.269221",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 51,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 9,
+    "study_quality": 25,
+    "novelty_impact": 11,
+    "actionability": 6,
+    "total_score": 51
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 54,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "high variability between sports and participants. this study investigated the association between participation in specific sports and the risk of developing knee and hip oa in athletes at different ages. we hypothesized that young athletes who are exposed to high levels of physical activities have a greater risk of developing oa. this systematic review was conducted according to the preferred repor"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:17:38.071667",
+  "updated_at": "2025-12-29T07:17:39.104861"
+}

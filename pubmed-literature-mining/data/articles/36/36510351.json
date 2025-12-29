@@ -1,0 +1,69 @@
+{
+  "pmid": "36510351",
+  "title": "Fat tissue is a poor predictor of 1 year outcomes after total knee arthroplasty: A secondary analysis of a randomized clinical trial.",
+  "abstract": "Obesity may increase the risk of adverse events after total knee arthroplasty (TKA). Although body mass index (BMI) is commonly used in categorizing obesity, its accuracy is limited. Body fat percentage (BFP) might indicate adiposity status and predict arthroplasty-related outcomes better than BMI. We investigated whether BFP is predictive of TKA-related outcomes. In this secondary analysis, BFP was measured preoperatively from 294 participants of a randomized trial that investigated the effects of tourniquet and anesthesia methods on TKA. Data concerning in-hospital assessments and events were collected. Knee range of motion (ROM) was measured, the Brief Pain Inventory-short form and Oxford Knee Score questionnaires were used to collect data on patient-reported pain and function, and the 15-dimensional health-related questionnaire was used to assess quality of life preoperatively and 3 and 12 months postoperatively. The patients reported satisfaction to TKA 3 and 12 months postoperatively. Data concerning infectious and thromboembolic events within 90 postoperative days and revision surgery, manipulation under anesthesia, and mortality within 1 year were collected. A separate post hoc analysis was performed for 399 participants to assess the effects of BMI on the respective outcomes. A 1-unit increase in BFP affected the ROM by -0.37° (95% confidence interval (CI) = -0.60 to -0.13) 12 months after surgery. BFP was not significantly associated with the operation time or adverse events. However, the number of most adverse events remained too low for adjusted analysis. A 1-unit increase in BMI increased the operation time by 0.57 min (95% CI = 0.10 to 1.04) and affected the ROM by -0.47° (95% CI = -0.74 to -0.20) 12 months postoperatively. Neither BFP nor BMI was significantly associated with acute pain, pain management, length of stay, or with pain, function, quality of life, or satisfaction to TKA at 12 months after surgery. BFP seems to be a poor predictor of in-hospital results and of patient-reported outcomes 1 year after TKA. In this secondary analysis of a randomized trial, body fat percentage was poorly predictive of clinical outcomes during hospital stay and of patient-reported outcomes 1 year after TKA.",
+  "authors": "Palanne, Riku; Rantasalo, Mikko; Vakkuri, Anne; Olkkola, Klaus T; Vahlberg, Tero; Skants, Noora",
+  "journal": "Scandinavian journal of surgery : SJS : official organ for the Finnish Surgical Society and the Scandinavian Surgical Society",
+  "doi": "10.1177/14574969221139722",
+  "publication_date": "2025-12-29T07:17:18.941156",
+  "access_type": "open_access",
+  "pdf_url": "https://doi.org/10.1177/14574969221139722",
+  "relevance_score": 41,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 15,
+    "novelty_impact": 8,
+    "actionability": 7,
+    "total_score": 41
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 65,
+  "predictive_factors": [
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "obesity may increase the risk of adverse events after total knee arthroplasty (tka). although body mass index (bmi) is commonly used in categorizing obesity, its accuracy is limited. body fat percentage (bfp) might indicate adiposity status and predict arthroplasty-related outcomes better than bmi. we investigate"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "obesity may increase the risk of adverse events after total knee arthroplasty (tka). although body mass index (bmi) is commonly used in categorizing obesity, its accuracy is limited. body fat percentage (bfp) might indicate adiposity status and predict arthroplasty-related outcomes better than bmi. we invest"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "trial that investigated the effects of tourniquet and anesthesia methods on tka. data concerning in-hospital assessments and events were collected. knee range of motion (rom) was measured, the brief pain inventory-short form and oxford knee score questionnaires were used to collect data on patient-reported pain and function, and the 15-dimensional health-related questionnaire was used to assess quali"
+    },
+    {
+      "factor": "Obesity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "obesity may increase the risk of adverse events after total knee arthroplasty (tka). although body mass index (bmi) is commonly used in categorizing obesity, its accuracy is limited. body fat percentage (bfp) might indicate adiposity status and predict arthroplasty-related outcomes better than bmi. we investigated whether bfp is predictive of tka-related"
+    },
+    {
+      "factor": "Range Of Motion",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ratively from 294 participants of a randomized trial that investigated the effects of tourniquet and anesthesia methods on tka. data concerning in-hospital assessments and events were collected. knee range of motion (rom) was measured, the brief pain inventory-short form and oxford knee score questionnaires were used to collect data on patient-reported pain and function, and the 15-dimensional health-related que"
+    },
+    {
+      "factor": "Rom",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osity status and predict arthroplasty-related outcomes better than bmi. we investigated whether bfp is predictive of tka-related outcomes. in this secondary analysis, bfp was measured preoperatively from 294 participants of a randomized trial that investigated the effects of tourniquet and anesthesia methods on tka. data concerning in-hospital assessments and events were collected. knee range of moti"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:17:19.765392",
+  "updated_at": "2025-12-29T07:17:19.935495"
+}

@@ -1,0 +1,34 @@
+{
+  "pmid": "34427757",
+  "title": "Current role of intraoperative sensing technology in total knee arthroplasty.",
+  "abstract": "Sensors have been introduced within the last 10 years to quantify soft tissue balancing during total knee arthroplasty (TKA) and to give the surgeon objective data. These devices are fairly new and their impact on patient outcome remains uncertain. The aim of this systematic review was to summarize all the relevant surgical and clinical results of sensors for TKA. A PRISMA systematic review was conducted using five databases (PubMed, EMBASE, MEDLINE, GOOGLE SCHOLAR, and the COCHRANE LIBRARY) to identify all available literature that described the surgical and clinical results of sensors for TKA between 2000 and 2021. The main investigated outcome criteria were intraoperative data, postoperative functional and clinical outcome, knee range of motion, complications and revision rates. Twenty-seven articles were finally included. The maximum reported follow-up was 26 months. A balanced knee with sensor corresponded to a mediolateral difference inferior to 15 lb and a stable posterior drawer test. The standard assessment of knee balance was a poor predictor of the true soft tissue balance when compared to sensor data. At least 60% of TKA needed an additional rebalancing procedure with the sensor, after conventional gap balancing. Achieving a quantitatively balanced knee resulted in a significantly higher patient satisfaction score. But the prospective comparative studies found no demonstrable improvement in clinical outcome, range of motion or complication rate at one year postoperatively for patients undergoing TKA using sensor-guided balancing compared with routine techniques. Even though the use of the intraoperative sensing technology was not related to an improvement in clinical outcome, the current studies showed that using sensors facilitates the reproduction of natural joint stability, and improves the rate of achieving a balanced knee. Sensor use in complex cases could be particularly valuable, but their use in standard practice remains to be defined.",
+  "authors": "Batailler, Cécile; Swan, John; Marinier, Elliot Sappey; Servien, Elvire; Lustig, Sébastien",
+  "journal": "Archives of orthopaedic and trauma surgery",
+  "doi": "10.1007/s00402-021-04130-5",
+  "publication_date": "2025-12-29T07:17:49.544244",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 35,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 6,
+    "study_quality": 15,
+    "novelty_impact": 11,
+    "actionability": 3,
+    "total_score": 35
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 31,
+  "predictive_factors": [
+    {
+      "factor": "Range Of Motion",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "cribed the surgical and clinical results of sensors for tka between 2000 and 2021. the main investigated outcome criteria were intraoperative data, postoperative functional and clinical outcome, knee range of motion, complications and revision rates. twenty-seven articles were finally included. the maximum reported follow-up was 26 months. a balanced knee with sensor corresponded to a mediolateral difference inf"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:17:51.292801",
+  "updated_at": "2025-12-29T07:17:52.226406"
+}

@@ -1,0 +1,34 @@
+{
+  "pmid": "32249039",
+  "title": "Clinical and biochemical factors associated with risk of total joint replacement and radiographic progression in osteoarthritis: Data from two phase III clinical trials.",
+  "abstract": "Clinical trials of new disease-modifying treatments for osteoarthritis should demonstrate a positive effect on a functional outcome or reduction in joint failure in order to be considered successful. Total joint replacement (TJR) surgery may be considered as joint failure, but great variation in the incidence of TJR complicates its use as a study endpoint. Factors predicting elevated risk of TJR could potentially be used to enrich such outcome-trials. Using cumulative data from two phase three clinical trials with urine samples from 1255 knee OA patients followed for two years, we assessed the value of a series of baseline clinical variables including the uCTX-II biomarker, as predictors of joint-space narrowing, Kellgren-Lawrence-grade progression, and total joint replacement. A prediction-model incorporating age, sex, BMI, CTX-II and KL-grade predicted TJR within the two-year period with an AUC of 0.75 (95% CI: 0.72-0.77). The participants with a cumulative KL-grade between knees of 5, 6, or 7 had a more than 3 times higher risk of TJR in the study period compared to lower (HR: 3.03, 95% CI: 1.54 to 5.96, p = 0.001). Age was associated with increased TJR risk (per 5 years of age: HR: 1.28, 95% CI: 1.03-3.79, p = 0.05). Baseline u-CTX-II was associated with elevated risk of radiographic progression in terms of both JSN and KL-grade. A composite model combining baseline age, sex, BMI, u-CTX-II and KL-grade was able to acceptably predict TJR during a two-year period. In the absence of baseline radiographic OA severity, u-CTX-II independently contributed to prediction of TJR. Baseline urine CTX-II was associated with risk of radiographic progression.",
+  "authors": "Bihlet, Asger Reinstrup; Bjerre-Bastos, Jonathan Jetsmark; Andersen, Jeppe Ragnar; Byrjalsen, Inger; Karsdal, Morten Asser; Bay-Jensen, Anne-Christine",
+  "journal": "Seminars in arthritis and rheumatism",
+  "doi": "10.1016/j.semarthrit.2020.03.002",
+  "publication_date": "2025-12-29T07:18:06.145086",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 41,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 10,
+    "novelty_impact": 13,
+    "actionability": 7,
+    "total_score": 41
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 60,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "increased TJR risk",
+      "effect_size": "OR/HR: 5",
+      "significance": "p-value in context",
+      "context": "gher risk of TJR in the study period compared to lower (HR: 3.03, 95% CI: 1.54 to 5.96, p = 0.001). Age was associated with increased TJR risk (per 5 years of age: HR: 1.28, 95% CI: 1.03-3.79, p = 0.05). Baseline u-CTX-II was associated with elevated risk of radiographic progression in terms of both J"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:18:07.544416",
+  "updated_at": "2025-12-29T07:18:07.729008"
+}

@@ -1,0 +1,98 @@
+{
+  "pmid": "35902950",
+  "title": "Factors contributing to 1-year dissatisfaction after total knee arthroplasty: a nomogram prediction model.",
+  "abstract": "Identifying risk factors and early intervention are critical for improving the satisfaction rate of total knee arthroplasty (TKA). Our study aimed to identify patient-specific variables and establish a nomogram model to predict dissatisfaction at 1 year after TKA. This prospective cohort study involved 208 consecutive primary TKA patients with end-stage arthritis who completed self-reported measures preoperatively and at 1 year postoperatively. All participants were randomized into a training cohort (n = 154) and validation cohort (n = 54). Multiple regression models with preoperative and postoperative factors were used to establish the nomogram model for dissatisfaction at 1 year postoperatively. The least absolute shrinkage and selection operator method was used to screen the suitable and effective risk factors (demographic variables, preoperative variables, surgical variable, and postoperative variables) collected. These variables were compared between the satisfied and dissatisfied groups in the training cohort. The receiver operating characteristic (ROC) curve, calibration plot, and decision curve analysis were used to validate the discrimination, calibration, and clinical usefulness of the model. Results were evaluated by internal validation of the validation cohort. The overall satisfaction rate 1 year after TKA was 77.8%. The nomogram prediction model included the following risk factors: gender; primary diagnosis; postoperative residual pain; poor postoperative range of motion; wound healing; and the rate of change in the degree of coronal lower limb alignment (hip-knee-ankle angle, HKA).The ROC curves of the training and validation cohorts were 0.9206 (95% confidence interval [CI], 0.8785-0.9627) and 0.9662 (0.9231, 1.0000) (95% CI, 0.9231, 1.0000), respectively. The Hosmer-Lemeshow test showed good calibration of the nomogram (training cohort, p = 0.218; validation cohort, p = 0.103). This study developed a prediction nomogram model based on partially modifiable risk factors for predicting dissatisfaction 1 year after TKA. This model demonstrated good discriminative capacity for identifying those at greatest risk for dissatisfaction and may help surgeons and patients identify and evaluate the risk factors for dissatisfaction and optimize TKA outcomes.",
+  "authors": "Muertizha, Mieralimu; Cai, XinTian; Ji, Baochao; Aimaiti, Abudousaimi; Cao, Li",
+  "journal": "Journal of orthopaedic surgery and research",
+  "doi": "10.1186/s13018-022-03205-2",
+  "publication_date": "2025-12-29T07:17:23.961836",
+  "access_type": "open_access",
+  "pdf_url": "https://josr-online.biomedcentral.com/counter/pdf/10.1186/s13018-022-03205-2",
+  "pdf_path": "data/pdfs/35902950.pdf",
+  "relevance_score": 40,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 17,
+    "novelty_impact": 8,
+    "actionability": 4,
+    "total_score": 40
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 57,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "entify patient-specific variables and establish a nomogram model to predict dissatisfaction at 1 year after tka. this prospective cohort study involved 208 consecutive primary tka patients with end-stage arthritis who completed self-reported measures preoperatively and at 1 year postoperatively. all participants were randomized into a training cohort (n = 154) and validation cohort (n = 54). multiple"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "55 years of age. bone joint j. 2016. https://d oi.o rg/1 0.1 302/0 301-6 20x. 25. vina e, cloonan y, ibrahim s, hannon m, boudreau r, kwoh c. race, sex,"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "l. results were evaluated by internal validation of the validation cohort. the overall satisfaction rate 1 year after tka was 77.8%. the nomogram prediction model included the following risk factors: gender; primary diagnosis; postoperative residual pain; poor postoperative range of motion; wound healing; and the rate of change in the degree of coronal lower limb alignment (hip-knee-ankle angle, hka).th"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "cal model. it is useful for integrating potential risk index (bmi) [22], primary diagnosis, comorbidities [23],"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "bmi: body mass index; hka: hip–knee–ankle; kss: knee society score; lasso:"
+    },
+    {
+      "factor": "Race",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "55 years of age. bone joint j. 2016. https://d oi.o rg/1 0.1 302/0 301-6 20x. 25. vina e, cloonan y, ibrahim s, hannon m, boudreau r, kwoh c. race, sex,"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "f the validation cohort. the overall satisfaction rate 1 year after tka was 77.8%. the nomogram prediction model included the following risk factors: gender; primary diagnosis; postoperative residual pain; poor postoperative range of motion; wound healing; and the rate of change in the degree of coronal lower limb alignment (hip-knee-ankle angle, hka).the roc curves of the training and validation coho"
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "improvements in womac scores after tha and tka? clin orthop relat before and after total knee arthroplasty using long leg radiographs. knee."
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "rom are arthrofibrosis, stiffness, and contracture of the"
+    },
+    {
+      "factor": "Diabetes",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "diabetes mellitus 107 97 (62.99%) 30 (55.56%) 0.335"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:17:31.389745",
+  "updated_at": "2025-12-29T07:17:32.383317"
+}

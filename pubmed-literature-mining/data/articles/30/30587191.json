@@ -1,0 +1,84 @@
+{
+  "pmid": "30587191",
+  "title": "Economic evaluation of telephone-based weight loss support for patients with knee osteoarthritis: a randomised controlled trial.",
+  "abstract": "The prevalence of knee osteoarthritis is increasing worldwide. Obesity is an important modifiable risk factor for both the incidence and progression of knee osteoarthritis. Consequently, international guidelines recommend all patients with knee osteoarthritis who are overweight receive support to lose weight. However, few overweight patients with this condition receive care to support weight loss. Telephone-based interventions are one potential solution to provide scalable care to the many patients with knee osteoarthritis. The objective of this study is to evaluate, from a societal perspective, the cost-utility and cost-effectiveness of a telephone-based weight management and healthy lifestyle service for patients with knee osteoarthritis, who are overweight or obese. An economic evaluation was undertaken alongside a pragmatic randomised controlled trial. Between May 19 and June 30, 2015, 120 patients with knee osteoarthritis were randomly assigned to an intervention or usual care control group in a 1:1 ratio. Participants in the intervention group received a referral to an existing non-disease specific 6-month telephone-based weight management and healthy lifestyle service. Quality-adjusted life years (QALYs) was the utility measure and knee pain intensity, disability, weight, and body mass index (BMI) were the clinical measures of effect. Costs included intervention costs, healthcare utilisation costs (healthcare services and medication use) and absenteeism costs due to knee pain. Data was collected at baseline, 6 weeks and 26 weeks. The primary cost-effectiveness analysis was performed from the societal perspective. Mean cost differences between groups (intervention minus control) were $493 (95%CI: -3513 to 5363) for healthcare costs, $-32 (95%CI: -73 to 13) for medication costs, and $125 (95%CI: -151 to 486) for absenteeism costs. The total mean difference in societal costs was $1197 (95%CI: -2887 to 6106). For QALYs and all clinical measures of effect, the probability of the intervention being cost-effective compared with usual care was less than 0.36 at all willingness-to-pay values. From a societal perspective, telephone-based weight loss support, provided using an existing non-disease specific 6-month weight management and healthy lifestyle service was not cost-effective in comparison with usual care for overweight and obese patients with knee osteoarthritis. ACTRN12615000490572 , registered 18th May 2015.",
+  "authors": "O'Brien, Kate M; van Dongen, Johanna M; Williams, Amanda; Kamper, Steven J; Wiggers, John; Hodder, Rebecca K; Campbell, Elizabeth; Robson, Emma K; Haskins, Robin; Rissel, Chris; Williams, Christopher M",
+  "journal": "BMC public health",
+  "doi": "10.1186/s12889-018-6300-1",
+  "publication_date": "2025-12-29T07:18:17.389013",
+  "access_type": "open_access",
+  "pdf_url": "https://bmcpublichealth.biomedcentral.com/track/pdf/10.1186/s12889-018-6300-1",
+  "pdf_path": "data/pdfs/30587191.pdf",
+  "relevance_score": 32,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 9,
+    "study_quality": 5,
+    "novelty_impact": 8,
+    "actionability": 10,
+    "total_score": 32
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 24,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ble care to the many patients with knee osteoarthritis. the objective of this study is to evaluate, from a societal perspective, the cost-utility and cost-effectiveness of a telephone-based weight management and healthy lifestyle service for patients with knee osteoarthritis, who are overweight or obese. an economic evaluation was undertaken alongside a pragmatic randomised controlled trial. between"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "statistic’s reported age and gender specific national ferent values ofwillingness-to-pay [29]."
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "6-month telephone-based weight management and healthy lifestyle service. quality-adjusted life years (qalys) was the utility measure and knee pain intensity, disability, weight, and body mass index (bmi) were the clinical measures of effect. costs included intervention costs, healthcare utilisation costs (healthcare services and medication use) and absenteeism costs due to knee pain. data was collec"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "-disease specific 6-month telephone-based weight management and healthy lifestyle service. quality-adjusted life years (qalys) was the utility measure and knee pain intensity, disability, weight, and body mass index (bmi) were the clinical measures of effect. costs included intervention costs, healthcare utilisation costs (healthcare services and medication use) and absenteeism costs due to knee pain. data was c"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "p received a referral to an existing non-disease specific 6-month telephone-based weight management and healthy lifestyle service. quality-adjusted life years (qalys) was the utility measure and knee pain intensity, disability, weight, and body mass index (bmi) were the clinical measures of effect. costs included intervention costs, healthcare utilisation costs (healthcare services and medication use)"
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "tion. second, intervention participants were informed mcmaster universities osteoarthritis index (womac)"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "erral to an existing non-disease specific 6-month telephone-based weight management and healthy lifestyle service. quality-adjusted life years (qalys) was the utility measure and knee pain intensity, disability, weight, and body mass index (bmi) were the clinical measures of effect. costs included intervention costs, healthcare utilisation costs (healthcare services and medication use) and absenteeism costs"
+    },
+    {
+      "factor": "Obesity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "the prevalence of knee osteoarthritis is increasing worldwide. obesity is an important modifiable risk factor for both the incidence and progression of knee osteoarthritis. consequently, international guidelines recommend all patients with knee osteoarthritis who are ov"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:18:24.782825",
+  "updated_at": "2025-12-29T07:18:24.962046"
+}

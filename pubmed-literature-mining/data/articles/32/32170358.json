@@ -1,0 +1,26 @@
+{
+  "pmid": "32170358",
+  "title": "Surgeon-defined assessment is a poor predictor of knee balance in total knee arthroplasty: a prospective, multicenter study.",
+  "abstract": "The accuracy of surgeon-defined assessment (SDA) of soft tissue balance in total knee arthroplasty (TKA) is poorly understood despite balance being considered a significant determinant of surgical success. The study's hypothesis was that intra-operative SDA is a poor predictor of coronal balance in TKA. A prospective, multicenter study assessing accuracy of SDA of balance was conducted in 250 patients (285 TKAs). Eight surgeons and thirteen trainees participated, and all were blinded to sensor measurements. The primary outcome was test accuracy of SDA measured at 10°, 45° and 90° compared to sensor measures as the gold standard test. Cohen's kappa coefficient was calculated to determine chance-corrected agreement. Secondary outcomes include the relationship of SDA to level of surgical experience, analysis of between-surgeon differences, and the influence of patient and operative factors on SDA accuracy. Average accuracy of SDA was 58.3%, 61.2% and 66.5% at 10°, 45° and 90° respectively. Cohen's kappa coefficient was 0.18 at all angles and rated as \"slight agreement\". SDA sensitivities to correctly identify a balanced knee (76.2% at 10°; 82.6% at 45°; 83.2% at 90°) were approximately twice specificities to correctly identify an unbalanced knee (42.6% at 10°; 34.1% at 45°; 41.4% at 90°). Surgical experience (surgeon versus trainee) had no effect on capacity to determine balance. Considerable between-surgeon variability was found (33-65% at 10°, 41-73% at 45°, 55-89% at 90°). SDA was a poor predictor of balance, particularly when assessing the unbalanced TKA. Surgeon experience had no effect on test accuracy and considerable between-surgeon variability was recorded. These findings question the accuracy of SDA in TKA. ACTRN# 12618000817246.",
+  "authors": "MacDessi, Samuel J; Wood, Jil A; Diwan, Ashish D; Harris, Ian A",
+  "journal": "Knee surgery, sports traumatology, arthroscopy : official journal of the ESSKA",
+  "doi": "10.1007/s00167-020-05925-6",
+  "publication_date": "2025-12-29T07:18:01.488122",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 24,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 6,
+    "study_quality": 5,
+    "novelty_impact": 8,
+    "actionability": 5,
+    "total_score": 24
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 20,
+  "predictive_factors": [],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:18:03.042669",
+  "updated_at": "2025-12-29T07:18:03.236608"
+}

@@ -1,0 +1,41 @@
+{
+  "pmid": "33241542",
+  "title": "Short-Term Effects of Isometric Quadriceps Muscle Exercise with Auditory and Visual Feedback on Pain, Physical Function, and Performance after Total Knee Arthroplasty: A Randomized Controlled Trial.",
+  "abstract": "Severe acute pain after total knee arthroplasty (TKA) may cause delay in muscle strength and functional recovery, and it is a risk factor for chronic postoperative pain. Although pharmacological approaches are the typical firstline to treat acute pain; recently, nonpharmacological approaches such as exercise have been increasingly applied. The purpose of this investigation was to evaluate the effects of a rehabilitation program involving isometric quadriceps exercise with auditory and visual feedback to improve the short-term outcome after TKA. Sixty-two patients, planning a primary unilateral TKA, were randomly assigned to either an intervention group (",
+  "authors": "Kondo, Yasutaka; Yoshida, Yoshihiro; Iioka, Takashi; Kataoka, Hideki; Sakamoto, Junya; Hirase, Tatsuya; Honda, Yuichiro; Nawata, Atsushi; Okita, Minoru",
+  "journal": "The journal of knee surgery",
+  "doi": "10.1055/s-0040-1721035",
+  "publication_date": "2025-12-29T07:17:33.038599",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 32,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 6,
+    "study_quality": 10,
+    "novelty_impact": 11,
+    "actionability": 5,
+    "total_score": 32
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 38,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "severe acute pain after total knee arthroplasty (tka) may cause delay in muscle strength and functional recovery, and it is a risk factor for chronic postoperative pain. although pharmacological approaches are the typical firstline to treat acute pain; recently, nonpharmacological approaches such as exercise have been increasingly applied. the purpose of this invest"
+    },
+    {
+      "factor": "Muscle Strength",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "severe acute pain after total knee arthroplasty (tka) may cause delay in muscle strength and functional recovery, and it is a risk factor for chronic postoperative pain. although pharmacological approaches are the typical firstline to treat acute pain; recently, nonpharmacological approa"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:17:34.557354",
+  "updated_at": "2025-12-29T07:17:35.568659"
+}

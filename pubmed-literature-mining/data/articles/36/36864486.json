@@ -1,0 +1,91 @@
+{
+  "pmid": "36864486",
+  "title": "Biomechanical and clinical relationships between lower back pain and knee osteoarthritis: a systematic review.",
+  "abstract": "Osteoarthritis (OA) and lower back pain (LBP) are most common health problems which lead to pain and disability. This study aimed to systematically review the evidence to find any relationship between knee osteoarthritis (KOA) and LBP or any potential causation. The databases of Scopus, MEDLINE, and Embase were searched from inception to 01 October 2022. Any study published in English assessing live humans over 18 years with KOA and LBP was eligible to be included. Studies were independently screened by two researchers. Data of the included studies were extracted based on the participants, outcomes related to knee and lumbar spine, reported association or causation between LBP and KOA, and study design. Data were narratively analyzed and presented as graphs and table. Methodology quality was assessed. Of 9953 titles and abstracts, duplicates were removed, and 7552 were screened. Altogether, 88 full texts were screened, and 13 were eligible for the final inclusion. There were some biomechanical and clinical causations were observed for the concurrent presence of LBP and KOA. Biomechanically, high pelvic incidence is a risk factor for development of spondylolisthesis and KOA. Clinically, knee pain intensity was higher in KOA when presents with LBP. Less than 20% of studies have justified their sample size during the quality assessment. Development and progression of KOA in patients with degenerative spondylolisthesis may be induced by significantly greater mismatches of lumbo-pelvic sagittal alignment. Elderly patients with degenerative lumbar spondylolisthesis and severe KOA reported a different pelvic morphology, increased sagittal malalignment with a lack of lumbar lordosis due to double-level listhesis, and greater knee flexion contracture than in patients with no to mild and moderate KOA. People with concurrent LBP and KOA have reported poor function with more disability. Both LBP and lumbar kyphosis indicate functional disability and knee symptoms in patients with KOA. Different biomechanical and clinical causations were revealed for the concurrent existence of KOA and LBP. Therefore, careful assessment of both back and knee joints should be considered when treating KOA and vice versa. PROSPERO CRD42022238571.",
+  "authors": "Amarasinghe, Piyumi; Wadugodapitiya, Surangika; Weerasekara, Ishanka",
+  "journal": "Systematic reviews",
+  "doi": "10.1186/s13643-022-02164-3",
+  "publication_date": "2025-12-29T07:17:08.054573",
+  "access_type": "open_access",
+  "pdf_url": "https://systematicreviewsjournal.biomedcentral.com/counter/pdf/10.1186/s13643-022-02164-3",
+  "pdf_path": "data/pdfs/36864486.pdf",
+  "relevance_score": 42,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 9,
+    "study_quality": 20,
+    "novelty_impact": 8,
+    "actionability": 5,
+    "total_score": 42
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 49,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "original author(s) and the source, provide a link to the creative commons licence, and indicate if changes were made. the images or"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "bmi or repetitive posture, should be carefully taken into search. the search strategies are available in additional"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "abbreviations: asd adjacent-segment disease, β beta coefficient, bmi body mass index, ci confidence interval, dls degenerative lumbar spondylolisthesis, ds"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) and lower back pain (lbp) are most common health problems which lead to pain and disability. this study aimed to systematically review the evidence to find any relationship between knee osteoarthritis (koa) and lbp or any potential causation. the databases of scopus, medline,"
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "standard deviation, tka total knee arthroplasty, vas visual analogue scale, womac western ontario and mcmaster universities osteoarthritis index"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "non is caused by changes in the spinal alignment (lumbar assess core strength, back stiffness, or any signs of back"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) and lower back pain (lbp) are most common health problems which lead to pain and disability. this study aimed to systematically review the evidence to find any relationship between knee osteoarthritis (koa) and lbp or any potential causation. the databases of scopus, medline, and embase wer"
+    },
+    {
+      "factor": "Range Of Motion",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "assessing the relationships or causation for this con- comes such as angles, alignments, range of motion"
+    },
+    {
+      "factor": "Rom",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "aimed to systematically review the evidence to find any relationship between knee osteoarthritis (koa) and lbp or any potential causation. the databases of scopus, medline, and embase were searched from inception to 01 october 2022. any study published in english assessing live humans over 18 years with koa and lbp was eligible to be included. studies were independently screened by two researchers."
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:17:17.239184",
+  "updated_at": "2025-12-29T07:17:18.286196"
+}

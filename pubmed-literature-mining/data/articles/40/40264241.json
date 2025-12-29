@@ -1,0 +1,70 @@
+{
+  "pmid": "40264241",
+  "title": "Accuracy of machine learning in identifying candidates for total knee arthroplasty (TKA) surgery: a systematic review and meta-analysis.",
+  "abstract": "The application of machine learning (ML) in predicting the requirement for total knee arthroplasty (TKA) at knee osteoarthritis (KOA) patients has been acknowledged. Nonetheless, the variables employed in the development of ML models are diverse and these different approaches yield inconsistent predictive performance of models. Therefore, we conducted this systematic review and meta-analysis to explore the feasibility of ML in identifying candidates for TKA. This study was conducted based on the preferred reporting items for systematic reviews and meta-analyses (PRISMA) guidelines. This study was registered on the international prospective register of systematic reviews registration database website, PROSPERO, with a unique ID: CRD 42023443948. The study subjects were patients diagnosed with KOA. Relevant studies were searched through PubMed, Web of Science, Cochrane, and Embase until September 15, 2024. The c-index was used as the outcome measure. The risk of bias in the primary study was assessed by Prediction model Risk of Bias Assessment Tool (PROBAST). Random or fixed effects were used for the meta-analysis. A total of 13 articles were included in this study, but only 11 articles with 25 models were eligible for the meta-analysis. ML models in the included studies were classified based on the source of variables, including clinical features, radiomics, and the combination of clinical features and radiomics. In the training set, the c-index was 0.713 (0.628 - 0.799) for clinical features, 0.841 (0.777 - 0.904) for radiomics, and 0.844 (0.815 - 0.873) for the combination of clinical features and radiomics. In the validation set, the c-index for ML models based on clinical features, radiomics, and the combination of clinical features and radiomics was 0.656 (0.526 - 0.786), 0.861 (0.806 - 0.916), and 0.831 (0.799 - 0.863), respectively. The results of this meta-analysis highlighted that the ML model is feasible in identifying candidates for TKA. X-ray-based ML models exhibit the best predictive performance among the models. However, there is currently a lack of high-level research available for clinical application. Furthermore, the accuracy of ML models in identifying candidates for TKA is significantly limited by the quality of modeling parameters and database architecture. Therefore, constructing a more targeted and professional database is imperative to promote the development and clinical application of ML models.",
+  "authors": "Tian, Cong; Chen, Haifeng; Shao, Wenhui; Zhang, Ruikun; Yao, Xinmiao; Shu, Jianlong",
+  "journal": "European journal of medical research",
+  "doi": "10.1186/s40001-025-02545-z",
+  "publication_date": "2025-12-29T07:16:33.296691",
+  "access_type": "open_access",
+  "pdf_url": "https://eurjmedres.biomedcentral.com/counter/pdf/10.1186/s40001-025-02545-z",
+  "pdf_path": "data/pdfs/40264241.pdf",
+  "relevance_score": 40,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 14,
+    "study_quality": 15,
+    "novelty_impact": 8,
+    "actionability": 3,
+    "total_score": 40
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 55,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "and osteosclerosis, which cause knee pain and restrict candidates for tka, providing a reference basis for for-"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "of disability in middle-aged and older patients [2, 3]. cations and evidence-based support for developing risk"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "knee replacement and diagnosis of osteoarthritis by using deep learning who have kellgren-lawrence grade 3 and 4 osteoarthritis benefit equally"
+    },
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "nance imaging (mri) or ultrasound (us)], or a combi-"
+    },
+    {
+      "factor": "X-Ray",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "s 0.656 (0.526 - 0.786), 0.861 (0.806 - 0.916), and 0.831 (0.799 - 0.863), respectively. the results of this meta-analysis highlighted that the ml model is feasible in identifying candidates for tka. x-ray-based ml models exhibit the best predictive performance among the models. however, there is currently a lack of high-level research available for clinical application. furthermore, the accuracy of ml"
+    },
+    {
+      "factor": "Diabetes",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "prediction models for gestational diabetes mellitus: meta-analysis. j med 2021;26(3):415–20."
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:16:41.611054",
+  "updated_at": "2025-12-29T07:16:42.943819"
+}

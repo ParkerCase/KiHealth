@@ -1,0 +1,48 @@
+{
+  "pmid": "35283261",
+  "title": "The Collaborative Lifestyle Intervention Program in Knee Osteoarthritis Patients (CLIP-OA) trial: Design and methods.",
+  "abstract": "Being overweight or obese is a primary modifiable risk factor that exacerbates disease progression and mobility disability in older knee osteoarthritis (OA) patients. Lifestyle interventions combining exercise with dietary weight loss (EX+DWL) yield meaningful improvements in mobility and weight loss that are superior to EX or DWL alone. Unfortunately, community access to practical, sustainable weight management interventions remains limited and places knee OA patients at increased risk of mobility disability. The Collaborative Lifestyle Intervention Program in Knee Osteoarthritis patients (CLIP-OA), was a two-arm, 18 month randomized-controlled, comparative effectiveness trial designed to contrast the effects of an evidence-based, theory-driven EX+DWL intervention, personalized to patient needs and delivered by our community partners, with those of the Arthritis Foundation's Walk With Ease (WWE) standard of care self-management program in the treatment of knee OA patients with overweight or obesity. The primary outcome of the CLIP-OA trial was mobility performance assessed using the 400-m walk test (400MWT). Secondary outcomes included weight loss, pain, select quality of life and social cognitive variables, and cost-effectiveness of intervention delivery. Findings from the CLIP-OA trial will determine the comparative and cost-effectiveness of the EX+DWL and WWE interventions on key clinical outcomes and has the potential to offer a sustainable medium for intervention delivery that can promote widely accessible weight management among knee OA patients with overweight or obesity. Trial Registration: NCT02835326.",
+  "authors": "Focht, Brian C; Rejeski, W Jack; Hackshaw, Kevin; Ambrosius, Walter T; Groessl, Erik; Chaplow, Zachary L; DeScenza, Victoria R; Bowman, Jessica; Fairman, Ciaran M; Nesbit, Beverly; Dispennette, Kathryn; Zhang, Xiaochen; Fowler, Marissa; Haynam, Marcy; Hohn, Stephanie",
+  "journal": "Contemporary clinical trials",
+  "doi": "10.1016/j.cct.2022.106730",
+  "publication_date": "2025-12-29T07:17:43.302654",
+  "access_type": "open_access",
+  "pdf_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/9426348",
+  "relevance_score": 25,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 9,
+    "study_quality": 0,
+    "novelty_impact": 8,
+    "actionability": 8,
+    "total_score": 25
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 21,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "of knee oa patients with overweight or obesity. the primary outcome of the clip-oa trial was mobility performance assessed using the 400-m walk test (400mwt). secondary outcomes included weight loss, pain, select quality of life and social cognitive variables, and cost-effectiveness of intervention delivery. findings from the clip-oa trial will determine the comparative and cost-effectiveness of the e"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "being overweight or obese is a primary modifiable risk factor that exacerbates disease progression and mobility disability in older knee osteoarthritis (oa) patients. lifestyle interventions combining exercise with dietary weight loss (ex+dwl) yield meaningful improvements in mobility and weight loss that are superior to"
+    },
+    {
+      "factor": "Obesity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "and delivered by our community partners, with those of the arthritis foundation's walk with ease (wwe) standard of care self-management program in the treatment of knee oa patients with overweight or obesity. the primary outcome of the clip-oa trial was mobility performance assessed using the 400-m walk test (400mwt). secondary outcomes included weight loss, pain, select quality of life and social cognit"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:17:44.025955",
+  "updated_at": "2025-12-29T07:17:45.058582"
+}

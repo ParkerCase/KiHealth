@@ -1,0 +1,84 @@
+{
+  "pmid": "34732491",
+  "title": "Effect of preoperative duloxetine treatment on postoperative chronic residual pain after total hip or knee arthroplasty: a randomised controlled trial.",
+  "abstract": "A key predictor for developing chronic residual pain after total knee or hip arthroplasty (TKA/THA) is sensitisation. Sensitisation can be defined as an 'increased responsiveness of nociceptive neurons in the nervous system'. Aim of this study is to investigate the effects of preoperative treatment with duloxetine in sensitised knee and hip osteoarthritis (OA) patients on postoperative chronic residual pain up to 1 year after arthroplasty. A multicentre, pragmatic, prospective, randomised clinical trial was conducted in three secondary care hospitals in the Netherlands. Patients with primary knee/hip OA who were planned for TKA/THA were screened using the modified painDETECT Questionnaire. Patients whose painDETECT score indicated that sensitisation may be present were eligible for participation. 111 participants were included and randomly assigned 1:1 to an intervention or control group. The intervention group received additional duloxetine treatment, the control group did not receive any additional treatment but was allowed to continue with any pain medication they were already taking. Preoperative oral treatment for 7 weeks with 60 mg/day of duloxetine was compared with usual care. Primary outcome measure was pain at 6 months after arthroplasty, assessed with the Pain Subscale of the Knee injury and Osteoarthritis Outcome Score (KOOS) or the Hip disability and Osteoarthritis Outcome Score (HOOS) with a 0-100 scale. Secondary outcome measures were Visual Analogue Scale (VAS), and neuropathic-like pain measured using the modified PainDETECT Questionnaire. Longitudinal data collection included time points directly after duloxetine treatment, 1-day preoperatively, and 6 weeks, 6 months and 12 months postoperatively. Mean improvement in the KOOS/HOOS pain subscale at 6 months postoperatively was 37 (SD 28.1) in the intervention group and 43 (SD 26.5) in the control group. No statistically significant difference was found in change score 6 months postoperatively between the two groups (p=0.280). 12 patients from the intervention group (21%) discontinued duloxetine due to adverse effects. Preoperative targeted treatment with duloxetine in end-stage knee and hip OA patients with sensitisation does not influence postoperative chronic residual pain after TKA/THA. NTR4744.",
+  "authors": "Rienstra, Wietske; Blikman, Tim; Dijkstra, Baukje; Stewart, Roy; Zijlstra, Wierd; van Raaij, Tom; Ten Hagen, Anita; Bulstra, Sjoerd; Stevens, Martin; van den Akker-Scheek, Inge",
+  "journal": "BMJ open",
+  "doi": "10.1136/bmjopen-2021-052944",
+  "publication_date": "2025-12-29T07:17:52.913877",
+  "access_type": "open_access",
+  "pdf_url": "https://bmjopen.bmj.com/content/bmjopen/11/11/e052944.full.pdf",
+  "pdf_path": "data/pdfs/34732491.pdf",
+  "relevance_score": 41,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 15,
+    "novelty_impact": 8,
+    "actionability": 7,
+    "total_score": 41
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 61,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ostoperatively between the two groups (p=0.280). 12 patients from the intervention group (21%) discontinued duloxetine due to adverse effects. preoperative targeted treatment with duloxetine in end-stage knee and hip oa patients with sensitisation does not influence postoperative chronic residual pain after tka/tha. ntr4744. open access original research"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "gender (female) 69 (62.2) 38 (66.7) 31 (57.4) 0.334"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "bmi 28.9 (4.5) 28.8 (5.0) 29.0 (3.9) 0.874"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "adl, activities of daily living; asa score, american society of anesthesiologists score; bmi, body mass index; kl grade, kelgren and"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "a key predictor for developing chronic residual pain after total knee or hip arthroplasty (tka/tha) is sensitisation. sensitisation can be defined as an 'increased responsiveness of nociceptive neurons in the nervous system'. aim of this study is to in"
+    },
+    {
+      "factor": "Koos",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "g/day of duloxetine was compared with usual care. primary outcome measure was pain at 6 months after arthroplasty, assessed with the pain subscale of the knee injury and osteoarthritis outcome score (koos) or the hip disability and osteoarthritis outcome score (hoos) with a 0-100 scale. secondary outcome measures were visual analogue scale (vas), and neuropathic-like pain measured using the modified p"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ne was compared with usual care. primary outcome measure was pain at 6 months after arthroplasty, assessed with the pain subscale of the knee injury and osteoarthritis outcome score (koos) or the hip disability and osteoarthritis outcome score (hoos) with a 0-100 scale. secondary outcome measures were visual analogue scale (vas), and neuropathic-like pain measured using the modified paindetect questionnaire"
+    },
+    {
+      "factor": "Kl Grade",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "kl grade 0.167"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:17:57.205073",
+  "updated_at": "2025-12-29T07:17:58.234639"
+}

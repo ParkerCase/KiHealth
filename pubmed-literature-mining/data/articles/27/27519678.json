@@ -1,0 +1,48 @@
+{
+  "pmid": "27519678",
+  "title": "Running and Knee Osteoarthritis: A Systematic Review and Meta-analysis.",
+  "abstract": "Osteoarthritis (OA) is a chronic condition characterized by pain, impaired function, and reduced quality of life. A number of risk factors for knee OA have been identified, such as obesity, occupation, and injury. The association between knee OA and physical activity or particular sports such as running is less clear. Previous reviews, and the evidence that informs them, present contradictory or inconclusive findings. This systematic review aimed to determine the association between running and the development of knee OA. Systematic review and meta-analysis. Four electronic databases were searched, along with citations in eligible articles and reviews and the contents of recent journal issues. Two reviewers independently screened the titles and abstracts using prespecified eligibility criteria. Full-text articles were also independently assessed for eligibility. Eligible studies were those in which running or running-related sports (eg, triathlon or orienteering) were assessed as a risk factor for the onset or progression of knee OA in adults. Relevant outcomes included (1) diagnosis of knee OA, (2) radiographic markers of knee OA, (3) knee joint surgery for OA, (4) knee pain, and (5) knee-associated disability. Risk of bias was judged by use of the Newcastle-Ottawa scale. A random-effects meta-analysis was performed with case-control studies investigating arthroplasty. After de-duplication, the search returned 1322 records. Of these, 153 full-text articles were assessed; 25 were eligible, describing 15 studies: 11 cohort (6 retrospective) and 4 case-control studies. Findings of studies with a diagnostic OA outcome were mixed. Some radiographic differences were observed in runners, but only at baseline within some subgroups. Meta-analysis suggested a protective effect of running against surgery due to OA: pooled odds ratio 0.46 (95% CI, 0.30-0.71). The I With this evidence, it is not possible to determine the role of running in knee OA. Moderate- to low-quality evidence suggests no association with OA diagnosis, a positive association with OA diagnosis, and a negative association with knee OA surgery. Conflicting results may reflect methodological heterogeneity. More evidence from well-designed, prospective studies is needed to clarify the contradictions.",
+  "authors": "Timmins, Kate A; Leech, Richard D; Batt, Mark E; Edwards, Kimberley L",
+  "journal": "The American journal of sports medicine",
+  "doi": "10.1177/0363546516657531",
+  "publication_date": "2025-12-29T07:18:49.627596",
+  "access_type": "open_access",
+  "pdf_url": "https://nottingham-repository.worktribe.com/output/969735",
+  "relevance_score": 45,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 17,
+    "novelty_impact": 11,
+    "actionability": 6,
+    "total_score": 45
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 67,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) is a chronic condition characterized by pain, impaired function, and reduced quality of life. a number of risk factors for knee oa have been identified, such as obesity, occupation, and injury. the association between knee oa and physical activ"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "et or progression of knee oa in adults. relevant outcomes included (1) diagnosis of knee oa, (2) radiographic markers of knee oa, (3) knee joint surgery for oa, (4) knee pain, and (5) knee-associated disability. risk of bias was judged by use of the newcastle-ottawa scale. a random-effects meta-analysis was performed with case-control studies investigating arthroplasty. after de-duplication, the search retu"
+    },
+    {
+      "factor": "Obesity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "osteoarthritis (oa) is a chronic condition characterized by pain, impaired function, and reduced quality of life. a number of risk factors for knee oa have been identified, such as obesity, occupation, and injury. the association between knee oa and physical activity or particular sports such as running is less clear. previous reviews, and the evidence that informs them, present contra"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:18:50.202686",
+  "updated_at": "2025-12-29T07:18:51.144765"
+}

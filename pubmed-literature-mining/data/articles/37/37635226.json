@@ -1,0 +1,98 @@
+{
+  "pmid": "37635226",
+  "title": "A clinical model to predict the progression of knee osteoarthritis: data from Dryad.",
+  "abstract": "Knee osteoarthritis (KOA) is a multifactorial, slow-progressing, non-inflammatory degenerative disease primarily affecting synovial joints. It is usually induced by advanced age and/or trauma and eventually leads to irreversible destruction of articular cartilage and other tissues of the joint. Current research on KOA progression has limited clinical application significance. In this study, we constructed a prediction model for KOA progression based on multiple clinically relevant factors to provide clinicians with an effective tool to intervene in KOA progression. This study utilized the data set from the Dryad database which included patients with Kellgren-Lawrence (KL) grades 2 and 3. The KL grades was determined as the dependent variable, while 15 potential predictors were identified as independent variables. Patients were randomized into training set and validation set. The training set underwent LASSO analysis, model creation, visualization, decision curve analysis and internal validation using R language. The validation set is externally validated and F1-score, precision, and recall are computed. A total of 101 patients with KL2 and 94 patients with KL3 were selected. We randomly split the data set into a training set and a validation set by 8:2. We filtered \"BMI\", \"TC\", \"Hypertension treatment\", and \"JBS3 (%)\" to build the prediction model for progression of KOA. Nomogram used to visualize the model in R language. Area under ROC curve was 0.896 (95% CI 0.847-0.945), indicating high discrimination. Mean absolute error (MAE) of calibration curve = 0.041, showing high calibration. MAE of internal validation error was 0.043, indicating high model calibration. Decision curve analysis showed high net benefit. External validation of the metabolic syndrome column-line graph prediction model was performed by the validation set. The area under the ROC curve was 0.876 (95% CI 0.767-0.984), indicating that the model had a high degree of discrimination. Meanwhile, the calibration curve Mean absolute error was 0.113, indicating that the model had a high degree of calibration. The F1 score is 0.690, the precision is 0.667, and the recall is 0.714. The above metrics represent a good performance of the model. We found that KOA progression was associated with four variable predictors and constructed a predictive model for KOA progression based on the predictors. The clinician can intervene based on the nomogram of our prediction model. This study is a clinical predictive model of KOA progression. KOA progression prediction model has good credibility and clinical value in the prevention of KOA progression.",
+  "authors": "Shen, Lianwei; Yue, Shouwei",
+  "journal": "Journal of orthopaedic surgery and research",
+  "doi": "10.1186/s13018-023-04118-4",
+  "publication_date": "2025-12-29T07:16:57.447956",
+  "access_type": "open_access",
+  "pdf_url": "https://josr-online.biomedcentral.com/counter/pdf/10.1186/s13018-023-04118-4",
+  "pdf_path": "data/pdfs/37635226.pdf",
+  "relevance_score": 32,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 14,
+    "study_quality": 5,
+    "novelty_impact": 8,
+    "actionability": 5,
+    "total_score": 32
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 50,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "knee osteoarthritis (koa) is a multifactorial, slow-progressing, non-inflammatory degenerative disease primarily affecting synovial joints. it is usually induced by advanced age and/or trauma and eventually leads to irreversible destruction of articular cartilage and other tissues of the joint. current research on koa progression has limited clinical application significance"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "gender female (57) female (56) 0.659"
+    },
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ecision, and recall are computed. a total of 101 patients with kl2 and 94 patients with kl3 were selected. we randomly split the data set into a training set and a validation set by 8:2. we filtered \"bmi\", \"tc\", \"hypertension treatment\", and \"jbs3 (%)\" to build the prediction model for progression of koa. nomogram used to visualize the model in r language. area under roc curve was 0.896 (95% ci 0.847"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "b g prasad ses, socio economic status of the patient as per the b g prasad scale; bmi, body mass index of the patient in kilograms per square meter; tc, serum total"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "[18]. mae of the calibration curve was 0.041, indicating pain and activities of daily living [22]. obesity is also con-"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "hensive risk score calculator. it calculates the 10 years increased arterial stiffness, and cardiac remodeling."
+    },
+    {
+      "factor": "Kl Grade",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ide clinicians with an effective tool to intervene in koa progression. this study utilized the data set from the dryad database which included patients with kellgren-lawrence (kl) grades 2 and 3. the kl grades was determined as the dependent variable, while 15 potential predictors were identified as independent variables. patients were randomized into training set and validation set. the training set unde"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ultiple clinically relevant factors to provide clinicians with an effective tool to intervene in koa progression. this study utilized the data set from the dryad database which included patients with kellgren-lawrence (kl) grades 2 and 3. the kl grades was determined as the dependent variable, while 15 potential predictors were identified as independent variables. patients were randomized into training set and val"
+    },
+    {
+      "factor": "Diabetes",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "structed the confusion matrix in r language and obtained of diabetes mellitis”, “history of cvd in close to rela-"
+    },
+    {
+      "factor": "Cardiovascular Disease",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "score calculator; jbs3 (%) (10 years risk of developing cvd), percent risk of developing cardiovascular disease in the next 10 years calculated as per the jbs3 risk score"
+    }
+  ],
+  "processing_status": "error",
+  "created_at": "2025-12-29T07:17:06.348267",
+  "updated_at": "2025-12-29T07:17:07.410804"
+}
