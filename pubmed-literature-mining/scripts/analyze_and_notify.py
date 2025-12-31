@@ -150,7 +150,8 @@ class NotificationSystem:
         body = '## High-Priority Paywalled Articles\n\n'
         body += f'**{len(articles_sorted)} articles** identified with relevance score ≥ {self.relevance_threshold}:\n\n'
         
-        for i, article in enumerate(articles_sorted[:20], 1):  # Top 20
+        # Show top 20 high-relevance paywalled articles
+        for i, article in enumerate(high_relevance_paywalled[:20], 1):  # Top 20
             body += f'### {i}. {article.get("title", "No title")}\n'
             body += f'- **Journal:** {article.get("journal", "Unknown")}\n'
             body += f'- **Relevance Score:** {article.get("relevance_score", 0)}/100\n'
@@ -250,7 +251,8 @@ class NotificationSystem:
             
             # Get traditional metrics
             articles = self.storage.get_high_relevance_articles(threshold=self.relevance_threshold)
-            paywalled = self.get_paywalled_articles(threshold=self.relevance_threshold)
+            # Get ALL paywalled articles (threshold=0), not just high-relevance ones
+            paywalled = self.get_paywalled_articles(threshold=0)
             factor_patterns = self.detect_factor_patterns(threshold=5)
             
             summary = f"""# PubMed Daily Summary - {datetime.now().strftime("%Y-%m-%d")}
@@ -308,13 +310,14 @@ class NotificationSystem:
             logger.error(f"Error generating enhanced summary: {e}", exc_info=True)
             # Fallback to basic summary
             articles = self.storage.get_high_relevance_articles(threshold=self.relevance_threshold)
-            paywalled = self.get_paywalled_articles(threshold=self.relevance_threshold)
+            # Get ALL paywalled articles (threshold=0), not just high-relevance ones
+            paywalled = self.get_paywalled_articles(threshold=0)
             return f"""# PubMed Daily Summary - {datetime.now().strftime("%Y-%m-%d")}
 
 ## Overview
 
 - **High-Relevance Articles:** {len(articles)} (score ≥ {self.relevance_threshold})
-- **Paywalled Articles:** {len(paywalled)}
+- **Paywalled Articles:** {len(paywalled)} (all scores)
 
 *Note: Enhanced flagging analysis unavailable. Check logs for details.*
 """
@@ -323,9 +326,10 @@ class NotificationSystem:
         """Main execution method"""
         logger.info("Starting analysis and notification")
         
-        # Get paywalled articles
-        paywalled_articles = self.get_paywalled_articles(threshold=self.relevance_threshold)
-        logger.info(f"Found {len(paywalled_articles)} paywalled articles")
+        # Get paywalled articles (use threshold=0 to show ALL paywalled articles)
+        # The relevance_threshold is for high-relevance filtering, but we want all paywalled
+        paywalled_articles = self.get_paywalled_articles(threshold=0)
+        logger.info(f"Found {len(paywalled_articles)} paywalled articles (all scores)")
         
         # Detect factor patterns
         factor_patterns = self.detect_factor_patterns(threshold=5)

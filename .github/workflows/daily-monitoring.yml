@@ -137,7 +137,8 @@ jobs:
           fi
           
           if [ -f pubmed-literature-mining/PAYWALLED_ARTICLES.csv ]; then
-            git add pubmed-literature-mining/PAYWALLED_ARTICLES.csv
+            # CSV is in .gitignore, so force add it
+            git add -f pubmed-literature-mining/PAYWALLED_ARTICLES.csv || echo "CSV file ignored, skipping"
           fi
           
           if ! git diff --staged --quiet; then
