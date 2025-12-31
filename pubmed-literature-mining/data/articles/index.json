@@ -1086,5 +1086,13 @@
     "access_type": "open_access",
     "journal": "Trials",
     "updated_at": "2025-12-29T07:19:06.390057"
+  },
+  "41468605": {
+    "pmid": "41468605",
+    "title": "Predictive Value of Machine Learning in Knee Osteoarthritis Progression: Systematic Review and Meta-",
+    "relevance_score": 40,
+    "access_type": "paywalled",
+    "journal": "Journal of medical Internet research",
+    "updated_at": "2025-12-31T16:54:14.651376"
   }
 }
