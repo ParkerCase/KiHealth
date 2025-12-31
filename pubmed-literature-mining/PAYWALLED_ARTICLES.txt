@@ -1,8 +1,8 @@
 ================================================================================
 PAYWALLED ARTICLES - KNEE OA PROGRESSION
 ================================================================================
-Generated: 2025-12-31 18:10:41
-Total Articles: 61
+Generated: 2025-12-31 18:41:21
+Total Articles: 124
 Relevance Threshold: 0/100
 
 ================================================================================
@@ -10,7 +10,7 @@ Relevance Threshold: 0/100
 
 ================================================================================
 JOURNAL: The Journal of arthroplasty
-Articles: 7
+Articles: 14
 ================================================================================
 
 1. Preoperative Patient Factors Affecting Length of Stay following Total Knee Arthroplasty: A Systematic Review and Meta-Analysis.
@@ -21,7 +21,15 @@ Articles: 7
    Relevance Score: 58/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/31182407/
 
-2. Short Tibial Extensions Are Associated With Reduced Tibial Component Loosening for Primary, Cemented Total Knee Arthroplasty: A Systematic Review and Meta-Analysis.
+2. Preoperative Patient Factors Affecting Length of Stay following Total Knee Arthroplasty: A Systematic Review and Meta-Analysis.
+   PMID: 31182407
+   DOI: 10.1016/j.arth.2019.04.048
+   Authors: Shah, Ajay; Memon, Muzammil; Kay, Jeffrey; Wood, Thomas J; Tushinski, Daniel M; Khanna, Vickas
+   Published: 2025-12-29
+   Relevance Score: 58/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/31182407/
+
+3. Short Tibial Extensions Are Associated With Reduced Tibial Component Loosening for Primary, Cemented Total Knee Arthroplasty: A Systematic Review and Meta-Analysis.
    PMID: 40484050
    DOI: 10.1016/j.arth.2025.06.006
    Authors: Al-Sarraj, Mohammed K; Hasan, Laith K; Woodhams, William H; Srivastava, Ajay K; Atkinson, Patrick J; Atkinson, Theresa S
@@ -29,7 +37,15 @@ Articles: 7
    Relevance Score: 46/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40484050/
 
-3. Long-Term Outcomes After Conversion of High Tibial Osteotomy to Total Knee Arthroplasty in a United States Population.
+4. Short Tibial Extensions Are Associated With Reduced Tibial Component Loosening for Primary, Cemented Total Knee Arthroplasty: A Systematic Review and Meta-Analysis.
+   PMID: 40484050
+   DOI: 10.1016/j.arth.2025.06.006
+   Authors: Al-Sarraj, Mohammed K; Hasan, Laith K; Woodhams, William H; Srivastava, Ajay K; Atkinson, Patrick J; Atkinson, Theresa S
+   Published: 2025-12-23
+   Relevance Score: 46/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40484050/
+
+5. Long-Term Outcomes After Conversion of High Tibial Osteotomy to Total Knee Arthroplasty in a United States Population.
    PMID: 41423024
    DOI: 10.1016/j.arth.2025.12.034
    Authors: Bax, Eva A; Ahmad, Rana A; Kietselaer, Marieke A; Clark, Sean C; Custers, Roel J H; Taunton, Michael J; Sierra, Rafael J; Hevesi, Mario; Saris, Daniel B F
@@ -37,7 +53,15 @@ Articles: 7
    Relevance Score: 33/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41423024/
 
-4. The AAHKS Clinical Research Award: Intraosseous Regional Prophylaxis Provides Higher Tissue Concentrations in High BMI Patients in Total Knee Arthroplasty: A Randomized Trial.
+6. Long-Term Outcomes After Conversion of High Tibial Osteotomy to Total Knee Arthroplasty in a United States Population.
+   PMID: 41423024
+   DOI: 10.1016/j.arth.2025.12.034
+   Authors: Bax, Eva A; Ahmad, Rana A; Kietselaer, Marieke A; Clark, Sean C; Custers, Roel J H; Taunton, Michael J; Sierra, Rafael J; Hevesi, Mario; Saris, Daniel B F
+   Published: 2025-12-23
+   Relevance Score: 33/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41423024/
+
+7. The AAHKS Clinical Research Award: Intraosseous Regional Prophylaxis Provides Higher Tissue Concentrations in High BMI Patients in Total Knee Arthroplasty: A Randomized Trial.
    PMID: 29655497
    DOI: 10.1016/j.arth.2018.03.013
    Authors: Chin, Seung Joon; Moore, Grant A; Zhang, Mei; Clarke, Henry D; Spangehl, Mark J; Young, Simon W
@@ -45,7 +69,15 @@ Articles: 7
    Relevance Score: 30/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/29655497/
 
-5. A Machine Learning Method to Determine Candidates for Total and Unicompartmental Knee Arthroplasty Based on a Voting Mechanism.
+8. The AAHKS Clinical Research Award: Intraosseous Regional Prophylaxis Provides Higher Tissue Concentrations in High BMI Patients in Total Knee Arthroplasty: A Randomized Trial.
+   PMID: 29655497
+   DOI: 10.1016/j.arth.2018.03.013
+   Authors: Chin, Seung Joon; Moore, Grant A; Zhang, Mei; Clarke, Henry D; Spangehl, Mark J; Young, Simon W
+   Published: 2025-12-29
+   Relevance Score: 30/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/29655497/
+
+9. A Machine Learning Method to Determine Candidates for Total and Unicompartmental Knee Arthroplasty Based on a Voting Mechanism.
    PMID: 40482935
    DOI: 10.1016/j.arth.2025.06.005
    Authors: Zhang, Ning; Li, Zhichang; Zhang, Liyi; Xiao, Liying; Hao, Zhixiu
@@ -53,7 +85,15 @@ Articles: 7
    Relevance Score: 25/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40482935/
 
-6. Does Relative Femoral and Tibial Component Size Influence Revision Risk Following Primary Total Knee Arthroplasty?
+10. A Machine Learning Method to Determine Candidates for Total and Unicompartmental Knee Arthroplasty Based on a Voting Mechanism.
+   PMID: 40482935
+   DOI: 10.1016/j.arth.2025.06.005
+   Authors: Zhang, Ning; Li, Zhichang; Zhang, Liyi; Xiao, Liying; Hao, Zhixiu
+   Published: 2025-12-23
+   Relevance Score: 25/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40482935/
+
+11. Does Relative Femoral and Tibial Component Size Influence Revision Risk Following Primary Total Knee Arthroplasty?
    PMID: 40513903
    DOI: 10.1016/j.arth.2025.06.033
    Authors: Brown, Zak G; Loch, Alan R; Holder, Carl; Wall, Christopher J
@@ -61,7 +101,23 @@ Articles: 7
    Relevance Score: 23/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40513903/
 
-7. Valgus Stress Radiographs Predict Lateral-Compartment Cartilage Thickness but Not Cartilage Degeneration in Varus Osteoarthritis.
+12. Does Relative Femoral and Tibial Component Size Influence Revision Risk Following Primary Total Knee Arthroplasty?
+   PMID: 40513903
+   DOI: 10.1016/j.arth.2025.06.033
+   Authors: Brown, Zak G; Loch, Alan R; Holder, Carl; Wall, Christopher J
+   Published: 2025-12-23
+   Relevance Score: 23/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40513903/
+
+13. Valgus Stress Radiographs Predict Lateral-Compartment Cartilage Thickness but Not Cartilage Degeneration in Varus Osteoarthritis.
+   PMID: 27836579
+   DOI: 10.1016/j.arth.2016.09.039
+   Authors: Waldstein, Wenzel; Schmidt-Braekling, Tom; Perino, Giorgio; Kasparek, Maximilian F; Windhager, Reinhard; Boettner, Friedrich
+   Published: 2025-12-29
+   Relevance Score: 19/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/27836579/
+
+14. Valgus Stress Radiographs Predict Lateral-Compartment Cartilage Thickness but Not Cartilage Degeneration in Varus Osteoarthritis.
    PMID: 27836579
    DOI: 10.1016/j.arth.2016.09.039
    Authors: Waldstein, Wenzel; Schmidt-Braekling, Tom; Perino, Giorgio; Kasparek, Maximilian F; Windhager, Reinhard; Boettner, Friedrich
@@ -72,7 +128,7 @@ Articles: 7
 
 ================================================================================
 JOURNAL: The Knee
-Articles: 6
+Articles: 12
 ================================================================================
 
 1. Imageless robotic surgery and a personalized approach: optimizing TKA after ACL reconstruction.
@@ -83,7 +139,15 @@ Articles: 6
    Relevance Score: 33/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41067207/
 
-2. Long-term outcomes and predictors of failure after medial opening-wedge high tibial osteotomy: a 138-knee cohort with up to 10-year follow-up.
+2. Imageless robotic surgery and a personalized approach: optimizing TKA after ACL reconstruction.
+   PMID: 41067207
+   DOI: 10.1016/j.knee.2025.09.007
+   Authors: Andriollo, Luca; Picchi, Aurelio; Demattia, Gerardo; Marescalchi, Marina; Sangaletti, Rudy; Benazzo, Francesco; Rossi, Stefano Marco Paolo
+   Published: 2025-12-23
+   Relevance Score: 33/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41067207/
+
+3. Long-term outcomes and predictors of failure after medial opening-wedge high tibial osteotomy: a 138-knee cohort with up to 10-year follow-up.
    PMID: 41422630
    DOI: 10.1016/j.knee.2025.104303
    Authors: Gómez-Palomo, Juan Miguel; García-Vera, Juan José; Zamora-Mogollo, Amparo; Tara-Abad, Carmen; Martínez-Crespo, Ana; Montañez-Heredia, Elvira
@@ -91,7 +155,15 @@ Articles: 6
    Relevance Score: 32/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41422630/
 
-3. Factors affecting the incidence and management of fixed flexion deformity in total knee arthroplasty: A systematic review.
+4. Long-term outcomes and predictors of failure after medial opening-wedge high tibial osteotomy: a 138-knee cohort with up to 10-year follow-up.
+   PMID: 41422630
+   DOI: 10.1016/j.knee.2025.104303
+   Authors: Gómez-Palomo, Juan Miguel; García-Vera, Juan José; Zamora-Mogollo, Amparo; Tara-Abad, Carmen; Martínez-Crespo, Ana; Montañez-Heredia, Elvira
+   Published: 2025-12-23
+   Relevance Score: 32/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41422630/
+
+5. Factors affecting the incidence and management of fixed flexion deformity in total knee arthroplasty: A systematic review.
    PMID: 29681527
    DOI: 10.1016/j.knee.2018.03.008
    Authors: An, Vincent V G; Scholes, Corey J; Fritsch, Brett A
@@ -99,7 +171,15 @@ Articles: 6
    Relevance Score: 30/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/29681527/
 
-4. Varus and neutral coronal knee phenotypes dominate globally: insights from a systematic review and meta-analysis of the CPAK classification.
+6. Factors affecting the incidence and management of fixed flexion deformity in total knee arthroplasty: A systematic review.
+   PMID: 29681527
+   DOI: 10.1016/j.knee.2018.03.008
+   Authors: An, Vincent V G; Scholes, Corey J; Fritsch, Brett A
+   Published: 2025-12-29
+   Relevance Score: 30/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/29681527/
+
+7. Varus and neutral coronal knee phenotypes dominate globally: insights from a systematic review and meta-analysis of the CPAK classification.
    PMID: 41138539
    DOI: 10.1016/j.knee.2025.10.002
    Authors: de Geofroy, Bernard; Ghabi, Ammar; Fairag, Rayan; Machado, Axel; Gonzalez, Jean-François; Micicoi, Grégoire
@@ -107,7 +187,15 @@ Articles: 6
    Relevance Score: 29/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41138539/
 
-5. Association of autophagy-related proteins in serum and synovial fluid with the severity of knee osteoarthritis.
+8. Varus and neutral coronal knee phenotypes dominate globally: insights from a systematic review and meta-analysis of the CPAK classification.
+   PMID: 41138539
+   DOI: 10.1016/j.knee.2025.10.002
+   Authors: de Geofroy, Bernard; Ghabi, Ammar; Fairag, Rayan; Machado, Axel; Gonzalez, Jean-François; Micicoi, Grégoire
+   Published: 2025-12-23
+   Relevance Score: 29/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41138539/
+
+9. Association of autophagy-related proteins in serum and synovial fluid with the severity of knee osteoarthritis.
    PMID: 40812073
    DOI: 10.1016/j.knee.2025.07.022
    Authors: Okuyan, Hamza Malik; Dogan, Serdar; Erdoğan, Hazal Fatma; Kalacı, Aydıner
@@ -115,7 +203,15 @@ Articles: 6
    Relevance Score: 25/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40812073/
 
-6. Preservation of posterior cruciate ligament in cruciate-retaining total knee arthroplasty with a cruciate-substituting insert does not affect postoperative clinical outcomes, including Forgotten Joint Score 12.
+10. Association of autophagy-related proteins in serum and synovial fluid with the severity of knee osteoarthritis.
+   PMID: 40812073
+   DOI: 10.1016/j.knee.2025.07.022
+   Authors: Okuyan, Hamza Malik; Dogan, Serdar; Erdoğan, Hazal Fatma; Kalacı, Aydıner
+   Published: 2025-12-23
+   Relevance Score: 25/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40812073/
+
+11. Preservation of posterior cruciate ligament in cruciate-retaining total knee arthroplasty with a cruciate-substituting insert does not affect postoperative clinical outcomes, including Forgotten Joint Score 12.
    PMID: 41067208
    DOI: 10.1016/j.knee.2025.09.001
    Authors: Hayashi, Seiju; Kato, Kei
@@ -123,10 +219,18 @@ Articles: 6
    Relevance Score: 13/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41067208/
 
+12. Preservation of posterior cruciate ligament in cruciate-retaining total knee arthroplasty with a cruciate-substituting insert does not affect postoperative clinical outcomes, including Forgotten Joint Score 12.
+   PMID: 41067208
+   DOI: 10.1016/j.knee.2025.09.001
+   Authors: Hayashi, Seiju; Kato, Kei
+   Published: 2025-12-23
+   Relevance Score: 13/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41067208/
+
 
 ================================================================================
 JOURNAL: Journal of orthopaedics
-Articles: 4
+Articles: 8
 ================================================================================
 
 1. Comparison of mobile-bearing and fixed-bearing total knee arthroplasty in patients with severe varus deformity: A triple-blind randomized controlled trial.
@@ -137,7 +241,15 @@ Articles: 4
    Relevance Score: 36/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41356154/
 
-2. Bending the odds: Clinical predictors of 30-day morbidity and surgical outcomes following total knee arthroplasty.
+2. Comparison of mobile-bearing and fixed-bearing total knee arthroplasty in patients with severe varus deformity: A triple-blind randomized controlled trial.
+   PMID: 41356154
+   DOI: 10.1016/j.jor.2025.11.022
+   Authors: Parhamfar, Mohammad; Armanfar, Amirarsalan; Adibi, Armin
+   Published: 2025-12-23
+   Relevance Score: 36/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41356154/
+
+3. Bending the odds: Clinical predictors of 30-day morbidity and surgical outcomes following total knee arthroplasty.
    PMID: 41246160
    DOI: 10.1016/j.jor.2025.08.063
    Authors: Mohammed, Mehreen; Stead, Thor S; Konda, Meghana; Ganti, Latha
@@ -145,7 +257,15 @@ Articles: 4
    Relevance Score: 30/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41246160/
 
-3. CPAK oversimplifies the complex 3D anatomy of the bony knee: Role of 3D CT for improved analysis - a schematic overview.
+4. Bending the odds: Clinical predictors of 30-day morbidity and surgical outcomes following total knee arthroplasty.
+   PMID: 41246160
+   DOI: 10.1016/j.jor.2025.08.063
+   Authors: Mohammed, Mehreen; Stead, Thor S; Konda, Meghana; Ganti, Latha
+   Published: 2025-12-23
+   Relevance Score: 30/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41246160/
+
+5. CPAK oversimplifies the complex 3D anatomy of the bony knee: Role of 3D CT for improved analysis - a schematic overview.
    PMID: 41282574
    DOI: 10.1016/j.jor.2025.10.003
    Authors: Ram Sudhan, S; Gopinathan, P; Balemane, Sharat; Surendran, Sibin; Vaishya, Raju
@@ -153,7 +273,15 @@ Articles: 4
    Relevance Score: 15/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41282574/
 
-4. Comparison of periarticular knee anatomy between patients with knee osteoarthritis and normal adults.
+6. CPAK oversimplifies the complex 3D anatomy of the bony knee: Role of 3D CT for improved analysis - a schematic overview.
+   PMID: 41282574
+   DOI: 10.1016/j.jor.2025.10.003
+   Authors: Ram Sudhan, S; Gopinathan, P; Balemane, Sharat; Surendran, Sibin; Vaishya, Raju
+   Published: 2025-12-23
+   Relevance Score: 15/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41282574/
+
+7. Comparison of periarticular knee anatomy between patients with knee osteoarthritis and normal adults.
    PMID: 41246165
    DOI: 10.1016/j.jor.2025.08.054
    Authors: Liu, Yuandong; Zhao, Wanmin; Chang, Yinong; Wang, Shuguang; Fan, Zongqing; Fu, Donglin
@@ -161,10 +289,80 @@ Articles: 4
    Relevance Score: 14/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41246165/
 
+8. Comparison of periarticular knee anatomy between patients with knee osteoarthritis and normal adults.
+   PMID: 41246165
+   DOI: 10.1016/j.jor.2025.08.054
+   Authors: Liu, Yuandong; Zhao, Wanmin; Chang, Yinong; Wang, Shuguang; Fan, Zongqing; Fu, Donglin
+   Published: 2025-12-23
+   Relevance Score: 14/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41246165/
+
+
+================================================================================
+JOURNAL: Knee surgery, sports traumatology, arthroscopy : official journal of the ESSKA
+Articles: 7
+================================================================================
+
+1. Patients with previous anterior cruciate ligament reconstruction achieve equally good outcomes after total knee arthroplasty: A Swedish registry-based study of 7755 patients.
+   PMID: 41431980
+   DOI: 10.1002/ksa.70240
+   Authors: Syrikas, Ioannis; Karikis, Ioannis; Desai, Neel; Tsikandylakis, Georgios
+   Published: 2025-12-23
+   Relevance Score: 50/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41431980/
+
+2. Deep learning-derived orthogonal minimum joint space width improves radiographic assessment of knee osteoarthritis severity and progression.
+   PMID: 41368950
+   DOI: 10.1002/ksa.70227
+   Authors: Lee, Do Weon; Song, Dae Seok; Lee, Yong Seuk; Choi, Ja-Young; Ro, Du Hyun
+   Published: 2025-12-22
+   Relevance Score: 44/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41368950/
+
+3. Deep learning-derived orthogonal minimum joint space width improves radiographic assessment of knee osteoarthritis severity and progression.
+   PMID: 41368950
+   DOI: 10.1002/ksa.70227
+   Authors: Lee, Do Weon; Song, Dae Seok; Lee, Yong Seuk; Choi, Ja-Young; Ro, Du Hyun
+   Published: 2025-12-23
+   Relevance Score: 44/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41368950/
+
+4. Midflexion instability in total knee arthroplasty: a systematic review.
+   PMID: 32133537
+   DOI: 10.1007/s00167-020-05909-6
+   Authors: Longo, Umile Giuseppe; Candela, Vincenzo; Pirato, Francesco; Hirschmann, Michael T; Becker, Roland; Denaro, Vincenzo
+   Published: 2025-12-29
+   Relevance Score: 32/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32133537/
+
+5. Midflexion instability in total knee arthroplasty: a systematic review.
+   PMID: 32133537
+   DOI: 10.1007/s00167-020-05909-6
+   Authors: Longo, Umile Giuseppe; Candela, Vincenzo; Pirato, Francesco; Hirschmann, Michael T; Becker, Roland; Denaro, Vincenzo
+   Published: 2025-12-29
+   Relevance Score: 32/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32133537/
+
+6. Surgeon-defined assessment is a poor predictor of knee balance in total knee arthroplasty: a prospective, multicenter study.
+   PMID: 32170358
+   DOI: 10.1007/s00167-020-05925-6
+   Authors: MacDessi, Samuel J; Wood, Jil A; Diwan, Ashish D; Harris, Ian A
+   Published: 2025-12-29
+   Relevance Score: 24/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32170358/
+
+7. Surgeon-defined assessment is a poor predictor of knee balance in total knee arthroplasty: a prospective, multicenter study.
+   PMID: 32170358
+   DOI: 10.1007/s00167-020-05925-6
+   Authors: MacDessi, Samuel J; Wood, Jil A; Diwan, Ashish D; Harris, Ian A
+   Published: 2025-12-29
+   Relevance Score: 24/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32170358/
+
 
 ================================================================================
 JOURNAL: Osteoarthritis and cartilage
-Articles: 3
+Articles: 6
 ================================================================================
 
 1. Sex Differences in Preoperative Pain Intensity Among Patients Undergoing Total Knee Arthroplasty: A Propensity Score-Matched Cross-Sectional Study.
@@ -175,7 +373,15 @@ Articles: 3
    Relevance Score: 56/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41423136/
 
-2. Immediate reductions in compressive and shear forces in the knee from gait retraining are associated with slowed cartilage degeneration after 1 year in medial knee osteoarthritis: A retrospective observational cohort study.
+2. Sex Differences in Preoperative Pain Intensity Among Patients Undergoing Total Knee Arthroplasty: A Propensity Score-Matched Cross-Sectional Study.
+   PMID: 41423136
+   DOI: 10.1016/j.joca.2025.12.009
+   Authors: Tanaka, So; Tomooka, Yuta; Mibu, Akira; Imai, Ryota; Yamashita, Hirofumi; Manfuku, Masahiro; Yamada, Keiko; Tokunaga, Masami; Yoshimoto, Takaaki; Ushida, Takahiro; Nishigami, Tomohiko
+   Published: 2025-12-23
+   Relevance Score: 56/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41423136/
+
+3. Immediate reductions in compressive and shear forces in the knee from gait retraining are associated with slowed cartilage degeneration after 1 year in medial knee osteoarthritis: A retrospective observational cohort study.
    PMID: 41389909
    DOI: 10.1016/j.joca.2025.12.007
    Authors: Seagers, Kirsten; Kolesar, Julie A; Mazzoli, Valentina; Halilaj, Eni; Delp, Scott L; Uhlrich, Scott D
@@ -183,7 +389,15 @@ Articles: 3
    Relevance Score: 49/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41389909/
 
-3. Comprehensive Zonal Assessment of Meniscal Degeneration Using Quantitative UTE MRI.
+4. Immediate reductions in compressive and shear forces in the knee from gait retraining are associated with slowed cartilage degeneration after 1 year in medial knee osteoarthritis: A retrospective observational cohort study.
+   PMID: 41389909
+   DOI: 10.1016/j.joca.2025.12.007
+   Authors: Seagers, Kirsten; Kolesar, Julie A; Mazzoli, Valentina; Halilaj, Eni; Delp, Scott L; Uhlrich, Scott D
+   Published: 2025-12-23
+   Relevance Score: 49/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41389909/
+
+5. Comprehensive Zonal Assessment of Meniscal Degeneration Using Quantitative UTE MRI.
    PMID: 41421422
    DOI: 10.1016/j.joca.2025.12.017
    Authors: Suprana, Arya; Daskareh, Mahyar; Chae, Hee Dong; Wang, Jiaji; Athertya, Jiyo; Shin, Soo Hyun; Chang, Eric Y; Sah, Robert L; Bydder, Graeme M; Du, Jiang; Ma, Yajun
@@ -191,40 +405,18 @@ Articles: 3
    Relevance Score: 20/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41421422/
 
-
-================================================================================
-JOURNAL: Knee surgery, sports traumatology, arthroscopy : official journal of the ESSKA
-Articles: 3
-================================================================================
-
-1. Deep learning-derived orthogonal minimum joint space width improves radiographic assessment of knee osteoarthritis severity and progression.
-   PMID: 41368950
-   DOI: 10.1002/ksa.70227
-   Authors: Lee, Do Weon; Song, Dae Seok; Lee, Yong Seuk; Choi, Ja-Young; Ro, Du Hyun
-   Published: 2025-12-22
-   Relevance Score: 44/100
-   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41368950/
-
-2. Midflexion instability in total knee arthroplasty: a systematic review.
-   PMID: 32133537
-   DOI: 10.1007/s00167-020-05909-6
-   Authors: Longo, Umile Giuseppe; Candela, Vincenzo; Pirato, Francesco; Hirschmann, Michael T; Becker, Roland; Denaro, Vincenzo
-   Published: 2025-12-29
-   Relevance Score: 32/100
-   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32133537/
-
-3. Surgeon-defined assessment is a poor predictor of knee balance in total knee arthroplasty: a prospective, multicenter study.
-   PMID: 32170358
-   DOI: 10.1007/s00167-020-05925-6
-   Authors: MacDessi, Samuel J; Wood, Jil A; Diwan, Ashish D; Harris, Ian A
-   Published: 2025-12-29
-   Relevance Score: 24/100
-   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32170358/
+6. Comprehensive Zonal Assessment of Meniscal Degeneration Using Quantitative UTE MRI.
+   PMID: 41421422
+   DOI: 10.1016/j.joca.2025.12.017
+   Authors: Suprana, Arya; Daskareh, Mahyar; Chae, Hee Dong; Wang, Jiaji; Athertya, Jiyo; Shin, Soo Hyun; Chang, Eric Y; Sah, Robert L; Bydder, Graeme M; Du, Jiang; Ma, Yajun
+   Published: 2025-12-23
+   Relevance Score: 20/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41421422/
 
 
 ================================================================================
 JOURNAL: The journal of knee surgery
-Articles: 3
+Articles: 6
 ================================================================================
 
 1. Social Deprivation as a Risk Factor for Manipulation Under Anesthesia Following Total Knee Arthroplasty.
@@ -235,7 +427,15 @@ Articles: 3
    Relevance Score: 40/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41330555/
 
-2. Short-Term Effects of Isometric Quadriceps Muscle Exercise with Auditory and Visual Feedback on Pain, Physical Function, and Performance after Total Knee Arthroplasty: A Randomized Controlled Trial.
+2. Social Deprivation as a Risk Factor for Manipulation Under Anesthesia Following Total Knee Arthroplasty.
+   PMID: 41330555
+   DOI: 10.1055/a-2756-0368
+   Authors: Balachandran, Uma; Stern, Brocha Z; Dhanjani, Suraj; Poeran, Jashvant; Hayden, Brett L; Moucha, Calin S
+   Published: 2025-12-23
+   Relevance Score: 40/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41330555/
+
+3. Short-Term Effects of Isometric Quadriceps Muscle Exercise with Auditory and Visual Feedback on Pain, Physical Function, and Performance after Total Knee Arthroplasty: A Randomized Controlled Trial.
    PMID: 33241542
    DOI: 10.1055/s-0040-1721035
    Authors: Kondo, Yasutaka; Yoshida, Yoshihiro; Iioka, Takashi; Kataoka, Hideki; Sakamoto, Junya; Hirase, Tatsuya; Honda, Yuichiro; Nawata, Atsushi; Okita, Minoru
@@ -243,7 +443,15 @@ Articles: 3
    Relevance Score: 32/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/33241542/
 
-3. Patient-Level Value Analysis in Primary Total Knee Arthroplasty: An Analysis of Time-Driven Activity-Based Costs and Symptom Improvement in 2,789 Procedures.
+4. Short-Term Effects of Isometric Quadriceps Muscle Exercise with Auditory and Visual Feedback on Pain, Physical Function, and Performance after Total Knee Arthroplasty: A Randomized Controlled Trial.
+   PMID: 33241542
+   DOI: 10.1055/s-0040-1721035
+   Authors: Kondo, Yasutaka; Yoshida, Yoshihiro; Iioka, Takashi; Kataoka, Hideki; Sakamoto, Junya; Hirase, Tatsuya; Honda, Yuichiro; Nawata, Atsushi; Okita, Minoru
+   Published: 2025-12-29
+   Relevance Score: 32/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/33241542/
+
+5. Patient-Level Value Analysis in Primary Total Knee Arthroplasty: An Analysis of Time-Driven Activity-Based Costs and Symptom Improvement in 2,789 Procedures.
    PMID: 41309094
    DOI: 10.1055/a-2756-0510
    Authors: Lim, Perry L; Sauder, Nicholas; Goh, Graham S; Sharma, Aman; Melnic, Christopher M; Bedair, Hany S
@@ -251,10 +459,18 @@ Articles: 3
    Relevance Score: 30/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41309094/
 
+6. Patient-Level Value Analysis in Primary Total Knee Arthroplasty: An Analysis of Time-Driven Activity-Based Costs and Symptom Improvement in 2,789 Procedures.
+   PMID: 41309094
+   DOI: 10.1055/a-2756-0510
+   Authors: Lim, Perry L; Sauder, Nicholas; Goh, Graham S; Sharma, Aman; Melnic, Christopher M; Bedair, Hany S
+   Published: 2025-12-23
+   Relevance Score: 30/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41309094/
+
 
 ================================================================================
 JOURNAL: Clinical rheumatology
-Articles: 3
+Articles: 6
 ================================================================================
 
 1. A clinical model for predicting knee replacement in early-stage knee osteoarthritis: data from osteoarthritis initiative.
@@ -265,7 +481,15 @@ Articles: 3
    Relevance Score: 31/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/34802087/
 
-2. Sex-related differences in circulating inflammatory cytokines in knee osteoarthritis: a prospective clinical study.
+2. A clinical model for predicting knee replacement in early-stage knee osteoarthritis: data from osteoarthritis initiative.
+   PMID: 34802087
+   DOI: 10.1007/s10067-021-05986-z
+   Authors: Wu, Rongjie; Ma, Yuanchen; Yang, Yuhui; Li, Mengyuan; Zheng, Qiujian; Fu, Guangtao
+   Published: 2025-12-29
+   Relevance Score: 31/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/34802087/
+
+3. Sex-related differences in circulating inflammatory cytokines in knee osteoarthritis: a prospective clinical study.
    PMID: 41410840
    DOI: 10.1007/s10067-025-07877-z
    Authors: Zhu, Xiaohang; Fu, Pengfei; Xu, Pingcheng; Guo, Jiong Jiong
@@ -273,7 +497,15 @@ Articles: 3
    Relevance Score: 19/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41410840/
 
-3. Association of macrophage colony-stimulating factor 1 and its locus with osteoarthritis: Mendelian randomization and colocalization analysis.
+4. Sex-related differences in circulating inflammatory cytokines in knee osteoarthritis: a prospective clinical study.
+   PMID: 41410840
+   DOI: 10.1007/s10067-025-07877-z
+   Authors: Zhu, Xiaohang; Fu, Pengfei; Xu, Pingcheng; Guo, Jiong Jiong
+   Published: 2025-12-23
+   Relevance Score: 19/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41410840/
+
+5. Association of macrophage colony-stimulating factor 1 and its locus with osteoarthritis: Mendelian randomization and colocalization analysis.
    PMID: 41134489
    DOI: 10.1007/s10067-025-07765-6
    Authors: Wang, Junjie; Li, Yuxuan; Wang, Husen; Li, Jun; Ma, Qing; Li, Yu; Ma, Qinghu; Yang, Lvlin
@@ -281,10 +513,18 @@ Articles: 3
    Relevance Score: 15/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41134489/
 
+6. Association of macrophage colony-stimulating factor 1 and its locus with osteoarthritis: Mendelian randomization and colocalization analysis.
+   PMID: 41134489
+   DOI: 10.1007/s10067-025-07765-6
+   Authors: Wang, Junjie; Li, Yuxuan; Wang, Husen; Li, Jun; Ma, Qing; Li, Yu; Ma, Qinghu; Yang, Lvlin
+   Published: 2025-12-23
+   Relevance Score: 15/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41134489/
+
 
 ================================================================================
 JOURNAL: Phytomedicine : international journal of phytotherapy and phytopharmacology
-Articles: 2
+Articles: 4
 ================================================================================
 
 1. Atractylenolide III regulates Vitamin K1 metabolism to activate effector chondrocytes for ameliorating cartilage degeneration in KOA.
@@ -295,7 +535,15 @@ Articles: 2
    Relevance Score: 19/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41242311/
 
-2. Sclareol alleviates synovial inflammation in knee osteoarthritis by regulating sphingolipid metabolism along the gut-bone axis.
+2. Atractylenolide III regulates Vitamin K1 metabolism to activate effector chondrocytes for ameliorating cartilage degeneration in KOA.
+   PMID: 41242311
+   DOI: 10.1016/j.phymed.2025.157537
+   Authors: Chen, Weijian; Xiao, Jiacong; Zhou, Yuehui; Zhao, Jifeng; Tao, Jiasheng; Ye, Zhilong; Lin, Xiaodong; Lu, Chao; Song, Yizhe; Zhou, Chi; Liu, Jun; Jiang, Tao; Zeng, Mingzhu; Zhao, Chuanxi; Liu, Wengang
+   Published: 2025-12-23
+   Relevance Score: 19/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41242311/
+
+3. Sclareol alleviates synovial inflammation in knee osteoarthritis by regulating sphingolipid metabolism along the gut-bone axis.
    PMID: 41273871
    DOI: 10.1016/j.phymed.2025.157563
    Authors: Jie, Lishi; Liu, Junnan; Liu, Yujiang; Zhang, Kaijia; Shen, Xiaofeng; Xu, Bo; Ji, Wanbo; Shi, Xiaoqing
@@ -303,10 +551,18 @@ Articles: 2
    Relevance Score: 7/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41273871/
 
+4. Sclareol alleviates synovial inflammation in knee osteoarthritis by regulating sphingolipid metabolism along the gut-bone axis.
+   PMID: 41273871
+   DOI: 10.1016/j.phymed.2025.157563
+   Authors: Jie, Lishi; Liu, Junnan; Liu, Yujiang; Zhang, Kaijia; Shen, Xiaofeng; Xu, Bo; Ji, Wanbo; Shi, Xiaoqing
+   Published: 2025-12-23
+   Relevance Score: 7/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41273871/
+
 
 ================================================================================
 JOURNAL: The Journal of bone and joint surgery. American volume
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Physical Activity and 4-Year Radiographic Medial Joint Space Loss in Knee Osteoarthritis: A Joint Model Analysis.
@@ -317,10 +573,18 @@ Articles: 1
    Relevance Score: 63/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41337563/
 
+2. Physical Activity and 4-Year Radiographic Medial Joint Space Loss in Knee Osteoarthritis: A Joint Model Analysis.
+   PMID: 41337563
+   DOI: 10.2106/JBJS.25.00656
+   Authors: Cai, Qianying; Peng, Hao; Duong, Vicky; Oo, Win Min; Gao, Youshui; Feng, Yong; Zhang, Changqing; Arbeeva, Liubov; White, Daniel K; Hunter, David J; Fu, Kai
+   Published: 2025-12-23
+   Relevance Score: 63/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41337563/
+
 
 ================================================================================
 JOURNAL: American journal of physical medicine & rehabilitation
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Inter-Limb Strength Asymmetry and Risk of Total Knee Replacement: A Survival Analysis.
@@ -331,10 +595,18 @@ Articles: 1
    Relevance Score: 60/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40720300/
 
+2. Inter-Limb Strength Asymmetry and Risk of Total Knee Replacement: A Survival Analysis.
+   PMID: 40720300
+   DOI: 10.1097/PHM.0000000000002775
+   Authors: Halliwell, Carson; Rayner, Sophie; Astephen Wilson, Janie; Rutherford, Derek; Feltmate, Brett; Neyedli, Heather; Moyer, Rebecca
+   Published: 2025-12-23
+   Relevance Score: 60/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40720300/
+
 
 ================================================================================
 JOURNAL: Journal of ISAKOS : joint disorders & orthopaedic sports medicine
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Increased Risk of Postoperative Complications in Non-Alcoholic Cirrhosis Versus Non-Alcoholic Fatty Liver Disease Following Total Knee Arthroplasty: A National Matched Cohort Study.
@@ -345,10 +617,18 @@ Articles: 1
    Relevance Score: 55/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41389938/
 
+2. Increased Risk of Postoperative Complications in Non-Alcoholic Cirrhosis Versus Non-Alcoholic Fatty Liver Disease Following Total Knee Arthroplasty: A National Matched Cohort Study.
+   PMID: 41389938
+   DOI: 10.1016/j.jisako.2025.101051
+   Authors: Sasaki, Jared; Hand, Catherine; Bohn, Camden; Angotti, Morgan; Shinn, Daniel; Lemme, Nicholas; Forsythe, Brian
+   Published: 2025-12-23
+   Relevance Score: 55/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41389938/
+
 
 ================================================================================
 JOURNAL: Sports medicine and arthroscopy review
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. The Influence of Athletes' Age in the Onset of Osteoarthritis: A Systematic Review.
@@ -359,10 +639,18 @@ Articles: 1
    Relevance Score: 51/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/35533061/
 
+2. The Influence of Athletes' Age in the Onset of Osteoarthritis: A Systematic Review.
+   PMID: 35533061
+   DOI: 10.1097/JSA.0000000000000345
+   Authors: Migliorini, Filippo; Vecchio, Gianluca; Pintore, Andrea; Oliva, Francesco; Maffulli, Nicola
+   Published: 2025-12-29
+   Relevance Score: 51/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/35533061/
+
 
 ================================================================================
 JOURNAL: The American journal of sports medicine
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Outcomes of Distal Femoral Osteotomy for Valgus Malalignment: A Systematic Review and Meta-analysis of Closing Wedge Versus Opening Wedge Techniques.
@@ -373,10 +661,18 @@ Articles: 1
    Relevance Score: 46/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/35156408/
 
+2. Outcomes of Distal Femoral Osteotomy for Valgus Malalignment: A Systematic Review and Meta-analysis of Closing Wedge Versus Opening Wedge Techniques.
+   PMID: 35156408
+   DOI: 10.1177/03635465211051740
+   Authors: Diaz, Connor C; Lavoie-Gagne, Ophelie Z; Knapik, Derrick M; Korrapati, Avinaash; Chahla, Jorge; Forsythe, Brian
+   Published: 2025-12-29
+   Relevance Score: 46/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/35156408/
+
 
 ================================================================================
 JOURNAL: Skeletal radiology
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Clinical prediction models for knee pain in patients with knee osteoarthritis: a systematic review.
@@ -387,10 +683,18 @@ Articles: 1
    Relevance Score: 45/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/38265451/
 
+2. Clinical prediction models for knee pain in patients with knee osteoarthritis: a systematic review.
+   PMID: 38265451
+   DOI: 10.1007/s00256-024-04590-x
+   Authors: Tong, Beibei; Chen, Hongbo; Wang, Cui; Zeng, Wen; Li, Dan; Liu, Peiyuan; Liu, Ming; Jin, Xiaoyan; Shang, Shaomei
+   Published: 2025-12-29
+   Relevance Score: 45/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/38265451/
+
 
 ================================================================================
 JOURNAL: The bone & joint journal
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Are there functional biomechanical differences in robotic arm-assisted bi-unicompartmental knee arthroplasty compared with conventional total knee arthroplasty? A prospective, randomized controlled trial.
@@ -401,10 +705,18 @@ Articles: 1
    Relevance Score: 42/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/35360949/
 
+2. Are there functional biomechanical differences in robotic arm-assisted bi-unicompartmental knee arthroplasty compared with conventional total knee arthroplasty? A prospective, randomized controlled trial.
+   PMID: 35360949
+   DOI: 10.1302/0301-620X.104B4.BJJ-2021-0837.R1
+   Authors: Banger, Matthew S; Doonan, James; Jones, Bryn G; MacLean, Angus D; Rowe, Philip J; Blyth, Mark J G
+   Published: 2025-12-29
+   Relevance Score: 42/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/35360949/
+
 
 ================================================================================
 JOURNAL: Modern rheumatology
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. The MRI-detected osteophyte score is a predictor for undergoing joint replacement in patients with end-stage knee osteoarthritis.
@@ -415,10 +727,18 @@ Articles: 1
    Relevance Score: 42/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/27425372/
 
+2. The MRI-detected osteophyte score is a predictor for undergoing joint replacement in patients with end-stage knee osteoarthritis.
+   PMID: 27425372
+   DOI: 10.1080/14397595.2016.1206509
+   Authors: Liu, Lizu; Ishijima, Muneaki; Kaneko, Haruka; Sadatsuki, Ryo; Hada, Shinnosuke; Kinoshita, Mayuko; Aoki, Takako; Futami, Ippei; Yusup, Anwarjan; Arita, Hitoshi; Shiozawa, Jun; Takazawa, Yuji; Ikeda, Hiroshi; Kaneko, Kazuo
+   Published: 2025-12-29
+   Relevance Score: 42/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/27425372/
+
 
 ================================================================================
 JOURNAL: Orthopaedics & traumatology, surgery & research : OTSR
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Clinical outcomes of fixed-bearing unicompartmental knee arthroplasty in patients with ACL degeneration and patellofemoral joint degeneration: A retrospective cohort study.
@@ -429,10 +749,18 @@ Articles: 1
    Relevance Score: 41/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40664348/
 
+2. Clinical outcomes of fixed-bearing unicompartmental knee arthroplasty in patients with ACL degeneration and patellofemoral joint degeneration: A retrospective cohort study.
+   PMID: 40664348
+   DOI: 10.1016/j.otsr.2025.104333
+   Authors: Zhang, Xi; Liu, Yishu; Shengyuan, Yu; Gao, Ming; Han, Chaozhe; Xue, Bing; Liu, Jingsong; Zhou, Yong
+   Published: 2025-12-23
+   Relevance Score: 41/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40664348/
+
 
 ================================================================================
 JOURNAL: Seminars in arthritis and rheumatism
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Clinical and biochemical factors associated with risk of total joint replacement and radiographic progression in osteoarthritis: Data from two phase III clinical trials.
@@ -443,10 +771,18 @@ Articles: 1
    Relevance Score: 41/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32249039/
 
+2. Clinical and biochemical factors associated with risk of total joint replacement and radiographic progression in osteoarthritis: Data from two phase III clinical trials.
+   PMID: 32249039
+   DOI: 10.1016/j.semarthrit.2020.03.002
+   Authors: Bihlet, Asger Reinstrup; Bjerre-Bastos, Jonathan Jetsmark; Andersen, Jeppe Ragnar; Byrjalsen, Inger; Karsdal, Morten Asser; Bay-Jensen, Anne-Christine
+   Published: 2025-12-29
+   Relevance Score: 41/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32249039/
+
 
 ================================================================================
 JOURNAL: Journal of medical Internet research
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Predictive Value of Machine Learning in Knee Osteoarthritis Progression: Systematic Review and Meta-Analysis.
@@ -457,10 +793,18 @@ Articles: 1
    Relevance Score: 40/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41468605/
 
+2. Predictive Value of Machine Learning in Knee Osteoarthritis Progression: Systematic Review and Meta-Analysis.
+   PMID: 41468605
+   DOI: 10.2196/80430
+   Authors: Liu, Yanwen; Xiao, Guangzhi; Zhang, Youqun; Wang, Xinyi; Jia, Junfeng; Xie, Aiguo; Zheng, Zhaohui; Zhang, Kui
+   Published: 2025-12-31
+   Relevance Score: 40/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41468605/
+
 
 ================================================================================
 JOURNAL: Pathology, research and practice
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Circulating biomarkers in osteoarthritis: a systematic review unveiling key trends and future prospects.
@@ -471,10 +815,18 @@ Articles: 1
    Relevance Score: 39/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41177097/
 
+2. Circulating biomarkers in osteoarthritis: a systematic review unveiling key trends and future prospects.
+   PMID: 41177097
+   DOI: 10.1016/j.prp.2025.156281
+   Authors: Veronesi, Francesca; Salamanna, Francesca; Sacchi, Giulia; Borsari, Veronica; Giavaresi, Gianluca
+   Published: 2025-12-23
+   Relevance Score: 39/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41177097/
+
 
 ================================================================================
 JOURNAL: Journal of bodywork and movement therapies
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Impact of home-based exercise and clinic-based physiotherapy on mobility status of patients undergoing total knee replacement: A randomized clinical trial.
@@ -485,10 +837,18 @@ Articles: 1
    Relevance Score: 38/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41316605/
 
+2. Impact of home-based exercise and clinic-based physiotherapy on mobility status of patients undergoing total knee replacement: A randomized clinical trial.
+   PMID: 41316605
+   DOI: 10.1016/j.jbmt.2025.09.006
+   Authors: Ahmadi, Mohammadamin; Teymoori, Esmaeil; Fereidouni, Armin; Hosseini, Seyed Alireza; Maleki, Zahra; Zarei, Mohammadreza; Alizadeh, Amirali; Mahmoudi, Samira
+   Published: 2025-12-23
+   Relevance Score: 38/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41316605/
+
 
 ================================================================================
 JOURNAL: The Clinical journal of pain
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Only 1% of Total Knee Arthroplasty Clinical Trials Report Patient Opioid Use Before or After Surgery: A Systematic Review.
@@ -499,10 +859,18 @@ Articles: 1
    Relevance Score: 38/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/37335227/
 
+2. Only 1% of Total Knee Arthroplasty Clinical Trials Report Patient Opioid Use Before or After Surgery: A Systematic Review.
+   PMID: 37335227
+   DOI: 10.1097/AJP.0000000000001139
+   Authors: Crane, Patricia; Morris, John; Egan, William; Young, Jodi L; Nova, Vitalina; Rhon, Daniel I
+   Published: 2025-12-29
+   Relevance Score: 38/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/37335227/
+
 
 ================================================================================
 JOURNAL: European journal of radiology
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Total knee radiomic feature atlas derived from magnetic resonance imaging segmentation: Insights into osteoarthritis incidence predictors.
@@ -513,10 +881,18 @@ Articles: 1
    Relevance Score: 35/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41187641/
 
+2. Total knee radiomic feature atlas derived from magnetic resonance imaging segmentation: Insights into osteoarthritis incidence predictors.
+   PMID: 41187641
+   DOI: 10.1016/j.ejrad.2025.112480
+   Authors: Mu, Lin; Fu, Jiahui; Li, Mingyang; Liu, Haoyu; Dong, Dong; Gong, Jiaqi; Jiang, Yueluan; Huai, Xiaochen; Xu, Peng; Zhang, Huimao
+   Published: 2025-12-23
+   Relevance Score: 35/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41187641/
+
 
 ================================================================================
 JOURNAL: Archives of orthopaedic and trauma surgery
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Current role of intraoperative sensing technology in total knee arthroplasty.
@@ -527,10 +903,18 @@ Articles: 1
    Relevance Score: 35/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/34427757/
 
+2. Current role of intraoperative sensing technology in total knee arthroplasty.
+   PMID: 34427757
+   DOI: 10.1007/s00402-021-04130-5
+   Authors: Batailler, Cécile; Swan, John; Marinier, Elliot Sappey; Servien, Elvire; Lustig, Sébastien
+   Published: 2025-12-29
+   Relevance Score: 35/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/34427757/
+
 
 ================================================================================
 JOURNAL: International journal of behavioral medicine
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. A Preliminary Examination of the Effects and Mechanisms of Cognitive Behavioral Therapy for Insomnia on Systemic Inflammation Among Patients with Knee Osteoarthritis.
@@ -541,10 +925,18 @@ Articles: 1
    Relevance Score: 34/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/37231221/
 
+2. A Preliminary Examination of the Effects and Mechanisms of Cognitive Behavioral Therapy for Insomnia on Systemic Inflammation Among Patients with Knee Osteoarthritis.
+   PMID: 37231221
+   DOI: 10.1007/s12529-023-10184-z
+   Authors: Mun, Chung Jung; Speed, Traci J; Finan, Patrick H; Wideman, Timothy H; Quartana, Phillip J; Smith, Michael T
+   Published: 2025-12-29
+   Relevance Score: 34/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/37231221/
+
 
 ================================================================================
 JOURNAL: HSS journal : the musculoskeletal journal of Hospital for Special Surgery
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Travel Time to a Reconstruction Center Is Not Associated With Progression to Arthroplasty Following Knee Osteoarthritis Diagnosis: A Retrospective, Single-Institution Analysis.
@@ -555,10 +947,18 @@ Articles: 1
    Relevance Score: 32/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41426344/
 
+2. Travel Time to a Reconstruction Center Is Not Associated With Progression to Arthroplasty Following Knee Osteoarthritis Diagnosis: A Retrospective, Single-Institution Analysis.
+   PMID: 41426344
+   DOI: 10.1177/15563316251397993
+   Authors: Mounce, Samuel D; Miller, Kaitlyn A; Jacobs, Cale A; Buller, Leonard T; Duncan, Stephen T; Landy, David C
+   Published: 2025-12-23
+   Relevance Score: 32/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41426344/
+
 
 ================================================================================
 JOURNAL: Contemporary clinical trials
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Surgical weight-loss to improve functional status trajectories following total knee arthroplasty: SWIFT trial: Rationale, design, and methods.
@@ -569,10 +969,18 @@ Articles: 1
    Relevance Score: 31/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/29617634/
 
+2. Surgical weight-loss to improve functional status trajectories following total knee arthroplasty: SWIFT trial: Rationale, design, and methods.
+   PMID: 29617634
+   DOI: 10.1016/j.cct.2018.03.012
+   Authors: Benotti, Peter N; Still, Christopher D; Craig Wood, G; Seiler, Jamie L; Seiler, Christopher J; Thomas, Shane P; Petrick, Anthony T; Suk, Michael; Irving, Brian A
+   Published: 2025-12-29
+   Relevance Score: 31/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/29617634/
+
 
 ================================================================================
 JOURNAL: International orthopaedics
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Human bone marrow mesenchymal stem cell injection in subchondral lesions of knee osteoarthritis: a prospective randomized study versus contralateral arthroplasty at a mean fifteen year follow-up.
@@ -583,10 +991,18 @@ Articles: 1
    Relevance Score: 29/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32322943/
 
+2. Human bone marrow mesenchymal stem cell injection in subchondral lesions of knee osteoarthritis: a prospective randomized study versus contralateral arthroplasty at a mean fifteen year follow-up.
+   PMID: 32322943
+   DOI: 10.1007/s00264-020-04571-4
+   Authors: Hernigou, Philippe; Delambre, Jérôme; Quiennec, Steffen; Poignard, Alexandre
+   Published: 2025-12-29
+   Relevance Score: 29/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32322943/
+
 
 ================================================================================
 JOURNAL: Journal of robotic surgery
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Comparable outcomes between cruciate-retaining and posterior-stabilized implants following functionally aligned robotic-assisted total knee arthroplasty for varus knee osteoarthritis.
@@ -597,10 +1013,18 @@ Articles: 1
    Relevance Score: 15/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41324708/
 
+2. Comparable outcomes between cruciate-retaining and posterior-stabilized implants following functionally aligned robotic-assisted total knee arthroplasty for varus knee osteoarthritis.
+   PMID: 41324708
+   DOI: 10.1007/s11701-025-03008-7
+   Authors: Huang, Zhenchao; Chen, Fan; Wang, Wenzhe; Mu, Feiyu; Zhang, Haining; Zhang, Zian
+   Published: 2025-12-23
+   Relevance Score: 15/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41324708/
+
 
 ================================================================================
 JOURNAL: Journal of clinical orthopaedics and trauma
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Post-traumatic genu recurvatum with slope reversal and arthritis treated with imageless robotic total knee replacement - Case report.
@@ -611,10 +1035,18 @@ Articles: 1
    Relevance Score: 15/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41283165/
 
+2. Post-traumatic genu recurvatum with slope reversal and arthritis treated with imageless robotic total knee replacement - Case report.
+   PMID: 41283165
+   DOI: 10.1016/j.jcot.2025.103257
+   Authors: Jafri, Sayyadshadab; Mahajan, Unmesh; Daxini, Anurag
+   Published: 2025-12-23
+   Relevance Score: 15/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41283165/
+
 
 ================================================================================
 JOURNAL: Clinics in sports medicine
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. High Tibial Osteotomy Versus Unicompartmental Knee Replacement: How Do We Choose?
@@ -625,10 +1057,18 @@ Articles: 1
    Relevance Score: 13/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41207750/
 
+2. High Tibial Osteotomy Versus Unicompartmental Knee Replacement: How Do We Choose?
+   PMID: 41207750
+   DOI: 10.1016/j.csm.2025.01.003
+   Authors: Bertha, Nicholas; Stokes, Daniel J; Gonzalez-Lomas, Guillem; Frank, Rachel M
+   Published: 2025-12-23
+   Relevance Score: 13/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41207750/
+
 
 ================================================================================
 JOURNAL: The journal of gene medicine
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Synovial Mesenchymal Stem Cell-Derived Exosomal miR-3614-5p Regulates Macrophage Polarization by Targeting ANXA2 to Relieve Knee Osteoarthritis.
@@ -639,10 +1079,18 @@ Articles: 1
    Relevance Score: 13/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41384314/
 
+2. Synovial Mesenchymal Stem Cell-Derived Exosomal miR-3614-5p Regulates Macrophage Polarization by Targeting ANXA2 to Relieve Knee Osteoarthritis.
+   PMID: 41384314
+   DOI: 10.1002/jgm.70064
+   Authors: Xue, Jianli; Ye, Jintao; Han, Pei; Song, Yabing
+   Published: 2025-12-23
+   Relevance Score: 13/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41384314/
+
 
 ================================================================================
 JOURNAL: Tissue & cell
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Crosstalk between programmed cell death in chondrocytes-a molecular mechanism of osteoarthritis.
@@ -653,10 +1101,18 @@ Articles: 1
    Relevance Score: 11/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41027246/
 
+2. Crosstalk between programmed cell death in chondrocytes-a molecular mechanism of osteoarthritis.
+   PMID: 41027246
+   DOI: 10.1016/j.tice.2025.103161
+   Authors: Zhang, Kun; Zeng, Lianlin; Min, Huiqin; Jiang, Xiaoqian; Li, Yangan; Hu, Kehui
+   Published: 2025-12-23
+   Relevance Score: 11/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41027246/
+
 
 ================================================================================
 JOURNAL: Functional & integrative genomics
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Exosomal miRNA-25-3p from platelet-rich plasma alleviates chondrocyte pyroptosis and knee osteoarthritis by regulating MAP4K2/Hippo/TNFAIP3 pathway.
@@ -667,10 +1123,18 @@ Articles: 1
    Relevance Score: 11/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41354766/
 
+2. Exosomal miRNA-25-3p from platelet-rich plasma alleviates chondrocyte pyroptosis and knee osteoarthritis by regulating MAP4K2/Hippo/TNFAIP3 pathway.
+   PMID: 41354766
+   DOI: 10.1007/s10142-025-01780-1
+   Authors: Wang, Jing; Li, Jingzhi; He, Xiuming; Zhang, Hongtao; Zheng, Xiaoyu; Luo, Han; Yang, Zhenyu; Zhou, Xiaozhong
+   Published: 2025-12-23
+   Relevance Score: 11/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41354766/
+
 
 ================================================================================
 JOURNAL: Anesthesiology clinics
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Updates in Enhanced Recovery Pathways for Total Knee Arthroplasty.
@@ -681,10 +1145,18 @@ Articles: 1
    Relevance Score: 11/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41233101/
 
+2. Updates in Enhanced Recovery Pathways for Total Knee Arthroplasty.
+   PMID: 41233101
+   DOI: 10.1016/j.anclin.2025.07.006
+   Authors: Davies, Stephen; Kumar, Amanda H; Grant, Stuart A; Gadsden, Jeff
+   Published: 2025-12-23
+   Relevance Score: 11/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41233101/
+
 
 ================================================================================
 JOURNAL: Inflammation research : official journal of the European Histamine Research Society ... [et al.]
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Target Fibroblast-B cell crosstalk via MIF signaling drives pathogenic B cell differentiation and joint damage in knee osteoarthritis.
@@ -695,10 +1167,18 @@ Articles: 1
    Relevance Score: 7/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41407905/
 
+2. Target Fibroblast-B cell crosstalk via MIF signaling drives pathogenic B cell differentiation and joint damage in knee osteoarthritis.
+   PMID: 41407905
+   DOI: 10.1007/s00011-025-02154-w
+   Authors: Tu, Bizhi; Zhu, Zheng; Li, Yan; Zhu, Zhengming; Wang, Shijie; Lu, Peizhi; Li, Ya; Yang, Shuo; Hu, Dingtao; Fang, Run; Ning, Rende
+   Published: 2025-12-23
+   Relevance Score: 7/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41407905/
+
 
 ================================================================================
 JOURNAL: Journal of applied biomechanics
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. Experimentally Induced Knee Effusion Does Not Simulate Sustained Ground Reaction Force Profiles During Overground Walking.
@@ -709,10 +1189,18 @@ Articles: 1
    Relevance Score: 7/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40983317/
 
+2. Experimentally Induced Knee Effusion Does Not Simulate Sustained Ground Reaction Force Profiles During Overground Walking.
+   PMID: 40983317
+   DOI: 10.1123/jab.2025-0013
+   Authors: Collins, Katherine; Pietrosimone, Brian; Lindsay, Timothy; Myers, Heather; Ceraulo, Anthony S; Lau, Brian C; Lemus, Sergio A; Pietrosimone, Laura S
+   Published: 2025-12-23
+   Relevance Score: 7/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/40983317/
+
 
 ================================================================================
 JOURNAL: Zhonghua liu xing bing xue za zhi = Zhonghua liuxingbingxue zazhi
-Articles: 1
+Articles: 2
 ================================================================================
 
 1. [Study on the genetic correlation between polyunsaturated fatty acids and knee osteoarthritis].
@@ -722,3 +1210,25 @@ Articles: 1
    Published: 2025-12-23
    Relevance Score: 5/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41429527/
+
+2. [Study on the genetic correlation between polyunsaturated fatty acids and knee osteoarthritis].
+   PMID: 41429527
+   DOI: 10.3760/cma.j.cn112338-20250529-00360
+   Authors: Zhou, J Y; Zhao, X Y; Wu, X; Jiang, X; Xu, J
+   Published: 2025-12-23
+   Relevance Score: 5/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41429527/
+
+
+================================================================================
+JOURNAL: Rheumatology (Oxford, England)
+Articles: 1
+================================================================================
+
+1. An interpretable metabolomic-driven machine learning model for early prediction of knee structural osteoarthritis progression.
+   PMID: 41431841
+   DOI: 10.1093/rheumatology/keaf686
+   Authors: Jamshidi, Afshin; Zhai, Guangju; Liu, Ming; Zhang, Weidong; Jones, Graeme; Cicuttini, Flavia M; Pelletier, Jean-Pierre; Martel-Pelletier, Johanne
+   Published: 2025-12-23
+   Relevance Score: 59/100
+   PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41431841/
