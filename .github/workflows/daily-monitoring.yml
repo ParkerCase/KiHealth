@@ -101,6 +101,18 @@ jobs:
           python scripts/generate_paywalled_list.py --threshold 0
         continue-on-error: true
 
+      - name: Export sorted paywalled articles to logs
+        working-directory: ./pubmed-literature-mining
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+        run: |
+          # Export detailed sorted list to logs (best to least valuable)
+          # Uses file storage primarily (more reliable than Google Sheets)
+          python scripts/export_paywalled_to_logs.py --threshold 0
+        continue-on-error: true
+
       - name: Commit article data
         continue-on-error: true
         run: |

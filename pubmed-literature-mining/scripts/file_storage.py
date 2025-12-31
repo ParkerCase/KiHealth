@@ -123,13 +123,13 @@ class FileStorage:
             logger.error(f"Error saving article {pmid}: {e}")
             return False
     
-    def query_articles(self, filter_func=None, limit: int = 100) -> List[Dict]:
+    def query_articles(self, filter_func=None, limit: int = 10000) -> List[Dict]:
         """
         Query articles with optional filter function
         
         Args:
             filter_func: Function that takes article dict and returns bool
-            limit: Maximum number of results
+            limit: Maximum number of results (default 10000 to get all articles)
             
         Returns:
             List of article dictionaries
@@ -162,7 +162,7 @@ class FileStorage:
         def filter_func(article):
             return (article.get('access_type') == 'paywalled' and 
                    article.get('relevance_score', 0) >= threshold)
-        return self.query_articles(filter_func=filter_func)
+        return self.query_articles(filter_func=filter_func, limit=10000)  # Increased limit to get all articles
     
     def count_paywalled_articles(self) -> int:
         """Count paywalled articles"""
