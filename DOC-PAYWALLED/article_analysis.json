@@ -1,0 +1,137 @@
+{
+  "Article 1: Inter-Limb Strength Asymmetry": {
+    "title": "Article 1: Inter-Limb Strength Asymmetry",
+    "abstract": "Portions asapotentialprimaryriskfactorforkneeOAdevelopment.10\nofthedatawerepresentedattheCanadianOrthopedicAssociationannual\nThekneeextensorsplayacrucialroleinstabilizingandatten-\nmeetingonJune13th,2024.\nDatasharingstatement:Allrawdataareavailableinapublic,openaccessrepository. uatingloadthroughthekneeduringwalking11posingapoten-\nOsteoarthritisInitiative,https://nda.nih.gov/oai tialmechanismwherekneeextensorweaknessmayleadtoal-\nFinancialdisclosurestatementshavebeenobtained,andnoconflictsofinteresthave\nteredjointloading,therebyacceleratingstructuraldeterioration.7\nbeenreportedbytheauthorsorbyanyindividualsincontrolofthecontentof\nthisarticle. Reducedkneeextensorstrengthhasalsobeenfoundtobeasso-\nCopyright©2025WoltersKluwerHealth,Inc.Allrightsreserved. ciatedwithsymptomatickneeOAprogression,andfunctional\nISSN:0894-9115\nDOI:10.1097/PHM.0000000000002775\ndeclineinthechair-standtest.8\nAmericanJournalofPhysicalMedicine&Rehabilitation (cid:129) Volume104,Number12,December2025 www.ajpmr.com 1133",
+    "key_findings": [],
+    "predictive_factors": [
+      "BMI",
+      "body mass index",
+      "age",
+      "sex",
+      "KOOS",
+      "Kellgren",
+      "strength",
+      "asymmetry",
+      "radiographic",
+      "pain",
+      "function"
+    ],
+    "methodology": "",
+    "sample_size": "n = 82",
+    "outcome_measures": [
+      "total knee replacement",
+      "arthroplasty",
+      "progression",
+      "KOOS",
+      "radiographic"
+    ],
+    "statistical_results": [
+      "P<0.001",
+      "P>0.05",
+      "P<0.001",
+      "P = 0.23",
+      "P=0.24",
+      "P=0.18",
+      "P=0.15",
+      "P=0.001",
+      "P=0.010",
+      "P=0.001"
+    ],
+    "hazard_ratios": [
+      "1.41",
+      "1.30",
+      "1.91",
+      "1.63",
+      "1.07",
+      "2.14",
+      "1.40",
+      "2.94",
+      "1.12",
+      "2.12",
+      "24."
+    ],
+    "relevance_score": 4
+  },
+  "Article 2: keaf686": {
+    "title": "Article 2: keaf686",
+    "abstract": "4\n5\n6 Objectives. Osteoarthritis (OA) is the most prevalent chronic musculoskeletal disease. Early\n7\nidentification of individuals at risk of knee structural progression is essential for targeted\n8\n9\ninterventions. This study aimed to develop and validate a machine/deep learning (ML/DL)-based\n10\n11 prognostic model for knee OA progression using serum metabolomics.\n12\n13",
+    "key_findings": [],
+    "predictive_factors": [
+      "BMI",
+      "body mass index",
+      "age",
+      "sex",
+      "WOMAC",
+      "strength",
+      "radiographic",
+      "joint space",
+      "pain",
+      "function",
+      "stiffness"
+    ],
+    "methodology": "",
+    "sample_size": "n=180",
+    "outcome_measures": [
+      "progression",
+      "WOMAC",
+      "radiographic"
+    ],
+    "statistical_results": [
+      "0.98",
+      "0.89",
+      "0.98",
+      "0.98",
+      "0.89",
+      "p=0.008"
+    ],
+    "hazard_ratios": [
+      "16",
+      "53",
+      "27",
+      "13",
+      ".",
+      "18",
+      "20",
+      "13",
+      "."
+    ],
+    "relevance_score": 4
+  },
+  "Article 3: Physical Activity and Joint Space Loss": {
+    "title": "Article 3: Physical Activity and Joint Space Loss",
+    "abstract": "",
+    "key_findings": [],
+    "predictive_factors": [
+      "BMI",
+      "body mass index",
+      "age",
+      "sex",
+      "gender",
+      "WOMAC",
+      "KL grade",
+      "Kellgren",
+      "physical activity",
+      "radiographic",
+      "joint space",
+      "pain",
+      "function"
+    ],
+    "methodology": "",
+    "sample_size": "N = 1,806",
+    "outcome_measures": [
+      "progression",
+      "WOMAC",
+      "joint space loss",
+      "radiographic"
+    ],
+    "statistical_results": [
+      "p = 0.005",
+      "p < 0.05."
+    ],
+    "hazard_ratios": [
+      "3",
+      "48"
+    ],
+    "relevance_score": 3
+  }
+}

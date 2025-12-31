@@ -322,12 +322,18 @@ class PubMedScraper:
             article_data['created_at'] = datetime.now().isoformat()
             article_data['updated_at'] = datetime.now().isoformat()
             
-            # Store in file storage
-            success = self.storage.insert_article(article_data)
-            if success:
-                logger.info(f"Successfully processed PMID {pmid} (score: {relevance_score})")
-            else:
-                logger.error(f"Failed to store PMID {pmid}")
+            # Store in file storage (always try to save, even if Google Sheets fails)
+            # File storage is the primary storage, Google Sheets is secondary
+            try:
+                success = self.storage.insert_article(article_data)
+                if success:
+                    score = article_data.get('relevance_score', 0)
+                    logger.info(f"Successfully processed PMID {pmid} (score: {score})")
+                else:
+                    logger.error(f"Failed to store PMID {pmid}")
+            except Exception as e:
+                logger.error(f"Error storing article {pmid}: {e}")
+                success = False
             
             return success
             

@@ -16,7 +16,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from scripts.google_sheets_storage import get_storage_client
 
 
-def generate_paywalled_list(output_file: str = "PAYWALLED_ARTICLES.txt", threshold: int = 70):
+def generate_paywalled_list(output_file: str = "PAYWALLED_ARTICLES.txt", threshold: int = 0):
     """
     Generate a clean list of paywalled articles
     
@@ -134,8 +134,8 @@ if __name__ == "__main__":
     parser.add_argument(
         '--threshold',
         type=int,
-        default=70,
-        help='Minimum relevance score (default: 70)'
+        default=0,
+        help='Minimum relevance score (default: 0 to show all paywalled articles)'
     )
     
     args = parser.parse_args()

@@ -45,8 +45,12 @@ class NotificationSystem:
         self.repo_name = os.getenv('GITHUB_REPO_NAME')
         self.flagging_framework = ArticleFlaggingFramework()  # New flagging framework
     
-    def get_paywalled_articles(self, threshold: int = 70) -> List[Dict]:
-        """Get paywalled articles above relevance threshold"""
+    def get_paywalled_articles(self, threshold: int = 0) -> List[Dict]:
+        """Get paywalled articles above relevance threshold
+        
+        Default threshold is 0 to show all paywalled articles.
+        Use threshold=70 to show only high-relevance paywalled articles.
+        """
         return self.storage.get_paywalled_articles(threshold=threshold)
     
     def detect_factor_patterns(self, threshold: int = 5) -> Dict[str, List[Dict]]:

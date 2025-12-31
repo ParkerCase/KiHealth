@@ -1,0 +1,150 @@
+{
+  "Article 1: Inter-Limb Strength Asymmetry": {
+    "title": "Article 1: Inter-Limb Strength Asymmetry",
+    "study_type": "Survival Analysis / Cohort Study",
+    "sample_size": "n = 82",
+    "follow_up": "over10yrs",
+    "main_finding": "s:Kneeextensorstrengthasymmetrywasassociatedwith\naglobalhealthchallenge",
+    "key_predictors": [
+      "IGINAL RESEARCH ARTICLE\nInter-Limb Strength Asymmetry and Risk of\nTotal Knee Replacement\nA Survival Analysis\nCarsonHalliwell,PhD,1,2,3SophieRayner,Bsc,1JanieAstephenWilson,PhD,4DerekRutherford,PT,PhD,",
+      "edtheassociationbetweenknee\nWhatIsKnown\nextensor strength asymmetry and the risk of total knee arthroplasty\ninindividualswithoratriskofkneeosteoarthritis",
+      "strengthisaknownpredictorofknee\nDesign:ThislongitudinalcohortstudyanalyzeddatafromtheOsteo- osteoarthritisonsetandprogression",
+      "itisInitiative,including3860individualswithoratriskforkneeos- WhatIsNew\nteoarthritis",
+      "izedashavingsymmetricalorasym-\n(cid:129) Individuals with a greater than 10% discrepancy in\nmetricalkneeextensorstrengthbasedona10%differencebetweenlimbs",
+      "strengthbetweenlimbsmaybeatan\nKaplan-MeiercurvesandCoxregressionassessedtheriskoftotalknee\nincreasedriskoftotalkneearthroplastyover10yrsre-\narthroplastyover10yrs,adjustingforage,sex,bodymassindex,base",
+      "Results:Participantswithasymmetricalkneeextensorstrengthhada\nstrengthshouldbeconsideredwheninformingtreat-\n30%greaterriskofundergoingtotalkneearthroplastyover10yrscom-\nmentandrehabilitativeoutcomes",
+      "strengthwereassociatedwitha40%and\n80%increasedriskofrightandlefttotalkneearthroplasty,respectively",
+      "ldwidewithprevalencesteadilyincreasing,posing\nConclusions:Kneeextensorstrengthasymmetrywasassociatedwith\naglobalhealthchallenge",
+      "oplastyinindividualswithoratriskforknee marilyaimtomanagesymptoms,oftenculminatinginsurgical\nosteoarthritis",
+      "ttheneedtofurtherexamineifaninter- interventionthroughtotalkneearthroplasty(TKA)",
+      "medannuallyisgrowingexponentially,and\nmaintainingstrengthsymmetrycanreducetotalkneearthroplastyrisk",
+      "ds:KneeOsteoarthritis,TotalKneeArthroplasty, Canada alone",
+      "Strength,Symmetry\nforTKAsurgerieshaveincreased,withthenumberofsurgeries\n(AmJPhysMedRehabil2025;104:1133–1139) performedwithinthe nationalbenchmark of182daysfalling\nfrom72%to59%",
+      "s which influence the development and progression of\nthe disease such as obesity, joint injury, physical inactivity,\nKnee osteoarthritis (OA) is a debilitating and progressive and reduced muscle stren"
+    ],
+    "hazard_ratios": [],
+    "statistical_significance": [
+      "significant",
+      "significance",
+      "P=0.001",
+      "P=0.18",
+      "P=0.15",
+      "P<0.001",
+      "P = 0.23",
+      "P=0.010",
+      "P=0.24",
+      "P<0.01"
+    ],
+    "model_performance": "",
+    "relevance_to_current_model": "",
+    "new_factors": [
+      "strength asymmetry",
+      "inter-limb",
+      "extensor strength"
+    ],
+    "confirms_existing": [
+      "BMI",
+      "age",
+      "sex",
+      "KOOS",
+      "Kellgren"
+    ],
+    "contradicts_existing": [],
+    "recommendations": []
+  },
+  "Article 2: keaf686": {
+    "title": "Article 2: keaf686",
+    "study_type": " / Cohort Study / ML/DL Model",
+    "sample_size": "n=180",
+    "follow_up": "",
+    "main_finding": ", our findings show that combining serum metabolomics profiles with demographic\n36\n37\nfeatures in interpretable DL models can provide reliable, individualized prediction of knee OA\n38\n39\n40 structural progression",
+    "key_predictors": [
+      "early\n5 prediction of knee structural osteoarthritis progression\n6\n7 Afshin Jamshidi1, Guangju Zhai2, Ming Liu2, Weidong Zhang3, Graeme Jones4,\n8\nFlavia M",
+      "itis Research Unit, University of Montreal Hospital Research Centre (CRCHUM),\n14\nMontreal, Quebec, Canada",
+      "ial University of Newfoundland, St",
+      "Medical Research, University of Tasmania, Hobart, Tasmania, Australia",
+      "respondence to: Johanne Martel-Pelletier, PhD, Osteoarthritis Research Unit, University of\n26\n27 Montreal Hospital Research Centre (CRCHUM), 900 Saint-Denis, R11",
+      "CID\n36\n37 Afshin Jamshidi, PhD: https://orcid",
+      "g/0009-0003-0190-2364\n38\nGuangju Zhai, PhD: https://orcid",
+      "g/0009-0005-0088-6838\n39\n40 Ming Liu, MSc: https://orcid",
+      "g/0000-0001-7745-448X\n41\nWeidong Zhang, PhD: https://orcid",
+      "g/0000-0002-0843-5688\n42\n43\nGraeme Jones, MD, PhD: http://orcid",
+      "/0000-0001-9109-7255\n44\n45 Flavia M",
+      "g/0000-0002-8200-1618\n46\nJean-Pierre Pelletier, MD: https://orcid",
+      "g/0000-0001-9930-6453\n47\n48\nJohanne Martel-Pelletier, PhD: https://orcid",
+      "g/0000-0003-2618-383X\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58\n59 © The Author(s) 2025",
+      "d University Press on behalf of the British Society for Rheumatology"
+    ],
+    "hazard_ratios": [],
+    "statistical_significance": [
+      "p=0.008",
+      "significant"
+    ],
+    "model_performance": "AUC=0.98",
+    "relevance_to_current_model": "",
+    "new_factors": [
+      "metabolomics",
+      "serum",
+      "biomarker",
+      "metabolite"
+    ],
+    "confirms_existing": [
+      "BMI",
+      "age",
+      "sex",
+      "WOMAC"
+    ],
+    "contradicts_existing": [],
+    "recommendations": []
+  },
+  "Article 3: Physical Activity and Joint Space Loss": {
+    "title": "Article 3: Physical Activity and Joint Space Loss",
+    "study_type": " / Cohort Study / Joint Model Analysis",
+    "sample_size": "N = 1,806",
+    "follow_up": "over 48 months",
+    "main_finding": "s: Moderate or high PA did not increase the 4-year JSL risk in patients with KL grade 2",
+    "key_predictors": [
+      "itis\nE\nA Joint Model Analysis\nQianying Cai, PhD*, Hao Peng, MD*, Vicky Duong, PhD, Win Min Oo, PhD, Youshui Gao, P\nL\nhD, Yong Feng, PhD,\nChangqing Zhang, PhD, Liubov Arbeeva, PhD, Daniel K",
+      "itis to assess the role of the PA level in knee osteoarthritis progreIssion",
+      "the Elderly (PASE) and was categorized as low, moderate, or high",
+      "tional-hazards (CoxPH) and\njoint models assessed the association between baseline PA and changes in longitudinal PA and JSL, adjusting for\ncovariates",
+      "with a reduced JSL risk compared with low PA in both standard and marginal CoxPH analyses",
+      "with increased JSL risk (marginal CoxPH: hazard\nratio [HR], 1",
+      "high PA did not increase the 4-year JSL risk in patients with KL grade 2",
+      "with higher JSSL risk in patients with KL grade 3, highlighting the need for further research\non the complex impact of PA on osteoarthritis",
+      "ed PA recommendations, informing va lue-based care and personalized osteoarthritis\nmanagement",
+      "Authors for a complete description of levels of evidence",
+      "itis is a prevalent chronic joint disease that tions such as joint space narrowing and osteophyte forma-\nP\naffects approximately 600 million people world- tion provide reliable markers of structural d",
+      "itis, and thus play a crucial role in as-\njoint, accounting- for about 85% of the substantial global sessing the structural damage of knee osteoarthritis",
+      "sening joint space\nN\n*Qianying Cai, PhD, and Hao Peng, MD, contributed equally to this work",
+      "ms are\nprovided with the online version of the article (http://links",
+      "itis Initiative (OAI) public use data set and does not necessarily reflect the opinions or\nviews of the OAI Study Investigators, the National Institutes of Health (NIH), or the private funding partner"
+    ],
+    "hazard_ratios": [],
+    "statistical_significance": [
+      "significant",
+      "significance",
+      "p = 0.005",
+      "p < 0.05."
+    ],
+    "model_performance": "",
+    "relevance_to_current_model": "",
+    "new_factors": [
+      "biomarker",
+      "physical activity",
+      "PASE",
+      "exercise",
+      "walking"
+    ],
+    "confirms_existing": [
+      "BMI",
+      "age",
+      "sex",
+      "WOMAC",
+      "KL grade",
+      "Kellgren"
+    ],
+    "contradicts_existing": [],
+    "recommendations": []
+  }
+}

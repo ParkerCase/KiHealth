@@ -145,3 +145,4 @@ def calculate_success_metrics(womac_improvement: float) -> dict:
         "_womac_improvement": round(womac_improvement, 1),
     }
 
+

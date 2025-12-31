@@ -96,7 +96,9 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
           GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
         run: |
-          python scripts/generate_paywalled_list.py --threshold 70
+          # Generate list with threshold=0 to show ALL paywalled articles
+          # Use --threshold 70 if you only want high-relevance paywalled articles
+          python scripts/generate_paywalled_list.py --threshold 0
         continue-on-error: true
 
       - name: Commit article data

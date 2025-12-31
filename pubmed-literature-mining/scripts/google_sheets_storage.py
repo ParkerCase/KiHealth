@@ -136,24 +136,51 @@ class GoogleSheetsStorage:
         ]
         self.sheet.append_row(headers)
     
+    def _retry_with_backoff(self, func, max_retries: int = 3, initial_delay: float = 1.0):
+        """Retry function with exponential backoff for quota errors"""
+        import time
+        for attempt in range(max_retries):
+            try:
+                return func()
+            except Exception as e:
+                error_str = str(e)
+                # Check if it's a quota error
+                if '429' in error_str or 'quota' in error_str.lower():
+                    if attempt < max_retries - 1:
+                        delay = initial_delay * (2 ** attempt)
+                        logger.warning(f"Quota error (attempt {attempt + 1}/{max_retries}), retrying in {delay}s...")
+                        time.sleep(delay)
+                        continue
+                    else:
+                        logger.error(f"Quota error after {max_retries} attempts: {e}")
+                        raise
+                else:
+                    # Not a quota error, raise immediately
+                    raise
+        return None
+    
     def get_article_by_pmid(self, pmid: str) -> Optional[Dict]:
         """Get article by PMID"""
         self._initialize()
         
-        try:
+        def _get():
             # Search for row with matching PMID
             cell = self.sheet.find(pmid, in_column=2)  # Column 2 is pmid
             if cell:
                 row = self.sheet.row_values(cell.row)
                 headers = self.sheet.row_values(1)
                 return dict(zip(headers, row))
+            return None
+        
+        try:
+            return self._retry_with_backoff(_get, max_retries=2, initial_delay=2.0)
         except Exception as e:
             # gspread doesn't raise CellNotFound, it returns None or raises other exceptions
             # Check if it's a "not found" type error or just log and continue
             if 'not found' in str(e).lower() or 'no matching' in str(e).lower():
                 pass  # Article not found, that's okay
             else:
-                logger.error(f"Error getting article {pmid}: {e}")
+                logger.debug(f"Error getting article {pmid}: {e}")
         
         return None
     
@@ -176,8 +203,15 @@ class GoogleSheetsStorage:
         pmid = article_data['pmid']
         
         try:
-            # Check if article exists
-            existing = self.get_article_by_pmid(pmid)
+            # Check if article exists (with retry for quota errors)
+            existing = None
+            try:
+                existing = self.get_article_by_pmid(pmid)
+            except Exception as e:
+                if '429' not in str(e) and 'quota' not in str(e).lower():
+                    raise  # Re-raise if not quota error
+                # For quota errors, continue anyway - we'll try to insert
+                logger.warning(f"Could not check if article exists due to quota, will try to insert anyway: {e}")
             
             # Prepare row data
             row_data = [
@@ -268,15 +302,30 @@ class GoogleSheetsStorage:
                     
                     logger.info(f"Updated article {pmid} in Google Sheets")
             else:
-                # Insert new row
-                self.sheet.append_row(row_data)
-                logger.info(f"Inserted article {pmid} into Google Sheets")
+                # Insert new row (with retry for quota errors)
+                def _insert():
+                    self.sheet.append_row(row_data)
+                    logger.info(f"Inserted article {pmid} into Google Sheets")
+                
+                try:
+                    self._retry_with_backoff(_insert, max_retries=3, initial_delay=2.0)
+                except Exception as e:
+                    if '429' in str(e) or 'quota' in str(e).lower():
+                        logger.warning(f"Could not save article {pmid} to Google Sheets due to quota limit. Article saved to file storage.")
+                        # Return False so caller knows it didn't save to Sheets, but file storage should have it
+                        return False
+                    raise
             
             return True
             
         except Exception as e:
-            logger.error(f"Error saving article {pmid} to Google Sheets: {e}")
-            return False
+            error_str = str(e)
+            if '429' in error_str or 'quota' in error_str.lower():
+                logger.warning(f"Quota error saving article {pmid} to Google Sheets. Article saved to file storage.")
+                return False  # Not a critical error, file storage has it
+            else:
+                logger.error(f"Error saving article {pmid} to Google Sheets: {e}")
+                return False
     
     def get_paywalled_articles(self, threshold: int = 70) -> List[Dict]:
         """Get paywalled articles with relevance >= threshold"""
@@ -302,8 +351,9 @@ class GoogleSheetsStorage:
                 except (ValueError, TypeError):
                     score = 0
                 
-                # Check if paywalled (case-insensitive, also check for empty/unknown)
-                is_paywalled = access_type == 'paywalled' or access_type == ''
+                # Check if paywalled (case-insensitive)
+                # Only count as paywalled if explicitly marked, not empty
+                is_paywalled = access_type == 'paywalled'
                 
                 # Debug logging for first few records
                 if len(articles) < 5:
@@ -423,29 +473,41 @@ class HybridStorage:
         return self.file_storage.get_article_by_pmid(pmid)
     
     def insert_article(self, article_data: Dict) -> bool:
-        """Insert article into both Google Sheets and file storage"""
-        success = True
+        """Insert article into both Google Sheets and file storage
         
-        # Insert into Google Sheets if available
+        Returns True if file storage succeeds (primary storage).
+        Google Sheets is secondary and failures are logged but don't fail the operation.
+        """
+        file_success = False
+        
+        # Always insert into file storage first (primary storage)
+        try:
+            file_success = self.file_storage.insert_article(article_data)
+            if not file_success:
+                logger.error(f"Failed to save article {article_data.get('pmid', 'unknown')} to file storage")
+                return False
+        except Exception as e:
+            logger.error(f"Error inserting into file storage: {e}")
+            return False
+        
+        # Insert into Google Sheets if available (secondary storage)
+        # Failures here don't fail the operation since file storage succeeded
         if self.sheets_storage:
             try:
                 sheets_success = self.sheets_storage.insert_article(article_data)
                 if not sheets_success:
-                    success = False
+                    # Log but don't fail - file storage has it
+                    logger.warning(f"Article saved to file storage but not to Google Sheets (quota or other issue)")
             except Exception as e:
-                logger.warning(f"Error inserting into Google Sheets: {e}")
-                success = False
+                # Log but don't fail - file storage has it
+                error_str = str(e)
+                if '429' in error_str or 'quota' in error_str.lower():
+                    logger.warning(f"Article saved to file storage but Google Sheets quota exceeded")
+                else:
+                    logger.warning(f"Article saved to file storage but Google Sheets error: {e}")
         
-        # Always insert into file storage as backup
-        try:
-            file_success = self.file_storage.insert_article(article_data)
-            if not file_success:
-                success = False
-        except Exception as e:
-            logger.error(f"Error inserting into file storage: {e}")
-            success = False
-        
-        return success
+        # Return True if file storage succeeded (primary storage)
+        return file_success
     
     def get_paywalled_articles(self, threshold: int = 70) -> List[Dict]:
         """Get paywalled articles from both sources"""
