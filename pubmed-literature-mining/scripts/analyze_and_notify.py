@@ -147,8 +147,12 @@ class NotificationSystem:
         # Sort by relevance score
         articles_sorted = sorted(articles, key=lambda x: x.get('relevance_score', 0), reverse=True)
         
-        body = '## High-Priority Paywalled Articles\n\n'
-        body += f'**{len(articles_sorted)} articles** identified with relevance score ≥ {self.relevance_threshold}:\n\n'
+        # Filter to high-relevance for the alert (but we found all paywalled articles)
+        high_relevance_paywalled = [a for a in articles_sorted if a.get('relevance_score', 0) >= self.relevance_threshold]
+        
+        body = '## Paywalled Articles\n\n'
+        body += f'**{len(articles_sorted)} total paywalled articles** found.\n'
+        body += f'**{len(high_relevance_paywalled)} high-relevance articles** (score ≥ {self.relevance_threshold}):\n\n'
         
         # Show top 20 high-relevance paywalled articles
         for i, article in enumerate(high_relevance_paywalled[:20], 1):  # Top 20
