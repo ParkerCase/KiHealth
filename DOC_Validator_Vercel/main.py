@@ -177,5 +177,12 @@ def run(port=None):
         traceback.print_exc()
 
 if __name__ == '__main__':
-    run()
+    import sys
+    port = None
+    if len(sys.argv) > 1:
+        try:
+            port = int(sys.argv[1])
+        except ValueError:
+            print(f"Invalid port: {sys.argv[1]}, using default")
+    run(port)
 

@@ -7,141 +7,9 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
   ? '' // Use relative URLs for local development
   : 'https://doc-production-5888.up.railway.app'; // Railway API URL for production
 
-let selectedFile = null;
+// CSV upload functionality removed - manual entry only
 
-// File input handling
-document.getElementById("fileInput").addEventListener("change", function (e) {
-  if (e.target.files.length > 0) {
-    selectedFile = e.target.files[0];
-    displayFileInfo(selectedFile);
-    document.getElementById("analyzeBtn").disabled = false;
-  }
-});
-
-// Drag and drop
-const dropZone = document.getElementById("dropZone");
-
-dropZone.addEventListener("dragover", function (e) {
-  e.preventDefault();
-  dropZone.classList.add("dragover");
-});
-
-dropZone.addEventListener("dragleave", function (e) {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
-});
-
-dropZone.addEventListener("drop", function (e) {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
-
-  if (e.dataTransfer.files.length > 0) {
-    selectedFile = e.dataTransfer.files[0];
-    if (selectedFile.name.endsWith(".csv")) {
-      displayFileInfo(selectedFile);
-      document.getElementById("analyzeBtn").disabled = false;
-    } else {
-      alert("Please upload a CSV file");
-    }
-  }
-});
-
-function displayFileInfo(file) {
-  document.getElementById("fileName").textContent = file.name;
-  document.getElementById("fileInfo").style.display = "flex";
-}
-
-function clearFile() {
-  selectedFile = null;
-  document.getElementById("fileInput").value = "";
-  document.getElementById("fileInfo").style.display = "none";
-  document.getElementById("analyzeBtn").disabled = true;
-  document.getElementById("results").style.display = "none";
-}
-
-async function analyzeData() {
-  if (!selectedFile) return;
-
-  const formData = new FormData();
-  formData.append("file", selectedFile);
-
-  document.getElementById("loading").style.display = "flex";
-  document.getElementById("results").style.display = "none";
-
-  try {
-    console.log("Calling API:", `${API_BASE_URL}/api/validate`);
-    const response = await fetch(`${API_BASE_URL}/api/validate`, {
-      method: "POST",
-      body: formData,
-    });
-    console.log("Response status:", response.status, response.statusText);
-
-    // Read response body once (can only be read once)
-    let responseText;
-    try {
-      responseText = await response.text();
-    } catch (e) {
-      document.getElementById("loading").style.display = "none";
-      alert("Error: Failed to read server response. Please try again.");
-      console.error("Response read error:", e);
-      return false;
-    }
-
-    // Check if response is OK
-    if (!response.ok) {
-      // Try to parse as JSON, fallback to text
-      let errorMessage = `Server error (${response.status})`;
-      try {
-        const errorData = JSON.parse(responseText);
-        errorMessage = errorData.error || errorMessage;
-      } catch (e) {
-        errorMessage = responseText || errorMessage;
-      }
-      document.getElementById("loading").style.display = "none";
-      alert("Error: " + errorMessage);
-      console.error("Server error:", response.status, errorMessage);
-      return;
-    }
-
-    // Parse JSON response
-    let data;
-    try {
-      data = JSON.parse(responseText);
-    } catch (e) {
-      document.getElementById("loading").style.display = "none";
-      alert("Error: Invalid response from server. Please try again.");
-      console.error(
-        "JSON parse error:",
-        e,
-        "Response text:",
-        responseText.substring(0, 200)
-      );
-      return;
-    }
-
-    document.getElementById("loading").style.display = "none";
-
-    if (data.error) {
-      alert("Error: " + data.error);
-      return;
-    }
-
-    if (data.success) {
-      displayResults(data);
-    } else {
-      alert("Error: Unexpected response format");
-    }
-  } catch (error) {
-    document.getElementById("loading").style.display = "none";
-    console.error("Fetch error:", error);
-    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-      alert("Error: Cannot connect to API server. Please check:\n1. Railway server is running\n2. API URL is correct: " + API_BASE_URL + "\n3. Check browser console for details");
-    } else {
-      alert("Error processing file: " + error.message);
-    }
-    return false;
-  }
-}
+// analyzeData function removed - now handled directly in form submission
 
 function displayResults(data) {
   const resultsDiv = document.getElementById("results");
@@ -180,36 +48,60 @@ function displayResults(data) {
     html += "</div>";
   }
 
-  // Summary statistics
-  html += '<div class="summary-stats">';
-  html += `<div class="stat-card">
+  // Check if single patient mode
+  const isSinglePatient = data.summary.total_patients === 1;
+  
+  // NEW ORDER: Show Outcomes FIRST (if available), then Risk SECOND
+  // Check if outcome predictions are already in the response
+  if (data.outcome_predictions && !data.outcome_predictions.error) {
+    // Display outcomes FIRST - most prominent
+    html += '<div id="outcomeResultsInline" style="margin: 30px 0;"></div>';
+  }
+  
+  // Summary statistics - Surgery Risk SECOND (less prominent)
+  html += '<div class="summary-stats" style="margin-top: 50px; padding-top: 30px; border-top: 2px solid #e2e8f0;">';
+  html += '<h3 style="font-size: 1.5rem; font-weight: 600; color: #475569; margin-bottom: 20px;">Surgery Risk Assessment</h3>';
+  if (isSinglePatient) {
+    // Single patient: Show risk smaller and less prominent
+    html += `<div class="stat-card" style="grid-column: 1 / -1; max-width: 350px; margin: 0 auto; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; background: #f8fafc; box-shadow: 0 2px 8px rgba(0,0,0,0.05);" title="Probability of needing TKR within 4 years">
+        <div class="stat-value" style="font-size: 2.5rem; color: #64748b; font-weight: 600;">${data.summary.avg_risk.toFixed(1)}%</div>
+        <div class="stat-label" style="font-size: 1rem; margin-top: 10px; color: #475569; font-weight: 600;">Surgery Risk</div>
+        <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px;">Probability of needing TKR within 4 years</div>
+    </div>`;
+  } else {
+    // Multiple patients: Show batch stats
+    html += `<div class="stat-card">
         <div class="stat-value">${data.summary.total_patients}</div>
         <div class="stat-label">Total Patients</div>
     </div>`;
-  html += `<div class="stat-card">
+    html += `<div class="stat-card" title="Average probability of needing TKR within 4 years">
         <div class="stat-value">${data.summary.avg_risk.toFixed(1)}%</div>
         <div class="stat-label">Average Risk</div>
+        <div style="font-size: 0.7rem; color: #64748b; margin-top: 4px;">Probability of TKR</div>
     </div>`;
-  html += `<div class="stat-card">
+    html += `<div class="stat-card" title="Patients with ≥20% probability of needing TKR within 4 years">
         <div class="stat-value">${data.summary.high_risk_count}</div>
         <div class="stat-label">High Risk Patients</div>
+        <div style="font-size: 0.7rem; color: #64748b; margin-top: 4px;">≥20% probability</div>
     </div>`;
-  html += `<div class="stat-card">
+    html += `<div class="stat-card" title="Percentage of patients with high risk (≥20%)">
         <div class="stat-value">${data.summary.high_risk_pct.toFixed(1)}%</div>
         <div class="stat-label">High Risk %</div>
+        <div style="font-size: 0.7rem; color: #64748b; margin-top: 4px;">≥20% threshold</div>
     </div>`;
+  }
   html += "</div>";
 
-  // Risk distribution plot
-  if (data.plots.risk_distribution) {
+  // Risk distribution plot - only for multiple patients
+  if (!isSinglePatient && data.plots.risk_distribution) {
     html += '<div class="plot-container">';
     html += "<h3>Risk Distribution</h3>";
     html += '<canvas id="riskDistChart"></canvas>';
     html += "</div>";
   }
 
-  // Validation metrics (if outcomes provided)
-  if (data.validation_metrics) {
+  // Validation metrics (if outcomes provided) - only for multiple patients
+  if (!isSinglePatient && data.validation_metrics) {
     html += '<div class="validation-metrics">';
     html += "<h3>Validation Metrics</h3>";
 
@@ -292,13 +184,15 @@ function displayResults(data) {
     }
   }
 
-  // Download section
-  html += '<div class="download-section">';
-  html += "<h3>Download Predictions</h3>";
-  html += "<p>Download the predictions as a CSV file</p>";
-  html +=
-    '<button class="download-btn" onclick="downloadPredictions()">Download CSV</button>';
-  html += "</div>";
+  // Download section - only for multiple patients
+  if (!isSinglePatient) {
+    html += '<div class="download-section">';
+    html += "<h3>Download Predictions</h3>";
+    html += "<p>Download the predictions as a CSV file</p>";
+    html +=
+      '<button class="download-btn" onclick="downloadPredictions()">Download CSV</button>';
+    html += "</div>";
+  }
 
   resultsDiv.innerHTML = html;
   resultsDiv.style.display = "block";
@@ -309,24 +203,113 @@ function displayResults(data) {
   // Render charts
   renderCharts(data.plots);
 
-  // NEW: Show outcome analysis for ALL patients (not just moderate/high risk)
-  // User wants to see outcomes for all risk categories
-  if (data.summary.total_patients > 0) {
-    const outcomeSection = document.getElementById("outcomeSection");
-    const outcomeBtnText = document.getElementById("outcomeBtnText");
-
-    if (outcomeSection && outcomeBtnText) {
-      outcomeSection.style.display = "block";
-      outcomeBtnText.textContent = `Analyze Expected Surgical Outcomes (${data.summary.total_patients} patients)`;
-
-      // Reset state
-      window.outcomesPredicted = false;
-      const outcomeResults = document.getElementById("outcomeResults");
-      if (outcomeResults) {
-        outcomeResults.style.display = "none";
-      }
+  // NEW ORDER: Display outcomes FIRST if they exist in the response
+  if (data.outcome_predictions && !data.outcome_predictions.error) {
+    // Display outcomes inline in results (FIRST, most prominent)
+    const outcomeResultsInline = document.getElementById("outcomeResultsInline");
+    if (outcomeResultsInline) {
+      displayOutcomeResultsInline(data.outcome_predictions, outcomeResultsInline);
     }
   }
+}
+
+// Display outcomes inline (for when they come with the initial response)
+function displayOutcomeResultsInline(outcomes, container) {
+  if (!container) return;
+
+  // Use success metrics if available, fallback to old format
+  const hasSuccessMetrics = outcomes.success_distribution !== undefined;
+  const successRate = outcomes.success_rate || 0;
+  const meanSuccessProb = outcomes.mean_success_probability || 0;
+  const medianSuccessProb = outcomes.median_success_probability || 0;
+  
+  // Check if single patient mode
+  const patientOutcomes = outcomes.patient_outcomes || [];
+  const isSinglePatient = patientOutcomes.length === 1;
+  
+  let html = `
+    <div class="outcome-results-container" style="margin-bottom: 40px; padding: 32px; background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+      <h3 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin-bottom: 8px; border-bottom: 3px solid #3b82f6; padding-bottom: 12px;">Expected Surgical Outcomes</h3>
+  `;
+  
+  if (isSinglePatient) {
+    // Single patient: Show individual results prominently
+    const patient = patientOutcomes[0];
+    const improvement = patient._womac_improvement || 0;
+    const successProb = patient.success_probability || 0;
+    
+    html += `
+      <div style="max-width: 600px; margin: 0 auto; padding-top: 20px;">
+        <div class="metric-card outcome-card highlight-card" style="border: 3px solid #3b82f6; margin-bottom: 24px; background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%); padding: 32px; border-radius: 16px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);">
+          <div class="metric-value" style="font-size: 4rem; color: #1e40af; margin-bottom: 12px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">${improvement.toFixed(1)}</div>
+          <div class="metric-label" style="font-size: 1.3rem; margin-bottom: 10px; color: #1e293b; font-weight: 600;">Expected Improvement (points)</div>
+          <div style="font-size: 1rem; color: #475569; font-weight: 500; margin-bottom: 4px;">WOMAC/Function/Pain improvement</div>
+          <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px; font-style: italic;">±15 points typical uncertainty</div>
+          ${improvement >= 30 
+            ? `<div style="margin-top: 16px; padding: 14px; background: #d1fae5; border-radius: 10px; color: #065f46; font-weight: 700; border: 2px solid #10b981; font-size: 1rem;">
+                ✓ Meets success threshold (≥30 points)
+              </div>`
+            : `<div style="margin-top: 16px; padding: 14px; background: #fee2e2; border-radius: 10px; color: #991b1b; font-weight: 700; border: 2px solid #ef4444; font-size: 1rem;">
+                Below threshold (needs ${(30 - improvement).toFixed(1)} more points)
+              </div>`}
+        </div>
+        
+        <div class="metric-card outcome-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%); padding: 28px; border-radius: 16px; border: 2px solid #fde68a; box-shadow: 0 4px 12px rgba(234, 179, 8, 0.15);">
+          <div class="metric-value" style="font-size: 3rem; color: ${patient.success_category.includes('Excellent') || patient.success_category.includes('Successful') ? '#1e40af' : patient.success_category.includes('Moderate') ? '#b45309' : '#c2410c'}; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 8px;">
+            ${successProb.toFixed(1)}%
+          </div>
+          <div class="metric-label" style="font-size: 1.2rem; color: #1e293b; font-weight: 600; margin-bottom: 6px;">Success Probability</div>
+          <div style="font-size: 0.95rem; color: #475569; margin-top: 8px; font-weight: 500;">${patient.success_category}</div>
+        </div>
+      </div>
+    `;
+  } else {
+    // Multiple patients: Show batch metrics (keep existing code)
+    const avgImprovement = patientOutcomes.length > 0
+      ? patientOutcomes.reduce((sum, p) => sum + (p._womac_improvement || 0), 0) / patientOutcomes.length
+      : 0;
+    
+    html += `
+      <div class="metrics-grid" style="margin-top: 20px;">
+        <div class="metric-card outcome-card highlight-card" style="border: 3px solid #3b82f6;">
+          <div class="metric-value" style="font-size: 2.5rem; color: #3b82f6;">${avgImprovement.toFixed(1)}</div>
+          <div class="metric-label">Average Expected Improvement (points)</div>
+          <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">WOMAC/Function/Pain improvement</div>
+        </div>
+        <div class="metric-card outcome-card">
+          <div class="metric-value">${outcomes.n_analyzed}</div>
+          <div class="metric-label">Patients Analyzed</div>
+        </div>
+        <div class="metric-card outcome-card highlight-card">
+          <div class="metric-value">${successRate.toFixed(1)}%</div>
+          <div class="metric-label">Success Rate (≥30 improvement)</div>
+        </div>
+        <div class="metric-card outcome-card">
+          <div class="metric-value">${meanSuccessProb.toFixed(1)}%</div>
+          <div class="metric-label">Mean Success Probability</div>
+        </div>
+        <div class="metric-card outcome-card">
+          <div class="metric-value">${medianSuccessProb.toFixed(1)}%</div>
+          <div class="metric-label">Median Success Probability</div>
+        </div>
+      </div>
+    `;
+  }
+  
+  html += `
+      <div class="success-category-legend" style="margin-top: 30px; padding-top: 24px; border-top: 2px solid #e2e8f0;">
+        <p class="legend-note" style="font-size: 0.9em; color: #475569; font-weight: 500;">
+          <strong>Success Definition:</strong> A successful outcome is defined as ≥30 points improvement in symptoms and function.
+          Categories are based on validated clinical outcome measures.
+        </p>
+        <p class="legend-note" style="margin-top: 8px; font-size: 0.9em; color: #475569; font-weight: 500;">
+          <strong>Note:</strong> These predictions are based on 379 OAI surgical patients. Model explains 41% of variance (R²=0.41) with ±15 point typical uncertainty. Should be validated against Bergman Clinics' surgical outcomes before clinical use.
+        </p>
+      </div>
+    </div>
+  `;
+  
+  container.innerHTML = html;
 }
 
 function renderCharts(plots) {
@@ -545,11 +528,8 @@ async function predictOutcomes() {
 
   const formData = new FormData();
   
-  // Handle both CSV upload and manual entry
-  if (selectedFile) {
-    // CSV upload path
-    formData.append("file", selectedFile);
-  } else if (patientBatch && patientBatch.length > 0) {
+  // Handle manual entry (CSV upload removed)
+  if (patientBatch && patientBatch.length > 0) {
     // Manual entry path - convert batch to CSV
     const csvHeaders = [
       "age",
@@ -630,14 +610,9 @@ async function predictOutcomes() {
       return;
     }
 
-    if (data.outcome_predictions) {
-      if (data.outcome_predictions.error) {
-        alert("Outcome prediction error: " + data.outcome_predictions.error);
-      } else {
-        displayOutcomeResults(data.outcome_predictions);
-        window.outcomesPredicted = true;
-        btnText.textContent = "✓ Outcomes Analyzed";
-      }
+    // Outcomes are now displayed inline in displayResults, not separately
+    if (data.outcome_predictions && data.outcome_predictions.error) {
+      alert("Outcome prediction error: " + data.outcome_predictions.error);
     }
   } catch (error) {
     console.error("Error predicting outcomes:", error);
@@ -660,12 +635,60 @@ function displayOutcomeResults(outcomes) {
   const successRate = outcomes.success_rate || 0;
   const meanSuccessProb = outcomes.mean_success_probability || 0;
   const medianSuccessProb = outcomes.median_success_probability || 0;
-
+  
+  // Check if single patient mode
+  const patientOutcomes = outcomes.patient_outcomes || [];
+  const isSinglePatient = patientOutcomes.length === 1;
+  
   let html = `
     <div class="outcome-results-container">
-      <h3>Surgical Success Probability Analysis</h3>
-      
+      <h3>Expected Surgical Outcomes</h3>
+  `;
+  
+  if (isSinglePatient) {
+    // Single patient: Show individual results prominently
+    const patient = patientOutcomes[0];
+    const improvement = patient._womac_improvement || 0;
+    const successProb = patient.success_probability || 0;
+    
+    html += `
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div class="metric-card outcome-card highlight-card" style="border: 3px solid #3b82f6; margin-bottom: 30px; background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);">
+          <div class="metric-value" style="font-size: 4rem; color: #1e40af; margin-bottom: 10px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">${improvement.toFixed(1)}</div>
+          <div class="metric-label" style="font-size: 1.3rem; margin-bottom: 8px; color: #1e293b; font-weight: 600;">Expected Improvement (points)</div>
+          <div style="font-size: 1rem; color: #475569; font-weight: 500;">WOMAC/Function/Pain improvement</div>
+          <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px; font-style: italic;">±15 points typical uncertainty</div>
+          ${improvement >= 30 
+            ? `<div style="margin-top: 15px; padding: 12px; background: #d1fae5; border-radius: 8px; color: #065f46; font-weight: 700; border: 2px solid #10b981; font-size: 1rem;">
+                ✓ Meets success threshold (≥30 points)
+              </div>`
+            : `<div style="margin-top: 15px; padding: 12px; background: #fee2e2; border-radius: 8px; color: #991b1b; font-weight: 700; border: 2px solid #ef4444; font-size: 1rem;">
+                Below threshold (needs ${(30 - improvement).toFixed(1)} more points)
+              </div>`}
+        </div>
+        
+        <div class="metric-card outcome-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);">
+          <div class="metric-value" style="font-size: 3rem; color: ${patient.success_category.includes('Excellent') || patient.success_category.includes('Successful') ? '#1e40af' : patient.success_category.includes('Moderate') ? '#b45309' : '#c2410c'}; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            ${successProb.toFixed(1)}%
+          </div>
+          <div class="metric-label" style="font-size: 1.2rem; color: #1e293b; font-weight: 600;">Success Probability</div>
+          <div style="font-size: 0.95rem; color: #475569; margin-top: 8px; font-weight: 500;">${patient.success_category}</div>
+        </div>
+      </div>
+    `;
+  } else {
+    // Multiple patients: Show batch metrics
+    const avgImprovement = patientOutcomes.length > 0
+      ? patientOutcomes.reduce((sum, p) => sum + (p._womac_improvement || 0), 0) / patientOutcomes.length
+      : 0;
+    
+    html += `
       <div class="metrics-grid">
+        <div class="metric-card outcome-card highlight-card" style="border: 3px solid #3b82f6;">
+          <div class="metric-value" style="font-size: 2.5rem; color: #3b82f6;">${avgImprovement.toFixed(1)}</div>
+          <div class="metric-label">Average Expected Improvement (points)</div>
+          <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">WOMAC/Function/Pain improvement</div>
+        </div>
         <div class="metric-card outcome-card">
           <div class="metric-value">${outcomes.n_analyzed}</div>
           <div class="metric-label">Patients Analyzed</div>
@@ -696,104 +719,224 @@ function displayOutcomeResults(outcomes) {
           <thead>
             <tr>
               <th>Success Category</th>
+              <th>Expected Improvement</th>
               <th>Number of Patients</th>
               <th>Percentage</th>
-              <th>Typical Success Probability</th>
+              <th>Success Probability</th>
             </tr>
           </thead>
           <tbody>
-  `;
+    `;
 
-  const totalPatients = outcomes.n_analyzed;
-  const categoryOrder = [
-    "Excellent Outcome",
-    "Successful Outcome",
-    "Moderate Improvement",
-    "Limited Improvement",
-    "Minimal Improvement",
-  ];
+    const totalPatients = outcomes.n_analyzed;
+    const categoryOrder = [
+      "Excellent Outcome",
+      "Successful Outcome",
+      "Moderate Improvement",
+      "Limited Improvement",
+      "Minimal Improvement",
+    ];
 
-  // Category color mapping
-  const categoryColors = {
-    "Excellent Outcome": "text-green-600",
-    "Successful Outcome": "text-blue-600",
-    "Moderate Improvement": "text-yellow-600",
-    "Limited Improvement": "text-orange-600",
-    "Minimal Improvement": "text-red-600",
-  };
+    // Category color mapping
+    const categoryColors = {
+      "Excellent Outcome": "text-green-600",
+      "Successful Outcome": "text-blue-600",
+      "Moderate Improvement": "text-yellow-600",
+      "Limited Improvement": "text-orange-600",
+      "Minimal Improvement": "text-red-600",
+    };
 
-  const categoryProbRanges = {
-    "Excellent Outcome": "85-100%",
-    "Successful Outcome": "70-85%",
-    "Moderate Improvement": "40-70%",
-    "Limited Improvement": "20-40%",
-    "Minimal Improvement": "0-20%",
-  };
+    const categoryProbRanges = {
+      "Excellent Outcome": "85-100%",
+      "Successful Outcome": "70-85%",
+      "Moderate Improvement": "40-70%",
+      "Limited Improvement": "20-40%",
+      "Minimal Improvement": "0-20%",
+    };
+    
+    const categoryImprovementRanges = {
+      "Excellent Outcome": "≥40 points",
+      "Successful Outcome": "30-39 points",
+      "Moderate Improvement": "20-29 points",
+      "Limited Improvement": "10-19 points",
+      "Minimal Improvement": "<10 points",
+    };
 
-  const distribution = hasSuccessMetrics 
-    ? outcomes.success_distribution 
-    : outcomes.improvement_distribution || {};
+    const distribution = hasSuccessMetrics 
+      ? outcomes.success_distribution 
+      : outcomes.improvement_distribution || {};
 
-  for (const category of categoryOrder) {
-    const count = distribution[category] || 0;
-    const pct = totalPatients > 0 ? ((count / totalPatients) * 100).toFixed(1) : "0.0";
-    const colorClass = categoryColors[category] || "";
-    const probRange = categoryProbRanges[category] || "";
+    for (const category of categoryOrder) {
+      const count = distribution[category] || 0;
+      const pct = totalPatients > 0 ? ((count / totalPatients) * 100).toFixed(1) : "0.0";
+      const colorClass = categoryColors[category] || "";
+      const probRange = categoryProbRanges[category] || "";
+      const improvementRange = categoryImprovementRanges[category] || "";
+
+      html += `
+        <tr>
+          <td><strong class="${colorClass}">${category}</strong></td>
+          <td><strong>${improvementRange}</strong></td>
+          <td>${count}</td>
+          <td>${pct}%</td>
+          <td>${probRange}</td>
+        </tr>
+      `;
+    }
 
     html += `
-      <tr>
-        <td><strong class="${colorClass}">${category}</strong></td>
-        <td>${count}</td>
-        <td>${pct}%</td>
-        <td>${probRange}</td>
-      </tr>
-    `;
-  }
-
-  html += `
-          </tbody>
-        </table>
-      </div>
-      
-      <div class="success-category-legend">
-        <h4>Outcome Categories</h4>
-        <div class="legend-grid">
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #10b981;"></div>
-            <div class="legend-content">
-              <span class="legend-category">Excellent Outcome</span>
-              <span class="legend-description">Substantial improvement expected (85-100% success probability)</span>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="success-category-legend">
+          <h4>Outcome Categories</h4>
+          <div class="legend-grid">
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #10b981;"></div>
+              <div class="legend-content">
+                <span class="legend-category">Excellent Outcome</span>
+                <span class="legend-description">Substantial improvement expected (85-100% success probability)</span>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #3b82f6;"></div>
+              <div class="legend-content">
+                <span class="legend-category">Successful Outcome</span>
+                <span class="legend-description">Significant improvement expected (70-85% success probability)</span>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #eab308;"></div>
+              <div class="legend-content">
+                <span class="legend-category">Moderate Improvement</span>
+                <span class="legend-description">Noticeable improvement expected (40-70% success probability)</span>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #f97316;"></div>
+              <div class="legend-content">
+                <span class="legend-category">Limited Improvement</span>
+                <span class="legend-description">Some improvement expected (20-40% success probability)</span>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background-color: #ef4444;"></div>
+              <div class="legend-content">
+                <span class="legend-category">Minimal Improvement</span>
+                <span class="legend-description">Limited improvement expected (0-20% success probability)</span>
+              </div>
             </div>
           </div>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #3b82f6;"></div>
-            <div class="legend-content">
-              <span class="legend-category">Successful Outcome</span>
-              <span class="legend-description">Significant improvement expected (70-85% success probability)</span>
+          <p class="legend-note">
+            <strong>Success Definition:</strong> A successful outcome is defined as ≥30 points improvement in symptoms and function.
+            Categories are based on validated clinical outcome measures.
+          </p>
+          <p class="legend-note" style="margin-top: 8px; font-size: 0.9em; color: #666;">
+            <strong>Note:</strong> These predictions are based on 379 OAI surgical patients. Model explains 41% of variance (R²=0.41) with ±15 point typical uncertainty. Should be validated against Bergman Clinics' surgical outcomes before clinical use.
+          </p>
+        </div>
+        
+        <div class="filters-and-sort-section" style="margin-top: 30px;">
+          <h4>Filter & Sort Patients by Outcome</h4>
+          <div class="filters-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <!-- Filter Controls -->
+            <div class="filter-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
+              <h5 style="margin-bottom: 15px; font-weight: 600;">Filter by Outcome</h5>
+              
+              <!-- Success Category Filter -->
+              <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
+                  Expected Outcome Categories:
+                </label>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  ${categoryOrder.map(category => {
+                    const colorClass = categoryColors[category] || "";
+                    return `
+                    <label style="display: flex; align-items: center; cursor: pointer; padding: 4px;">
+                      <input type="checkbox" class="outcome-category-filter" value="${category}" checked style="margin-right: 8px;">
+                      <span class="${colorClass}" style="font-size: 0.9rem;">${category}</span>
+                    </label>
+                  `;
+                  }).join('')}
+                </div>
+              </div>
+              
+              <!-- Success Probability Filter -->
+              <div>
+                <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
+                  Minimum Success Probability: <span id="minProbValue">0</span>%
+                </label>
+                <input type="range" id="minSuccessProbFilter" min="0" max="100" step="5" value="0" 
+                       style="width: 100%;" oninput="document.getElementById('minProbValue').textContent = this.value">
+              </div>
+              
+              <button onclick="applyOutcomeFilters()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
+                Apply Filters
+              </button>
+              <button onclick="clearOutcomeFilters()" class="btn-secondary" style="width: 100%; margin-top: 8px; padding: 8px;">
+                Clear Filters
+              </button>
+            </div>
+            
+            <!-- Sort Controls -->
+            <div class="sort-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
+              <h5 style="margin-bottom: 15px; font-weight: 600;">Sort Patients</h5>
+              
+              <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
+                  Sort by:
+                </label>
+                <select id="outcomeSortBy" style="width: 100%; padding: 8px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem;">
+                  <option value="successProbability">Success Probability</option>
+                  <option value="category">Outcome Category</option>
+                  <option value="surgeryRisk">Surgery Risk</option>
+                  <option value="patientId">Patient ID</option>
+                </select>
+              </div>
+              
+              <div>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="radio" name="outcomeSortOrder" value="desc" checked style="margin-right: 4px;">
+                  <span style="font-size: 0.9rem;">Descending (High to Low)</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 8px;">
+                  <input type="radio" name="outcomeSortOrder" value="asc" style="margin-right: 4px;">
+                  <span style="font-size: 0.9rem;">Ascending (Low to High)</span>
+                </label>
+              </div>
+              
+              <button onclick="applyOutcomeSort()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
+                Apply Sort
+              </button>
             </div>
           </div>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #eab308;"></div>
-            <div class="legend-content">
-              <span class="legend-category">Moderate Improvement</span>
-              <span class="legend-description">Noticeable improvement expected (40-70% success probability)</span>
+          
+          <!-- Patient List Display -->
+          <div id="filteredPatientList" style="margin-top: 20px;">
+            <h4>Patient Outcomes</h4>
+            <div id="patientOutcomesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-top: 15px;">
+              <!-- Populated by JavaScript -->
             </div>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #f97316;"></div>
-            <div class="legend-content">
-              <span class="legend-category">Limited Improvement</span>
-              <span class="legend-description">Some improvement expected (20-40% success probability)</span>
-            </div>
-          </div>
-          <div class="legend-item">
-            <div class="legend-color" style="background-color: #ef4444;"></div>
-            <div class="legend-content">
-              <span class="legend-category">Minimal Improvement</span>
-              <span class="legend-description">Limited improvement expected (0-20% success probability)</span>
+            <div id="filteredCount" style="margin-top: 15px; padding: 10px; background: #e2e8f0; border-radius: 6px; text-align: center;">
+              <strong>Showing <span id="filteredCountValue">0</span> of <span id="totalCountValue">0</span> patients</strong>
             </div>
           </div>
         </div>
+        
+        <div class="download-section">
+          <h4>Download Outcome Predictions</h4>
+          <button class="btn-primary" onclick="downloadOutcomes()">
+            Download CSV (Surgery Risk + Success Probability)
+          </button>
+        </div>
+      `;
+  }
+  
+  // Add success category legend for single patient too
+  html += `
+      <div class="success-category-legend" style="margin-top: 30px;">
+        <h4>Outcome Categories</h4>
         <p class="legend-note">
           <strong>Success Definition:</strong> A successful outcome is defined as ≥30 points improvement in symptoms and function.
           Categories are based on validated clinical outcome measures.
@@ -802,100 +945,6 @@ function displayOutcomeResults(outcomes) {
           <strong>Note:</strong> These predictions are based on OAI data and should be validated 
           against Bergman Clinics' surgical outcomes before clinical use.
         </p>
-      </div>
-      
-      <div class="filters-and-sort-section" style="margin-top: 30px;">
-        <h4>Filter & Sort Patients by Outcome</h4>
-        <div class="filters-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-          <!-- Filter Controls -->
-          <div class="filter-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
-            <h5 style="margin-bottom: 15px; font-weight: 600;">Filter by Outcome</h5>
-            
-            <!-- Success Category Filter -->
-            <div style="margin-bottom: 15px;">
-              <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
-                Expected Outcome Categories:
-              </label>
-              <div style="display: flex; flex-direction: column; gap: 6px;">
-                ${categoryOrder.map(category => {
-                  const colorClass = categoryColors[category] || "";
-                  return `
-                  <label style="display: flex; align-items: center; cursor: pointer; padding: 4px;">
-                    <input type="checkbox" class="outcome-category-filter" value="${category}" checked style="margin-right: 8px;">
-                    <span class="${colorClass}" style="font-size: 0.9rem;">${category}</span>
-                  </label>
-                `;
-                }).join('')}
-              </div>
-            </div>
-            
-            <!-- Success Probability Filter -->
-            <div>
-              <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
-                Minimum Success Probability: <span id="minProbValue">0</span>%
-              </label>
-              <input type="range" id="minSuccessProbFilter" min="0" max="100" step="5" value="0" 
-                     style="width: 100%;" oninput="document.getElementById('minProbValue').textContent = this.value">
-            </div>
-            
-            <button onclick="applyOutcomeFilters()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
-              Apply Filters
-            </button>
-            <button onclick="clearOutcomeFilters()" class="btn-secondary" style="width: 100%; margin-top: 8px; padding: 8px;">
-              Clear Filters
-            </button>
-          </div>
-          
-          <!-- Sort Controls -->
-          <div class="sort-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
-            <h5 style="margin-bottom: 15px; font-weight: 600;">Sort Patients</h5>
-            
-            <div style="margin-bottom: 15px;">
-              <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
-                Sort by:
-              </label>
-              <select id="outcomeSortBy" style="width: 100%; padding: 8px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem;">
-                <option value="successProbability">Success Probability</option>
-                <option value="category">Outcome Category</option>
-                <option value="surgeryRisk">Surgery Risk</option>
-                <option value="patientId">Patient ID</option>
-              </select>
-            </div>
-            
-            <div>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="radio" name="outcomeSortOrder" value="desc" checked style="margin-right: 4px;">
-                <span style="font-size: 0.9rem;">Descending (High to Low)</span>
-              </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 8px;">
-                <input type="radio" name="outcomeSortOrder" value="asc" style="margin-right: 4px;">
-                <span style="font-size: 0.9rem;">Ascending (Low to High)</span>
-              </label>
-            </div>
-            
-            <button onclick="applyOutcomeSort()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
-              Apply Sort
-            </button>
-          </div>
-        </div>
-        
-        <!-- Patient List Display -->
-        <div id="filteredPatientList" style="margin-top: 20px;">
-          <h4>Patient Outcomes</h4>
-          <div id="patientOutcomesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-top: 15px;">
-            <!-- Populated by JavaScript -->
-          </div>
-          <div id="filteredCount" style="margin-top: 15px; padding: 10px; background: #e2e8f0; border-radius: 6px; text-align: center;">
-            <strong>Showing <span id="filteredCountValue">0</span> of <span id="totalCountValue">0</span> patients</strong>
-          </div>
-        </div>
-      </div>
-      
-      <div class="download-section">
-        <h4>Download Outcome Predictions</h4>
-        <button class="btn-primary" onclick="downloadOutcomes()">
-          Download CSV (Surgery Risk + Success Probability)
-        </button>
       </div>
     </div>
   `;
@@ -909,15 +958,18 @@ function displayOutcomeResults(outcomes) {
   // Store patient outcomes data for filtering/sorting
   window.patientOutcomesData = outcomes.patient_outcomes || [];
   
-  // Initial display of all patients
-  displayFilteredPatients(window.patientOutcomesData);
+  // Only show filtering/sorting and charts for multiple patients
+  if (!isSinglePatient) {
+    // Initial display of all patients
+    displayFilteredPatients(window.patientOutcomesData);
 
-  // Render success category distribution chart
-  if (outcomes.success_plot || outcomes.improvement_plot) {
-    setTimeout(() => {
-      const plotData = outcomes.success_plot || outcomes.improvement_plot;
-      renderImprovementChart(plotData);
-    }, 100);
+    // Render success category distribution chart
+    if (outcomes.success_plot || outcomes.improvement_plot) {
+      setTimeout(() => {
+        const plotData = outcomes.success_plot || outcomes.improvement_plot;
+        renderImprovementChart(plotData);
+      }, 100);
+    }
   }
 
   // Scroll to results
@@ -1012,23 +1064,7 @@ function downloadOutcomes() {
 // Patient batch storage
 let patientBatch = [];
 
-function showManualEntry() {
-  document.getElementById("manualEntrySection").style.display = "block";
-  document.getElementById("csvUploadSection").style.display = "none";
-  document
-    .querySelectorAll(".option-tab")
-    .forEach((tab) => tab.classList.remove("active"));
-  event.target.classList.add("active");
-}
-
-function showCsvUpload() {
-  document.getElementById("manualEntrySection").style.display = "none";
-  document.getElementById("csvUploadSection").style.display = "block";
-  document
-    .querySelectorAll(".option-tab")
-    .forEach((tab) => tab.classList.remove("active"));
-  event.target.classList.add("active");
-}
+// CSV upload functions removed - manual entry only
 
 // VAS to WOMAC conversion function
 // Based on literature: Salaffi et al. 2003, Tubach et al. 2005
@@ -1138,9 +1174,23 @@ document.getElementById("vas_l")?.addEventListener("input", function () {
   }
 });
 
-// Form submission handler
-document.getElementById("patientForm").addEventListener("submit", function (e) {
+// Form submission handler - analyze immediately
+document.getElementById("patientForm").addEventListener("submit", async function (e) {
   e.preventDefault();
+
+  const analyzeBtn = document.getElementById("analyzePatientBtn");
+  const analyzeBtnText = document.getElementById("analyzeBtnText");
+  const originalText = analyzeBtnText.textContent;
+  
+  // Disable button and show loading
+  analyzeBtn.disabled = true;
+  analyzeBtnText.textContent = "Analyzing...";
+  analyzeBtn.style.opacity = "0.7";
+  analyzeBtn.style.cursor = "not-allowed";
+
+  // Show loading indicator
+  document.getElementById("loading").style.display = "flex";
+  document.getElementById("results").style.display = "none";
 
   // Validate KL grades - at least one must be available (not "Not available")
   const kl_r_value = document.getElementById("kl_r").value;
@@ -1151,6 +1201,10 @@ document.getElementById("patientForm").addEventListener("submit", function (e) {
     (kl_r_value === "" || kl_r_value === "na") &&
     (kl_l_value === "" || kl_l_value === "na")
   ) {
+    document.getElementById("loading").style.display = "none";
+    analyzeBtn.disabled = false;
+    analyzeBtnText.textContent = originalText;
+    analyzeBtn.style.opacity = "1";
     alert(
       "At least one knee must have imaging data. Both knees cannot be 'Not available'."
     );
@@ -1164,6 +1218,10 @@ document.getElementById("patientForm").addEventListener("submit", function (e) {
   if (kl_r_value !== "" && kl_r_value !== "na") {
     kl_r = parseInt(kl_r_value);
     if (isNaN(kl_r) || kl_r < 0 || kl_r > 4) {
+      document.getElementById("loading").style.display = "none";
+      analyzeBtn.disabled = false;
+      analyzeBtnText.textContent = originalText;
+      analyzeBtn.style.opacity = "1";
       alert("Invalid right knee KL grade. Please select a valid option.");
       return;
     }
@@ -1172,6 +1230,10 @@ document.getElementById("patientForm").addEventListener("submit", function (e) {
   if (kl_l_value !== "" && kl_l_value !== "na") {
     kl_l = parseInt(kl_l_value);
     if (isNaN(kl_l) || kl_l < 0 || kl_l > 4) {
+      document.getElementById("loading").style.display = "none";
+      analyzeBtn.disabled = false;
+      analyzeBtnText.textContent = originalText;
+      analyzeBtn.style.opacity = "1";
       alert("Invalid left knee KL grade. Please select a valid option.");
       return;
     }
@@ -1180,6 +1242,10 @@ document.getElementById("patientForm").addEventListener("submit", function (e) {
   // Check that at least one knee has OA findings (KL ≥ 1) if both are available
   if (kl_r !== null && kl_l !== null) {
     if (kl_r === 0 && kl_l === 0) {
+      document.getElementById("loading").style.display = "none";
+      analyzeBtn.disabled = false;
+      analyzeBtnText.textContent = originalText;
+      analyzeBtn.style.opacity = "1";
       alert(
         "At least one knee must have OA findings (KL grade ≥ 1). Both knees cannot be KL grade 0."
       );
@@ -1303,24 +1369,82 @@ document.getElementById("patientForm").addEventListener("submit", function (e) {
     patient.tkr_outcome = parseInt(outcome);
   }
 
-  // Check for duplicate patient ID
-  if (patientId && patientBatch.find((p) => p._patient_id === patientId)) {
-    alert("Patient ID already exists. Please use a unique ID.");
-    return;
+  // Immediately analyze this single patient
+  try {
+    // Add minimum delay to show loading state (at least 800ms for UX)
+    const startTime = Date.now();
+    const minLoadingTime = 800;
+    
+    // Convert single patient to CSV format
+    const csvHeaders = ["age", "sex", "bmi", "womac_r", "womac_l", "kl_r", "kl_l", "fam_hx"];
+    if (outcome !== "") {
+      csvHeaders.push("tkr_outcome");
+    }
+    
+    const csv = [
+      csvHeaders.join(","),
+      csvHeaders.map((h) => {
+        const value = patient[h];
+        if (value === null || value === undefined) {
+          if (h === "kl_r" || h === "kl_l") {
+            return "na";
+          }
+          return "";
+        }
+        return value;
+      }).join(",")
+    ].join("\n");
+    
+    const blob = new Blob([csv], { type: "text/csv" });
+    const formData = new FormData();
+    formData.append("file", blob, "patient.csv");
+    formData.append("run_outcome", "true"); // Also run outcome prediction
+
+    console.log("Analyzing patient...");
+    const response = await fetch(`${API_BASE_URL}/api/validate`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const responseText = await response.text();
+    let data;
+
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      throw new Error(`Server error: ${response.status} ${responseText.substring(0, 100)}`);
+    }
+
+    // Ensure minimum loading time for better UX
+    const elapsed = Date.now() - startTime;
+    const remainingTime = Math.max(0, minLoadingTime - elapsed);
+    await new Promise(resolve => setTimeout(resolve, remainingTime));
+
+    document.getElementById("loading").style.display = "none";
+    analyzeBtn.disabled = false;
+    analyzeBtnText.textContent = originalText;
+    analyzeBtn.style.opacity = "1";
+
+    if (data.error) {
+      alert("Error: " + data.error);
+      return;
+    }
+
+    console.log("Analysis complete, displaying results...");
+    // Display results (outcomes are already included inline via displayResults)
+    displayResults(data);
+    
+    // Scroll to results
+    document.getElementById("results").scrollIntoView({ behavior: "smooth", block: "start" });
+    
+  } catch (error) {
+    document.getElementById("loading").style.display = "none";
+    analyzeBtn.disabled = false;
+    analyzeBtnText.textContent = originalText;
+    analyzeBtn.style.opacity = "1";
+    alert("Error analyzing patient: " + error.message);
+    console.error("Analysis error:", error);
   }
-
-  // Add to batch
-  patientBatch.push(patient);
-
-  // Update display
-  updatePatientList();
-
-  // Clear form
-  clearForm();
-
-  // Show success message
-  const displayId = patientId || `Patient ${patientBatch.length}`;
-  showNotification(`${displayId} added`);
 });
 
 function updatePatientList() {
@@ -1617,11 +1741,17 @@ function displayFilteredPatients(patients) {
           </div>
         </div>
         
-        ${patient.surgery_risk !== null && patient.risk_category ? `
-          <div style="margin-bottom: 12px; padding: 8px; background: #f7fafc; border-radius: 6px;">
-            <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 4px;">Surgery Risk</div>
-            <div style="font-size: 1.3rem; font-weight: 600; color: #2d3748;">${patient.surgery_risk.toFixed(1)}%</div>
-            <div style="font-size: 0.8rem; color: #64748b;">${patient.risk_category}</div>
+        ${patient._womac_improvement !== undefined && patient._womac_improvement !== null ? `
+          <div style="margin-bottom: 12px; padding: 12px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 8px; color: white;">
+            <div style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 4px;">Expected Improvement</div>
+            <div style="font-size: 2rem; font-weight: 700; margin-bottom: 4px;">
+              ${patient._womac_improvement.toFixed(1)} points
+            </div>
+            <div style="font-size: 0.8rem; opacity: 0.9;">
+              ${patient._womac_improvement >= 30 
+                ? `✓ Meets success threshold (≥30 points)` 
+                : `Below threshold (needs ${(30 - patient._womac_improvement).toFixed(1)} more points)`}
+            </div>
           </div>
         ` : ''}
         
@@ -1642,6 +1772,14 @@ function displayFilteredPatients(patients) {
             </div>
           ` : ''}
         </div>
+        
+        ${patient.surgery_risk !== null && patient.risk_category ? `
+          <div style="margin-top: 12px; padding: 8px; background: #f7fafc; border-radius: 6px;">
+            <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 4px;">Surgery Risk</div>
+            <div style="font-size: 1.3rem; font-weight: 600; color: #2d3748;">${patient.surgery_risk.toFixed(1)}%</div>
+            <div style="font-size: 0.8rem; color: #64748b;">${patient.risk_category}</div>
+          </div>
+        ` : ''}
       </div>
     `;
   }).join('');

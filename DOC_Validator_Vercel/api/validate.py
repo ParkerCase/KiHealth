@@ -398,56 +398,68 @@ class handler(BaseHTTPRequestHandler):
             if has_outcomes:
                 y_true = df["tkr_outcome"]
 
-                auc = roc_auc_score(y_true, predictions)
-                brier = brier_score_loss(y_true, predictions)
-                event_rate = y_true.mean() * 100
+                # Check if we have at least 2 classes for AUC calculation
+                unique_classes = y_true.unique()
+                n_events = int(y_true.sum())
+                n_no_events = int((y_true == 0).sum())
+                has_both_classes = len(unique_classes) >= 2 and n_events > 0 and n_no_events > 0
 
                 validation_metrics = {
-                    "auc": float(auc),
-                    "brier_score": float(brier),
-                    "event_rate": float(event_rate),
-                    "n_events": int(y_true.sum()),
+                    "event_rate": float(y_true.mean() * 100),
+                    "n_events": n_events,
                 }
 
-                # ROC Curve data for client-side rendering
-                fpr, tpr, _ = roc_curve(y_true, predictions)
-                roc_plot = {
-                    "type": "line",
-                    "title": "ROC Curve",
-                    "xlabel": "False Positive Rate",
-                    "ylabel": "True Positive Rate",
-                    "data": {
-                        "model": {
-                            "x": fpr.tolist(),
-                            "y": tpr.tolist(),
-                            "label": f"Model (AUC={auc:.3f})",
-                        },
-                        "random": {"x": [0, 1], "y": [0, 1], "label": "Random"},
-                    },
-                }
+                if has_both_classes:
+                    # Can calculate AUC and other metrics
+                    auc = roc_auc_score(y_true, predictions)
+                    brier = brier_score_loss(y_true, predictions)
+                    
+                    validation_metrics["auc"] = float(auc)
+                    validation_metrics["brier_score"] = float(brier)
 
-                # Calibration Plot data for client-side rendering
-                prob_true, prob_pred = calibration_curve(
-                    y_true, predictions, n_bins=10, strategy="quantile"
-                )
-                calibration_plot = {
-                    "type": "scatter",
-                    "title": "Calibration Plot",
-                    "xlabel": "Predicted Probability",
-                    "ylabel": "Observed Frequency",
-                    "data": {
-                        "model": {
-                            "x": prob_pred.tolist(),
-                            "y": prob_true.tolist(),
-                            "label": "Model",
+                    # ROC Curve data for client-side rendering
+                    fpr, tpr, _ = roc_curve(y_true, predictions)
+                    roc_plot = {
+                        "type": "line",
+                        "title": "ROC Curve",
+                        "xlabel": "False Positive Rate",
+                        "ylabel": "True Positive Rate",
+                        "data": {
+                            "model": {
+                                "x": fpr.tolist(),
+                                "y": tpr.tolist(),
+                                "label": f"Model (AUC={auc:.3f})",
+                            },
+                            "random": {"x": [0, 1], "y": [0, 1], "label": "Random"},
                         },
-                        "perfect": {
-                            "x": [0, 1],
-                            "y": [0, 1],
-                            "label": "Perfect Calibration",
+                    }
+
+                    # Calibration Plot data for client-side rendering
+                    prob_true, prob_pred = calibration_curve(
+                        y_true, predictions, n_bins=10, strategy="quantile"
+                    )
+                    calibration_plot = {
+                        "type": "scatter",
+                        "title": "Calibration Plot",
+                        "xlabel": "Predicted Probability",
+                        "ylabel": "Observed Frequency",
+                        "data": {
+                            "model": {
+                                "x": prob_pred.tolist(),
+                                "y": prob_true.tolist(),
+                                "label": "Model",
+                            },
+                            "perfect": {
+                                "x": [0, 1],
+                                "y": [0, 1],
+                                "label": "Perfect Calibration",
+                            },
                         },
-                    },
-                }
+                    }
+                else:
+                    # Only one class present - can't calculate AUC
+                    validation_metrics["auc"] = None
+                    validation_metrics["brier_score"] = None
 
                 # Risk stratification
                 risk_strat = df.groupby("risk_category").agg(
