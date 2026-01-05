@@ -1286,9 +1286,17 @@ document.getElementById("patientForm").addEventListener("submit", async function
   analyzeBtn.style.opacity = "0.7";
   analyzeBtn.style.cursor = "not-allowed";
 
-  // Show loading indicator
-  document.getElementById("loading").style.display = "flex";
-  document.getElementById("results").style.display = "none";
+  // Show loading indicator (only if on step 1 or desktop)
+  const loadingEl = document.getElementById("loading");
+  const isMobileFormVisible = document.getElementById("mobilePatientForm") && 
+                               window.getComputedStyle(document.getElementById("mobilePatientForm")).display !== "none";
+  
+  // Only show loading on step 1 or desktop
+  if (!isMobileFormVisible || currentMobileStep === 1) {
+    if (loadingEl) loadingEl.style.display = "flex";
+  }
+  const desktopResults = document.getElementById("results");
+  if (desktopResults) desktopResults.style.display = "none";
 
   // Validate KL grades - at least one must be available (not "Not available")
   const kl_r_value = document.getElementById("kl_r").value;
