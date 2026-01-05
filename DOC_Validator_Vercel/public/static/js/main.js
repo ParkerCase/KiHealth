@@ -70,7 +70,7 @@ function displayResults(data) {
     </div>`;
   } else {
     // Multiple patients: Show batch stats
-    html += `<div class="stat-card">
+  html += `<div class="stat-card">
         <div class="stat-value">${data.summary.total_patients}</div>
         <div class="stat-label">Total Patients</div>
     </div>`;
@@ -186,12 +186,12 @@ function displayResults(data) {
 
   // Download section - only for multiple patients
   if (!isSinglePatient) {
-    html += '<div class="download-section">';
-    html += "<h3>Download Predictions</h3>";
-    html += "<p>Download the predictions as a CSV file</p>";
-    html +=
-      '<button class="download-btn" onclick="downloadPredictions()">Download CSV</button>';
-    html += "</div>";
+  html += '<div class="download-section">';
+  html += "<h3>Download Predictions</h3>";
+  html += "<p>Download the predictions as a CSV file</p>";
+  html +=
+    '<button class="download-btn" onclick="downloadPredictions()">Download CSV</button>';
+  html += "</div>";
   }
 
   resultsDiv.innerHTML = html;
@@ -612,7 +612,7 @@ async function predictOutcomes() {
 
     // Outcomes are now displayed inline in displayResults, not separately
     if (data.outcome_predictions && data.outcome_predictions.error) {
-      alert("Outcome prediction error: " + data.outcome_predictions.error);
+        alert("Outcome prediction error: " + data.outcome_predictions.error);
     }
   } catch (error) {
     console.error("Error predicting outcomes:", error);
@@ -639,7 +639,7 @@ function displayOutcomeResults(outcomes) {
   // Check if single patient mode
   const patientOutcomes = outcomes.patient_outcomes || [];
   const isSinglePatient = patientOutcomes.length === 1;
-  
+
   let html = `
     <div class="outcome-results-container">
       <h3>Expected Surgical Outcomes</h3>
@@ -726,33 +726,33 @@ function displayOutcomeResults(outcomes) {
             </tr>
           </thead>
           <tbody>
-    `;
+  `;
 
-    const totalPatients = outcomes.n_analyzed;
-    const categoryOrder = [
-      "Excellent Outcome",
-      "Successful Outcome",
-      "Moderate Improvement",
-      "Limited Improvement",
-      "Minimal Improvement",
-    ];
+  const totalPatients = outcomes.n_analyzed;
+  const categoryOrder = [
+    "Excellent Outcome",
+    "Successful Outcome",
+    "Moderate Improvement",
+    "Limited Improvement",
+    "Minimal Improvement",
+  ];
 
-    // Category color mapping
-    const categoryColors = {
-      "Excellent Outcome": "text-green-600",
-      "Successful Outcome": "text-blue-600",
-      "Moderate Improvement": "text-yellow-600",
-      "Limited Improvement": "text-orange-600",
-      "Minimal Improvement": "text-red-600",
-    };
+  // Category color mapping
+  const categoryColors = {
+    "Excellent Outcome": "text-green-600",
+    "Successful Outcome": "text-blue-600",
+    "Moderate Improvement": "text-yellow-600",
+    "Limited Improvement": "text-orange-600",
+    "Minimal Improvement": "text-red-600",
+  };
 
-    const categoryProbRanges = {
-      "Excellent Outcome": "85-100%",
-      "Successful Outcome": "70-85%",
-      "Moderate Improvement": "40-70%",
-      "Limited Improvement": "20-40%",
-      "Minimal Improvement": "0-20%",
-    };
+  const categoryProbRanges = {
+    "Excellent Outcome": "85-100%",
+    "Successful Outcome": "70-85%",
+    "Moderate Improvement": "40-70%",
+    "Limited Improvement": "20-40%",
+    "Minimal Improvement": "0-20%",
+  };
     
     const categoryImprovementRanges = {
       "Excellent Outcome": "≥40 points",
@@ -760,175 +760,175 @@ function displayOutcomeResults(outcomes) {
       "Moderate Improvement": "20-29 points",
       "Limited Improvement": "10-19 points",
       "Minimal Improvement": "<10 points",
-    };
+  };
 
-    const distribution = hasSuccessMetrics 
-      ? outcomes.success_distribution 
-      : outcomes.improvement_distribution || {};
+  const distribution = hasSuccessMetrics 
+    ? outcomes.success_distribution 
+    : outcomes.improvement_distribution || {};
 
-    for (const category of categoryOrder) {
-      const count = distribution[category] || 0;
-      const pct = totalPatients > 0 ? ((count / totalPatients) * 100).toFixed(1) : "0.0";
-      const colorClass = categoryColors[category] || "";
-      const probRange = categoryProbRanges[category] || "";
+  for (const category of categoryOrder) {
+    const count = distribution[category] || 0;
+    const pct = totalPatients > 0 ? ((count / totalPatients) * 100).toFixed(1) : "0.0";
+    const colorClass = categoryColors[category] || "";
+    const probRange = categoryProbRanges[category] || "";
       const improvementRange = categoryImprovementRanges[category] || "";
 
-      html += `
-        <tr>
-          <td><strong class="${colorClass}">${category}</strong></td>
-          <td><strong>${improvementRange}</strong></td>
-          <td>${count}</td>
-          <td>${pct}%</td>
-          <td>${probRange}</td>
-        </tr>
-      `;
-    }
-
     html += `
-            </tbody>
-          </table>
-        </div>
-        
-        <div class="success-category-legend">
-          <h4>Outcome Categories</h4>
-          <div class="legend-grid">
-            <div class="legend-item">
-              <div class="legend-color" style="background-color: #10b981;"></div>
-              <div class="legend-content">
-                <span class="legend-category">Excellent Outcome</span>
-                <span class="legend-description">Substantial improvement expected (85-100% success probability)</span>
-              </div>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color" style="background-color: #3b82f6;"></div>
-              <div class="legend-content">
-                <span class="legend-category">Successful Outcome</span>
-                <span class="legend-description">Significant improvement expected (70-85% success probability)</span>
-              </div>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color" style="background-color: #eab308;"></div>
-              <div class="legend-content">
-                <span class="legend-category">Moderate Improvement</span>
-                <span class="legend-description">Noticeable improvement expected (40-70% success probability)</span>
-              </div>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color" style="background-color: #f97316;"></div>
-              <div class="legend-content">
-                <span class="legend-category">Limited Improvement</span>
-                <span class="legend-description">Some improvement expected (20-40% success probability)</span>
-              </div>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color" style="background-color: #ef4444;"></div>
-              <div class="legend-content">
-                <span class="legend-category">Minimal Improvement</span>
-                <span class="legend-description">Limited improvement expected (0-20% success probability)</span>
-              </div>
+      <tr>
+        <td><strong class="${colorClass}">${category}</strong></td>
+          <td><strong>${improvementRange}</strong></td>
+        <td>${count}</td>
+        <td>${pct}%</td>
+        <td>${probRange}</td>
+      </tr>
+    `;
+  }
+
+  html += `
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="success-category-legend">
+        <h4>Outcome Categories</h4>
+        <div class="legend-grid">
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #10b981;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Excellent Outcome</span>
+              <span class="legend-description">Substantial improvement expected (85-100% success probability)</span>
             </div>
           </div>
-          <p class="legend-note">
-            <strong>Success Definition:</strong> A successful outcome is defined as ≥30 points improvement in symptoms and function.
-            Categories are based on validated clinical outcome measures.
-          </p>
-          <p class="legend-note" style="margin-top: 8px; font-size: 0.9em; color: #666;">
-            <strong>Note:</strong> These predictions are based on 379 OAI surgical patients. Model explains 41% of variance (R²=0.41) with ±15 point typical uncertainty. Should be validated against Bergman Clinics' surgical outcomes before clinical use.
-          </p>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #3b82f6;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Successful Outcome</span>
+              <span class="legend-description">Significant improvement expected (70-85% success probability)</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #eab308;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Moderate Improvement</span>
+              <span class="legend-description">Noticeable improvement expected (40-70% success probability)</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #f97316;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Limited Improvement</span>
+              <span class="legend-description">Some improvement expected (20-40% success probability)</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background-color: #ef4444;"></div>
+            <div class="legend-content">
+              <span class="legend-category">Minimal Improvement</span>
+              <span class="legend-description">Limited improvement expected (0-20% success probability)</span>
+            </div>
+          </div>
         </div>
-        
-        <div class="filters-and-sort-section" style="margin-top: 30px;">
-          <h4>Filter & Sort Patients by Outcome</h4>
-          <div class="filters-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-            <!-- Filter Controls -->
-            <div class="filter-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
-              <h5 style="margin-bottom: 15px; font-weight: 600;">Filter by Outcome</h5>
-              
-              <!-- Success Category Filter -->
-              <div style="margin-bottom: 15px;">
-                <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
-                  Expected Outcome Categories:
-                </label>
-                <div style="display: flex; flex-direction: column; gap: 6px;">
-                  ${categoryOrder.map(category => {
-                    const colorClass = categoryColors[category] || "";
-                    return `
-                    <label style="display: flex; align-items: center; cursor: pointer; padding: 4px;">
-                      <input type="checkbox" class="outcome-category-filter" value="${category}" checked style="margin-right: 8px;">
-                      <span class="${colorClass}" style="font-size: 0.9rem;">${category}</span>
-                    </label>
-                  `;
-                  }).join('')}
-                </div>
+        <p class="legend-note">
+          <strong>Success Definition:</strong> A successful outcome is defined as ≥30 points improvement in symptoms and function.
+          Categories are based on validated clinical outcome measures.
+        </p>
+        <p class="legend-note" style="margin-top: 8px; font-size: 0.9em; color: #666;">
+            <strong>Note:</strong> These predictions are based on 379 OAI surgical patients. Model explains 41% of variance (R²=0.41) with ±15 point typical uncertainty. Should be validated against Bergman Clinics' surgical outcomes before clinical use.
+        </p>
+      </div>
+      
+      <div class="filters-and-sort-section" style="margin-top: 30px;">
+        <h4>Filter & Sort Patients by Outcome</h4>
+        <div class="filters-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+          <!-- Filter Controls -->
+          <div class="filter-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
+            <h5 style="margin-bottom: 15px; font-weight: 600;">Filter by Outcome</h5>
+            
+            <!-- Success Category Filter -->
+            <div style="margin-bottom: 15px;">
+              <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
+                Expected Outcome Categories:
+              </label>
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                ${categoryOrder.map(category => {
+                  const colorClass = categoryColors[category] || "";
+                  return `
+                  <label style="display: flex; align-items: center; cursor: pointer; padding: 4px;">
+                    <input type="checkbox" class="outcome-category-filter" value="${category}" checked style="margin-right: 8px;">
+                    <span class="${colorClass}" style="font-size: 0.9rem;">${category}</span>
+                  </label>
+                `;
+                }).join('')}
               </div>
-              
-              <!-- Success Probability Filter -->
-              <div>
-                <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
-                  Minimum Success Probability: <span id="minProbValue">0</span>%
-                </label>
-                <input type="range" id="minSuccessProbFilter" min="0" max="100" step="5" value="0" 
-                       style="width: 100%;" oninput="document.getElementById('minProbValue').textContent = this.value">
-              </div>
-              
-              <button onclick="applyOutcomeFilters()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
-                Apply Filters
-              </button>
-              <button onclick="clearOutcomeFilters()" class="btn-secondary" style="width: 100%; margin-top: 8px; padding: 8px;">
-                Clear Filters
-              </button>
             </div>
             
-            <!-- Sort Controls -->
-            <div class="sort-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
-              <h5 style="margin-bottom: 15px; font-weight: 600;">Sort Patients</h5>
-              
-              <div style="margin-bottom: 15px;">
-                <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
-                  Sort by:
-                </label>
-                <select id="outcomeSortBy" style="width: 100%; padding: 8px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem;">
-                  <option value="successProbability">Success Probability</option>
-                  <option value="category">Outcome Category</option>
-                  <option value="surgeryRisk">Surgery Risk</option>
-                  <option value="patientId">Patient ID</option>
-                </select>
-              </div>
-              
-              <div>
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="radio" name="outcomeSortOrder" value="desc" checked style="margin-right: 4px;">
-                  <span style="font-size: 0.9rem;">Descending (High to Low)</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 8px;">
-                  <input type="radio" name="outcomeSortOrder" value="asc" style="margin-right: 4px;">
-                  <span style="font-size: 0.9rem;">Ascending (Low to High)</span>
-                </label>
-              </div>
-              
-              <button onclick="applyOutcomeSort()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
-                Apply Sort
-              </button>
+            <!-- Success Probability Filter -->
+            <div>
+              <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
+                Minimum Success Probability: <span id="minProbValue">0</span>%
+              </label>
+              <input type="range" id="minSuccessProbFilter" min="0" max="100" step="5" value="0" 
+                     style="width: 100%;" oninput="document.getElementById('minProbValue').textContent = this.value">
             </div>
+            
+            <button onclick="applyOutcomeFilters()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
+              Apply Filters
+            </button>
+            <button onclick="clearOutcomeFilters()" class="btn-secondary" style="width: 100%; margin-top: 8px; padding: 8px;">
+              Clear Filters
+            </button>
           </div>
           
-          <!-- Patient List Display -->
-          <div id="filteredPatientList" style="margin-top: 20px;">
-            <h4>Patient Outcomes</h4>
-            <div id="patientOutcomesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-top: 15px;">
-              <!-- Populated by JavaScript -->
+          <!-- Sort Controls -->
+          <div class="sort-panel" style="background: #f7fafc; padding: 20px; border-radius: 8px; border: 2px solid #e2e8f0;">
+            <h5 style="margin-bottom: 15px; font-weight: 600;">Sort Patients</h5>
+            
+            <div style="margin-bottom: 15px;">
+              <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 0.9rem;">
+                Sort by:
+              </label>
+              <select id="outcomeSortBy" style="width: 100%; padding: 8px; border: 2px solid #e2e8f0; border-radius: 6px; font-size: 0.9rem;">
+                <option value="successProbability">Success Probability</option>
+                <option value="category">Outcome Category</option>
+                <option value="surgeryRisk">Surgery Risk</option>
+                <option value="patientId">Patient ID</option>
+              </select>
             </div>
-            <div id="filteredCount" style="margin-top: 15px; padding: 10px; background: #e2e8f0; border-radius: 6px; text-align: center;">
-              <strong>Showing <span id="filteredCountValue">0</span> of <span id="totalCountValue">0</span> patients</strong>
+            
+            <div>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="outcomeSortOrder" value="desc" checked style="margin-right: 4px;">
+                <span style="font-size: 0.9rem;">Descending (High to Low)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-top: 8px;">
+                <input type="radio" name="outcomeSortOrder" value="asc" style="margin-right: 4px;">
+                <span style="font-size: 0.9rem;">Ascending (Low to High)</span>
+              </label>
             </div>
+            
+            <button onclick="applyOutcomeSort()" class="btn-primary" style="width: 100%; margin-top: 15px; padding: 10px;">
+              Apply Sort
+            </button>
           </div>
         </div>
         
-        <div class="download-section">
-          <h4>Download Outcome Predictions</h4>
-          <button class="btn-primary" onclick="downloadOutcomes()">
-            Download CSV (Surgery Risk + Success Probability)
-          </button>
+        <!-- Patient List Display -->
+        <div id="filteredPatientList" style="margin-top: 20px;">
+          <h4>Patient Outcomes</h4>
+          <div id="patientOutcomesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-top: 15px;">
+            <!-- Populated by JavaScript -->
+          </div>
+          <div id="filteredCount" style="margin-top: 15px; padding: 10px; background: #e2e8f0; border-radius: 6px; text-align: center;">
+            <strong>Showing <span id="filteredCountValue">0</span> of <span id="totalCountValue">0</span> patients</strong>
+          </div>
+        </div>
+      </div>
+      
+      <div class="download-section">
+        <h4>Download Outcome Predictions</h4>
+        <button class="btn-primary" onclick="downloadOutcomes()">
+          Download CSV (Surgery Risk + Success Probability)
+        </button>
         </div>
       `;
   }
@@ -960,15 +960,15 @@ function displayOutcomeResults(outcomes) {
   
   // Only show filtering/sorting and charts for multiple patients
   if (!isSinglePatient) {
-    // Initial display of all patients
-    displayFilteredPatients(window.patientOutcomesData);
+  // Initial display of all patients
+  displayFilteredPatients(window.patientOutcomesData);
 
-    // Render success category distribution chart
-    if (outcomes.success_plot || outcomes.improvement_plot) {
-      setTimeout(() => {
-        const plotData = outcomes.success_plot || outcomes.improvement_plot;
-        renderImprovementChart(plotData);
-      }, 100);
+  // Render success category distribution chart
+  if (outcomes.success_plot || outcomes.improvement_plot) {
+    setTimeout(() => {
+      const plotData = outcomes.success_plot || outcomes.improvement_plot;
+      renderImprovementChart(plotData);
+    }, 100);
     }
   }
 
@@ -1082,14 +1082,23 @@ function vasToWomac(vasScore, scale = "0-10") {
 
 // Toggle between WOMAC and VAS input fields
 function togglePainScoreType() {
-  const painScoreType = document.querySelector(
-    'input[name="painScoreType"]:checked'
-  ).value;
+  const checkedRadio = document.querySelector('input[name="painScoreType"]:checked');
+  if (!checkedRadio) {
+    console.warn("No pain score type radio button selected");
+    return;
+  }
+  
+  const painScoreType = checkedRadio.value;
   const womacRField = document.getElementById("womac_r_field");
   const womacLField = document.getElementById("womac_l_field");
   const vasRField = document.getElementById("vas_r_field");
   const vasLField = document.getElementById("vas_l_field");
   const vasInfo = document.getElementById("vasInfo");
+
+  if (!womacRField || !womacLField || !vasRField || !vasLField) {
+    console.warn("Pain score fields not found in DOM");
+    return;
+  }
 
   if (painScoreType === "vas") {
     // Show VAS fields, hide WOMAC fields
@@ -1100,8 +1109,14 @@ function togglePainScoreType() {
     vasInfo.style.display = "block";
 
     // Pain scores are optional - never required
-    document.getElementById("vas_r").required = false;
-    document.getElementById("vas_l").required = false;
+    const vasRRest = document.getElementById("vas_r_rest");
+    const vasRWalking = document.getElementById("vas_r_walking");
+    const vasLRest = document.getElementById("vas_l_rest");
+    const vasLWalking = document.getElementById("vas_l_walking");
+    if (vasRRest) vasRRest.required = false;
+    if (vasRWalking) vasRWalking.required = false;
+    if (vasLRest) vasLRest.required = false;
+    if (vasLWalking) vasLWalking.required = false;
     document.getElementById("womac_r").required = false;
     document.getElementById("womac_l").required = false;
 
@@ -1117,18 +1132,32 @@ function togglePainScoreType() {
     vasInfo.style.display = "none";
 
     // Pain scores are optional - never required
-    document.getElementById("vas_r").required = false;
-    document.getElementById("vas_l").required = false;
+    const vasRRest = document.getElementById("vas_r_rest");
+    const vasRWalking = document.getElementById("vas_r_walking");
+    const vasLRest = document.getElementById("vas_l_rest");
+    const vasLWalking = document.getElementById("vas_l_walking");
+    if (vasRRest) vasRRest.required = false;
+    if (vasRWalking) vasRWalking.required = false;
+    if (vasLRest) vasLRest.required = false;
+    if (vasLWalking) vasLWalking.required = false;
     document.getElementById("womac_r").required = false;
     document.getElementById("womac_l").required = false;
 
     // Clear all fields
     document.getElementById("womac_r").value = "";
     document.getElementById("womac_l").value = "";
-    document.getElementById("vas_r").value = "";
-    document.getElementById("vas_l").value = "";
-    document.getElementById("vas_r_womac").textContent = "--";
-    document.getElementById("vas_l_womac").textContent = "--";
+    const vasRRest2 = document.getElementById("vas_r_rest");
+    const vasRWalking2 = document.getElementById("vas_r_walking");
+    const vasLRest2 = document.getElementById("vas_l_rest");
+    const vasLWalking2 = document.getElementById("vas_l_walking");
+    if (vasRRest2) vasRRest2.value = "";
+    if (vasRWalking2) vasRWalking2.value = "";
+    if (vasLRest2) vasLRest2.value = "";
+    if (vasLWalking2) vasLWalking2.value = "";
+    const vasRWomac2 = document.getElementById("vas_r_womac");
+    const vasLWomac2 = document.getElementById("vas_l_womac");
+    if (vasRWomac2) vasRWomac2.textContent = "--";
+    if (vasLWomac2) vasLWomac2.textContent = "--";
   } else {
     // Show WOMAC fields, hide VAS fields
     womacRField.style.display = "block";
@@ -1140,39 +1169,69 @@ function togglePainScoreType() {
     // Pain scores are optional - never required
     document.getElementById("womac_r").required = false;
     document.getElementById("womac_l").required = false;
-    document.getElementById("vas_r").required = false;
-    document.getElementById("vas_l").required = false;
+    const vasRRest4 = document.getElementById("vas_r_rest");
+    const vasRWalking4 = document.getElementById("vas_r_walking");
+    const vasLRest4 = document.getElementById("vas_l_rest");
+    const vasLWalking4 = document.getElementById("vas_l_walking");
+    if (vasRRest4) vasRRest4.required = false;
+    if (vasRWalking4) vasRWalking4.required = false;
+    if (vasLRest4) vasLRest4.required = false;
+    if (vasLWalking4) vasLWalking4.required = false;
 
     // Clear VAS fields
-    document.getElementById("vas_r").value = "";
-    document.getElementById("vas_l").value = "";
-    document.getElementById("vas_r_womac").textContent = "--";
-    document.getElementById("vas_l_womac").textContent = "--";
+    const vasRRest3 = document.getElementById("vas_r_rest");
+    const vasRWalking3 = document.getElementById("vas_r_walking");
+    const vasLRest3 = document.getElementById("vas_l_rest");
+    const vasLWalking3 = document.getElementById("vas_l_walking");
+    if (vasRRest3) vasRRest3.value = "";
+    if (vasRWalking3) vasRWalking3.value = "";
+    if (vasLRest3) vasLRest3.value = "";
+    if (vasLWalking3) vasLWalking3.value = "";
+    const vasRWomac3 = document.getElementById("vas_r_womac");
+    const vasLWomac3 = document.getElementById("vas_l_womac");
+    if (vasRWomac3) vasRWomac3.textContent = "--";
+    if (vasLWomac3) vasLWomac3.textContent = "--";
   }
 }
 
-// Real-time VAS to WOMAC conversion display
-document.getElementById("vas_r")?.addEventListener("input", function () {
-  const vasValue = parseFloat(this.value);
-  if (!isNaN(vasValue) && vasValue >= 0 && vasValue <= 10) {
-    const womacEstimate = vasToWomac(vasValue);
-    document.getElementById("vas_r_womac").textContent =
-      womacEstimate.toFixed(1);
-  } else {
-    document.getElementById("vas_r_womac").textContent = "--";
+// Real-time VAS to WOMAC conversion display - using average of rest and walking
+function updateVasWomacDisplay(side) {
+  const restField = document.getElementById(`vas_${side}_rest`);
+  const walkingField = document.getElementById(`vas_${side}_walking`);
+  const womacDisplay = document.getElementById(`vas_${side}_womac`);
+  
+  if (!restField || !walkingField || !womacDisplay) return;
+  
+  const restValue = parseFloat(restField.value);
+  const walkingValue = parseFloat(walkingField.value);
+  
+  // Calculate average if at least one value is provided
+  let avgVas = null;
+  if (!isNaN(restValue) && restValue >= 0 && restValue <= 10 && 
+      !isNaN(walkingValue) && walkingValue >= 0 && walkingValue <= 10) {
+    // Both provided - use average
+    avgVas = (restValue + walkingValue) / 2;
+  } else if (!isNaN(restValue) && restValue >= 0 && restValue <= 10) {
+    // Only rest provided
+    avgVas = restValue;
+  } else if (!isNaN(walkingValue) && walkingValue >= 0 && walkingValue <= 10) {
+    // Only walking provided
+    avgVas = walkingValue;
   }
-});
+  
+  if (avgVas !== null) {
+    const womacEstimate = vasToWomac(avgVas);
+    womacDisplay.textContent = womacEstimate.toFixed(1);
+  } else {
+    womacDisplay.textContent = "--";
+  }
+}
 
-document.getElementById("vas_l")?.addEventListener("input", function () {
-  const vasValue = parseFloat(this.value);
-  if (!isNaN(vasValue) && vasValue >= 0 && vasValue <= 10) {
-    const womacEstimate = vasToWomac(vasValue);
-    document.getElementById("vas_l_womac").textContent =
-      womacEstimate.toFixed(1);
-  } else {
-    document.getElementById("vas_l_womac").textContent = "--";
-  }
-});
+// Attach event listeners to all VAS fields
+document.getElementById("vas_r_rest")?.addEventListener("input", () => updateVasWomacDisplay("r"));
+document.getElementById("vas_r_walking")?.addEventListener("input", () => updateVasWomacDisplay("r"));
+document.getElementById("vas_l_rest")?.addEventListener("input", () => updateVasWomacDisplay("l"));
+document.getElementById("vas_l_walking")?.addEventListener("input", () => updateVasWomacDisplay("l"));
 
 // Form submission handler - analyze immediately
 document.getElementById("patientForm").addEventListener("submit", async function (e) {
@@ -1263,37 +1322,88 @@ document.getElementById("patientForm").addEventListener("submit", async function
   let painScoresMissing = false;
 
   if (painScoreType === "vas") {
-    // Convert VAS to WOMAC if provided
-    const vas_r_str = document.getElementById("vas_r").value.trim();
-    const vas_l_str = document.getElementById("vas_l").value.trim();
+    // Convert VAS to WOMAC if provided - using average of rest and walking
+    const vas_r_rest_str = document.getElementById("vas_r_rest")?.value.trim() || "";
+    const vas_r_walking_str = document.getElementById("vas_r_walking")?.value.trim() || "";
+    const vas_l_rest_str = document.getElementById("vas_l_rest")?.value.trim() || "";
+    const vas_l_walking_str = document.getElementById("vas_l_walking")?.value.trim() || "";
 
-    if (vas_r_str !== "" || vas_l_str !== "") {
-      // At least one VAS provided - validate those that are provided
-      if (vas_r_str !== "") {
-        const vas_r = parseFloat(vas_r_str);
-        if (isNaN(vas_r) || vas_r < 0 || vas_r > 10) {
-          alert(
-            "Please enter a valid VAS score (0-10) for right knee, or leave empty."
-          );
+    // Calculate average VAS for right knee
+    if (vas_r_rest_str !== "" || vas_r_walking_str !== "") {
+      let vas_r_rest = null;
+      let vas_r_walking = null;
+      
+      if (vas_r_rest_str !== "") {
+        vas_r_rest = parseFloat(vas_r_rest_str);
+        if (isNaN(vas_r_rest) || vas_r_rest < 0 || vas_r_rest > 10) {
+          alert("Please enter a valid VAS pain at rest score (0-10) for right knee, or leave empty.");
           return;
         }
-        womac_r = vasToWomac(vas_r);
-        vasUsed = true;
       }
-
-      if (vas_l_str !== "") {
-        const vas_l = parseFloat(vas_l_str);
-        if (isNaN(vas_l) || vas_l < 0 || vas_l > 10) {
-          alert(
-            "Please enter a valid VAS score (0-10) for left knee, or leave empty."
-          );
+      
+      if (vas_r_walking_str !== "") {
+        vas_r_walking = parseFloat(vas_r_walking_str);
+        if (isNaN(vas_r_walking) || vas_r_walking < 0 || vas_r_walking > 10) {
+          alert("Please enter a valid VAS pain during walking score (0-10) for right knee, or leave empty.");
           return;
         }
-        womac_l = vasToWomac(vas_l);
+      }
+      
+      // Calculate average (use single value if only one provided)
+      let avg_vas_r = null;
+      if (vas_r_rest !== null && vas_r_walking !== null) {
+        avg_vas_r = (vas_r_rest + vas_r_walking) / 2;
+      } else if (vas_r_rest !== null) {
+        avg_vas_r = vas_r_rest;
+      } else if (vas_r_walking !== null) {
+        avg_vas_r = vas_r_walking;
+      }
+      
+      if (avg_vas_r !== null) {
+        womac_r = vasToWomac(avg_vas_r);
         vasUsed = true;
       }
-    } else {
-      // No VAS provided
+    }
+
+    // Calculate average VAS for left knee
+    if (vas_l_rest_str !== "" || vas_l_walking_str !== "") {
+      let vas_l_rest = null;
+      let vas_l_walking = null;
+      
+      if (vas_l_rest_str !== "") {
+        vas_l_rest = parseFloat(vas_l_rest_str);
+        if (isNaN(vas_l_rest) || vas_l_rest < 0 || vas_l_rest > 10) {
+          alert("Please enter a valid VAS pain at rest score (0-10) for left knee, or leave empty.");
+          return;
+        }
+      }
+      
+      if (vas_l_walking_str !== "") {
+        vas_l_walking = parseFloat(vas_l_walking_str);
+        if (isNaN(vas_l_walking) || vas_l_walking < 0 || vas_l_walking > 10) {
+          alert("Please enter a valid VAS pain during walking score (0-10) for left knee, or leave empty.");
+          return;
+        }
+      }
+      
+      // Calculate average (use single value if only one provided)
+      let avg_vas_l = null;
+      if (vas_l_rest !== null && vas_l_walking !== null) {
+        avg_vas_l = (vas_l_rest + vas_l_walking) / 2;
+      } else if (vas_l_rest !== null) {
+        avg_vas_l = vas_l_rest;
+      } else if (vas_l_walking !== null) {
+        avg_vas_l = vas_l_walking;
+      }
+      
+      if (avg_vas_l !== null) {
+        womac_l = vasToWomac(avg_vas_l);
+        vasUsed = true;
+      }
+    }
+
+    // Check if any VAS was provided
+    if (!vasUsed) {
       painScoresMissing = true;
     }
   } else if (painScoreType === "womac") {
@@ -1335,6 +1445,10 @@ document.getElementById("patientForm").addEventListener("submit", async function
   const famHxValue = document.getElementById("fam_hx").value;
   const fam_hx = famHxValue !== "" ? parseInt(famHxValue) : 0;
 
+  // Previous TKA on other knee - optional, stored but not used in current model
+  const previousTkaValue = document.getElementById("previous_tka_other_knee")?.value || "";
+  const previous_tka_other_knee = previousTkaValue !== "" ? parseInt(previousTkaValue) : 0;
+
   const patient = {
     age: parseFloat(document.getElementById("age").value),
     sex: parseInt(document.getElementById("sex").value),
@@ -1344,17 +1458,40 @@ document.getElementById("patientForm").addEventListener("submit", async function
     kl_r: kl_r, // Can be null if "Not available"
     kl_l: kl_l, // Can be null if "Not available"
     fam_hx: fam_hx,
+    previous_tka_other_knee: previous_tka_other_knee, // Stored for future use, not used in current model
     _pain_scores_missing: painScoresMissing, // Flag for display
     _kl_missing: kl_r === null || kl_l === null, // Flag for display
   };
 
-  // Store VAS info for display if VAS was used
+  // Store VAS info for display if VAS was used (store both rest and walking separately)
   if (vasUsed) {
     patient._vas_used = true;
-    const vas_r_str = document.getElementById("vas_r").value.trim();
-    const vas_l_str = document.getElementById("vas_l").value.trim();
-    patient._vas_r = vas_r_str !== "" ? parseFloat(vas_r_str) : null;
-    patient._vas_l = vas_l_str !== "" ? parseFloat(vas_l_str) : null;
+    const vas_r_rest_str = document.getElementById("vas_r_rest")?.value.trim() || "";
+    const vas_r_walking_str = document.getElementById("vas_r_walking")?.value.trim() || "";
+    const vas_l_rest_str = document.getElementById("vas_l_rest")?.value.trim() || "";
+    const vas_l_walking_str = document.getElementById("vas_l_walking")?.value.trim() || "";
+    
+    patient._vas_r_rest = vas_r_rest_str !== "" ? parseFloat(vas_r_rest_str) : null;
+    patient._vas_r_walking = vas_r_walking_str !== "" ? parseFloat(vas_r_walking_str) : null;
+    patient._vas_l_rest = vas_l_rest_str !== "" ? parseFloat(vas_l_rest_str) : null;
+    patient._vas_l_walking = vas_l_walking_str !== "" ? parseFloat(vas_l_walking_str) : null;
+    
+    // Also store averages for reference
+    if (patient._vas_r_rest !== null && patient._vas_r_walking !== null) {
+      patient._vas_r_avg = (patient._vas_r_rest + patient._vas_r_walking) / 2;
+    } else if (patient._vas_r_rest !== null) {
+      patient._vas_r_avg = patient._vas_r_rest;
+    } else if (patient._vas_r_walking !== null) {
+      patient._vas_r_avg = patient._vas_r_walking;
+    }
+    
+    if (patient._vas_l_rest !== null && patient._vas_l_walking !== null) {
+      patient._vas_l_avg = (patient._vas_l_rest + patient._vas_l_walking) / 2;
+    } else if (patient._vas_l_rest !== null) {
+      patient._vas_l_avg = patient._vas_l_rest;
+    } else if (patient._vas_l_walking !== null) {
+      patient._vas_l_avg = patient._vas_l_walking;
+    }
   }
 
   // Add patient_id if provided (for display purposes only, not sent to API)
@@ -1376,7 +1513,7 @@ document.getElementById("patientForm").addEventListener("submit", async function
     const minLoadingTime = 800;
     
     // Convert single patient to CSV format
-    const csvHeaders = ["age", "sex", "bmi", "womac_r", "womac_l", "kl_r", "kl_l", "fam_hx"];
+    const csvHeaders = ["age", "sex", "bmi", "womac_r", "womac_l", "kl_r", "kl_l", "fam_hx", "previous_tka_other_knee"];
     if (outcome !== "") {
       csvHeaders.push("tkr_outcome");
     }
@@ -1465,9 +1602,20 @@ function updatePatientList() {
       const displayId = p._patient_id || `Patient ${index + 1}`;
       let painScoreNote = "";
       if (p._vas_used) {
-        const vasR = p._vas_r !== null ? p._vas_r.toFixed(1) : "N/A";
-        const vasL = p._vas_l !== null ? p._vas_l.toFixed(1) : "N/A";
-        painScoreNote = `<br><small style="color: #666;">Symptom scores estimated from VAS (R: ${vasR}, L: ${vasL})</small>`;
+        // Display VAS info (rest and walking if available, otherwise average)
+        let vasRDisplay = "N/A";
+        let vasLDisplay = "N/A";
+        if (p._vas_r_rest !== null && p._vas_r_walking !== null) {
+          vasRDisplay = `Rest: ${p._vas_r_rest.toFixed(1)}, Walking: ${p._vas_r_walking.toFixed(1)}`;
+        } else if (p._vas_r_avg !== null) {
+          vasRDisplay = p._vas_r_avg.toFixed(1);
+        }
+        if (p._vas_l_rest !== null && p._vas_l_walking !== null) {
+          vasLDisplay = `Rest: ${p._vas_l_rest.toFixed(1)}, Walking: ${p._vas_l_walking.toFixed(1)}`;
+        } else if (p._vas_l_avg !== null) {
+          vasLDisplay = p._vas_l_avg.toFixed(1);
+        }
+        painScoreNote = `<br><small style="color: #666;">Symptom scores estimated from VAS (R: ${vasRDisplay}, L: ${vasLDisplay})</small>`;
       } else if (p._pain_scores_missing) {
         painScoreNote = `<br><small style="color: #ff9800;">⚠️ No symptom assessment - reduced confidence</small>`;
       }

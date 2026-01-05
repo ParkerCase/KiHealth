@@ -94,20 +94,58 @@
                 <small style="color: #666; display: block; margin-top: 4px;">Higher score = more symptoms</small>
               </div>
               
-              <!-- VAS Fields (hidden by default) -->
-              <div class="form-field" id="vas_r_field" style="display: none;">
-                <label for="vas_r">Right Knee VAS Pain (0-10):</label>
-                <input type="number" id="vas_r" min="0" max="10" step="0.1" placeholder="Optional">
-                <small style="display: block; margin-top: 4px; color: #666;">
-                  Estimated Score: <span id="vas_r_womac">--</span>
+              <!-- VAS Fields (hidden by default) - Split into rest and walking -->
+              <div class="form-field" id="vas_r_field" style="display: none; grid-column: 1 / -1;">
+                <label style="font-weight: 600; margin-bottom: 12px; display: block;">Right Knee VAS Pain (0-10):</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                  <div>
+                    <label for="vas_r_rest" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; color: #475569;">
+                      VAS Pain at Rest (0-10):
+                    </label>
+                    <input type="number" id="vas_r_rest" min="0" max="10" step="0.5" placeholder="Pain when resting" style="width: 100%;">
+                    <small style="display: block; margin-top: 4px; color: #64748b; font-size: 0.8rem;">
+                      Rate pain on a scale of 0 (no pain) to 10 (worst pain imaginable)
+                    </small>
+                  </div>
+                  <div>
+                    <label for="vas_r_walking" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; color: #475569;">
+                      VAS Pain During Walking (0-10):
+                    </label>
+                    <input type="number" id="vas_r_walking" min="0" max="10" step="0.5" placeholder="Pain when walking" style="width: 100%;">
+                    <small style="display: block; margin-top: 4px; color: #64748b; font-size: 0.8rem;">
+                      Rate pain on a scale of 0 (no pain) to 10 (worst pain imaginable)
+                    </small>
+                  </div>
+                </div>
+                <small style="display: block; margin-top: 8px; color: #666; padding: 8px; background: #f1f5f9; border-radius: 6px;">
+                  <strong>Estimated WOMAC Score:</strong> <span id="vas_r_womac">--</span> (average of both scores)
                 </small>
               </div>
               
-              <div class="form-field" id="vas_l_field" style="display: none;">
-                <label for="vas_l">Left Knee VAS Pain (0-10):</label>
-                <input type="number" id="vas_l" min="0" max="10" step="0.1" placeholder="Optional">
-                <small style="display: block; margin-top: 4px; color: #666;">
-                  Estimated Score: <span id="vas_l_womac">--</span>
+              <div class="form-field" id="vas_l_field" style="display: none; grid-column: 1 / -1;">
+                <label style="font-weight: 600; margin-bottom: 12px; display: block;">Left Knee VAS Pain (0-10):</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                  <div>
+                    <label for="vas_l_rest" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; color: #475569;">
+                      VAS Pain at Rest (0-10):
+                    </label>
+                    <input type="number" id="vas_l_rest" min="0" max="10" step="0.5" placeholder="Pain when resting" style="width: 100%;">
+                    <small style="display: block; margin-top: 4px; color: #64748b; font-size: 0.8rem;">
+                      Rate pain on a scale of 0 (no pain) to 10 (worst pain imaginable)
+                    </small>
+                  </div>
+                  <div>
+                    <label for="vas_l_walking" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; color: #475569;">
+                      VAS Pain During Walking (0-10):
+                    </label>
+                    <input type="number" id="vas_l_walking" min="0" max="10" step="0.5" placeholder="Pain when walking" style="width: 100%;">
+                    <small style="display: block; margin-top: 4px; color: #64748b; font-size: 0.8rem;">
+                      Rate pain on a scale of 0 (no pain) to 10 (worst pain imaginable)
+                    </small>
+                  </div>
+                </div>
+                <small style="display: block; margin-top: 8px; color: #666; padding: 8px; background: #f1f5f9; border-radius: 6px;">
+                  <strong>Estimated WOMAC Score:</strong> <span id="vas_l_womac">--</span> (average of both scores)
                 </small>
               </div>
               
@@ -144,6 +182,20 @@
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
+              </div>
+              
+              <div class="form-field">
+                <label for="previous_tka_other_knee">Previous TKA on Other Knee (Optional):</label>
+                <select id="previous_tka_other_knee">
+                  <option value="">Not specified (defaults to No)</option>
+                  <option value="1">Yes - Had TKR on opposite knee</option>
+                  <option value="0">No - No previous TKR</option>
+                </select>
+                <small style="display: block; margin-top: 6px; color: #64748b; font-size: 0.85rem; line-height: 1.4;">
+                  <strong>Note:</strong> Has the patient had total knee replacement on the opposite knee? 
+                  Patients who already had TKR on one knee are more likely to eventually need TKR on the other knee.
+                  <br><em style="color: #94a3b8;">This field is collected for future use and is not currently used in predictions.</em>
+                </small>
               </div>
               
               <div class="form-field">
