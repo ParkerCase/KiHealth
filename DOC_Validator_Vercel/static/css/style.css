@@ -790,6 +790,7 @@ footer a:hover {
 
 .form-field input,
 .form-field select {
+  width: 100%;
   padding: 14px 16px;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
@@ -798,6 +799,10 @@ footer a:hover {
   background: #ffffff;
   color: #1a1a1a;
   font-weight: 400;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .form-field input:hover,
@@ -1002,5 +1007,42 @@ footer a:hover {
 
   .batch-actions {
     flex-direction: column;
+  }
+
+  /* Mobile input field fixes */
+  .form-field input,
+  .form-field select {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+  }
+
+  .form-field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  .entry-section {
+    padding: 24px 16px;
+  }
+
+  .patient-form {
+    padding: 24px 16px;
+  }
+
+  .container {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  body {
+    padding: 10px;
   }
 }
