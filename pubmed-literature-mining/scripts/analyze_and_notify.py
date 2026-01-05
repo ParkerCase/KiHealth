@@ -88,6 +88,83 @@ class NotificationSystem:
         
         return significant_factors
     
+    def detect_potential_new_parameters(self, threshold: int = 5) -> Dict[str, List[Dict]]:
+        """
+        Detect factors that could be new model parameters
+        
+        Compares extracted factors against current model parameters and flags
+        novel factors that appear in multiple high-quality studies.
+        
+        Current model parameters:
+        - Age, Sex, BMI, Race, Cohort
+        - WOMAC Total Right/Left
+        - KL Grade Right/Left
+        - Family History
+        - Walking Distance (400m walk time)
+        
+        Args:
+            threshold: Minimum number of articles mentioning a factor
+            
+        Returns:
+            Dictionary mapping potential new parameter names to lists of articles
+        """
+        # Current model parameters (normalized for comparison)
+        current_params = {
+            'age', 'sex', 'gender', 'bmi', 'body mass index', 'race', 'ethnicity',
+            'cohort', 'womac', 'kellgren-lawrence', 'kl grade', 'kl score',
+            'family history', 'walking distance', '400m walk', 'walk time',
+            'knee replacement', 'tkr', 'tka', 'arthroplasty'
+        }
+        
+        # Get all high-relevance articles
+        articles = self.storage.get_high_relevance_articles(threshold=self.relevance_threshold)
+        
+        potential_params = defaultdict(list)
+        
+        for article in articles:
+            factors = article.get('predictive_factors', [])
+            if not isinstance(factors, list):
+                continue
+            
+            for factor_data in factors:
+                if isinstance(factor_data, dict):
+                    factor_name = factor_data.get('factor', '').lower().strip()
+                    if not factor_name:
+                        continue
+                    
+                    # Check if this factor is already in the model
+                    is_current_param = any(
+                        current_param in factor_name or factor_name in current_param
+                        for current_param in current_params
+                    )
+                    
+                    # If it's a new factor and appears in high-quality studies, flag it
+                    if not is_current_param:
+                        # Check if it's a statistically significant predictor
+                        effect_size = factor_data.get('effect_size', '')
+                        significance = factor_data.get('significance', '')
+                        
+                        # Only include if there's statistical evidence
+                        has_evidence = (
+                            'p' in significance.lower() or
+                            'or' in effect_size.lower() or
+                            'hr' in effect_size.lower() or
+                            'auc' in effect_size.lower() or
+                            'odds ratio' in effect_size.lower()
+                        )
+                        
+                        if has_evidence:
+                            potential_params[factor_name].append(article)
+        
+        # Filter to factors mentioned in threshold+ articles
+        significant_new_params = {
+            factor: articles
+            for factor, articles in potential_params.items()
+            if len(articles) >= threshold
+        }
+        
+        return significant_new_params
+    
     def create_github_issue(self, title: str, body: str, labels: List[str] = None) -> bool:
         """
         Create a GitHub issue
@@ -225,6 +302,69 @@ class NotificationSystem:
         
         return self.create_github_issue(title, body, labels)
     
+    def create_new_parameter_alert(self, potential_params: Dict[str, List[Dict]]) -> bool:
+        """Create GitHub issue for potential new model parameters"""
+        if not potential_params:
+            return False
+        
+        body = '## 🆕 Potential New Model Parameters Detected\n\n'
+        body += '**⚠️ IMPORTANT:** These factors are NOT automatically added to the model. '
+        body += 'They require manual review, validation, and PROBAST compliance verification before integration.\n\n'
+        body += f'**{len(potential_params)} potential new parameters** identified in 5+ high-relevance articles:\n\n'
+        
+        # Sort by number of articles
+        sorted_params = sorted(
+            potential_params.items(),
+            key=lambda x: len(x[1]),
+            reverse=True
+        )
+        
+        for param_name, articles in sorted_params[:15]:  # Top 15 potential parameters
+            body += f'### {param_name.title()}\n'
+            body += f'**Mentioned in {len(articles)} articles:**\n\n'
+            
+            # Show evidence from top articles
+            for article in articles[:5]:  # Top 5 articles per parameter
+                title = article.get("title", "No title")
+                score = article.get("relevance_score", 0)
+                pmid = article.get("pmid", "")
+                
+                # Extract factor details if available
+                factors = article.get('predictive_factors', [])
+                factor_details = None
+                for f in factors:
+                    if isinstance(f, dict) and f.get('factor', '').lower() == param_name:
+                        factor_details = f
+                        break
+                
+                body += f'- [{title}](https://pubmed.ncbi.nlm.nih.gov/{pmid}/) (Score: {score}/100)\n'
+                if factor_details:
+                    effect = factor_details.get('effect_size', '')
+                    sig = factor_details.get('significance', '')
+                    if effect or sig:
+                        body += f'  - Evidence: {effect} {sig}\n'
+            
+            body += '\n'
+        
+        body += '\n---\n\n'
+        body += '## Review Checklist\n\n'
+        body += 'Before considering integration:\n'
+        body += '- [ ] Verify factor is not already in model (check synonyms)\n'
+        body += '- [ ] Confirm data availability in OAI or clinical practice\n'
+        body += '- [ ] Verify statistical significance across multiple studies\n'
+        body += '- [ ] Check EPV compliance (≥15 events per variable)\n'
+        body += '- [ ] Assess clinical accessibility (routinely available)\n'
+        body += '- [ ] Evaluate multicollinearity with existing predictors\n'
+        body += '- [ ] Review PROBAST compliance impact\n'
+        body += '- [ ] Test model performance with new parameter\n'
+        body += '- [ ] Validate on external dataset\n\n'
+        body += f'**Date:** {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
+        
+        title = f'🆕 Potential New Model Parameters ({datetime.now().strftime("%Y-%m-%d")})'
+        labels = ['pubmed-alert', 'new-parameters', 'model-enhancement', 'requires-review']
+        
+        return self.create_github_issue(title, body, labels)
+    
     def create_workflow_annotations(self, paywalled_articles: List[Dict], factor_patterns: Dict):
         """Create GitHub Actions workflow annotations"""
         if paywalled_articles:
@@ -339,12 +479,20 @@ class NotificationSystem:
         factor_patterns = self.detect_factor_patterns(threshold=5)
         logger.info(f"Found {len(factor_patterns)} significant factor patterns")
         
+        # Detect potential new parameters (NEW)
+        potential_params = self.detect_potential_new_parameters(threshold=5)
+        logger.info(f"Found {len(potential_params)} potential new model parameters")
+        
         # Create notifications
         if paywalled_articles:
             self.create_paywalled_alert(paywalled_articles)
         
         if factor_patterns:
             self.create_factor_pattern_alert(factor_patterns)
+        
+        # Create alert for potential new parameters (NEW)
+        if potential_params:
+            self.create_new_parameter_alert(potential_params)
         
         # Create workflow annotations
         self.create_workflow_annotations(paywalled_articles, factor_patterns)
