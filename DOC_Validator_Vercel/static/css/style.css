@@ -1157,4 +1157,22 @@ footer a:hover {
     max-width: 100% !important;
     width: 100% !important;
   }
+
+  /* Fix radio button layout on mobile - stack vertically */
+  .pain-score-options {
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .pain-score-options label {
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    white-space: normal !important;
+  }
+
+  .pain-score-options label span {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
 }
