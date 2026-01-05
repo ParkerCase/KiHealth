@@ -299,6 +299,9 @@ function displayOutcomeResultsInline(outcomes, container) {
           </div>
           <div class="metric-label" style="font-size: 1.2rem; color: #1e293b; font-weight: 600; margin-bottom: 6px;">Success Probability</div>
           <div style="font-size: 0.95rem; color: #475569; margin-top: 8px; font-weight: 500;">${patient.success_category}</div>
+          <div style="font-size: 0.85rem; color: #64748b; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; line-height: 1.5;">
+            <strong>What this means:</strong> Based on similar patients in our training data, ${successProb.toFixed(0)}% achieved a successful outcome (≥30 points improvement in symptoms and function). This probability reflects the likelihood of substantial clinical improvement following surgery.
+          </div>
         </div>
       </div>
     `;
@@ -712,6 +715,9 @@ function displayOutcomeResults(outcomes) {
           </div>
           <div class="metric-label" style="font-size: 1.2rem; color: #1e293b; font-weight: 600;">Success Probability</div>
           <div style="font-size: 0.95rem; color: #475569; margin-top: 8px; font-weight: 500;">${patient.success_category}</div>
+          <div style="font-size: 0.85rem; color: #64748b; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; line-height: 1.5;">
+            <strong>What this means:</strong> Based on similar patients in our training data, ${successProb.toFixed(0)}% achieved a successful outcome (≥30 points improvement in symptoms and function). This probability reflects the likelihood of substantial clinical improvement following surgery.
+          </div>
         </div>
       </div>
     `;
