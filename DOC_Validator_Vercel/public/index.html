@@ -28,7 +28,8 @@
           <h3>Enter Patient Data</h3>
           <p>Enter patient information to analyze surgical risk and expected outcomes. Required: Age, Sex, BMI, at least one KL grade ≥1. Pain scores are optional but improve accuracy.</p>
           
-          <form id="patientForm" class="patient-form">
+          <!-- Desktop Form (unchanged) -->
+          <form id="patientForm" class="patient-form desktop-form">
             <div class="form-grid">
               <div class="form-field">
                 <label for="patientId">Patient ID (Optional):</label>
@@ -185,6 +186,15 @@
               </div>
               
               <div class="form-field">
+                <label for="walking_distance">Walking Distance (Optional):</label>
+                <input type="number" id="walking_distance" min="60" max="1200" step="1" placeholder="400m walk time in seconds">
+                <small style="display: block; margin-top: 4px; color: #64748b; font-size: 0.85rem; line-height: 1.4;">
+                  Time (in seconds) to walk 400 meters. Typical range: 120-600 seconds (2-10 minutes).
+                  <br><em style="color: #94a3b8;">This field is optional but may improve prediction accuracy.</em>
+                </small>
+              </div>
+              
+              <div class="form-field">
                 <label for="previous_tka_other_knee">Previous TKR on Other Knee (Optional):</label>
                 <select id="previous_tka_other_knee">
                   <option value="">Not specified (defaults to No)</option>
@@ -223,6 +233,234 @@
                 </svg>
                 Clear Form
               </button>
+            </div>
+          </form>
+          
+          <!-- Mobile Multi-Step Form -->
+          <form id="mobilePatientForm" class="mobile-form">
+            <!-- Step 1: Basic Info -->
+            <div class="mobile-step" id="mobileStep1" data-step="1">
+              <div class="step-header">
+                <h4>Step 1: Basic Information</h4>
+                <div class="step-indicator">
+                  <span class="step-dot active"></span>
+                  <span class="step-dot"></span>
+                  <span class="step-dot"></span>
+                </div>
+              </div>
+              <div class="mobile-form-fields">
+                <div class="form-field">
+                  <label for="mobile_patientId">Patient ID (Optional):</label>
+                  <input type="text" id="mobile_patientId" placeholder="e.g., P001">
+                </div>
+                <div class="form-field">
+                  <label for="mobile_sex">Sex:</label>
+                  <select id="mobile_sex" required>
+                    <option value="">Select...</option>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label for="mobile_age">Age (30-85):</label>
+                  <input type="number" id="mobile_age" min="30" max="85" required>
+                </div>
+                <div class="form-field">
+                  <label for="mobile_bmi">BMI (15-50):</label>
+                  <input type="number" id="mobile_bmi" min="15" max="50" step="0.1" required>
+                </div>
+              </div>
+              <div class="mobile-form-actions">
+                <button type="button" class="btn-mobile-next" onclick="mobileNextStep()">Next</button>
+              </div>
+            </div>
+
+            <!-- Step 2: Pain Score Selection -->
+            <div class="mobile-step" id="mobileStep2" data-step="2" style="display: none;">
+              <div class="step-header">
+                <h4>Step 2: Pain Assessment</h4>
+                <div class="step-indicator">
+                  <span class="step-dot"></span>
+                  <span class="step-dot active"></span>
+                  <span class="step-dot"></span>
+                </div>
+              </div>
+              <div class="mobile-form-fields">
+                <div class="form-field" style="grid-column: 1 / -1;">
+                  <label>Pain Scores (Optional - improves accuracy):</label>
+                  <small style="display: block; margin-bottom: 16px; color: #64748b; font-size: 0.9rem;">
+                    Model works without pain scores but predictions may be less precise
+                  </small>
+                  <div class="mobile-pain-score-options">
+                    <label class="mobile-radio-label">
+                      <input type="radio" name="mobile_painScoreType" value="womac" checked onchange="mobileTogglePainScoreType()">
+                      <span>Standard Assessment (0-96)</span>
+                    </label>
+                    <label class="mobile-radio-label">
+                      <input type="radio" name="mobile_painScoreType" value="vas" onchange="mobileTogglePainScoreType()">
+                      <span>VAS Pain Scale (0-10)</span>
+                    </label>
+                    <label class="mobile-radio-label">
+                      <input type="radio" name="mobile_painScoreType" value="none" onchange="mobileTogglePainScoreType()">
+                      <span>None (skip pain scores)</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="mobile-form-actions">
+                <button type="button" class="btn-mobile-back" onclick="mobilePrevStep()">Back</button>
+                <button type="button" class="btn-mobile-next" onclick="mobileNextStep()">Next</button>
+              </div>
+            </div>
+
+            <!-- Step 3: All Assessment Questions -->
+            <div class="mobile-step" id="mobileStep3" data-step="3" style="display: none;">
+              <div class="step-header">
+                <h4>Step 3: Assessment Details</h4>
+                <div class="step-indicator">
+                  <span class="step-dot"></span>
+                  <span class="step-dot"></span>
+                  <span class="step-dot active"></span>
+                </div>
+              </div>
+              <div class="mobile-form-fields">
+                <!-- Symptom Assessment Fields (WOMAC internally) -->
+                <div class="form-field" id="mobile_womac_r_field">
+                  <label for="mobile_womac_r">Right Knee Symptom Score (0-96):</label>
+                  <input type="number" id="mobile_womac_r" min="0" max="96" step="0.1" placeholder="Optional">
+                  <small style="color: #64748b; display: block; margin-top: 4px; font-size: 0.85rem;">Higher score = more symptoms</small>
+                </div>
+                
+                <div class="form-field" id="mobile_womac_l_field">
+                  <label for="mobile_womac_l">Left Knee Symptom Score (0-96):</label>
+                  <input type="number" id="mobile_womac_l" min="0" max="96" step="0.1" placeholder="Optional">
+                  <small style="color: #64748b; display: block; margin-top: 4px; font-size: 0.85rem;">Higher score = more symptoms</small>
+                </div>
+                
+                <!-- VAS Fields (hidden by default) -->
+                <div class="form-field" id="mobile_vas_r_field" style="display: none; grid-column: 1 / -1;">
+                  <label style="font-weight: 600; margin-bottom: 12px; display: block;">Right Knee VAS Pain (0-10):</label>
+                  <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
+                    <div>
+                      <label for="mobile_vas_r_rest" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; color: #475569;">
+                        VAS Pain at Rest (0-10):
+                      </label>
+                      <input type="number" id="mobile_vas_r_rest" min="0" max="10" step="0.5" placeholder="Pain when resting">
+                    </div>
+                    <div>
+                      <label for="mobile_vas_r_walking" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; color: #475569;">
+                        VAS Pain During Walking (0-10):
+                      </label>
+                      <input type="number" id="mobile_vas_r_walking" min="0" max="10" step="0.5" placeholder="Pain when walking">
+                    </div>
+                  </div>
+                  <small style="display: block; margin-top: 8px; color: #64748b; padding: 8px; background: #f1f5f9; border-radius: 6px; font-size: 0.85rem;">
+                    <strong>Estimated WOMAC Score:</strong> <span id="mobile_vas_r_womac">--</span> (average of both scores)
+                  </small>
+                </div>
+                
+                <div class="form-field" id="mobile_vas_l_field" style="display: none; grid-column: 1 / -1;">
+                  <label style="font-weight: 600; margin-bottom: 12px; display: block;">Left Knee VAS Pain (0-10):</label>
+                  <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
+                    <div>
+                      <label for="mobile_vas_l_rest" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; color: #475569;">
+                        VAS Pain at Rest (0-10):
+                      </label>
+                      <input type="number" id="mobile_vas_l_rest" min="0" max="10" step="0.5" placeholder="Pain when resting">
+                    </div>
+                    <div>
+                      <label for="mobile_vas_l_walking" style="display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; color: #475569;">
+                        VAS Pain During Walking (0-10):
+                      </label>
+                      <input type="number" id="mobile_vas_l_walking" min="0" max="10" step="0.5" placeholder="Pain when walking">
+                    </div>
+                  </div>
+                  <small style="display: block; margin-top: 8px; color: #64748b; padding: 8px; background: #f1f5f9; border-radius: 6px; font-size: 0.85rem;">
+                    <strong>Estimated WOMAC Score:</strong> <span id="mobile_vas_l_womac">--</span> (average of both scores)
+                  </small>
+                </div>
+                
+                <div class="form-field">
+                  <label for="mobile_kl_r">Right Knee KL Grade (0-4):</label>
+                  <select id="mobile_kl_r" required>
+                    <option value="">Select...</option>
+                    <option value="na">Not available</option>
+                    <option value="0">0 - No OA</option>
+                    <option value="1">1 - Doubtful</option>
+                    <option value="2">2 - Mild</option>
+                    <option value="3">3 - Moderate</option>
+                    <option value="4">4 - Severe</option>
+                  </select>
+                </div>
+                
+                <div class="form-field">
+                  <label for="mobile_kl_l">Left Knee KL Grade (0-4):</label>
+                  <select id="mobile_kl_l" required>
+                    <option value="">Select...</option>
+                    <option value="na">Not available</option>
+                    <option value="0">0 - No OA</option>
+                    <option value="1">1 - Doubtful</option>
+                    <option value="2">2 - Mild</option>
+                    <option value="3">3 - Moderate</option>
+                    <option value="4">4 - Severe</option>
+                  </select>
+                </div>
+                
+                <div class="form-field">
+                  <label for="mobile_fam_hx">Family History (Optional):</label>
+                  <select id="mobile_fam_hx">
+                    <option value="">Not specified (defaults to No)</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                  </select>
+                </div>
+                
+                <div class="form-field">
+                  <label for="mobile_walking_distance">Walking Distance (Optional):</label>
+                  <input type="number" id="mobile_walking_distance" min="60" max="1200" step="1" placeholder="400m walk time in seconds">
+                  <small style="display: block; margin-top: 4px; color: #64748b; font-size: 0.85rem; line-height: 1.4;">
+                    Time (in seconds) to walk 400 meters. Typical range: 120-600 seconds (2-10 minutes).
+                  </small>
+                </div>
+                
+                <div class="form-field">
+                  <label for="mobile_previous_tka_other_knee">Previous TKR on Other Knee (Optional):</label>
+                  <select id="mobile_previous_tka_other_knee">
+                    <option value="">Not specified (defaults to No)</option>
+                    <option value="1">Yes - Had TKR on opposite knee</option>
+                    <option value="0">No - No previous TKR</option>
+                  </select>
+                  <small style="display: block; margin-top: 6px; color: #64748b; font-size: 0.85rem; line-height: 1.4;">
+                    <strong>Note:</strong> Has the patient had total knee replacement on the opposite knee?
+                  </small>
+                </div>
+                
+                <div class="form-field">
+                  <label for="mobile_tkr_outcome">TKR Outcome (Optional):</label>
+                  <select id="mobile_tkr_outcome">
+                    <option value="">Not specified</option>
+                    <option value="1">Yes - Had TKR</option>
+                    <option value="0">No - No TKR</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mobile-form-actions">
+                <button type="button" class="btn-mobile-back" onclick="mobilePrevStep()">Back</button>
+                <button type="submit" class="btn-mobile-analyze" id="mobileAnalyzePatientBtn">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                  <span>Analyze Patient</span>
+              </button>
+                <button type="button" class="btn-mobile-clear" onclick="mobileClearForm()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                  <span>Clear</span>
+              </button>
+            </div>
             </div>
           </form>
         </div>

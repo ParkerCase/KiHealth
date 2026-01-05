@@ -1445,6 +1445,18 @@ document.getElementById("patientForm").addEventListener("submit", async function
   const famHxValue = document.getElementById("fam_hx").value;
   const fam_hx = famHxValue !== "" ? parseInt(famHxValue) : 0;
 
+  // Walking distance (400m walk time) - optional
+  const walkingDistanceStr = document.getElementById("walking_distance")?.value.trim() || "";
+  const walking_distance = walkingDistanceStr !== "" ? parseFloat(walkingDistanceStr) : null;
+  
+  // Validate walking distance if provided
+  if (walking_distance !== null) {
+    if (isNaN(walking_distance) || walking_distance < 60 || walking_distance > 1200) {
+      alert("Walking distance (400m walk time) must be between 60 and 1200 seconds (1-20 minutes), or leave empty.");
+      return;
+    }
+  }
+
   // Previous TKA on other knee - optional, stored but not used in current model
   const previousTkaValue = document.getElementById("previous_tka_other_knee")?.value || "";
   const previous_tka_other_knee = previousTkaValue !== "" ? parseInt(previousTkaValue) : 0;
@@ -1458,6 +1470,7 @@ document.getElementById("patientForm").addEventListener("submit", async function
     kl_r: kl_r, // Can be null if "Not available"
     kl_l: kl_l, // Can be null if "Not available"
     fam_hx: fam_hx,
+    walking_distance: walking_distance, // Optional - 400m walk time in seconds
     previous_tka_other_knee: previous_tka_other_knee, // Stored for future use, not used in current model
     _pain_scores_missing: painScoresMissing, // Flag for display
     _kl_missing: kl_r === null || kl_l === null, // Flag for display
@@ -1513,7 +1526,7 @@ document.getElementById("patientForm").addEventListener("submit", async function
     const minLoadingTime = 800;
     
     // Convert single patient to CSV format
-    const csvHeaders = ["age", "sex", "bmi", "womac_r", "womac_l", "kl_r", "kl_l", "fam_hx", "previous_tka_other_knee"];
+    const csvHeaders = ["age", "sex", "bmi", "womac_r", "womac_l", "kl_r", "kl_l", "fam_hx", "walking_distance", "previous_tka_other_knee"];
     if (outcome !== "") {
       csvHeaders.push("tkr_outcome");
     }
@@ -2044,4 +2057,302 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", attachOutcomeHandler);
 } else {
   attachOutcomeHandler();
+}
+
+// ==================== MOBILE MULTI-STEP FORM ====================
+
+let currentMobileStep = 1;
+const totalMobileSteps = 3;
+
+function mobileNextStep() {
+  // Validate current step before proceeding
+  if (currentMobileStep === 1) {
+    // Validate Step 1: Basic Info
+    const age = document.getElementById("mobile_age").value;
+    const sex = document.getElementById("mobile_sex").value;
+    const bmi = document.getElementById("mobile_bmi").value;
+    
+    if (!age || !sex || !bmi) {
+      alert("Please fill in all required fields: Age, Sex, and BMI.");
+      return;
+    }
+    
+    // Sync to desktop form
+    syncMobileToDesktop();
+  } else if (currentMobileStep === 2) {
+    // Step 2 validation is optional (pain scores)
+    syncMobileToDesktop();
+  }
+  
+  if (currentMobileStep < totalMobileSteps) {
+    // Hide current step
+    document.getElementById(`mobileStep${currentMobileStep}`).style.display = "none";
+    // Show next step
+    currentMobileStep++;
+    document.getElementById(`mobileStep${currentMobileStep}`).style.display = "block";
+    // Update step indicators
+    updateMobileStepIndicators();
+    // Sync desktop to mobile for step 3
+    if (currentMobileStep === 3) {
+      syncDesktopToMobile();
+    }
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function mobilePrevStep() {
+  if (currentMobileStep > 1) {
+    // Hide current step
+    document.getElementById(`mobileStep${currentMobileStep}`).style.display = "none";
+    // Show previous step
+    currentMobileStep--;
+    document.getElementById(`mobileStep${currentMobileStep}`).style.display = "block";
+    // Update step indicators
+    updateMobileStepIndicators();
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function updateMobileStepIndicators() {
+  const indicators = document.querySelectorAll(".step-dot");
+  indicators.forEach((dot, index) => {
+    if (index + 1 === currentMobileStep) {
+      dot.classList.add("active");
+    } else {
+      dot.classList.remove("active");
+    }
+  });
+}
+
+function mobileTogglePainScoreType() {
+  const painScoreType = document.querySelector('input[name="mobile_painScoreType"]:checked').value;
+  
+  // Show/hide fields based on selection
+  const womacRField = document.getElementById("mobile_womac_r_field");
+  const womacLField = document.getElementById("mobile_womac_l_field");
+  const vasRField = document.getElementById("mobile_vas_r_field");
+  const vasLField = document.getElementById("mobile_vas_l_field");
+  
+  if (painScoreType === "womac") {
+    if (womacRField) womacRField.style.display = "block";
+    if (womacLField) womacLField.style.display = "block";
+    if (vasRField) vasRField.style.display = "none";
+    if (vasLField) vasLField.style.display = "none";
+  } else if (painScoreType === "vas") {
+    if (womacRField) womacRField.style.display = "none";
+    if (womacLField) womacLField.style.display = "none";
+    if (vasRField) vasRField.style.display = "block";
+    if (vasLField) vasLField.style.display = "block";
+  } else {
+    // "none"
+    if (womacRField) womacRField.style.display = "none";
+    if (womacLField) womacLField.style.display = "none";
+    if (vasRField) vasRField.style.display = "none";
+    if (vasLField) vasLField.style.display = "none";
+  }
+  
+  // Update VAS WOMAC display if VAS is selected
+  if (painScoreType === "vas") {
+    updateMobileVasWomacDisplay();
+  }
+}
+
+function updateMobileVasWomacDisplay() {
+  const vas_r_rest = parseFloat(document.getElementById("mobile_vas_r_rest")?.value || 0);
+  const vas_r_walking = parseFloat(document.getElementById("mobile_vas_r_walking")?.value || 0);
+  const vas_l_rest = parseFloat(document.getElementById("mobile_vas_l_rest")?.value || 0);
+  const vas_l_walking = parseFloat(document.getElementById("mobile_vas_l_walking")?.value || 0);
+  
+  // Calculate averages
+  let avg_r = null;
+  if (vas_r_rest > 0 || vas_r_walking > 0) {
+    const count = (vas_r_rest > 0 ? 1 : 0) + (vas_r_walking > 0 ? 1 : 0);
+    avg_r = ((vas_r_rest > 0 ? vas_r_rest : 0) + (vas_r_walking > 0 ? vas_r_walking : 0)) / count;
+  }
+  
+  let avg_l = null;
+  if (vas_l_rest > 0 || vas_l_walking > 0) {
+    const count = (vas_l_rest > 0 ? 1 : 0) + (vas_l_walking > 0 ? 1 : 0);
+    avg_l = ((vas_l_rest > 0 ? vas_l_rest : 0) + (vas_l_walking > 0 ? vas_l_walking : 0)) / count;
+  }
+  
+  // Convert to WOMAC and display
+  const womacRDisplay = document.getElementById("mobile_vas_r_womac");
+  const womacLDisplay = document.getElementById("mobile_vas_l_womac");
+  
+  if (womacRDisplay && avg_r !== null) {
+    womacRDisplay.textContent = vasToWomac(avg_r).toFixed(1);
+  } else if (womacRDisplay) {
+    womacRDisplay.textContent = "--";
+  }
+  
+  if (womacLDisplay && avg_l !== null) {
+    womacLDisplay.textContent = vasToWomac(avg_l).toFixed(1);
+  } else if (womacLDisplay) {
+    womacLDisplay.textContent = "--";
+  }
+}
+
+// Add event listeners for VAS fields to update display
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", function() {
+    const vasFields = ["mobile_vas_r_rest", "mobile_vas_r_walking", "mobile_vas_l_rest", "mobile_vas_l_walking"];
+    vasFields.forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.addEventListener("input", updateMobileVasWomacDisplay);
+      }
+    });
+  });
+} else {
+  const vasFields = ["mobile_vas_r_rest", "mobile_vas_r_walking", "mobile_vas_l_rest", "mobile_vas_l_walking"];
+  vasFields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.addEventListener("input", updateMobileVasWomacDisplay);
+    }
+  });
+}
+
+function syncMobileToDesktop() {
+  // Copy ALL values from mobile form to desktop form
+  const fields = [
+    { mobile: "mobile_patientId", desktop: "patientId" },
+    { mobile: "mobile_age", desktop: "age" },
+    { mobile: "mobile_sex", desktop: "sex" },
+    { mobile: "mobile_bmi", desktop: "bmi" },
+    { mobile: "mobile_womac_r", desktop: "womac_r" },
+    { mobile: "mobile_womac_l", desktop: "womac_l" },
+    { mobile: "mobile_vas_r_rest", desktop: "vas_r_rest" },
+    { mobile: "mobile_vas_r_walking", desktop: "vas_r_walking" },
+    { mobile: "mobile_vas_l_rest", desktop: "vas_l_rest" },
+    { mobile: "mobile_vas_l_walking", desktop: "vas_l_walking" },
+    { mobile: "mobile_kl_r", desktop: "kl_r" },
+    { mobile: "mobile_kl_l", desktop: "kl_l" },
+    { mobile: "mobile_fam_hx", desktop: "fam_hx" },
+    { mobile: "mobile_walking_distance", desktop: "walking_distance" },
+    { mobile: "mobile_previous_tka_other_knee", desktop: "previous_tka_other_knee" },
+    { mobile: "mobile_tkr_outcome", desktop: "tkr_outcome" },
+  ];
+  
+  fields.forEach(({ mobile, desktop }) => {
+    const mobileField = document.getElementById(mobile);
+    const desktopField = document.getElementById(desktop);
+    if (mobileField && desktopField) {
+      desktopField.value = mobileField.value;
+    }
+  });
+  
+  // Sync pain score type
+  const mobilePainType = document.querySelector('input[name="mobile_painScoreType"]:checked');
+  if (mobilePainType) {
+    const desktopPainType = document.querySelector(`input[name="painScoreType"][value="${mobilePainType.value}"]`);
+    if (desktopPainType) {
+      desktopPainType.checked = true;
+      togglePainScoreType();
+    }
+  }
+}
+
+function syncDesktopToMobile() {
+  // Copy values from desktop form to mobile form (for step 3)
+  const fields = [
+    { desktop: "womac_r", mobile: "mobile_womac_r" },
+    { desktop: "womac_l", mobile: "mobile_womac_l" },
+    { desktop: "vas_r_rest", mobile: "mobile_vas_r_rest" },
+    { desktop: "vas_r_walking", mobile: "mobile_vas_r_walking" },
+    { desktop: "vas_l_rest", mobile: "mobile_vas_l_rest" },
+    { desktop: "vas_l_walking", mobile: "mobile_vas_l_walking" },
+    { desktop: "kl_r", mobile: "mobile_kl_r" },
+    { desktop: "kl_l", mobile: "mobile_kl_l" },
+    { desktop: "fam_hx", mobile: "mobile_fam_hx" },
+    { desktop: "walking_distance", mobile: "mobile_walking_distance" },
+    { desktop: "previous_tka_other_knee", mobile: "mobile_previous_tka_other_knee" },
+    { desktop: "tkr_outcome", mobile: "mobile_tkr_outcome" },
+  ];
+  
+  fields.forEach(({ desktop, mobile }) => {
+    const desktopField = document.getElementById(desktop);
+    const mobileField = document.getElementById(mobile);
+    if (desktopField && mobileField) {
+      mobileField.value = desktopField.value;
+    }
+  });
+  
+  // Sync pain score type and toggle
+  const desktopPainType = document.querySelector('input[name="painScoreType"]:checked');
+  if (desktopPainType) {
+    const mobilePainType = document.querySelector(`input[name="mobile_painScoreType"][value="${desktopPainType.value}"]`);
+    if (mobilePainType) {
+      mobilePainType.checked = true;
+      mobileTogglePainScoreType();
+    }
+  }
+}
+
+function mobileClearForm() {
+  // Reset mobile form
+  document.getElementById("mobilePatientForm").reset();
+  
+  // Reset to step 1
+  document.getElementById("mobileStep2").style.display = "none";
+  document.getElementById("mobileStep3").style.display = "none";
+  document.getElementById("mobileStep1").style.display = "block";
+  currentMobileStep = 1;
+  updateMobileStepIndicators();
+  
+  // Reset pain score type
+  const womacRadio = document.querySelector('input[name="mobile_painScoreType"][value="womac"]');
+  if (womacRadio) {
+    womacRadio.checked = true;
+    mobileTogglePainScoreType();
+  }
+  
+  // Also clear desktop form
+  clearForm();
+  
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Mobile form submission handler
+const mobileForm = document.getElementById("mobilePatientForm");
+if (mobileForm) {
+  mobileForm.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    
+    // Sync all mobile values to desktop form
+    syncMobileToDesktop();
+    
+    // Create a synthetic submit event and trigger desktop form handler
+    const desktopForm = document.getElementById("patientForm");
+    if (desktopForm) {
+      // Create and dispatch submit event
+      const submitEvent = new Event("submit", { cancelable: true, bubbles: true });
+      desktopForm.dispatchEvent(submitEvent);
+    }
+  });
+}
+
+// Initialize mobile form on load
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", function() {
+    // Set initial step
+    updateMobileStepIndicators();
+    // Initialize pain score type
+    const womacRadio = document.querySelector('input[name="mobile_painScoreType"][value="womac"]');
+    if (womacRadio) {
+      womacRadio.checked = true;
+      mobileTogglePainScoreType();
+    }
+  });
+} else {
+  updateMobileStepIndicators();
+  const womacRadio = document.querySelector('input[name="mobile_painScoreType"][value="womac"]');
+  if (womacRadio) {
+    womacRadio.checked = true;
+    mobileTogglePainScoreType();
+  }
 }
