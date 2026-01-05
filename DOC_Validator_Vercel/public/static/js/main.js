@@ -2086,10 +2086,16 @@ function mobileNextStep() {
   
   if (currentMobileStep < totalMobileSteps) {
     // Hide current step
-    document.getElementById(`mobileStep${currentMobileStep}`).style.display = "none";
+    const currentStepEl = document.getElementById(`mobileStep${currentMobileStep}`);
+    if (currentStepEl) {
+      currentStepEl.classList.remove("active");
+    }
     // Show next step
     currentMobileStep++;
-    document.getElementById(`mobileStep${currentMobileStep}`).style.display = "block";
+    const nextStepEl = document.getElementById(`mobileStep${currentMobileStep}`);
+    if (nextStepEl) {
+      nextStepEl.classList.add("active");
+    }
     // Update step indicators
     updateMobileStepIndicators();
     // Sync desktop to mobile for step 3
@@ -2104,10 +2110,16 @@ function mobileNextStep() {
 function mobilePrevStep() {
   if (currentMobileStep > 1) {
     // Hide current step
-    document.getElementById(`mobileStep${currentMobileStep}`).style.display = "none";
+    const currentStepEl = document.getElementById(`mobileStep${currentMobileStep}`);
+    if (currentStepEl) {
+      currentStepEl.classList.remove("active");
+    }
     // Show previous step
     currentMobileStep--;
-    document.getElementById(`mobileStep${currentMobileStep}`).style.display = "block";
+    const prevStepEl = document.getElementById(`mobileStep${currentMobileStep}`);
+    if (prevStepEl) {
+      prevStepEl.classList.add("active");
+    }
     // Update step indicators
     updateMobileStepIndicators();
     // Scroll to top
@@ -2296,10 +2308,15 @@ function mobileClearForm() {
   // Reset mobile form
   document.getElementById("mobilePatientForm").reset();
   
-  // Reset to step 1
-  document.getElementById("mobileStep2").style.display = "none";
-  document.getElementById("mobileStep3").style.display = "none";
-  document.getElementById("mobileStep1").style.display = "block";
+  // Reset to step 1 - hide all steps, show only step 1
+  const step2 = document.getElementById("mobileStep2");
+  const step3 = document.getElementById("mobileStep3");
+  const step1 = document.getElementById("mobileStep1");
+  
+  if (step2) step2.classList.remove("active");
+  if (step3) step3.classList.remove("active");
+  if (step1) step1.classList.add("active");
+  
   currentMobileStep = 1;
   updateMobileStepIndicators();
   
@@ -2337,22 +2354,33 @@ if (mobileForm) {
 }
 
 // Initialize mobile form on load
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", function() {
-    // Set initial step
-    updateMobileStepIndicators();
-    // Initialize pain score type
-    const womacRadio = document.querySelector('input[name="mobile_painScoreType"][value="womac"]');
-    if (womacRadio) {
-      womacRadio.checked = true;
-      mobileTogglePainScoreType();
-    }
-  });
-} else {
+function initializeMobileForm() {
+  // Ensure only step 1 is visible initially
+  const step1 = document.getElementById("mobileStep1");
+  const step2 = document.getElementById("mobileStep2");
+  const step3 = document.getElementById("mobileStep3");
+  
+  // Remove active class from all steps
+  if (step1) step1.classList.remove("active");
+  if (step2) step2.classList.remove("active");
+  if (step3) step3.classList.remove("active");
+  
+  // Add active class to step 1
+  if (step1) step1.classList.add("active");
+  
+  currentMobileStep = 1;
   updateMobileStepIndicators();
+  
+  // Initialize pain score type
   const womacRadio = document.querySelector('input[name="mobile_painScoreType"][value="womac"]');
   if (womacRadio) {
     womacRadio.checked = true;
     mobileTogglePainScoreType();
   }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeMobileForm);
+} else {
+  initializeMobileForm();
 }
