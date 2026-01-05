@@ -16,7 +16,7 @@
         </p>
       </header>
 
-      <div class="privacy-notice">
+      <div class="privacy-notice mobile-step-1-only">
         <strong>Privacy Notice:</strong> All data processing happens in memory
         only.
         <strong>No patient data is stored, logged, or retained.</strong> Data is
@@ -25,8 +25,8 @@
 
       <!-- Patient Entry Section -->
         <div id="manualEntrySection" class="entry-section">
-          <h3>Enter Patient Data</h3>
-          <p>Enter patient information to analyze surgical risk and expected outcomes. Required: Age, Sex, BMI, at least one KL grade ≥1. Pain scores are optional but improve accuracy.</p>
+          <h3 class="mobile-step-1-only">Enter Patient Data</h3>
+          <p class="mobile-step-1-only">Enter patient information to analyze surgical risk and expected outcomes. Required: Age, Sex, BMI, at least one KL grade ≥1. Pain scores are optional but improve accuracy.</p>
           
           <!-- Desktop Form (unchanged) -->
           <form id="patientForm" class="patient-form desktop-form">
@@ -246,6 +246,7 @@
                   <span class="step-dot active"></span>
                   <span class="step-dot"></span>
                   <span class="step-dot"></span>
+                  <span class="step-dot"></span>
                 </div>
               </div>
               <div class="mobile-form-fields">
@@ -282,6 +283,7 @@
                 <div class="step-indicator">
                   <span class="step-dot"></span>
                   <span class="step-dot active"></span>
+                  <span class="step-dot"></span>
                   <span class="step-dot"></span>
                 </div>
               </div>
@@ -321,6 +323,7 @@
                   <span class="step-dot"></span>
                   <span class="step-dot"></span>
                   <span class="step-dot active"></span>
+                  <span class="step-dot"></span>
                 </div>
               </div>
               <div class="mobile-form-fields">
@@ -460,19 +463,45 @@
                 </svg>
                   <span>Clear</span>
               </button>
+          </div>
+        </div>
+
+            <!-- Step 4: Analysis Results -->
+            <div class="mobile-step" id="mobileStep4" data-step="4">
+              <div class="step-header">
+                <h4>Analysis Results</h4>
+                <div class="step-indicator">
+                  <span class="step-dot"></span>
+                  <span class="step-dot"></span>
+                  <span class="step-dot"></span>
+                  <span class="step-dot active"></span>
             </div>
-            </div>
+          </div>
+              <div id="mobileResults" class="mobile-results-content">
+                <!-- Results will be populated here by JavaScript -->
+          </div>
+              <div class="mobile-form-actions">
+                <button type="button" class="btn-mobile-back" onclick="mobilePrevStep()">Back</button>
+                <button type="button" class="btn-mobile-clear" onclick="mobileClearForm()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                  <span>New Analysis</span>
+          </button>
+          </div>
+        </div>
           </form>
         </div>
       </div>
 
-      <div id="loading" class="loading" style="display: none">
+      <div id="loading" class="loading mobile-step-1-only" style="display: none">
         <div class="spinner"></div>
         <p style="font-size: 1.1rem; font-weight: 600; color: #1a1a1a; margin-top: 20px;">Analyzing patient data...</p>
         <p style="font-size: 0.9rem; color: #64748b; margin-top: 8px;">This may take a few seconds</p>
       </div>
 
-      <div id="results" class="results" style="display: none">
+      <div id="results" class="results desktop-results" style="display: none">
         <!-- Results populated by JavaScript -->
       </div>
 

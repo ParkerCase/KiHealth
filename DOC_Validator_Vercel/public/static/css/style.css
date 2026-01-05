@@ -1349,7 +1349,8 @@ footer a:hover {
 
 .mobile-form-actions {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
   padding-top: 24px;
   border-top: 2px solid #e2e8f0;
   position: sticky;
@@ -1357,25 +1358,40 @@ footer a:hover {
   background: white;
   padding-bottom: 16px;
   margin-top: 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .btn-mobile-next,
 .btn-mobile-back,
 .btn-mobile-analyze,
 .btn-mobile-clear {
-  flex: 1;
-  padding: 16px 24px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 14px 16px;
   border: none;
   border-radius: 12px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 52px;
+  gap: 6px;
+  min-height: 48px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-mobile-next span,
+.btn-mobile-back span,
+.btn-mobile-analyze span,
+.btn-mobile-clear span {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .btn-mobile-next {
@@ -1405,7 +1421,7 @@ footer a:hover {
   background: #1a1a1a;
   color: white;
   box-shadow: 0 4px 12px rgba(26, 26, 26, 0.3);
-  flex: 2;
+  flex: 1.5 1 auto;
 }
 
 .btn-mobile-analyze:hover {
@@ -1542,5 +1558,56 @@ footer a:hover {
   
   .mobile-form-actions {
     border-top: 2px solid #e5e5e5;
+    padding-left: 0;
+    padding-right: 0;
   }
+  
+  .btn-mobile-next,
+  .btn-mobile-back,
+  .btn-mobile-analyze,
+  .btn-mobile-clear {
+    font-size: 0.85rem;
+    padding: 12px 14px;
+    min-height: 44px;
+  }
+  
+  /* Hide privacy notice and intro text on steps 2-4 */
+  .mobile-step-1-only {
+    display: block;
+  }
+  
+  .mobile-step.active ~ * .mobile-step-1-only,
+  .mobile-step[data-step="2"].active ~ * .mobile-step-1-only,
+  .mobile-step[data-step="3"].active ~ * .mobile-step-1-only,
+  .mobile-step[data-step="4"].active ~ * .mobile-step-1-only,
+  body:has(.mobile-step[data-step="2"].active) .mobile-step-1-only,
+  body:has(.mobile-step[data-step="3"].active) .mobile-step-1-only,
+  body:has(.mobile-step[data-step="4"].active) .mobile-step-1-only {
+    display: none !important;
+  }
+}
+
+/* Hide privacy notice and intro text on mobile steps 2-4 */
+@media (max-width: 768px) {
+  .mobile-step[data-step="2"].active ~ * .mobile-step-1-only,
+  .mobile-step[data-step="3"].active ~ * .mobile-step-1-only,
+  .mobile-step[data-step="4"].active ~ * .mobile-step-1-only {
+    display: none !important;
+  }
+  
+  /* Use JavaScript to toggle visibility */
+  body.mobile-step-2 .mobile-step-1-only,
+  body.mobile-step-3 .mobile-step-1-only,
+  body.mobile-step-4 .mobile-step-1-only {
+    display: none !important;
+  }
+}
+
+.mobile-results-content {
+  width: 100%;
+  min-height: 200px;
+}
+
+.desktop-results {
+  /* Desktop results stay visible on desktop */
 }

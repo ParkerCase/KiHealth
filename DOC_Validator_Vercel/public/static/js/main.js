@@ -12,7 +12,42 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
 // analyzeData function removed - now handled directly in form submission
 
 function displayResults(data) {
-  const resultsDiv = document.getElementById("results");
+  // Check if we're on mobile (mobile form is visible)
+  const isMobile = window.innerWidth <= 768;
+  const mobileForm = document.getElementById("mobilePatientForm");
+  const isMobileFormVisible = mobileForm && window.getComputedStyle(mobileForm).display !== "none";
+  
+  let resultsDiv;
+  if (isMobileFormVisible) {
+    // Mobile: show results in Step 4
+    resultsDiv = document.getElementById("mobileResults");
+    // Hide desktop results
+    const desktopResults = document.getElementById("results");
+    if (desktopResults) desktopResults.style.display = "none";
+    // Navigate to step 4
+    if (currentMobileStep !== 4) {
+      // Hide current step
+      const currentStepEl = document.getElementById(`mobileStep${currentMobileStep}`);
+      if (currentStepEl) currentStepEl.classList.remove("active");
+      currentMobileStep = 4;
+      const step4El = document.getElementById("mobileStep4");
+      if (step4El) step4El.classList.add("active");
+      updateMobileStepIndicators();
+      updateMobileStepVisibility();
+    }
+    } else {
+    // Desktop: show results in desktop results div
+    resultsDiv = document.getElementById("results");
+    // Hide mobile results
+    const mobileResults = document.getElementById("mobileResults");
+    if (mobileResults) mobileResults.innerHTML = "";
+  }
+  
+  if (!resultsDiv) {
+    console.error("Results div not found");
+      return;
+    }
+
   let html = "<h2>Analysis Results</h2>";
 
   // Check for missing data and display warnings
@@ -1584,8 +1619,18 @@ document.getElementById("patientForm").addEventListener("submit", async function
     // Display results (outcomes are already included inline via displayResults)
     displayResults(data);
     
-    // Scroll to results
-    document.getElementById("results").scrollIntoView({ behavior: "smooth", block: "start" });
+    // Scroll to results (check if mobile or desktop)
+    const isMobileFormVisible = document.getElementById("mobilePatientForm") && 
+                                 window.getComputedStyle(document.getElementById("mobilePatientForm")).display !== "none";
+    if (isMobileFormVisible) {
+      // Mobile: scroll to step 4
+      const step4 = document.getElementById("mobileStep4");
+      if (step4) step4.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // Desktop: scroll to desktop results
+      const desktopResults = document.getElementById("results");
+      if (desktopResults) desktopResults.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
     
   } catch (error) {
     document.getElementById("loading").style.display = "none";
@@ -2062,7 +2107,7 @@ if (document.readyState === "loading") {
 // ==================== MOBILE MULTI-STEP FORM ====================
 
 let currentMobileStep = 1;
-const totalMobileSteps = 3;
+const totalMobileSteps = 4;
 
 function mobileNextStep() {
   // Validate current step before proceeding
@@ -2102,6 +2147,8 @@ function mobileNextStep() {
     if (currentMobileStep === 3) {
       syncDesktopToMobile();
     }
+    // Update privacy notice visibility
+    updateMobileStepVisibility();
     // Scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -2122,8 +2169,30 @@ function mobilePrevStep() {
     }
     // Update step indicators
     updateMobileStepIndicators();
+    // Update privacy notice visibility
+    updateMobileStepVisibility();
     // Scroll to top
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function updateMobileStepVisibility() {
+  // Toggle body class for CSS to hide privacy notice
+  document.body.classList.remove("mobile-step-1", "mobile-step-2", "mobile-step-3", "mobile-step-4");
+  document.body.classList.add(`mobile-step-${currentMobileStep}`);
+  
+  // Also directly toggle visibility
+  const privacyNotice = document.querySelector(".privacy-notice.mobile-step-1-only");
+  const introText = document.querySelectorAll(".mobile-step-1-only");
+  
+  if (currentMobileStep === 1) {
+    introText.forEach(el => {
+      if (el) el.style.display = "block";
+    });
+  } else {
+    introText.forEach(el => {
+      if (el) el.style.display = "none";
+    });
   }
 }
 
@@ -2309,16 +2378,25 @@ function mobileClearForm() {
   document.getElementById("mobilePatientForm").reset();
   
   // Reset to step 1 - hide all steps, show only step 1
+  const step1 = document.getElementById("mobileStep1");
   const step2 = document.getElementById("mobileStep2");
   const step3 = document.getElementById("mobileStep3");
-  const step1 = document.getElementById("mobileStep1");
+  const step4 = document.getElementById("mobileStep4");
   
+  if (step1) step1.classList.remove("active");
   if (step2) step2.classList.remove("active");
   if (step3) step3.classList.remove("active");
+  if (step4) step4.classList.remove("active");
+  
   if (step1) step1.classList.add("active");
+  
+  // Clear mobile results
+  const mobileResults = document.getElementById("mobileResults");
+  if (mobileResults) mobileResults.innerHTML = "";
   
   currentMobileStep = 1;
   updateMobileStepIndicators();
+  updateMobileStepVisibility();
   
   // Reset pain score type
   const womacRadio = document.querySelector('input[name="mobile_painScoreType"][value="womac"]');
@@ -2359,17 +2437,20 @@ function initializeMobileForm() {
   const step1 = document.getElementById("mobileStep1");
   const step2 = document.getElementById("mobileStep2");
   const step3 = document.getElementById("mobileStep3");
+  const step4 = document.getElementById("mobileStep4");
   
   // Remove active class from all steps
   if (step1) step1.classList.remove("active");
   if (step2) step2.classList.remove("active");
   if (step3) step3.classList.remove("active");
+  if (step4) step4.classList.remove("active");
   
   // Add active class to step 1
   if (step1) step1.classList.add("active");
   
   currentMobileStep = 1;
   updateMobileStepIndicators();
+  updateMobileStepVisibility();
   
   // Initialize pain score type
   const womacRadio = document.querySelector('input[name="mobile_painScoreType"][value="womac"]');
