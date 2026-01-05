@@ -1601,6 +1601,23 @@ footer a:hover {
   body.mobile-step-4 .mobile-step-1-only {
     display: none !important;
   }
+  
+  /* Hide loading spinner on mobile steps 2-4, even if inline style tries to show it */
+  body.mobile-step-2 #loading.mobile-step-1-only,
+  body.mobile-step-3 #loading.mobile-step-1-only,
+  body.mobile-step-4 #loading.mobile-step-1-only {
+    display: none !important;
+  }
+  
+  /* Also hide loading when not on step 1, using step active state */
+  .mobile-step[data-step="2"].active ~ #loading,
+  .mobile-step[data-step="3"].active ~ #loading,
+  .mobile-step[data-step="4"].active ~ #loading,
+  body:has(.mobile-step[data-step="2"].active) #loading.mobile-step-1-only,
+  body:has(.mobile-step[data-step="3"].active) #loading.mobile-step-1-only,
+  body:has(.mobile-step[data-step="4"].active) #loading.mobile-step-1-only {
+    display: none !important;
+  }
 }
 
 .mobile-results-content {

@@ -48,7 +48,11 @@ function displayResults(data) {
       return;
     }
 
-  let html = "<h2>Analysis Results</h2>";
+  // Only add title if on desktop (mobile already has it in step header)
+  let html = "";
+  if (!isMobileFormVisible) {
+    html = "<h2>Analysis Results</h2>";
+  }
 
   // Check for missing data and display warnings
   const hasMissingPainScores = data.summary?.patients_without_pain_scores > 0;
@@ -2184,15 +2188,20 @@ function updateMobileStepVisibility() {
   // Also directly toggle visibility
   const privacyNotice = document.querySelector(".privacy-notice.mobile-step-1-only");
   const introText = document.querySelectorAll(".mobile-step-1-only");
+  const loadingEl = document.getElementById("loading");
   
   if (currentMobileStep === 1) {
     introText.forEach(el => {
-      if (el) el.style.display = "block";
+      if (el && el !== loadingEl) el.style.display = "block";
     });
+    // Loading should only show if it was explicitly set to show (during analysis)
+    // Don't force it to show here
   } else {
     introText.forEach(el => {
       if (el) el.style.display = "none";
     });
+    // Always hide loading on steps 2-4
+    if (loadingEl) loadingEl.style.display = "none";
   }
 }
 
