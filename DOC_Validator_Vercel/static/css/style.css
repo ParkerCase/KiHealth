@@ -24,6 +24,8 @@ body {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
   padding: 48px;
   backdrop-filter: blur(10px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 header {
@@ -1021,6 +1023,10 @@ footer a:hover {
     gap: 16px !important;
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 
   .patient-cards {
@@ -1050,8 +1056,11 @@ footer a:hover {
   #bmi,
   #womac_r,
   #womac_l,
+  #kl_r,
+  #kl_l,
   input[type="text"],
   input[type="number"],
+  input[type="email"],
   select {
     width: 100% !important;
     max-width: 100% !important;
@@ -1066,6 +1075,7 @@ footer a:hover {
     border-radius: 12px !important;
     margin: 0 !important;
     display: block !important;
+    flex: 1 1 100% !important;
   }
 
   /* Override inline styles in VAS fields */
@@ -1126,5 +1136,25 @@ footer a:hover {
     max-width: 100% !important;
     min-width: 0 !important;
     flex: 1 1 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Override any grid column constraints */
+  .form-field[style*="grid-column"] {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* Ensure patient-form doesn't constrain */
+  .patient-form {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Override container max-width on mobile */
+  .container {
+    max-width: 100% !important;
+    width: 100% !important;
   }
 }
