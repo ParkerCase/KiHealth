@@ -1265,8 +1265,10 @@ footer a:hover {
     border-color: #667eea !important;
     background: #f0f4ff !important;
   }
+}
 
-  /* Hide desktop form on mobile, show mobile form */
+/* Mobile: Hide desktop form, show mobile form */
+@media (max-width: 768px) {
   .desktop-form {
     display: none !important;
   }
@@ -1301,10 +1303,6 @@ footer a:hover {
 
 .mobile-step.active {
   display: block !important; /* Show active step */
-}
-
-.mobile-step[data-step="1"] {
-  display: block !important; /* Show only step 1 initially */
 }
 
 .step-header {
