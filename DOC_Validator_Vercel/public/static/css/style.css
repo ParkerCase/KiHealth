@@ -1606,6 +1606,24 @@ footer a:hover {
 .mobile-results-content {
   width: 100%;
   min-height: 200px;
+  padding: 0;
+}
+
+.mobile-results-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.mobile-results-content .summary-stats {
+  margin-top: 24px;
+}
+
+.mobile-results-content .stat-card {
+  margin-bottom: 16px;
 }
 
 .desktop-results {
