@@ -24,28 +24,49 @@ function calculateWorstSide(patient) {
   if (!patient) return 'bilateral'; // Default if patient data missing
   
   // Safely extract values with null/undefined checks
-  const leftKL = (patient.kl_l !== null && patient.kl_l !== undefined && !isNaN(patient.kl_l)) ? patient.kl_l : 0;
-  const rightKL = (patient.kl_r !== null && patient.kl_r !== undefined && !isNaN(patient.kl_r)) ? patient.kl_r : 0;
-  const leftWomac = (patient.womac_l !== null && patient.womac_l !== undefined && !isNaN(patient.womac_l)) ? patient.womac_l : 0;
-  const rightWomac = (patient.womac_r !== null && patient.womac_r !== undefined && !isNaN(patient.womac_r)) ? patient.womac_r : 0;
+  const leftKL = (patient.kl_l !== null && patient.kl_l !== undefined && !isNaN(patient.kl_l)) ? patient.kl_l : null;
+  const rightKL = (patient.kl_r !== null && patient.kl_r !== undefined && !isNaN(patient.kl_r)) ? patient.kl_r : null;
+  const leftWomac = (patient.womac_l !== null && patient.womac_l !== undefined && !isNaN(patient.womac_l)) ? patient.womac_l : null;
+  const rightWomac = (patient.womac_r !== null && patient.womac_r !== undefined && !isNaN(patient.womac_r)) ? patient.womac_r : null;
+  
+  // If both sides have no data, return bilateral
+  if ((leftKL === null && leftWomac === null) && (rightKL === null && rightWomac === null)) {
+    return 'bilateral';
+  }
   
   // Calculate severity score for each side
-  // Higher KL grade = worse structural damage
-  // Higher WOMAC = worse symptoms (more pain/limitation)
-  // Weight KL grade more heavily (structural damage is primary indicator)
-  const leftSeverity = (leftKL * 3) + (leftWomac / 10);
-  const rightSeverity = (rightKL * 3) + (rightWomac / 10);
+  // Higher KL grade = worse structural damage (0-4 scale)
+  // Higher WOMAC = worse symptoms (0-96 scale, higher = worse)
+  // Weight both appropriately: KL grade is 0-4, WOMAC is 0-96
+  // Normalize WOMAC to similar scale: divide by 24 (so max WOMAC = 4, similar to KL max)
+  // Then combine: KL (0-4) + normalized WOMAC (0-4) = total severity (0-8)
+  const leftKLScore = leftKL !== null ? leftKL : 0;
+  const rightKLScore = rightKL !== null ? rightKL : 0;
+  const leftWomacScore = leftWomac !== null ? leftWomac / 24 : 0; // Normalize to 0-4 scale
+  const rightWomacScore = rightWomac !== null ? rightWomac / 24 : 0; // Normalize to 0-4 scale
+  
+  const leftSeverity = leftKLScore + leftWomacScore;
+  const rightSeverity = rightKLScore + rightWomacScore;
   
   // Determine worst side
-  // If difference is small (< 2.0), consider bilateral
-  const threshold = 2.0;
+  // If difference is small (< 0.5 on 0-8 scale, or < 6.25%), consider bilateral
+  // This threshold is more sensitive to detect clear differences
+  const threshold = 0.5;
   const severityDiff = Math.abs(leftSeverity - rightSeverity);
+  
+  // If one side has no data at all, use the side with data
+  if (leftKL === null && leftWomac === null && (rightKL !== null || rightWomac !== null)) {
+    return 'right';
+  }
+  if (rightKL === null && rightWomac === null && (leftKL !== null || leftWomac !== null)) {
+    return 'left';
+  }
   
   if (severityDiff < threshold) {
     return 'bilateral';
   } else if (leftSeverity > rightSeverity) {
     return 'left';
-    } else {
+  } else {
     return 'right';
   }
 }
@@ -339,7 +360,6 @@ function displayOutcomeResultsInline(outcomes, container) {
     // This is a display feature only - NOT a model predictor
     const worstSide = calculateWorstSide(patient);
     const primaryComplaint = getPrimaryComplaintDisplay(worstSide);
-    const complaintIcon = worstSide === 'left' ? '🦵' : worstSide === 'right' ? '🦵' : '🦵🦵';
     
     // Safe value extraction helper
     const safeValue = (val, formatFn) => {
@@ -355,7 +375,7 @@ function displayOutcomeResultsInline(outcomes, container) {
           <div style="font-size: 0.95rem; color: #475569; line-height: 1.8;">
             <div><strong>Age:</strong> ${safeValue(patient.age)} | <strong>Sex:</strong> ${patient.sex === 1 ? 'Male' : patient.sex === 0 ? 'Female' : 'N/A'} | <strong>BMI:</strong> ${safeValue(patient.bmi, (v) => v.toFixed(1))}</div>
             <div style="margin-top: 8px; color: #3b82f6; font-weight: 600;">
-              ${complaintIcon} <strong>Primary Complaint:</strong> ${primaryComplaint}
+              <strong>Primary Complaint:</strong> ${primaryComplaint}
             </div>
             <div style="margin-top: 8px;">
               <strong>KL Grades:</strong> Right=${safeValue(patient.kl_r)}, Left=${safeValue(patient.kl_l)}
@@ -1809,7 +1829,6 @@ function updatePatientList() {
       // This is a display feature only - NOT a model predictor
       const worstSide = calculateWorstSide(p);
       const primaryComplaint = getPrimaryComplaintDisplay(worstSide);
-      const complaintIcon = worstSide === 'left' ? '🦵' : worstSide === 'right' ? '🦵' : '🦵🦵';
 
       return `
         <div class="patient-card">
@@ -1827,7 +1846,7 @@ function updatePatientList() {
         p.sex === 1 ? "M" : "F"
       }, BMI: ${p.bmi.toFixed(1)}
                 <br>
-                <strong style="color: #3b82f6;">${complaintIcon} Primary Complaint:</strong> ${primaryComplaint}
+                <strong style="color: #3b82f6;">Primary Complaint:</strong> ${primaryComplaint}
                 <br>
                 ${symptomDisplay}${painScoreNote}
                 <br>
