@@ -327,8 +327,13 @@ function displayOutcomeResultsInline(outcomes, container) {
   if (isSinglePatient) {
     // Single patient: Show individual results prominently
     const patient = patientOutcomes[0];
-    const improvement = patient._womac_improvement || 0;
-    const successProb = patient.success_probability || 0;
+    if (!patient) {
+      console.error("Patient data not available");
+      return;
+    }
+    
+    const improvement = (patient._womac_improvement !== null && patient._womac_improvement !== undefined && !isNaN(patient._womac_improvement)) ? patient._womac_improvement : 0;
+    const successProb = (patient.success_probability !== null && patient.success_probability !== undefined && !isNaN(patient.success_probability)) ? patient.success_probability : 0;
     
     // Calculate primary complaint side (worst side indicator)
     // This is a display feature only - NOT a model predictor
@@ -336,21 +341,27 @@ function displayOutcomeResultsInline(outcomes, container) {
     const primaryComplaint = getPrimaryComplaintDisplay(worstSide);
     const complaintIcon = worstSide === 'left' ? '🦵' : worstSide === 'right' ? '🦵' : '🦵🦵';
     
+    // Safe value extraction helper
+    const safeValue = (val, formatFn) => {
+      if (val === null || val === undefined || isNaN(val)) return 'N/A';
+      return formatFn ? formatFn(val) : val;
+    };
+    
     html += `
       <div style="max-width: 600px; margin: 0 auto; padding-top: 20px;">
         <!-- Patient Profile Section -->
         <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
           <h4 style="font-size: 1.1rem; font-weight: 600; color: #1e293b; margin-bottom: 12px;">Patient Profile</h4>
           <div style="font-size: 0.95rem; color: #475569; line-height: 1.8;">
-            <div><strong>Age:</strong> ${patient.age !== null && patient.age !== undefined ? patient.age : 'N/A'} | <strong>Sex:</strong> ${patient.sex === 1 ? 'Male' : patient.sex === 0 ? 'Female' : 'N/A'} | <strong>BMI:</strong> ${patient.bmi !== null && patient.bmi !== undefined ? patient.bmi.toFixed(1) : 'N/A'}</div>
+            <div><strong>Age:</strong> ${safeValue(patient.age)} | <strong>Sex:</strong> ${patient.sex === 1 ? 'Male' : patient.sex === 0 ? 'Female' : 'N/A'} | <strong>BMI:</strong> ${safeValue(patient.bmi, (v) => v.toFixed(1))}</div>
             <div style="margin-top: 8px; color: #3b82f6; font-weight: 600;">
               ${complaintIcon} <strong>Primary Complaint:</strong> ${primaryComplaint}
             </div>
             <div style="margin-top: 8px;">
-              <strong>KL Grades:</strong> Right=${patient.kl_r !== null && patient.kl_r !== undefined ? patient.kl_r : 'N/A'}, Left=${patient.kl_l !== null && patient.kl_l !== undefined ? patient.kl_l : 'N/A'}
+              <strong>KL Grades:</strong> Right=${safeValue(patient.kl_r)}, Left=${safeValue(patient.kl_l)}
             </div>
             <div style="margin-top: 8px;">
-              <strong>WOMAC Scores:</strong> Right=${patient.womac_r !== null && patient.womac_r !== undefined ? patient.womac_r.toFixed(1) : 'N/A'}, Left=${patient.womac_l !== null && patient.womac_l !== undefined ? patient.womac_l.toFixed(1) : 'N/A'}
+              <strong>WOMAC Scores:</strong> Right=${safeValue(patient.womac_r, (v) => v.toFixed(1))}, Left=${safeValue(patient.womac_l, (v) => v.toFixed(1))}
             </div>
           </div>
         </div>
@@ -370,11 +381,11 @@ function displayOutcomeResultsInline(outcomes, container) {
         </div>
         
         <div class="metric-card outcome-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%); padding: 28px; border-radius: 16px; border: 2px solid #fde68a; box-shadow: 0 4px 12px rgba(234, 179, 8, 0.15);">
-          <div class="metric-value" style="font-size: 3rem; color: ${patient.success_category.includes('Excellent') || patient.success_category.includes('Successful') ? '#1e40af' : patient.success_category.includes('Moderate') ? '#b45309' : '#c2410c'}; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 8px;">
+          <div class="metric-value" style="font-size: 3rem; color: ${(patient.success_category && (patient.success_category.includes('Excellent') || patient.success_category.includes('Successful'))) ? '#1e40af' : (patient.success_category && patient.success_category.includes('Moderate')) ? '#b45309' : '#c2410c'}; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 8px;">
             ${successProb.toFixed(1)}%
           </div>
           <div class="metric-label" style="font-size: 1.2rem; color: #1e293b; font-weight: 600; margin-bottom: 6px;">Success Probability</div>
-          <div style="font-size: 0.95rem; color: #475569; margin-top: 8px; font-weight: 500;">${patient.success_category}</div>
+          <div style="font-size: 0.95rem; color: #475569; margin-top: 8px; font-weight: 500;">${patient.success_category || 'N/A'}</div>
           <div style="font-size: 0.85rem; color: #64748b; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; line-height: 1.5;">
             <strong>What this means:</strong> Based on similar patients in our training data, ${successProb.toFixed(0)}% achieved a successful outcome (≥30 points improvement in symptoms and function). This probability reflects the likelihood of substantial clinical improvement following surgery.
           </div>
