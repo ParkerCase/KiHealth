@@ -175,6 +175,7 @@ womac_vars = [
     "ID",
     "V00WOMTSR",  # WOMAC Total Right (composite - reduces predictors)
     "V00WOMTSL",  # WOMAC Total Left (composite - reduces predictors)
+    "V00400MTIM",  # 400m walk time (walking distance measure) - NEW
     # Skip individual pain/stiffness/function to reduce predictor count
 ]
 

@@ -10,7 +10,7 @@
 - **Original dataset:** 4,796 patients
 - **Train set:** 3836 (80.0%)
 - **Test set:** 960 (20.0%)
-- **Final features:** 20
+- **Final features:** 21
 
 ---
 
@@ -23,22 +23,23 @@
 
 ### Missing Data Summary
 
- Variable  Missing_Count  Missing_Pct
- V00XRKLR            327         6.82
- V00XRKLL            313         6.53
-V00WOMTSL             28         0.58
-V00WOMTSR             21         0.44
-   P01BMI              4         0.08
-   P02SEX              0         0.00
-  P02RACE              0         0.00
-V00COHORT              0         0.00
-   V00AGE              0         0.00
- P01FAMKR              0         0.00
+  Variable  Missing_Count  Missing_Pct
+  V00XRKLR            327         6.82
+  V00XRKLL            313         6.53
+V00400MTIM            231         4.82
+ V00WOMTSL             28         0.58
+ V00WOMTSR             21         0.44
+    P01BMI              4         0.08
+    P02SEX              0         0.00
+   P02RACE              0         0.00
+ V00COHORT              0         0.00
+    V00AGE              0         0.00
+  P01FAMKR              0         0.00
 
 ### Imputation Details
-- **Numeric variables imputed:** 6 variables
+- **Numeric variables imputed:** 7 variables
 - **Categorical variables imputed:** 0 variables
-- **Total missing values before:** 693
+- **Total missing values before:** 924
 - **Total missing values after:** 0 ✅
 
 ---
@@ -128,9 +129,9 @@ V00COHORT              0         0.00
 - P01FAMKR
 
 ### Final Feature Count
-- **Original predictors:** 10
-- **After feature engineering:** 15
-- **After encoding:** 20
+- **Original predictors:** 11
+- **After feature engineering:** 16
+- **After encoding:** 21
 
 ---
 

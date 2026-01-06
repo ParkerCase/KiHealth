@@ -1445,6 +1445,18 @@ document.getElementById("patientForm").addEventListener("submit", async function
   const famHxValue = document.getElementById("fam_hx").value;
   const fam_hx = famHxValue !== "" ? parseInt(famHxValue) : 0;
 
+  // Walking distance (400m walk time) - optional
+  const walkingDistanceStr = document.getElementById("walking_distance")?.value.trim() || "";
+  const walking_distance = walkingDistanceStr !== "" ? parseFloat(walkingDistanceStr) : null;
+  
+  // Validate walking distance if provided
+  if (walking_distance !== null) {
+    if (isNaN(walking_distance) || walking_distance < 60 || walking_distance > 1200) {
+      alert("Walking distance (400m walk time) must be between 60 and 1200 seconds (1-20 minutes), or leave empty.");
+      return;
+    }
+  }
+
   // Previous TKA on other knee - optional, stored but not used in current model
   const previousTkaValue = document.getElementById("previous_tka_other_knee")?.value || "";
   const previous_tka_other_knee = previousTkaValue !== "" ? parseInt(previousTkaValue) : 0;
@@ -1458,6 +1470,7 @@ document.getElementById("patientForm").addEventListener("submit", async function
     kl_r: kl_r, // Can be null if "Not available"
     kl_l: kl_l, // Can be null if "Not available"
     fam_hx: fam_hx,
+    walking_distance: walking_distance, // Optional - 400m walk time in seconds
     previous_tka_other_knee: previous_tka_other_knee, // Stored for future use, not used in current model
     _pain_scores_missing: painScoresMissing, // Flag for display
     _kl_missing: kl_r === null || kl_l === null, // Flag for display
@@ -1513,7 +1526,7 @@ document.getElementById("patientForm").addEventListener("submit", async function
     const minLoadingTime = 800;
     
     // Convert single patient to CSV format
-    const csvHeaders = ["age", "sex", "bmi", "womac_r", "womac_l", "kl_r", "kl_l", "fam_hx", "previous_tka_other_knee"];
+    const csvHeaders = ["age", "sex", "bmi", "womac_r", "womac_l", "kl_r", "kl_l", "fam_hx", "walking_distance", "previous_tka_other_knee"];
     if (outcome !== "") {
       csvHeaders.push("tkr_outcome");
     }

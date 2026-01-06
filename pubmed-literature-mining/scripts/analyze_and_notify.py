@@ -18,6 +18,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from scripts.google_sheets_storage import get_storage_client
 from scripts.article_flagging import ArticleFlaggingFramework
+from scripts.review_manager import ReviewManager, ReviewStatus
 
 load_dotenv()
 
@@ -44,6 +45,7 @@ class NotificationSystem:
         self.repo_owner = os.getenv('GITHUB_REPO_OWNER')
         self.repo_name = os.getenv('GITHUB_REPO_NAME')
         self.flagging_framework = ArticleFlaggingFramework()  # New flagging framework
+        self.review_manager = ReviewManager()  # Review and approval workflow
     
     def get_paywalled_articles(self, threshold: int = 0) -> List[Dict]:
         """Get paywalled articles above relevance threshold
@@ -493,6 +495,34 @@ class NotificationSystem:
         # Create alert for potential new parameters (NEW)
         if potential_params:
             self.create_new_parameter_alert(potential_params)
+            # Add to review queue for manual approval
+            for param_name, articles in potential_params.items():
+                # Create review item for each potential parameter
+                review_data = {
+                    'parameter_name': param_name,
+                    'articles': articles[:10],  # Top 10 articles
+                    'article_count': len(articles),
+                    'pmid': articles[0].get('pmid', 'unknown') if articles else 'unknown',
+                    'title': f"Potential New Parameter: {param_name}",
+                    'relevance_score': max(a.get('relevance_score', 0) for a in articles) if articles else 0
+                }
+                self.review_manager.add_to_review_queue('new_parameter', review_data)
+        
+        # Add supporting evidence to review queue (articles that support current parameters)
+        high_relevance_articles = self.storage.get_high_relevance_articles(threshold=self.relevance_threshold)
+        for article in high_relevance_articles[:20]:  # Top 20 for review
+            # Check if article supports current parameters
+            factors = article.get('predictive_factors', [])
+            if factors:
+                review_data = {
+                    'pmid': article.get('pmid', 'unknown'),
+                    'title': article.get('title', 'No title'),
+                    'relevance_score': article.get('relevance_score', 0),
+                    'factors': factors,
+                    'journal': article.get('journal', 'Unknown'),
+                    'access_type': article.get('access_type', 'unknown')
+                }
+                self.review_manager.add_to_review_queue('supporting_evidence', review_data)
         
         # Create workflow annotations
         self.create_workflow_annotations(paywalled_articles, factor_patterns)

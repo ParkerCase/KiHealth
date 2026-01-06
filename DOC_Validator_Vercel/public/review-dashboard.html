@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literature Review Dashboard - DOC Model</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+        
+        h1 {
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .filter-group label {
+            font-weight: 500;
+            color: #475569;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .review-items {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .review-item {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #cbd5e1;
+        }
+        
+        .review-item.pending {
+            border-left-color: #f59e0b;
+        }
+        
+        .review-item.new_parameter {
+            border-left-color: #3b82f6;
+        }
+        
+        .review-item.proves_current {
+            border-left-color: #10b981;
+        }
+        
+        .review-item.approved {
+            border-left-color: #8b5cf6;
+        }
+        
+        .review-item.rejected {
+            border-left-color: #ef4444;
+        }
+        
+        .review-item.implemented {
+            border-left-color: #14b8a6;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 16px;
+        }
+        
+        .review-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        
+        .review-meta {
+            display: flex;
+            gap: 16px;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-badge.new_parameter {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .status-badge.proves_current {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .status-badge.approved {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+        
+        .status-badge.rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .status-badge.implemented {
+            background: #ccfbf1;
+            color: #134e4a;
+        }
+        
+        .review-content {
+            margin-bottom: 16px;
+        }
+        
+        .review-content p {
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .review-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+        
+        .articles-list {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .article-item {
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .article-item a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        
+        .article-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+        }
+        
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Literature Review Dashboard</h1>
+            <p class="subtitle">Review and approve findings from automated PubMed monitoring</p>
+        </header>
+        
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalCount">-</div>
+                <div class="stat-label">Total Findings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="pendingCount">-</div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="newParamCount">-</div>
+                <div class="stat-label">New Parameters</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="provesCurrentCount">-</div>
+                <div class="stat-label">Proves Current</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="approvedCount">-</div>
+                <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="implementedCount">-</div>
+                <div class="stat-label">Implemented</div>
+            </div>
+        </div>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <label>Status:</label>
+                <select id="statusFilter">
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="new_parameter">New Parameter</option>
+                    <option value="proves_current">Proves Current</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="implemented">Implemented</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Type:</label>
+                <select id="typeFilter">
+                    <option value="all">All Types</option>
+                    <option value="new_parameter">New Parameter</option>
+                    <option value="supporting_evidence">Supporting Evidence</option>
+                    <option value="factor_pattern">Factor Pattern</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Search:</label>
+                <input type="text" id="searchInput" placeholder="Search findings...">
+            </div>
+        </div>
+        
+        <div class="review-items" id="reviewItems">
+            <div class="loading">Loading review items...</div>
+        </div>
+    </div>
+    
+    <script>
+        let allItems = [];
+        
+        async function loadReviewData() {
+            try {
+                // In production, this would call an API endpoint
+                // For now, we'll use a mock structure
+                const response = await fetch('/api/review-data');
+                if (!response.ok) {
+                    throw new Error('Failed to load review data');
+                }
+                const data = await response.json();
+                allItems = data.recent || [];
+                updateStats(data.summary);
+                renderItems(allItems);
+            } catch (error) {
+                console.error('Error loading review data:', error);
+                document.getElementById('reviewItems').innerHTML = 
+                    '<div class="empty-state"><p>Unable to load review data. Please check the API endpoint.</p></div>';
+            }
+        }
+        
+        function updateStats(summary) {
+            document.getElementById('totalCount').textContent = summary.total || 0;
+            document.getElementById('pendingCount').textContent = summary.pending || 0;
+            document.getElementById('newParamCount').textContent = summary.new_parameter || 0;
+            document.getElementById('provesCurrentCount').textContent = summary.proves_current || 0;
+            document.getElementById('approvedCount').textContent = summary.approved || 0;
+            document.getElementById('implementedCount').textContent = summary.implemented || 0;
+        }
+        
+        function renderItems(items) {
+            const container = document.getElementById('reviewItems');
+            
+            if (items.length === 0) {
+                container.innerHTML = '<div class="empty-state"><p>No review items found.</p></div>';
+                return;
+            }
+            
+            container.innerHTML = items.map(item => `
+                <div class="review-item ${item.status}">
+                    <div class="review-header">
+                        <div>
+                            <div class="review-title">${item.data.title || item.data.parameter_name || 'Untitled Finding'}</div>
+                            <div class="review-meta">
+                                <span>Type: ${item.type}</span>
+                                <span>Created: ${new Date(item.created_at).toLocaleDateString()}</span>
+                                ${item.data.relevance_score ? `<span>Score: ${item.data.relevance_score}/100</span>` : ''}
+                            </div>
+                        </div>
+                        <span class="status-badge ${item.status}">${item.status.replace('_', ' ')}</span>
+                    </div>
+                    
+                    <div class="review-content">
+                        ${item.data.pmid ? `<p><strong>PubMed ID:</strong> <a href="https://pubmed.ncbi.nlm.nih.gov/${item.data.pmid}/" target="_blank">${item.data.pmid}</a></p>` : ''}
+                        ${item.data.article_count ? `<p><strong>Supporting Articles:</strong> ${item.data.article_count}</p>` : ''}
+                        ${item.data.journal ? `<p><strong>Journal:</strong> ${item.data.journal}</p>` : ''}
+                    </div>
+                    
+                    ${item.data.articles && item.data.articles.length > 0 ? `
+                        <div class="articles-list">
+                            <strong>Supporting Articles:</strong>
+                            ${item.data.articles.slice(0, 5).map(article => `
+                                <div class="article-item">
+                                    <a href="https://pubmed.ncbi.nlm.nih.gov/${article.pmid}/" target="_blank">${article.title || 'No title'}</a>
+                                    <span style="color: #64748b; margin-left: 8px;">(Score: ${article.relevance_score || 0}/100)</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="review-actions">
+                        ${item.status === 'pending' ? `
+                            <button class="btn btn-success" onclick="markAsProvesCurrent('${item.id}')">✓ Proves Current System</button>
+                            <button class="btn btn-primary" onclick="markAsNewParameter('${item.id}')">🆕 New Parameter</button>
+                            <button class="btn btn-danger" onclick="rejectFinding('${item.id}')">✗ Reject</button>
+                        ` : ''}
+                        ${item.status === 'new_parameter' ? `
+                            <button class="btn btn-warning" onclick="approveForImplementation('${item.id}')">✓ Approve for Implementation</button>
+                            <button class="btn btn-danger" onclick="rejectFinding('${item.id}')">✗ Reject</button>
+                        ` : ''}
+                        ${item.status === 'approved' ? `
+                            <button class="btn btn-success" onclick="markAsImplemented('${item.id}')">✓ Mark as Implemented</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        async function markAsProvesCurrent(id) {
+            if (confirm('Mark this finding as supporting the current system?')) {
+                await updateStatus(id, 'proves_current', 'Marked as supporting current system');
+            }
+        }
+        
+        async function markAsNewParameter(id) {
+            if (confirm('Mark this as a potential new parameter?')) {
+                await updateStatus(id, 'new_parameter', 'Marked as potential new parameter');
+            }
+        }
+        
+        async function approveForImplementation(id) {
+            if (confirm('Approve this for incremental implementation? This will require PROBAST compliance verification.')) {
+                await updateStatus(id, 'approved', 'Approved for implementation');
+            }
+        }
+        
+        async function rejectFinding(id) {
+            const reason = prompt('Reason for rejection:');
+            if (reason) {
+                await updateStatus(id, 'rejected', reason);
+            }
+        }
+        
+        async function markAsImplemented(id) {
+            const notes = prompt('Implementation notes:');
+            if (notes) {
+                await updateStatus(id, 'implemented', notes);
+            }
+        }
+        
+        async function updateStatus(id, status, notes) {
+            try {
+                const response = await fetch('/api/review-update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, status, notes })
+                });
+                
+                if (response.ok) {
+                    loadReviewData();
+                } else {
+                    alert('Failed to update status');
+                }
+            } catch (error) {
+                console.error('Error updating status:', error);
+                alert('Error updating status');
+            }
+        }
+        
+        // Filter handlers
+        document.getElementById('statusFilter').addEventListener('change', applyFilters);
+        document.getElementById('typeFilter').addEventListener('change', applyFilters);
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        
+        function applyFilters() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filtered = allItems;
+            
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(item => item.status === statusFilter);
+            }
+            
+            if (typeFilter !== 'all') {
+                filtered = filtered.filter(item => item.type === typeFilter);
+            }
+            
+            if (searchTerm) {
+                filtered = filtered.filter(item => {
+                    const title = (item.data.title || item.data.parameter_name || '').toLowerCase();
+                    const pmid = (item.data.pmid || '').toLowerCase();
+                    return title.includes(searchTerm) || pmid.includes(searchTerm);
+                });
+            }
+            
+            renderItems(filtered);
+        }
+        
+        // Load data on page load
+        loadReviewData();
+        setInterval(loadReviewData, 60000); // Refresh every minute
+    </script>
+</body>
+</html>
+

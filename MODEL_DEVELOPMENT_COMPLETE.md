@@ -9,16 +9,16 @@
 
 - **Models trained:** Logistic Regression, Random Forest, XGBoost (skipped)
 - **Cross-validation:** 5-fold stratified
-- **Best model:** Random Forest
-- **Best test AUC:** 0.862
+- **Best model:** Logistic Regression
+- **Best test AUC:** 0.857
 
 ---
 
 ## Performance Comparison
 
               Model  Train_AUC  Test_AUC  Overfitting
-Logistic Regression   0.903262  0.852497     0.050766
-      Random Forest   0.964398  0.861771     0.102627
+Logistic Regression   0.905553  0.856594     0.048960
+      Random Forest   0.973858  0.851734     0.122123
       XGBoost (N/A)        NaN       NaN          NaN
 
 ---
@@ -27,8 +27,8 @@ Logistic Regression   0.903262  0.852497     0.050766
 
 | Model | Train AUC | Test AUC | Difference | Status |
 |-------|-----------|----------|------------|--------|
-| Logistic Regression | 0.903 | 0.852 | 0.051 | ✓ |
-| Random Forest | 0.964 | 0.862 | 0.103 | ⚠ |
+| Logistic Regression | 0.906 | 0.857 | 0.049 | ✓ |
+| Random Forest | 0.974 | 0.852 | 0.122 | ⚠ |
 | XGBoost | N/A | N/A | N/A | N/A |
 
 **Status:** ✓ All models < 0.15 difference
@@ -54,7 +54,7 @@ Logistic Regression   0.903262  0.852497     0.050766
 ### ✅ Cross-Validation
 - ✓ **5-fold stratified CV** (maintains outcome balance)
 - ✓ **Random state set** (reproducible)
-- ✓ **CV stability monitored** (Random Forest std: 0.016)
+- ✓ **CV stability monitored** (Random Forest std: 0.021)
 
 ### ✅ Model Selection
 - ✓ **Test AUC** used for model selection (not train AUC)
@@ -66,8 +66,8 @@ Logistic Regression   0.903262  0.852497     0.050766
 ## Cross-Validation Stability
 
 ### Random Forest
-- **CV Mean AUC:** 0.884
-- **CV Std Dev:** 0.016
+- **CV Mean AUC:** 0.883
+- **CV Std Dev:** 0.021
 - **Status:** ✓ STABLE
 
 **Interpretation:**
@@ -79,7 +79,7 @@ Logistic Regression   0.903262  0.852497     0.050766
 
 ## Training Times
 
-- **Logistic Regression:** 2.3 seconds
+- **Logistic Regression:** 3.5 seconds
 - **Random Forest:** 0.3 minutes
 - **XGBoost:** N/A (not available)
 
@@ -87,18 +87,11 @@ Logistic Regression   0.903262  0.852497     0.050766
 
 ## Best Model Details
 
-**Model:** Random Forest  
-**Test AUC:** 0.862  
-**Overfitting:** 0.103
+**Model:** Logistic Regression  
+**Test AUC:** 0.857  
+**Overfitting:** 0.049
 
 ### Hyperparameters (if applicable)
-
-- n_estimators: 200
-- max_depth: 15
-- min_samples_split: 50
-- min_samples_leaf: 20
-- max_features: sqrt
-- class_weight: balanced
 
 
 ---

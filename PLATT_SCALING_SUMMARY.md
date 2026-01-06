@@ -1,20 +1,20 @@
 # Platt Scaling (Sigmoid Calibration) Summary
 
-**Date:** 2025-12-01 17:54:11
+**Date:** 2026-01-05 11:53:58
 
 
 ## Calibration Improvement Summary
 
 ### Before Calibration (Uncalibrated)
-- Brier Score: 0.0917
-- AUC: 0.8618
+- Brier Score: 0.0808
+- AUC: 0.8517
 
 ### After Platt Scaling (Calibrated)
-- Brier Score: 0.0307
-- AUC: 0.8618
+- Brier Score: 0.0311
+- AUC: 0.8517
 
 ### Improvement
-- Brier Score Reduction: 0.0610 (66.5% improvement)
+- Brier Score Reduction: 0.0497 (61.5% improvement)
 - AUC Change: 0.0000 (minimal change expected)
 
 ### Files Generated

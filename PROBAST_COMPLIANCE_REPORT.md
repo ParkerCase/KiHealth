@@ -1,9 +1,10 @@
 # PROBAST COMPLIANCE REPORT
 ## Digital Osteoarthritis Counseling (DOC) Model
 
-**Date:** 2025-12-01  
+**Date:** 2025-01-23 (Updated with Walking Distance)  
 **Model:** Random Forest for 4-Year Knee Replacement Prediction  
-**Dataset:** Osteoarthritis Initiative (OAI), N=4,796
+**Dataset:** Osteoarthritis Initiative (OAI), N=4,796  
+**Predictors:** 11 (including walking distance - V00400MTIM)
 
 ---
 
@@ -74,7 +75,7 @@ All 4 PROBAST domains assessed as LOW RISK OF BIAS.
 ### Domain 4: Analysis (LOW RISK) ✓
 
 **Signaling Questions:**
-1. **Sample Size:** EPV = 17.10 (exceeds minimum 15, approaches preferred 20) ✓
+1. **Sample Size:** EPV = 15.55 (exceeds minimum 15, 11 predictors, 171 events) ✓
 2. **Missing Data:** Multiple imputation (MICE algorithm), no case deletion ✓
 3. **Model Complexity:** Random Forest with limited max_depth, min_samples enforced ✓
 4. **Overfitting Prevention:** 5-fold CV, grid search, independent test set ✓

@@ -105,7 +105,7 @@ print("✓ Missing data summary saved: missing_data_summary.csv")
 # ============================================================================
 print("\n4. CATEGORIZING VARIABLES...")
 
-continuous_vars = ["V00WOMTSR", "V00WOMTSL", "V00AGE", "P01BMI"]
+continuous_vars = ["V00WOMTSR", "V00WOMTSL", "V00AGE", "P01BMI", "V00400MTIM"]  # Added walking distance
 ordinal_vars = ["V00XRKLR", "V00XRKLL"]  # KL grades are ordered 0-4
 categorical_vars = ["P02SEX", "P02RACE", "V00COHORT", "P01FAMKR"]
 

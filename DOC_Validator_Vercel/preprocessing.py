@@ -116,18 +116,32 @@ def validate_data(df):
         if not vas_l_valid.all():
             return False, "Left VAS must be 0-10 (or empty)"
 
+    # Validate walking distance if provided (optional - 400m walk time in seconds)
+    if "walking_distance" in df.columns:
+        # Typical range: 120-600 seconds (2-10 minutes for 400m)
+        # Allow wider range for edge cases: 60-1200 seconds
+        walking_valid = df["walking_distance"].isna() | df["walking_distance"].between(60, 1200)
+        if not walking_valid.all():
+            return False, "Walking distance (400m walk time) must be 60-1200 seconds (or empty)"
+
     return True, "Valid"
 
 
 def preprocess_data(df, imputer, scaler, feature_names):
     """Preprocess patient data exactly as done in training"""
     # Extract features - map input columns to model columns
-    # Input: age, sex, bmi, womac_r, womac_l (or vas_r, vas_l), kl_r, kl_l, fam_hx
-    # Model expects: V00AGE, P02SEX, P01BMI, V00WOMTSR, V00WOMTSL, V00XRKLR, V00XRKLL, P01FAMKR
+    # Input: age, sex, bmi, womac_r, womac_l (or vas_r, vas_l), kl_r, kl_l, fam_hx, walking_distance (optional)
+    # Model expects: V00AGE, P02SEX, P01BMI, V00WOMTSR, V00WOMTSL, V00XRKLR, V00XRKLL, P01FAMKR, V00400MTIM
 
     # Create a copy for processing
     # Family history is optional - default to 0 (No) if missing
     X = df[["age", "sex", "bmi"]].copy()
+    
+    # Handle walking distance (optional - 400m walk time in seconds)
+    if "walking_distance" in df.columns:
+        X["walking_distance"] = pd.to_numeric(df["walking_distance"], errors="coerce")
+    else:
+        X["walking_distance"] = np.nan  # Will be imputed if missing
 
     # Handle KL grades - convert "na" to NaN if not already
     if "kl_r" in df.columns:
@@ -180,6 +194,7 @@ def preprocess_data(df, imputer, scaler, feature_names):
             "kl_r": "V00XRKLR",
             "kl_l": "V00XRKLL",
             "fam_hx": "P01FAMKR",
+            "walking_distance": "V00400MTIM",  # 400m walk time
         },
         inplace=True,
     )
@@ -212,6 +227,7 @@ def preprocess_data(df, imputer, scaler, feature_names):
         "worst_womac",
         "avg_womac",
         "worst_kl_grade",
+        "V00400MTIM",  # Walking distance (400m walk time)
     ]
     numeric_vars = list(set(continuous_vars))
 

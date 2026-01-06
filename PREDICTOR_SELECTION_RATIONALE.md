@@ -16,7 +16,7 @@ Variables were selected based on five criteria:
 
 ---
 
-## Included Variables (10 total)
+## Included Variables (11 total)
 
 ### 1. Demographics (4 variables)
 
@@ -168,7 +168,33 @@ Variables were selected based on five criteria:
 
 ---
 
-### 5. Risk Factors (1 variable)
+### 5. Physical Function (1 variable)
+
+#### Walking Distance - 400m Walk Time (V00400MTIM)
+
+- **Source:** AllClinical00.txt
+- **Type:** Continuous (seconds)
+- **Range:** 42-900 seconds (0.7-15 minutes)
+- **Missing:** 4.82% (231/4,796 patients)
+- **Rationale:**
+  - **Objective performance measure** - complements patient-reported WOMAC
+  - Routinely assessed in orthopedic clinical practice
+  - Strong evidence base in OA literature
+  - Captures functional limitation independently from WOMAC
+  - Standardized OAI protocol (400m walk test)
+- **Evidence:**
+  - Walking speed/distance well-established OA predictor
+  - Slower walking associated with higher OA risk
+  - Used in multiple OAI publications
+- **Clinical Relevance:**
+  - "How far can you walk?" is intuitive for patients
+  - Part of standard functional assessment
+  - Orthopedic surgeons routinely use this measure
+- **Data Quality:**
+  - 95.2% complete (acceptable <20% threshold)
+  - Handled via MICE imputation (same as other variables)
+
+### 6. Risk Factors (1 variable)
 
 #### Family History (P01FAMKR)
 
@@ -195,14 +221,15 @@ Variables were selected based on five criteria:
   - WOMAC pain is more validated
 - **Impact:** Low (WOMAC total captures pain)
 
-### Physical Function Tests
+### Physical Function Tests (Partial Inclusion)
 
 - **Variables:** V00WTMWK (20m walk), V00CSTIME (chair stand)
-- **Rationale:**
+- **Status:** V00400MTIM (400m walk time) **INCLUDED** - see above
+- **Rationale for 20m walk/chair stand exclusion:**
   - Redundant with WOMAC function component
-  - Higher missingness than WOMAC total
-  - Performance tests less reliable than self-report in OA
-- **Impact:** Low (WOMAC function captures physical limitations)
+  - Higher missingness than 400m walk time
+  - 400m walk time selected as best functional performance measure
+- **Impact:** Low (400m walk time captures functional limitations, complements WOMAC)
 
 ### Individual WOMAC Components
 
