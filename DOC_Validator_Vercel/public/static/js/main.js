@@ -21,10 +21,13 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
  * @returns {string} 'left', 'right', or 'bilateral'
  */
 function calculateWorstSide(patient) {
-  const leftKL = patient.kl_l !== null ? patient.kl_l : 0;
-  const rightKL = patient.kl_r !== null ? patient.kl_r : 0;
-  const leftWomac = patient.womac_l !== null ? patient.womac_l : 0;
-  const rightWomac = patient.womac_r !== null ? patient.womac_r : 0;
+  if (!patient) return 'bilateral'; // Default if patient data missing
+  
+  // Safely extract values with null/undefined checks
+  const leftKL = (patient.kl_l !== null && patient.kl_l !== undefined && !isNaN(patient.kl_l)) ? patient.kl_l : 0;
+  const rightKL = (patient.kl_r !== null && patient.kl_r !== undefined && !isNaN(patient.kl_r)) ? patient.kl_r : 0;
+  const leftWomac = (patient.womac_l !== null && patient.womac_l !== undefined && !isNaN(patient.womac_l)) ? patient.womac_l : 0;
+  const rightWomac = (patient.womac_r !== null && patient.womac_r !== undefined && !isNaN(patient.womac_r)) ? patient.womac_r : 0;
   
   // Calculate severity score for each side
   // Higher KL grade = worse structural damage
@@ -339,15 +342,15 @@ function displayOutcomeResultsInline(outcomes, container) {
         <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
           <h4 style="font-size: 1.1rem; font-weight: 600; color: #1e293b; margin-bottom: 12px;">Patient Profile</h4>
           <div style="font-size: 0.95rem; color: #475569; line-height: 1.8;">
-            <div><strong>Age:</strong> ${patient.age || 'N/A'} | <strong>Sex:</strong> ${patient.sex === 1 ? 'Male' : patient.sex === 0 ? 'Female' : 'N/A'} | <strong>BMI:</strong> ${patient.bmi ? patient.bmi.toFixed(1) : 'N/A'}</div>
+            <div><strong>Age:</strong> ${patient.age !== null && patient.age !== undefined ? patient.age : 'N/A'} | <strong>Sex:</strong> ${patient.sex === 1 ? 'Male' : patient.sex === 0 ? 'Female' : 'N/A'} | <strong>BMI:</strong> ${patient.bmi !== null && patient.bmi !== undefined ? patient.bmi.toFixed(1) : 'N/A'}</div>
             <div style="margin-top: 8px; color: #3b82f6; font-weight: 600;">
               ${complaintIcon} <strong>Primary Complaint:</strong> ${primaryComplaint}
             </div>
             <div style="margin-top: 8px;">
-              <strong>KL Grades:</strong> Right=${patient.kl_r !== null ? patient.kl_r : 'N/A'}, Left=${patient.kl_l !== null ? patient.kl_l : 'N/A'}
+              <strong>KL Grades:</strong> Right=${patient.kl_r !== null && patient.kl_r !== undefined ? patient.kl_r : 'N/A'}, Left=${patient.kl_l !== null && patient.kl_l !== undefined ? patient.kl_l : 'N/A'}
             </div>
             <div style="margin-top: 8px;">
-              <strong>WOMAC Scores:</strong> Right=${patient.womac_r !== null ? patient.womac_r.toFixed(1) : 'N/A'}, Left=${patient.womac_l !== null ? patient.womac_l.toFixed(1) : 'N/A'}
+              <strong>WOMAC Scores:</strong> Right=${patient.womac_r !== null && patient.womac_r !== undefined ? patient.womac_r.toFixed(1) : 'N/A'}, Left=${patient.womac_l !== null && patient.womac_l !== undefined ? patient.womac_l.toFixed(1) : 'N/A'}
             </div>
           </div>
         </div>
