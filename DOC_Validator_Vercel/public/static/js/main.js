@@ -1498,16 +1498,21 @@ document.getElementById("patientForm").addEventListener("submit", async function
   const famHxValue = document.getElementById("fam_hx").value;
   const fam_hx = famHxValue !== "" ? parseInt(famHxValue) : 0;
 
-  // Walking distance (400m walk time) - optional
+  // Walking distance (input in minutes, convert to seconds for model) - optional
   const walkingDistanceStr = document.getElementById("walking_distance")?.value.trim() || "";
-  const walking_distance = walkingDistanceStr !== "" ? parseFloat(walkingDistanceStr) : null;
+  let walking_distance = null;
   
-  // Validate walking distance if provided
-  if (walking_distance !== null) {
-    if (isNaN(walking_distance) || walking_distance < 60 || walking_distance > 1200) {
-      alert("Walking distance (400m walk time) must be between 60 and 1200 seconds (1-20 minutes), or leave empty.");
+  if (walkingDistanceStr !== "") {
+    const walking_distance_minutes = parseFloat(walkingDistanceStr);
+    
+    // Validate walking distance (in minutes)
+    if (isNaN(walking_distance_minutes) || walking_distance_minutes < 1 || walking_distance_minutes > 20) {
+      alert("Walking distance must be between 1 and 20 minutes, or leave empty.");
       return;
     }
+    
+    // Convert minutes to seconds for model (model still expects seconds)
+    walking_distance = walking_distance_minutes * 60;
   }
 
   // Previous TKA on other knee - optional, stored but not used in current model
@@ -1523,7 +1528,7 @@ document.getElementById("patientForm").addEventListener("submit", async function
     kl_r: kl_r, // Can be null if "Not available"
     kl_l: kl_l, // Can be null if "Not available"
     fam_hx: fam_hx,
-    walking_distance: walking_distance, // Optional - 400m walk time in seconds
+    walking_distance: walking_distance, // Optional - converted from minutes to seconds for model
     previous_tka_other_knee: previous_tka_other_knee, // Stored for future use, not used in current model
     _pain_scores_missing: painScoresMissing, // Flag for display
     _kl_missing: kl_r === null || kl_l === null, // Flag for display
