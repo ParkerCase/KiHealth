@@ -11,6 +11,56 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
 
 // analyzeData function removed - now handled directly in form submission
 
+/**
+ * Calculate worst side (primary complaint side) from existing patient data
+ * This is a DISPLAY/ANALYSIS feature only - NOT a model predictor
+ * Uses existing left/right KL grades and WOMAC scores
+ * Maintains PROBAST compliance (no new predictor added)
+ * 
+ * @param {Object} patient - Patient data with kl_r, kl_l, womac_r, womac_l
+ * @returns {string} 'left', 'right', or 'bilateral'
+ */
+function calculateWorstSide(patient) {
+  const leftKL = patient.kl_l !== null ? patient.kl_l : 0;
+  const rightKL = patient.kl_r !== null ? patient.kl_r : 0;
+  const leftWomac = patient.womac_l !== null ? patient.womac_l : 0;
+  const rightWomac = patient.womac_r !== null ? patient.womac_r : 0;
+  
+  // Calculate severity score for each side
+  // Higher KL grade = worse structural damage
+  // Higher WOMAC = worse symptoms (more pain/limitation)
+  // Weight KL grade more heavily (structural damage is primary indicator)
+  const leftSeverity = (leftKL * 3) + (leftWomac / 10);
+  const rightSeverity = (rightKL * 3) + (rightWomac / 10);
+  
+  // Determine worst side
+  // If difference is small (< 2.0), consider bilateral
+  const threshold = 2.0;
+  const severityDiff = Math.abs(leftSeverity - rightSeverity);
+  
+  if (severityDiff < threshold) {
+    return 'bilateral';
+  } else if (leftSeverity > rightSeverity) {
+    return 'left';
+    } else {
+    return 'right';
+  }
+}
+
+/**
+ * Get user-facing display text for primary complaint side
+ * @param {string} worstSide - Result from calculateWorstSide()
+ * @returns {string} Display text
+ */
+function getPrimaryComplaintDisplay(worstSide) {
+  const sideDisplay = {
+    'left': 'Left knee (primary complaint)',
+    'right': 'Right knee (primary complaint)',
+    'bilateral': 'Both knees (bilateral complaints)'
+  };
+  return sideDisplay[worstSide] || 'Unable to determine';
+}
+
 function displayResults(data) {
   // Check if we're on mobile (mobile form is visible)
   const isMobile = window.innerWidth <= 768;
@@ -277,8 +327,31 @@ function displayOutcomeResultsInline(outcomes, container) {
     const improvement = patient._womac_improvement || 0;
     const successProb = patient.success_probability || 0;
     
+    // Calculate primary complaint side (worst side indicator)
+    // This is a display feature only - NOT a model predictor
+    const worstSide = calculateWorstSide(patient);
+    const primaryComplaint = getPrimaryComplaintDisplay(worstSide);
+    const complaintIcon = worstSide === 'left' ? '🦵' : worstSide === 'right' ? '🦵' : '🦵🦵';
+    
     html += `
       <div style="max-width: 600px; margin: 0 auto; padding-top: 20px;">
+        <!-- Patient Profile Section -->
+        <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+          <h4 style="font-size: 1.1rem; font-weight: 600; color: #1e293b; margin-bottom: 12px;">Patient Profile</h4>
+          <div style="font-size: 0.95rem; color: #475569; line-height: 1.8;">
+            <div><strong>Age:</strong> ${patient.age || 'N/A'} | <strong>Sex:</strong> ${patient.sex === 1 ? 'Male' : patient.sex === 0 ? 'Female' : 'N/A'} | <strong>BMI:</strong> ${patient.bmi ? patient.bmi.toFixed(1) : 'N/A'}</div>
+            <div style="margin-top: 8px; color: #3b82f6; font-weight: 600;">
+              ${complaintIcon} <strong>Primary Complaint:</strong> ${primaryComplaint}
+            </div>
+            <div style="margin-top: 8px;">
+              <strong>KL Grades:</strong> Right=${patient.kl_r !== null ? patient.kl_r : 'N/A'}, Left=${patient.kl_l !== null ? patient.kl_l : 'N/A'}
+            </div>
+            <div style="margin-top: 8px;">
+              <strong>WOMAC Scores:</strong> Right=${patient.womac_r !== null ? patient.womac_r.toFixed(1) : 'N/A'}, Left=${patient.womac_l !== null ? patient.womac_l.toFixed(1) : 'N/A'}
+            </div>
+          </div>
+        </div>
+        
         <div class="metric-card outcome-card highlight-card" style="border: 3px solid #3b82f6; margin-bottom: 24px; background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%); padding: 32px; border-radius: 16px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);">
           <div class="metric-value" style="font-size: 4rem; color: #1e40af; margin-bottom: 12px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">${improvement.toFixed(1)}</div>
           <div class="metric-label" style="font-size: 1.3rem; margin-bottom: 10px; color: #1e293b; font-weight: 600;">Expected Improvement (points)</div>
@@ -1718,6 +1791,12 @@ function updatePatientList() {
         klNote = `<br><small style="color: #ff9800;">⚠️ Single knee imaging - reduced confidence</small>`;
       }
 
+      // Calculate and display primary complaint side (worst side indicator)
+      // This is a display feature only - NOT a model predictor
+      const worstSide = calculateWorstSide(p);
+      const primaryComplaint = getPrimaryComplaintDisplay(worstSide);
+      const complaintIcon = worstSide === 'left' ? '🦵' : worstSide === 'right' ? '🦵' : '🦵🦵';
+
       return `
         <div class="patient-card">
             <div class="patient-card-header">
@@ -1733,6 +1812,8 @@ function updatePatientList() {
                 Age: ${p.age}, Sex: ${
         p.sex === 1 ? "M" : "F"
       }, BMI: ${p.bmi.toFixed(1)}
+                <br>
+                <strong style="color: #3b82f6;">${complaintIcon} Primary Complaint:</strong> ${primaryComplaint}
                 <br>
                 ${symptomDisplay}${painScoreNote}
                 <br>
