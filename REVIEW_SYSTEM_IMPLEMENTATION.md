@@ -105,30 +105,98 @@ If New Parameter:
 
 ## Incremental Updates
 
-### Small Percentage Changes
+### Incremental Implementation Strategy
 
-When implementing new parameters:
+When implementing new parameters, the weight depends on the parameter type and evidence strength:
 
-1. **Start Small**: Add parameter with minimal weight initially
-2. **Monitor Performance**: Track AUC, calibration, EPV
-3. **Gradual Integration**: Increase weight if performance improves
+**Parameter Categories:**
+- **High Confidence** (strong evidence, multiple studies, validated): Start at 0.5-1%
+- **Medium Confidence** (moderate evidence, some validation): Start at 0.2-0.5%
+- **Low Confidence** (preliminary evidence, needs validation): Start at 0.1-0.2%
+- **Very Low Confidence** (exploratory, minimal evidence): Start at 0.05-0.1%
+
+**Note:** The exact starting weight depends on:
+- Number of supporting studies
+- Quality of evidence (RCT vs. observational)
+- Sample sizes in supporting studies
+- Consistency across studies
+- Clinical relevance and accessibility
+
+**Incremental Steps:**
+1. **Initial Implementation**: Add parameter with minimal weight (0.1-2% based on confidence)
+2. **Monitor Performance**: Track AUC, calibration, EPV for 2-4 weeks
+3. **Gradual Integration**: If successful, increase by 0.5-1% increments
 4. **PROBAST Compliance**: Always maintain EPV ≥15
 5. **Rollback Capability**: Keep previous model version
 
-### Example Workflow
+### Example Workflow (High Confidence Parameter)
 
 ```
-Week 1: Add parameter with 5% weight
-  → Monitor performance
-  → Verify PROBAST compliance
+Week 1-2: Add parameter with 0.5% weight
+  → Monitor performance metrics (AUC, calibration, EPV)
+  → Verify PROBAST compliance (EPV ≥15)
+  → Check for adverse effects on other metrics
   
-Week 2: If successful, increase to 10%
+Week 3-4: If successful, increase to 0.8%
   → Continue monitoring
+  → Validate calibration
   
-Week 3: If still successful, increase to full weight
+Week 5-6: If still successful, increase to 1.2%
+  → Extended validation
+  → External validation if available
+  
+Week 7-8: If successful, increase to 1.5%
+  → Final validation period
+  
+Week 9+: Gradually increase to target weight (if applicable, max 2-3%)
   → Final validation
   → Mark as implemented
 ```
+
+### Example Workflow (Medium Confidence Parameter)
+
+```
+Week 1-3: Add parameter with 0.3% weight
+  → Extended monitoring period
+  → Verify no negative impact
+  → Check EPV compliance
+  
+Week 4-6: If successful, increase to 0.5%
+  → Continue careful monitoring
+  
+Week 7-9: If successful, increase to 0.7%
+  → Extended validation
+  
+Week 10+: Very gradual increases (0.1-0.2% per increment)
+  → Conservative approach
+  → Mark as implemented only after extended validation
+```
+
+### Example Workflow (Low Confidence Parameter)
+
+```
+Week 1-4: Add parameter with 0.1% weight
+  → Extended monitoring period (4 weeks minimum)
+  → Verify no negative impact
+  → Multiple validation checks
+  
+Week 5-8: If successful, increase to 0.2%
+  → Continue careful monitoring
+  
+Week 9-12: If successful, increase to 0.3%
+  → Extended validation period
+  
+Week 13+: Very gradual increases (0.05-0.1% per increment)
+  → Very conservative approach
+  → Mark as implemented only after 3+ months of validation
+```
+
+### Incremental Step Guidelines
+
+- **Each increment**: 0.05-0.2% depending on confidence level
+- **Monitoring period**: Minimum 2 weeks per increment
+- **Maximum total weight**: Typically 2-3% for a single new parameter
+- **Rollback threshold**: If any metric degrades >1%, rollback immediately
 
 ---
 
