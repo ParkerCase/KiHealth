@@ -29,6 +29,11 @@ function calculateWorstSide(patient) {
   const leftWomac = (patient.womac_l !== null && patient.womac_l !== undefined && !isNaN(patient.womac_l)) ? patient.womac_l : null;
   const rightWomac = (patient.womac_r !== null && patient.womac_r !== undefined && !isNaN(patient.womac_r)) ? patient.womac_r : null;
   
+  // Debug logging
+  console.log('calculateWorstSide - Input values:', {
+    leftKL, rightKL, leftWomac, rightWomac
+  });
+  
   // If both sides have no data, return bilateral
   if ((leftKL === null && leftWomac === null) && (rightKL === null && rightWomac === null)) {
     return 'bilateral';
@@ -48,6 +53,13 @@ function calculateWorstSide(patient) {
   const leftSeverity = leftKLScore + leftWomacScore;
   const rightSeverity = rightKLScore + rightWomacScore;
   
+  // Debug logging
+  console.log('calculateWorstSide - Severity scores:', {
+    leftSeverity,
+    rightSeverity,
+    difference: Math.abs(leftSeverity - rightSeverity)
+  });
+  
   // Determine worst side
   // If difference is small (< 0.5 on 0-8 scale, or < 6.25%), consider bilateral
   // This threshold is more sensitive to detect clear differences
@@ -56,19 +68,25 @@ function calculateWorstSide(patient) {
   
   // If one side has no data at all, use the side with data
   if (leftKL === null && leftWomac === null && (rightKL !== null || rightWomac !== null)) {
+    console.log('calculateWorstSide - Only right side has data, returning right');
     return 'right';
   }
   if (rightKL === null && rightWomac === null && (leftKL !== null || leftWomac !== null)) {
+    console.log('calculateWorstSide - Only left side has data, returning left');
     return 'left';
   }
   
+  let result;
   if (severityDiff < threshold) {
-    return 'bilateral';
+    result = 'bilateral';
   } else if (leftSeverity > rightSeverity) {
-    return 'left';
+    result = 'left';
   } else {
-    return 'right';
+    result = 'right';
   }
+  
+  console.log('calculateWorstSide - Result:', result, `(left: ${leftSeverity.toFixed(2)}, right: ${rightSeverity.toFixed(2)}, diff: ${severityDiff.toFixed(2)})`);
+  return result;
 }
 
 /**
@@ -353,12 +371,28 @@ function displayOutcomeResultsInline(outcomes, container) {
       return;
     }
     
+    // Merge original patient data (kl_r, kl_l, womac_r, womac_l) with outcome data
+    // The outcome API doesn't return these fields, so we need to get them from stored data
+    const originalPatientData = window.lastPatientData || {};
+    const mergedPatient = {
+      ...patient,
+      // Override with original data if available (for worst side calculation)
+      kl_r: originalPatientData.kl_r !== undefined ? originalPatientData.kl_r : patient.kl_r,
+      kl_l: originalPatientData.kl_l !== undefined ? originalPatientData.kl_l : patient.kl_l,
+      womac_r: originalPatientData.womac_r !== undefined ? originalPatientData.womac_r : patient.womac_r,
+      womac_l: originalPatientData.womac_l !== undefined ? originalPatientData.womac_l : patient.womac_l,
+      age: originalPatientData.age !== undefined ? originalPatientData.age : patient.age,
+      sex: originalPatientData.sex !== undefined ? originalPatientData.sex : patient.sex,
+      bmi: originalPatientData.bmi !== undefined ? originalPatientData.bmi : patient.bmi,
+    };
+    
     const improvement = (patient._womac_improvement !== null && patient._womac_improvement !== undefined && !isNaN(patient._womac_improvement)) ? patient._womac_improvement : 0;
     const successProb = (patient.success_probability !== null && patient.success_probability !== undefined && !isNaN(patient.success_probability)) ? patient.success_probability : 0;
     
     // Calculate primary complaint side (worst side indicator)
     // This is a display feature only - NOT a model predictor
-    const worstSide = calculateWorstSide(patient);
+    // Use merged patient data which includes original kl_r, kl_l, womac_r, womac_l
+    const worstSide = calculateWorstSide(mergedPatient);
     const primaryComplaint = getPrimaryComplaintDisplay(worstSide);
     
     // Safe value extraction helper
@@ -373,15 +407,15 @@ function displayOutcomeResultsInline(outcomes, container) {
         <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
           <h4 style="font-size: 1.1rem; font-weight: 600; color: #1e293b; margin-bottom: 12px;">Patient Profile</h4>
           <div style="font-size: 0.95rem; color: #475569; line-height: 1.8;">
-            <div><strong>Age:</strong> ${safeValue(patient.age)} | <strong>Sex:</strong> ${patient.sex === 1 ? 'Male' : patient.sex === 0 ? 'Female' : 'N/A'} | <strong>BMI:</strong> ${safeValue(patient.bmi, (v) => v.toFixed(1))}</div>
+            <div><strong>Age:</strong> ${safeValue(mergedPatient.age)} | <strong>Sex:</strong> ${mergedPatient.sex === 1 ? 'Male' : mergedPatient.sex === 0 ? 'Female' : 'N/A'} | <strong>BMI:</strong> ${safeValue(mergedPatient.bmi, (v) => v.toFixed(1))}</div>
             <div style="margin-top: 8px; color: #3b82f6; font-weight: 600;">
               <strong>Primary Complaint:</strong> ${primaryComplaint}
             </div>
             <div style="margin-top: 8px;">
-              <strong>KL Grades:</strong> Right=${safeValue(patient.kl_r)}, Left=${safeValue(patient.kl_l)}
+              <strong>KL Grades:</strong> Right=${safeValue(mergedPatient.kl_r)}, Left=${safeValue(mergedPatient.kl_l)}
             </div>
             <div style="margin-top: 8px;">
-              <strong>WOMAC Scores:</strong> Right=${safeValue(patient.womac_r, (v) => v.toFixed(1))}, Left=${safeValue(patient.womac_l, (v) => v.toFixed(1))}
+              <strong>WOMAC Scores:</strong> Right=${safeValue(mergedPatient.womac_r, (v) => v.toFixed(1))}, Left=${safeValue(mergedPatient.womac_l, (v) => v.toFixed(1))}
             </div>
           </div>
         </div>
@@ -1640,6 +1674,10 @@ document.getElementById("patientForm").addEventListener("submit", async function
     _pain_scores_missing: painScoresMissing, // Flag for display
     _kl_missing: kl_r === null || kl_l === null, // Flag for display
   };
+
+  // Store original patient data globally so we can merge it with outcome data later
+  // This is needed because outcome API response doesn't include kl_r, kl_l, womac_r, womac_l
+  window.lastPatientData = patient;
 
   // Store VAS info for display if VAS was used (store both rest and walking separately)
   if (vasUsed) {
