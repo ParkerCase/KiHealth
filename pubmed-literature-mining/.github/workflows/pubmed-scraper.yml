@@ -49,18 +49,24 @@ jobs:
         run: |
           python scripts/analyze_and_notify.py
       
-      - name: Commit article data
+      - name: Commit article data and review queue
         run: |
           git config user.name "PubMed Monitor"
           git config user.email "actions@github.com"
           
+          # Commit article data
           if [ -d data/articles ]; then
             git add data/articles/
-            
-            if ! git diff --staged --quiet; then
-              git commit -m "📚 Update article database - $(date +%Y-%m-%d)" || echo "No changes to commit"
-              git push || echo "Nothing to push"
-            fi
+          fi
+          
+          # Commit review queue (CRITICAL: Dashboard needs this file)
+          if [ -f data/review_queue.json ]; then
+            git add data/review_queue.json
+          fi
+          
+          if ! git diff --staged --quiet; then
+            git commit -m "📚 Update article database and review queue - $(date +%Y-%m-%d)" || echo "No changes to commit"
+            git push || echo "Nothing to push"
           fi
       
       - name: Generate and commit daily summary
