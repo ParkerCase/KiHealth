@@ -67,6 +67,83 @@
             margin-top: 4px;
         }
         
+        .upload-section {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+        
+        .upload-section h2 {
+            color: #1e293b;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+        }
+        
+        .upload-form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        
+        .upload-form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .upload-form-group label {
+            display: block;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .upload-form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 12px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+        
+        .file-input-label:hover {
+            border-color: #3b82f6;
+            background: #f0f7ff;
+        }
+        
+        .file-input-label.has-file {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        
         .filters {
             background: white;
             padding: 20px;
@@ -526,6 +603,50 @@
             }
             
             renderItems(filtered);
+        }
+        
+        // Upload functionality
+        function updateFileLabel(input) {
+            const label = document.getElementById('fileLabel');
+            const labelText = document.getElementById('fileLabelText');
+            if (input.files && input.files.length > 0) {
+                label.classList.add('has-file');
+                labelText.textContent = `Selected: ${input.files[0].name}`;
+            } else {
+                label.classList.remove('has-file');
+                labelText.textContent = 'Choose PDF file or drag and drop';
+            }
+        }
+        
+        async function handleUpload(event) {
+            event.preventDefault();
+            const statusDiv = document.getElementById('uploadStatus');
+            statusDiv.innerHTML = '<p style="color: #3b82f6;">⏳ Uploading...</p>';
+            
+            const formData = new FormData();
+            formData.append('pmid', document.getElementById('pmid').value);
+            formData.append('title', document.getElementById('title').value);
+            formData.append('pdf', document.getElementById('pdfFile').files[0]);
+            
+            try {
+                const response = await fetch('/api/upload-paywalled', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    statusDiv.innerHTML = `<p style="color: #10b981;">✅ ${result.message || 'Article uploaded successfully!'}</p>`;
+                    document.getElementById('uploadForm').reset();
+                    updateFileLabel(document.getElementById('pdfFile'));
+                } else {
+                    statusDiv.innerHTML = `<p style="color: #ef4444;">❌ Error: ${result.error || 'Upload failed'}</p>`;
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                statusDiv.innerHTML = `<p style="color: #ef4444;">❌ Error: ${error.message}</p>`;
+            }
         }
         
         // Load data on page load

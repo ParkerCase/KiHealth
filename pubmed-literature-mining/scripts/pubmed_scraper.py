@@ -51,7 +51,8 @@ class PubMedScraper:
     def __init__(self):
         self.email = os.getenv('PUBMED_EMAIL', 'parker@stroomai.com')
         self.tool = os.getenv('PUBMED_TOOL', 'PubMedLiteratureMining')
-        self.max_articles = int(os.getenv('MAX_ARTICLES_PER_RUN', '100'))
+        # Default to 5000 for comprehensive search (can be overridden by env var)
+        self.max_articles = int(os.getenv('MAX_ARTICLES_PER_RUN', '5000'))
         self.storage = get_storage_client()  # Google Sheets if available, else file storage
         self.oa_detector = OpenAccessDetector()
         self.relevance_scorer = RelevanceScorer()  # Keep for backward compatibility
