@@ -302,10 +302,20 @@ class LiteratureQualityWorkflow:
 
 
 if __name__ == "__main__":
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Literature Quality Workflow')
+    parser.add_argument('--max-articles', type=int, default=5000, 
+                       help='Maximum articles to fetch (default: 5000)')
+    parser.add_argument('--use-asreview', action='store_true',
+                       help='Use ASReview LAB for screening')
+    
+    args = parser.parse_args()
+    
     workflow = LiteratureQualityWorkflow()
     
     # Run workflow
-    stats = workflow.run_full_workflow(max_articles=1000, use_asreview=False)
+    stats = workflow.run_full_workflow(max_articles=args.max_articles, use_asreview=args.use_asreview)
     
     # Print statistics
     print("\n" + "=" * 80)
