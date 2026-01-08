@@ -14,5 +14,5 @@ regex>=2023.6.3
 gspread>=5.12.0
 google-auth>=2.23.0
 asreview>=1.2.0
-sqlite3
+# Note: sqlite3 is built into Python, no installation needed
 

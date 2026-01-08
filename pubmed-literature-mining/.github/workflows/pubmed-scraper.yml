@@ -59,6 +59,11 @@ jobs:
             git add data/articles/
           fi
           
+          # Commit SQLite database (literature quality system)
+          if [ -f data/literature.db ]; then
+            git add data/literature.db
+          fi
+          
           # Commit review queue (CRITICAL: Dashboard needs this file)
           if [ -f data/review_queue.json ]; then
             git add data/review_queue.json
