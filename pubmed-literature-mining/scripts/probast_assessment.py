@@ -101,10 +101,10 @@ class PROBASTAssessment:
     
     def _assess_domain_1(self, article: Dict) -> str:
         """Assess Domain 1: Participants"""
-        # Check study design
-        study_type = article.get("study_type", "").lower()
-        abstract = article.get("abstract", "").lower()
-        title = article.get("title", "").lower()
+        # Check study design - safely handle None values
+        study_type = (article.get("study_type") or "").lower()
+        abstract = (article.get("abstract") or "").lower()
+        title = (article.get("title") or "").lower()
         
         # High risk indicators
         if any(term in abstract or term in title for term in ["case report", "case series", "case-control"]):
@@ -124,7 +124,7 @@ class PROBASTAssessment:
     
     def _assess_domain_2(self, article: Dict) -> str:
         """Assess Domain 2: Predictors"""
-        abstract = article.get("abstract", "").lower()
+        abstract = (article.get("abstract") or "").lower()
         
         # High risk indicators
         if any(term in abstract for term in ["retrospective", "chart review", "self-reported"]):
@@ -143,7 +143,7 @@ class PROBASTAssessment:
     
     def _assess_domain_3(self, article: Dict) -> str:
         """Assess Domain 3: Outcome"""
-        abstract = article.get("abstract", "").lower()
+        abstract = (article.get("abstract") or "").lower()
         
         # Check for clear outcome definition
         outcome_terms = [
@@ -168,7 +168,7 @@ class PROBASTAssessment:
     
     def _assess_domain_4(self, article: Dict) -> str:
         """Assess Domain 4: Analysis"""
-        abstract = article.get("abstract", "").lower()
+        abstract = (article.get("abstract") or "").lower()
         
         # Check sample size
         sample_size = self._extract_sample_size(abstract)
