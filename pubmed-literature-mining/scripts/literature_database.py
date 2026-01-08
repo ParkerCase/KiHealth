@@ -261,6 +261,37 @@ class LiteratureDatabase:
         """
         return self.get_articles_by_probast_risk("Low")
     
+    def get_articles_by_score(self, min_score: int = 60, max_articles: int = None) -> List[Dict]:
+        """
+        Get articles by relevance score (automated filtering)
+        
+        Args:
+            min_score: Minimum relevance score (0-100)
+            max_articles: Maximum number of articles to return
+            
+        Returns:
+            List of articles sorted by score
+        """
+        conn = sqlite3.connect(self.db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        query = '''
+        SELECT * FROM papers 
+        WHERE relevance_score >= ?
+        ORDER BY relevance_score DESC
+        '''
+        
+        if max_articles:
+            query += f' LIMIT {max_articles}'
+        
+        cursor.execute(query, (min_score,))
+        rows = cursor.fetchall()
+        articles = [self._row_to_dict(row) for row in rows]
+        
+        conn.close()
+        return articles
+    
     def get_paywalled_articles(self) -> List[Dict]:
         """Get all paywalled articles"""
         conn = sqlite3.connect(self.db_path)
