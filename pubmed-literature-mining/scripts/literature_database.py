@@ -27,7 +27,10 @@ class LiteratureDatabase:
             db_path: Path to SQLite database file
         """
         self.db_path = db_path
-        os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        # Create directory if path contains directories
+        db_dir = os.path.dirname(db_path)
+        if db_dir:  # Only create if there's a directory path
+            os.makedirs(db_dir, exist_ok=True)
         self._init_database()
     
     def _init_database(self):

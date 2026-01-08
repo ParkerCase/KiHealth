@@ -205,12 +205,20 @@ class LiteratureQualityWorkflow:
                         article_data['access_type'] = 'open_access' if oa_info.get('is_open_access') else 'paywalled'
                         article_data['pdf_url'] = oa_info.get('pdf_url', '')
                         
-                        # Calculate relevance
-                        relevance_score = self.scraper.enhanced_scorer.score_article(article_data)
-                        article_data['relevance_score'] = relevance_score
+                        # Calculate relevance using enhanced scorer
+                        try:
+                            enhanced_score, score_breakdown = self.scraper.enhanced_scorer.calculate_relevance_score(article_data)
+                            article_data['relevance_score'] = enhanced_score
+                            article_data['relevance_score_breakdown'] = score_breakdown
+                        except Exception as e:
+                            # Fallback to legacy scorer
+                            logger.warning(f"Error calculating enhanced score, using legacy: {e}")
+                            relevance_score = self.scraper.relevance_scorer.calculate_relevance_score(article_data)
+                            article_data['relevance_score'] = relevance_score
                         
                         # Extract factors
-                        factors = self.scraper.factor_extractor.extract_factors(article_data)
+                        text = f"{article_data.get('title', '')} {article_data.get('abstract', '')}"
+                        factors = self.scraper.factor_extractor.extract_predictive_factors(text)
                         article_data['predictive_factors'] = factors
                         
                         articles.append(article_data)
