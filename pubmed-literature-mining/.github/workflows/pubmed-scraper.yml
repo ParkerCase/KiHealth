@@ -28,7 +28,7 @@ jobs:
         run: |
           mkdir -p data/pdfs logs
       
-      - name: Run PubMed scraper
+      - name: Run Literature Quality Workflow
         working-directory: .
         env:
           UNPAYWALL_EMAIL: parker@stroomai.com
@@ -37,7 +37,8 @@ jobs:
           MAX_ARTICLES_PER_RUN: 5000
           RELEVANCE_THRESHOLD: 70
         run: |
-          python scripts/pubmed_scraper.py
+          # Run complete literature quality workflow (scrape → assess → store)
+          python scripts/literature_quality_workflow.py
       
       - name: Analyze and notify
         working-directory: .
