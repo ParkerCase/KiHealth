@@ -1,5 +1,25 @@
 # Literature Quality Metrics Explanation
 
+## 📋 Quick Summary (For Documentation)
+
+**Relevance Score (0-100):** Measures how relevant an article is to knee OA prediction models. Calculated from topic relevance (40%), study design (30%), sample size (15%), and outcome relevance (15%). Scores ≥40 are considered for model use.
+
+**PROBAST Risk:** Overall assessment of study quality using the Prediction model Risk Of Bias Assessment Tool. We use only Low Risk or Moderate Risk (with justification) articles. High Risk articles are excluded.
+
+**PROBAST Domain 1 - Participants:** Quality of study population selection (representativeness, inclusion criteria).
+
+**PROBAST Domain 2 - Predictors:** Quality of predictor variable definition and measurement (timing, consistency, no data dredging).
+
+**PROBAST Domain 3 - Outcome:** Quality of outcome definition and measurement (objectivity, validation, blinding).
+
+**PROBAST Domain 4 - Analysis:** Quality of statistical methods and model development (EPV ≥15, proper validation, handling of missing data).
+
+**Our Standards:** All used articles have relevance score ≥40, 0 High Risk articles used, Moderate Risk articles used only with justification, top 7% PROBAST quality maintained.
+
+---
+
+## 📖 Detailed Explanation
+
 ## Relevance Score (0-100)
 
 **What it measures:** How relevant an article is to knee osteoarthritis prediction models.
