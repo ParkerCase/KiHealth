@@ -151,6 +151,7 @@ class ASReviewIntegration:
                 "journal": article.get("journal", ""),
                 "doi": article.get("doi", ""),
                 "publication_date": article.get("publication_date", ""),
+                "access_type": article.get("access_type", "unknown"),  # Add access type
             }
             records.append(record)
         
