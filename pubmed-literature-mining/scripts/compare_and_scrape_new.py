@@ -165,6 +165,9 @@ class CompareAndScrapeNew:
                                     END
                         WHERE pmid = ?
                         ''', (pmid,))
+            except Exception as e:
+                print(f"Warning: Error processing PMID {pmid}: {e}")
+                continue
         
         conn.commit()
         conn.close()

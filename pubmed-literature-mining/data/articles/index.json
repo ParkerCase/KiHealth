@@ -1094,5 +1094,21 @@
     "access_type": "paywalled",
     "journal": "Journal of medical Internet research",
     "updated_at": "2025-12-31T16:54:14.651376"
+  },
+  "41431841": {
+    "pmid": "41431841",
+    "title": "An interpretable metabolomic-driven machine learning model for early prediction of knee structural o",
+    "relevance_score": 47,
+    "access_type": "paywalled",
+    "journal": "Rheumatology (Oxford, England)",
+    "updated_at": "2026-01-08T17:26:03.162453"
+  },
+  "41431980": {
+    "pmid": "41431980",
+    "title": "Patients with previous anterior cruciate ligament reconstruction achieve equally good outcomes after",
+    "relevance_score": 39,
+    "access_type": "open_access",
+    "journal": "Knee surgery, sports traumatology, arthroscopy : official journal of the ESSKA",
+    "updated_at": "2026-01-08T17:26:04.931479"
   }
 }
