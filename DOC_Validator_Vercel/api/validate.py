@@ -99,9 +99,27 @@ def _load_calibrated_model():
     if os.path.exists(base_path) and os.path.exists(platt_path):
         # Load components and create wrapper
         import sys
-        parent_utils = os.path.join(os.path.dirname(os.path.dirname(__file__)), "utils")
-        sys.path.insert(0, parent_utils)
-        from calibrated_model_wrapper import CalibratedModelWrapper
+        # Try multiple paths for the wrapper
+        possible_paths = [
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), "utils"),  # DOC_Validator_Vercel/utils
+            os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "utils"),  # Root utils
+            os.path.dirname(os.path.dirname(__file__))  # DOC_Validator_Vercel
+        ]
+        wrapper_loaded = False
+        for path in possible_paths:
+            wrapper_path = os.path.join(path, "calibrated_model_wrapper.py")
+            if os.path.exists(wrapper_path):
+                sys.path.insert(0, path)
+                from calibrated_model_wrapper import CalibratedModelWrapper
+                wrapper_loaded = True
+                print(f"✓ Found CalibratedModelWrapper at: {wrapper_path}")
+                break
+        
+        if not wrapper_loaded:
+            raise ImportError(
+                f"CalibratedModelWrapper not found. Checked paths: {possible_paths}\n"
+                f"Please ensure utils/calibrated_model_wrapper.py exists in DOC_Validator_Vercel/"
+            )
         
         base_model = joblib.load(base_path)
         platt_scaler = joblib.load(platt_path)
