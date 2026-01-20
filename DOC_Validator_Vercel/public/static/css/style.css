@@ -1159,7 +1159,34 @@ footer a:hover {
   }
 
   /* Fix radio button layout on mobile - stack vertically */
+  /* Pain score radio buttons - prevent wrapping on desktop */
+.pain-score-options {
+  display: flex !important;
+  gap: 20px;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  overflow-x: auto; /* Allow horizontal scroll on very small screens if needed */
+}
+
+.pain-score-options label {
+  flex-shrink: 0 !important;
+  min-width: fit-content !important;
+  white-space: nowrap !important;
+}
+
+/* On very small desktop screens, ensure buttons stay in line */
+@media (min-width: 768px) {
   .pain-score-options {
+    flex-wrap: nowrap !important;
+    overflow-x: visible;
+  }
+  
+  .pain-score-options label {
+    flex: 0 0 auto;
+  }
+}
+
+.pain-score-options-old {
     flex-direction: column !important;
     gap: 12px !important;
     width: 100% !important;
@@ -1246,14 +1273,38 @@ footer a:hover {
   font-weight: 600 !important;
 }
 
-/* Desktop radio button styling */
+/* Desktop radio button styling - ensure all buttons fit within container */
 @media (min-width: 769px) {
+  .pain-score-options {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important; /* Reduced gap to fit better */
+    align-items: center !important;
+    overflow-x: hidden !important; /* Prevent overflow */
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
   .pain-score-options label {
-    padding: 8px 12px !important;
+    padding: 8px 10px !important; /* Slightly reduced padding */
     border: 2px solid #e2e8f0 !important;
     border-radius: 8px !important;
     background: #ffffff !important;
     transition: all 0.2s ease !important;
+    flex: 1 1 0 !important; /* Allow buttons to share space equally */
+    min-width: 0 !important; /* Allow shrinking if needed */
+    white-space: nowrap !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+  
+  .pain-score-options label span {
+    font-size: 0.9rem !important; /* Slightly smaller font */
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
   }
 
   .pain-score-options label:hover {
@@ -1267,24 +1318,64 @@ footer a:hover {
   }
 }
 
+/* Desktop: Hide ALL mobile form elements, show desktop form */
+@media (min-width: 769px) {
+  /* Hide entire mobile form container */
+  form.mobile-form,
+  #mobilePatientForm,
+  .mobile-form {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+  }
+  
+  /* Hide all mobile steps (including active ones) */
+  .mobile-step,
+  .mobile-step.active,
+  #mobileStep1,
+  #mobileStep2,
+  #mobileStep3,
+  #mobileStep4,
+  [id^="mobileStep"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  
+  /* Hide mobile-specific UI elements */
+  .step-header,
+  .step-indicator,
+  .step-dot,
+  .step-dot.active,
+  .btn-mobile-next,
+  .btn-mobile-back,
+  .btn-mobile-clear,
+  .mobile-form-fields,
+  .mobile-form-actions {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  
+  /* Show desktop form */
+  .desktop-form,
+  form.desktop-form,
+  #patientForm.patient-form.desktop-form {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
 /* Mobile: Hide desktop form, show mobile form */
 @media (max-width: 768px) {
   .desktop-form {
     display: none !important;
   }
-
+  
   .mobile-form {
-    display: block !important;
-  }
-}
-
-/* Desktop: Hide mobile form, show desktop form */
-@media (min-width: 769px) {
-  .mobile-form {
-    display: none !important;
-  }
-
-  .desktop-form {
     display: block !important;
   }
 }
@@ -1303,6 +1394,23 @@ footer a:hover {
 
 .mobile-step.active {
   display: block !important; /* Show active step */
+}
+
+/* Desktop: Force hide mobile form elements */
+@media (min-width: 769px) {
+  .mobile-form,
+  .mobile-step,
+  .mobile-step.active,
+  .step-header,
+  .step-indicator,
+  .btn-mobile-next,
+  .btn-mobile-back,
+  .btn-mobile-clear,
+  .mobile-form-fields,
+  .mobile-form-actions {
+    display: none !important;
+    visibility: hidden !important;
+  }
 }
 
 .step-header {

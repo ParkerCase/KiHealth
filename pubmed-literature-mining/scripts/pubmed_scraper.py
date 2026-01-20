@@ -91,14 +91,14 @@ class PubMedScraper:
                 logger.error(f"Request failed after {self.MAX_RETRIES} retries: {e}")
                 return None
     
-    def search_pubmed(self, query: str, max_results: int = 100, date_range_years: int = 10) -> List[str]:
+    def search_pubmed(self, query: str, max_results: int = 100, date_range_years: int = None) -> List[str]:
         """
         Search PubMed and return list of PMIDs
         
         Args:
             query: PubMed search query
             max_results: Maximum number of results to return
-            date_range_years: Number of years to search back (default: 10)
+            date_range_years: Number of years to search back (None = no date restriction, query handles dates)
             
         Returns:
             List of PMID strings
@@ -112,10 +112,15 @@ class PubMedScraper:
             'email': self.email,
             'tool': self.tool,
             'sort': 'pub_date',  # Most recent first
-            'datetype': 'pdat',
-            'mindate': (datetime.now() - timedelta(days=date_range_years*365)).strftime('%Y/%m/%d'),
-            'maxdate': datetime.now().strftime('%Y/%m/%d')
         }
+        
+        # Only add date restrictions if date_range_years is specified AND query doesn't already have dates
+        # Check if query already has date restrictions (PDAT pattern)
+        has_date_in_query = '[PDAT]' in query or 'Publication Date' in query
+        if date_range_years is not None and not has_date_in_query:
+            params['datetype'] = 'pdat'
+            params['mindate'] = (datetime.now() - timedelta(days=date_range_years*365)).strftime('%Y/%m/%d')
+            params['maxdate'] = datetime.now().strftime('%Y/%m/%d')
         
         response = self._make_request(search_url, params)
         if not response:
@@ -249,23 +254,44 @@ class PubMedScraper:
             True if successful, False otherwise
         """
         try:
-            # Check if already exists in storage
-            existing = self.storage.get_article_by_pmid(pmid)
-            if existing:
-                # Check if article has missing details (title, journal, etc.)
-                has_details = (
-                    existing.get('title') and 
-                    existing.get('title') != 'No title' and
-                    existing.get('journal') and
-                    existing.get('journal') != 'Unknown Journal'
-                )
+            # Check if already exists in DATABASE (source of truth for count)
+            # Don't check JSON files - we want to add to database even if in JSON
+            from scripts.literature_database import LiteratureDatabase
+            import os
+            # Use absolute path to ensure we check the correct database
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(script_dir)
+            db_path = os.path.join(project_root, 'data', 'literature.db')
+            db = LiteratureDatabase(db_path=db_path)
+            import sqlite3
+            conn = sqlite3.connect(db.db_path)
+            cursor = conn.cursor()
+            cursor.execute('SELECT pmid FROM papers WHERE pmid = ?', (pmid,))
+            exists_in_db = cursor.fetchone() is not None
+            conn.close()
+            
+            if exists_in_db:
+                # Check if article has full details in database
+                # If it does, skip. If not, we'll update it below
+                conn = sqlite3.connect(db.db_path)
+                cursor = conn.cursor()
+                cursor.execute('SELECT title, journal FROM papers WHERE pmid = ?', (pmid,))
+                row = cursor.fetchone()
+                conn.close()
                 
-                if has_details:
-                    logger.info(f"Article {pmid} already exists with full details, skipping")
+                if row and row[0] and row[0] != 'No title' and row[1] and row[1] != 'Unknown Journal':
+                    logger.info(f"Article {pmid} already exists in database with full details, skipping")
                     return True
                 else:
-                    logger.info(f"Article {pmid} exists but missing details, will update")
+                    logger.info(f"Article {pmid} exists in database but missing details, will update")
                     # Continue to fetch and update
+            
+            # Also check storage (JSON files) for missing details check, but don't skip if only in JSON
+            existing = self.storage.get_article_by_pmid(pmid)
+            if existing and not exists_in_db:
+                # Article is in JSON but not database - we'll add it to database
+                logger.info(f"Article {pmid} found in JSON files but not database - will add to database")
+                # Continue processing to add to database
             
             # Fetch article details
             article_data = self.fetch_article_details(pmid)
@@ -326,15 +352,36 @@ class PubMedScraper:
             # Store in file storage (always try to save, even if Google Sheets fails)
             # File storage is the primary storage, Google Sheets is secondary
             try:
-                success = self.storage.insert_article(article_data)
-                if success:
-                    score = article_data.get('relevance_score', 0)
-                    logger.info(f"Successfully processed PMID {pmid} (score: {score})")
-                else:
-                    logger.error(f"Failed to store PMID {pmid}")
+                file_success = self.storage.insert_article(article_data)
+                if not file_success:
+                    logger.error(f"Failed to store PMID {pmid} to file storage")
+                    return False
             except Exception as e:
-                logger.error(f"Error storing article {pmid}: {e}")
-                success = False
+                logger.error(f"Error storing article {pmid} to file storage: {e}")
+                return False
+            
+            # ALSO save to SQLite database (critical for database count)
+            try:
+                from scripts.literature_database import LiteratureDatabase
+                import os
+                # Use absolute path to ensure we write to the correct database
+                script_dir = os.path.dirname(os.path.abspath(__file__))
+                project_root = os.path.dirname(script_dir)
+                db_path = os.path.join(project_root, 'data', 'literature.db')
+                db = LiteratureDatabase(db_path=db_path)
+                # Get PROBAST assessment if available
+                probast_assessment = article_data.get('probast_assessment')
+                db_success = db.add_article(article_data, probast_assessment)
+                if db_success:
+                    score = article_data.get('relevance_score', 0)
+                    logger.info(f"Successfully processed PMID {pmid} (score: {score}) - saved to database")
+                    success = True
+                else:
+                    logger.warning(f"Saved to file storage but failed to save PMID {pmid} to database")
+                    success = True  # Still count as success since file storage worked
+            except Exception as e:
+                logger.warning(f"Error saving PMID {pmid} to database: {e} (but saved to file storage)")
+                success = True  # Still count as success since file storage worked
             
             return success
             

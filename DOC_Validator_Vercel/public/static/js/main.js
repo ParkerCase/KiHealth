@@ -104,6 +104,11 @@ function getPrimaryComplaintDisplay(worstSide) {
 }
 
 function displayResults(data) {
+  // Show which model was used
+  if (data.model_type) {
+    console.log(`Model used: ${data.model_type}`);
+    // You can add UI display of model type here if needed
+  }
   // Check if we're on mobile (mobile form is visible)
   const isMobile = window.innerWidth <= 768;
   const mobileForm = document.getElementById("mobilePatientForm");
@@ -1752,6 +1757,9 @@ document.getElementById("patientForm").addEventListener("submit", async function
     const formData = new FormData();
     formData.append("file", blob, "patient.csv");
     formData.append("run_outcome", "true"); // Also run outcome prediction
+    // Add model selection
+    const useCalibrated = document.getElementById("use_literature_calibration")?.checked || false;
+    formData.append("use_literature_calibration", useCalibrated ? "true" : "false");
 
     console.log("Analyzing patient...");
     const response = await fetch(`${API_BASE_URL}/api/validate`, {
@@ -2006,6 +2014,12 @@ async function analyzeBatch() {
     const blob = new Blob([csv], { type: "text/csv" });
     const formData = new FormData();
     formData.append("file", blob, "manual_entry.csv");
+    // Add model selection
+    const useCalibrated = document.getElementById("use_literature_calibration")?.checked || false;
+    formData.append("use_literature_calibration", useCalibrated ? "true" : "false");
+    // Add model selection
+    const useCalibrated = document.getElementById("use_literature_calibration")?.checked || false;
+    formData.append("use_literature_calibration", useCalibrated ? "true" : "false");
 
     const response = await fetch(`${API_BASE_URL}/api/validate`, {
       method: "POST",
@@ -2283,6 +2297,32 @@ if (document.readyState === "loading") {
 
 let currentMobileStep = 1;
 const totalMobileSteps = 4;
+
+// Hide mobile form on desktop (check on load and resize)
+function hideMobileFormOnDesktop() {
+  if (window.innerWidth > 768) {
+    const mobileForm = document.getElementById('mobilePatientForm');
+    const mobileSteps = document.querySelectorAll('.mobile-step');
+    if (mobileForm) {
+      mobileForm.style.display = 'none';
+      mobileForm.style.visibility = 'hidden';
+    }
+    mobileSteps.forEach(step => {
+      step.style.display = 'none';
+      step.style.visibility = 'hidden';
+    });
+  }
+}
+
+// Run on page load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', hideMobileFormOnDesktop);
+} else {
+  hideMobileFormOnDesktop();
+}
+
+// Run on window resize
+window.addEventListener('resize', hideMobileFormOnDesktop);
 
 function mobileNextStep() {
   // Validate current step before proceeding
@@ -2611,9 +2651,16 @@ if (mobileForm) {
   });
 }
 
-// Initialize mobile form on load
+// Initialize mobile form on load (only on mobile devices)
 function initializeMobileForm() {
-  // Ensure only step 1 is visible initially
+  // Don't initialize on desktop
+  if (window.innerWidth > 768) {
+    // Hide mobile form on desktop
+    hideMobileFormOnDesktop();
+    return;
+  }
+  
+  // Mobile only: Ensure only step 1 is visible initially
   const step1 = document.getElementById("mobileStep1");
   const step2 = document.getElementById("mobileStep2");
   const step3 = document.getElementById("mobileStep3");

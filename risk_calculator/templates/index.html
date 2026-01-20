@@ -105,6 +105,20 @@
                 </div>
             </div>
 
+            <div class="form-section">
+                <h2>Model Selection</h2>
+                <div class="form-group">
+                    <label for="model_type" style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="use_literature_calibration" name="use_literature_calibration" style="width: auto;">
+                        <span>Use Literature-Calibrated Model</span>
+                    </label>
+                    <span class="help-text">
+                        <strong>Pure Data-Driven (default):</strong> Original model, AUC 0.852, Brier 0.0808<br>
+                        <strong>Literature-Calibrated:</strong> Improved calibration, AUC 0.852, Brier 0.0311 (61.5% improvement)
+                    </span>
+                </div>
+            </div>
+
             <div class="form-actions">
                 <button type="submit" id="calculateBtn" class="btn-primary">
                     Calculate Risk

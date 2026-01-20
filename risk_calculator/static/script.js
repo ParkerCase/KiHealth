@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     calculateBtn.textContent = "Calculating...";
 
     // Collect form data
+    const useCalibrated = document.getElementById("use_literature_calibration")?.checked || false;
     const formData = {
       age: document.getElementById("age").value,
       sex: document.getElementById("sex").value,
@@ -31,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
       kl_right: document.getElementById("kl_right").value,
       kl_left: document.getElementById("kl_left").value,
       family_history: document.getElementById("family_history").value,
+      use_literature_calibration: useCalibrated,
     };
 
     try {
@@ -93,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const category = data.category;
     const color = data.color;
     const interpretation = data.interpretation;
+    const modelType = data.model_type || "Pure Data-Driven";
 
     // Update gauge
     updateGauge(riskPercent, color);
@@ -108,6 +111,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Update interpretation
     document.getElementById("interpretationText").textContent = interpretation;
+    
+    // Show model type if available
+    let modelInfo = document.getElementById("modelInfo");
+    if (!modelInfo) {
+      // Create model info element if it doesn't exist
+      modelInfo = document.createElement("div");
+      modelInfo.id = "modelInfo";
+      modelInfo.className = "model-info-display";
+      modelInfo.style.cssText = "margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px; font-size: 0.9em;";
+      const interpretationDiv = document.querySelector(".interpretation");
+      interpretationDiv.appendChild(modelInfo);
+    }
+    modelInfo.innerHTML = `<strong>Model Used:</strong> ${modelType}`;
   }
 
   // Update gauge visualization

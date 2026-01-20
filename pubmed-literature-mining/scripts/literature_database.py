@@ -65,7 +65,6 @@ class LiteratureDatabase:
             predictive_factors TEXT,
             asreview_screened BOOLEAN DEFAULT 0,
             asreview_relevant BOOLEAN DEFAULT 0,
-            relevance_score INTEGER,
             notes TEXT
         )
         ''')

@@ -6,6 +6,35 @@
     <title>DOC Validator - Knee Replacement Risk Prediction</title>
     <link rel="stylesheet" href="/static/css/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+      /* Force hide mobile form on desktop - inline to ensure it works */
+      @media (min-width: 769px) {
+        form.mobile-form,
+        #mobilePatientForm,
+        .mobile-form,
+        .mobile-step,
+        .mobile-step.active,
+        #mobileStep1,
+        #mobileStep2,
+        #mobileStep3,
+        #mobileStep4,
+        .step-header,
+        .step-indicator,
+        .step-dot,
+        .btn-mobile-next,
+        .btn-mobile-back,
+        .btn-mobile-clear,
+        .mobile-form-fields,
+        .mobile-form-actions {
+          display: none !important;
+          visibility: hidden !important;
+          height: 0 !important;
+          overflow: hidden !important;
+          position: absolute !important;
+          left: -9999px !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -72,18 +101,18 @@
                 <small style="display: block; margin-bottom: 8px; color: #666;">
                   Model works without pain scores but predictions may be less precise
                 </small>
-                <div class="pain-score-options" style="display: flex; gap: 20px; margin-top: 8px;">
-                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap;">
-                    <input type="radio" name="painScoreType" value="womac" checked onchange="togglePainScoreType()">
-                    <span>WOMAC Standard Assessment (0-96)</span>
+                <div class="pain-score-options" style="display: flex; gap: 12px; margin-top: 8px; flex-wrap: nowrap; align-items: center; width: 100%; max-width: 100%; box-sizing: border-box;">
+                  <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; flex: 1 1 0; min-width: 0; padding: 8px 10px; box-sizing: border-box;">
+                    <input type="radio" name="painScoreType" value="womac" checked onchange="togglePainScoreType()" style="flex-shrink: 0;">
+                    <span style="font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis;">WOMAC (0-96)</span>
                   </label>
-                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap;">
-                    <input type="radio" name="painScoreType" value="vas" onchange="togglePainScoreType()">
-                    <span>VAS Pain Scale (0-10)</span>
+                  <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; flex: 1 1 0; min-width: 0; padding: 8px 10px; box-sizing: border-box;">
+                    <input type="radio" name="painScoreType" value="vas" onchange="togglePainScoreType()" style="flex-shrink: 0;">
+                    <span style="font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis;">VAS (0-10)</span>
                   </label>
-                  <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; white-space: nowrap;">
-                    <input type="radio" name="painScoreType" value="none" onchange="togglePainScoreType()">
-                    <span>None (skip pain scores)</span>
+                  <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; flex: 1 1 0; min-width: 0; padding: 8px 10px; box-sizing: border-box;">
+                    <input type="radio" name="painScoreType" value="none" onchange="togglePainScoreType()" style="flex-shrink: 0;">
+                    <span style="font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis;">None</span>
                   </label>
                 </div>
                 <small style="display: block; margin-top: 4px; color: #666;">
@@ -226,6 +255,18 @@
                   <option value="1">Yes - Had TKR</option>
                   <option value="0">No - No TKR</option>
                 </select>
+              </div>
+              
+              <!-- Model Selection Toggle -->
+              <div class="form-field" style="grid-column: 1 / -1; padding: 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e0e0e0; position: relative; z-index: 1;">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 500; position: relative; z-index: 2;">
+                  <input type="checkbox" id="use_literature_calibration" name="use_literature_calibration" style="width: 18px; height: 18px; cursor: pointer; pointer-events: auto; z-index: 3; position: relative;">
+                  <span>Use Literature-Calibrated Model</span>
+                </label>
+                <small style="display: block; margin-top: 6px; color: #666; font-size: 0.9rem; line-height: 1.4;">
+                  <strong>Pure Data-Driven (default):</strong> Original model, AUC 0.852, Brier 0.0808<br>
+                  <strong>Literature-Calibrated:</strong> Improved calibration, AUC 0.852, Brier 0.0311 (61.5% improvement)
+                </small>
               </div>
             </div>
             

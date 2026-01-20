@@ -152,18 +152,19 @@ class RailwayHandler(BaseHTTPRequestHandler):
 def run(port=None):
     """Run the server"""
     if port is None:
-        port = int(os.environ.get('PORT', 8000))
+        port = int(os.environ.get('PORT', 3003))  # Default to 3003
     
     server_address = ('0.0.0.0', port)
     httpd = HTTPServer(server_address, RailwayHandler)
     
     print("=" * 60)
-    print("DOC VALIDATOR - RAILWAY SERVER")
+    print("DOC VALIDATOR - SERVER")
     print("=" * 60)
     print(f"✓ Server running on {server_address[0]}:{server_address[1]}")
     print(f"✓ PORT environment variable: {os.environ.get('PORT', 'not set')}")
     print(f"✓ Serving static files from public/")
     print(f"✓ API endpoints: /api/validate, /api/template, /health")
+    print(f"✓ Access at: http://localhost:{port}")
     print("\nPress Ctrl+C to stop")
     print("=" * 60)
     

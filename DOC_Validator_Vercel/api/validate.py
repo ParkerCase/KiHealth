@@ -26,74 +26,132 @@ from api.success_calculation import (
 # Load models lazily (only when needed) to reduce initial bundle size
 MODEL_DIR = None
 RF_MODEL = None
+RF_MODEL_ORIGINAL = None  # Original pure data-driven model
+RF_MODEL_CALIBRATED = None  # Literature-calibrated model
 SCALER = None
 IMPUTER = None
 FEATURE_NAMES = None
 OUTCOME_MODEL = None
 
 
-def load_models():
-    """Lazy load models on first request"""
-    global RF_MODEL, SCALER, FEATURE_NAMES, MODEL_DIR
-    if RF_MODEL is None:
-        try:
-            # Get the directory where this file is located (api/)
-            func_dir = os.path.dirname(__file__)
+def _initialize_model_dir():
+    """Initialize MODEL_DIR by finding the models directory"""
+    global MODEL_DIR
+    if MODEL_DIR is not None:
+        return
+    
+    func_dir = os.path.dirname(__file__)
+    api_models_path = os.path.join(func_dir, "models")
+    root_models_path = os.path.join(os.path.dirname(func_dir), "models")
+    
+    # Check which path exists (look for any model file)
+    if os.path.exists(api_models_path) and os.listdir(api_models_path):
+        MODEL_DIR = api_models_path
+    elif os.path.exists(root_models_path) and os.listdir(root_models_path):
+        MODEL_DIR = root_models_path
+    else:
+        raise Exception(f"Models directory not found. Checked: {api_models_path}, {root_models_path}")
 
-            # Try api/models/ first (most reliable in Vercel)
-            api_models_path = os.path.join(func_dir, "models")
 
-            # Also try root models/ directory
-            root_models_path = os.path.join(os.path.dirname(func_dir), "models")
+def _load_original_model():
+    """Load the original pure data-driven model"""
+    global RF_MODEL_ORIGINAL, MODEL_DIR, SCALER, FEATURE_NAMES
+    
+    if MODEL_DIR is None:
+        _initialize_model_dir()
+    
+    # Try to load original model (random_forest_best.pkl)
+    original_model_path = os.path.join(MODEL_DIR, "random_forest_best.pkl")
+    
+    # Also check parent directory
+    if not os.path.exists(original_model_path):
+        parent_models = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models", "random_forest_best.pkl")
+        if os.path.exists(parent_models):
+            original_model_path = parent_models
+    
+    if os.path.exists(original_model_path):
+        RF_MODEL_ORIGINAL = joblib.load(original_model_path)
+        print(f"✓ Loaded original model: {original_model_path}")
+    else:
+        # Fallback to calibrated model if original not found
+        print("⚠️  Original model not found, using calibrated model as fallback")
+        _load_calibrated_model()
+        RF_MODEL_ORIGINAL = RF_MODEL_CALIBRATED
 
-            # Check which path exists
-            if os.path.exists(
-                os.path.join(api_models_path, "random_forest_calibrated.pkl")
-            ):
-                MODEL_DIR = api_models_path
-            elif os.path.exists(
-                os.path.join(root_models_path, "random_forest_calibrated.pkl")
-            ):
-                MODEL_DIR = root_models_path
-            else:
-                # Debug: show what's available
-                import json
 
-                debug_info = {
-                    "func_dir": func_dir,
-                    "api_models_exists": os.path.exists(api_models_path),
-                    "root_models_exists": os.path.exists(root_models_path),
-                    "cwd": os.getcwd(),
-                    "func_dir_contents": (
-                        os.listdir(func_dir) if os.path.exists(func_dir) else []
-                    ),
-                    "parent_dir": os.path.dirname(func_dir),
-                    "parent_dir_contents": (
-                        os.listdir(os.path.dirname(func_dir))
-                        if os.path.exists(os.path.dirname(func_dir))
-                        else []
-                    ),
-                }
-                raise Exception(
-                    f"Models not found. Debug info: {json.dumps(debug_info, indent=2)}"
-                )
+def _load_calibrated_model():
+    """Load the literature-calibrated model"""
+    global RF_MODEL_CALIBRATED, MODEL_DIR
+    
+    if MODEL_DIR is None:
+        _initialize_model_dir()
+    
+    # Try to load literature-calibrated model components
+    base_path = os.path.join(MODEL_DIR, "random_forest_literature_calibrated_base.pkl")
+    platt_path = os.path.join(MODEL_DIR, "random_forest_literature_calibrated_platt.pkl")
+    
+    # Also check parent directory
+    if not os.path.exists(base_path):
+        parent_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models")
+        base_path = os.path.join(parent_dir, "random_forest_literature_calibrated_base.pkl")
+        platt_path = os.path.join(parent_dir, "random_forest_literature_calibrated_platt.pkl")
+    
+    if os.path.exists(base_path) and os.path.exists(platt_path):
+        # Load components and create wrapper
+        import sys
+        parent_utils = os.path.join(os.path.dirname(os.path.dirname(__file__)), "utils")
+        sys.path.insert(0, parent_utils)
+        from calibrated_model_wrapper import CalibratedModelWrapper
+        
+        base_model = joblib.load(base_path)
+        platt_scaler = joblib.load(platt_path)
+        RF_MODEL_CALIBRATED = CalibratedModelWrapper(base_model, platt_scaler)
+        print(f"✓ Loaded literature-calibrated model: {base_path}")
+    else:
+        # Fallback to old calibrated model or original
+        calibrated_path = os.path.join(MODEL_DIR, "random_forest_calibrated.pkl")
+        if os.path.exists(calibrated_path):
+            RF_MODEL_CALIBRATED = joblib.load(calibrated_path)
+            print(f"✓ Loaded fallback calibrated model: {calibrated_path}")
+        else:
+            # Last resort: try to load original
+            _load_original_model()
+            RF_MODEL_CALIBRATED = RF_MODEL_ORIGINAL
+            print("⚠️  Literature-calibrated model not found, using original model")
 
-            model_path = os.path.join(MODEL_DIR, "random_forest_calibrated.pkl")
-            scaler_path = os.path.join(MODEL_DIR, "scaler.pkl")
-            features_path = os.path.join(MODEL_DIR, "feature_names.pkl")
 
-            if not os.path.exists(model_path):
-                raise Exception(f"Model file not found at: {model_path}")
-            if not os.path.exists(scaler_path):
-                raise Exception(f"Scaler file not found at: {scaler_path}")
-            if not os.path.exists(features_path):
-                raise Exception(f"Features file not found at: {features_path}")
-
-            RF_MODEL = joblib.load(model_path)
-            SCALER = joblib.load(scaler_path)
-            FEATURE_NAMES = joblib.load(features_path)
-        except Exception as e:
-            raise Exception(f"Failed to load models: {str(e)}")
+def load_models(use_literature_calibration=False):
+    """Lazy load models on first request
+    
+    Args:
+        use_literature_calibration: If True, load literature-calibrated model
+                                    If False, load original pure data-driven model
+    """
+    global RF_MODEL, RF_MODEL_ORIGINAL, RF_MODEL_CALIBRATED, SCALER, FEATURE_NAMES, MODEL_DIR
+    
+    # Initialize MODEL_DIR and load scaler/features first
+    if MODEL_DIR is None or SCALER is None:
+        _initialize_model_dir()
+        scaler_path = os.path.join(MODEL_DIR, "scaler.pkl")
+        features_path = os.path.join(MODEL_DIR, "feature_names.pkl")
+        
+        if not os.path.exists(scaler_path):
+            raise Exception(f"Scaler file not found at: {scaler_path}")
+        if not os.path.exists(features_path):
+            raise Exception(f"Features file not found at: {features_path}")
+        
+        SCALER = joblib.load(scaler_path)
+        FEATURE_NAMES = joblib.load(features_path)
+    
+    # Determine which model to load
+    if use_literature_calibration:
+        if RF_MODEL_CALIBRATED is None:
+            _load_calibrated_model()
+        RF_MODEL = RF_MODEL_CALIBRATED
+    else:
+        if RF_MODEL_ORIGINAL is None:
+            _load_original_model()
+        RF_MODEL = RF_MODEL_ORIGINAL
 
 
 def load_outcome_model():
@@ -179,15 +237,7 @@ class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         """Handle POST requests"""
         try:
-            # Load models on first request
-            try:
-                load_models()
-            except Exception as e:
-                self._send_error(500, f"Model loading error: {str(e)}")
-                return
-
-            # Read request body
-            # Read request body
+            # Read request body first to check for model selection
             try:
                 content_length = int(self.headers.get("Content-Length", 0))
                 if content_length == 0:
@@ -200,6 +250,8 @@ class handler(BaseHTTPRequestHandler):
 
             # Parse multipart form data (CSV file)
             content_type = self.headers.get("Content-Type", "")
+            use_literature_calibration = False
+            
             if "boundary=" in content_type:
                 boundary = content_type.split("boundary=")[1].encode()
                 parts = post_data.split(b"--" + boundary)
@@ -223,6 +275,15 @@ class handler(BaseHTTPRequestHandler):
                             .decode("utf-8", errors="ignore")
                         )
                         run_outcome = value.lower() == "true"
+                    elif b'name="use_literature_calibration"' in part:
+                        # Extract use_literature_calibration parameter
+                        content_start = part.find(b"\r\n\r\n") + 4
+                        value = (
+                            part[content_start:]
+                            .strip()
+                            .decode("utf-8", errors="ignore")
+                        )
+                        use_literature_calibration = value.lower() == "true"
 
                 if not csv_data:
                     self.send_response(400)
@@ -264,6 +325,13 @@ class handler(BaseHTTPRequestHandler):
                         ).encode()
                     )
                     return
+
+            # Load models on first request (with model selection)
+            try:
+                load_models(use_literature_calibration=use_literature_calibration)
+            except Exception as e:
+                self._send_error(500, f"Model loading error: {str(e)}")
+                return
 
             # Validate
             is_valid, message = validate_data(df)
@@ -743,6 +811,7 @@ class handler(BaseHTTPRequestHandler):
                 "outcome_predictions": (
                     clean_nan(outcome_predictions) if outcome_predictions else None
                 ),  # NEW
+                "model_type": "Literature-Calibrated" if use_literature_calibration else "Pure Data-Driven (Original)",
             }
 
             self.send_response(200)

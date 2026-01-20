@@ -94,33 +94,39 @@ class FileStorage:
         try:
             # Load existing article if it exists
             existing = self.get_article_by_pmid(pmid)
-            if existing:
+            if existing and isinstance(existing, dict):
                 # Merge with existing data (update)
                 article_data = {**existing, **article_data}
                 article_data['updated_at'] = datetime.now().isoformat()
             else:
                 # New article
-                article_data['created_at'] = datetime.now().isoformat()
+                if 'created_at' not in article_data:
+                    article_data['created_at'] = datetime.now().isoformat()
                 article_data['updated_at'] = datetime.now().isoformat()
+            
+            # Ensure article_data is a dict and has required fields
+            if not isinstance(article_data, dict):
+                logger.error(f"article_data is not a dict for {pmid}")
+                return False
             
             # Save article
             with open(article_file, 'w') as f:
                 json.dump(article_data, f, indent=2, ensure_ascii=False)
             
-            # Update index
+            # Update index - safely handle None values
             self.index[pmid] = {
                 'pmid': pmid,
-                'title': article_data.get('title', '')[:100],  # Truncate for index
-                'relevance_score': article_data.get('relevance_score', 0),
-                'access_type': article_data.get('access_type', 'unknown'),
-                'journal': article_data.get('journal', ''),
-                'updated_at': article_data.get('updated_at', '')
+                'title': (article_data.get('title') or '')[:100] if article_data.get('title') else '',  # Truncate for index
+                'relevance_score': article_data.get('relevance_score', 0) or 0,
+                'access_type': article_data.get('access_type', 'unknown') or 'unknown',
+                'journal': article_data.get('journal', '') or '',
+                'updated_at': article_data.get('updated_at', '') or ''
             }
             self._save_index()
             
             return True
         except Exception as e:
-            logger.error(f"Error saving article {pmid}: {e}")
+            logger.error(f"Error saving article {pmid}: {e}", exc_info=True)
             return False
     
     def query_articles(self, filter_func=None, limit: int = 10000) -> List[Dict]:

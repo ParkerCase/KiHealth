@@ -11,6 +11,7 @@ import joblib
 from pathlib import Path
 import os
 import warnings
+import sys
 
 # Suppress sklearn version warnings
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -19,19 +20,30 @@ app = Flask(__name__)
 
 # Paths
 BASE_DIR = Path(__file__).parent.parent
-MODEL_PATH = BASE_DIR / "models" / "random_forest_best.pkl"
 SCALER_PATH = BASE_DIR / "models" / "scaler.pkl"
 FEATURE_NAMES_PATH = BASE_DIR / "models" / "feature_names.pkl"
 
+# Add utils to path for model_loader
+sys.path.insert(0, str(BASE_DIR / "utils"))
+from model_loader import load_tkr_model, load_preprocessing_objects
+
+# Determine which model to use (from environment variable or default to original)
+USE_LITERATURE_CALIBRATION = os.getenv('USE_LITERATURE_CALIBRATION', 'false').lower() == 'true'
+
 # Load model and preprocessing objects
 print("Loading model and preprocessing objects...")
+print(f"Model type: {'Literature-Calibrated' if USE_LITERATURE_CALIBRATION else 'Pure Data-Driven (Original)'}")
 try:
-    model = joblib.load(MODEL_PATH)
-    scaler = joblib.load(SCALER_PATH)
-    feature_names = joblib.load(FEATURE_NAMES_PATH)
+    model = load_tkr_model(use_literature_calibration=USE_LITERATURE_CALIBRATION)
+    scaler, imputer, feature_names = load_preprocessing_objects()
+    if feature_names is None:
+        # Fallback to loading directly if model_loader doesn't provide it
+        feature_names = joblib.load(FEATURE_NAMES_PATH)
     print("✓ Model and preprocessing objects loaded successfully")
 except Exception as e:
     print(f"❌ Error loading model: {e}")
+    import traceback
+    traceback.print_exc()
     model = None
     scaler = None
     feature_names = None
@@ -209,6 +221,19 @@ def calculate():
     try:
         # Get form data
         data = request.json
+        
+        # Check if user wants to use literature-calibrated model (from request)
+        use_calibrated = data.get("use_literature_calibration", False)
+        
+        # Load the appropriate model if different from current
+        current_model = model
+        if use_calibrated != USE_LITERATURE_CALIBRATION:
+            try:
+                current_model = load_tkr_model(use_literature_calibration=use_calibrated)
+            except Exception as e:
+                # If calibrated model not available, use current model
+                print(f"Warning: Could not load {'calibrated' if use_calibrated else 'original'} model: {e}")
+                current_model = model
 
         # Validate inputs
         age = float(data["age"])
@@ -232,7 +257,7 @@ def calculate():
         X = preprocess_input(data)
 
         # Make prediction
-        risk_probability = model.predict_proba(X)[0, 1]
+        risk_probability = current_model.predict_proba(X)[0, 1]
         risk_percent = risk_probability * 100
 
         # Get risk category
@@ -240,6 +265,9 @@ def calculate():
 
         # Get interpretation
         interpretation = get_clinical_interpretation(risk_percent, category)
+        
+        # Add model info to response
+        model_type = "Literature-Calibrated" if use_calibrated else "Pure Data-Driven"
 
         # Return results
         return jsonify(
@@ -250,11 +278,30 @@ def calculate():
                 "category": category,
                 "color": color,
                 "interpretation": interpretation,
+                "model_type": model_type,
             }
         )
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/model/info", methods=["GET"])
+def model_info():
+    """Get information about available models."""
+    from model_loader import get_model_info
+    
+    original_info = get_model_info(use_literature_calibration=False)
+    try:
+        calibrated_info = get_model_info(use_literature_calibration=True)
+    except:
+        calibrated_info = {"exists": False}
+    
+    return jsonify({
+        "current_model": "Literature-Calibrated" if USE_LITERATURE_CALIBRATION else "Pure Data-Driven",
+        "original_model": original_info,
+        "calibrated_model": calibrated_info,
+    })
 
 
 if __name__ == "__main__":
@@ -269,8 +316,10 @@ if __name__ == "__main__":
         print("\n" + "=" * 60)
         print("DOC Risk Calculator - Starting Server")
         print("=" * 60)
-        print("Access the calculator at: http://localhost:5001")
-        print("(Port 5000 may be in use by macOS AirPlay)")
+        print(f"Model: {'Literature-Calibrated' if USE_LITERATURE_CALIBRATION else 'Pure Data-Driven (Original)'}")
+        print("Access the calculator at: http://localhost:3003")
+        print("Toggle model via: USE_LITERATURE_CALIBRATION=true python app.py")
+        print("Or send use_literature_calibration=true in POST /calculate request")
         print("Press Ctrl+C to stop the server")
         print("=" * 60 + "\n")
-        app.run(debug=True, host="0.0.0.0", port=5001)
+        app.run(debug=True, host="0.0.0.0", port=3003)
