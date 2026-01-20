@@ -642,7 +642,32 @@ class handler(BaseHTTPRequestHandler):
 
                     # Run outcome predictions for ALL patients (not just moderate/high risk)
                     # User wants to see outcomes for all risk categories
-                    X_all_patients = X_preprocessed
+                    # IMPORTANT: Outcome model expects same features as surgery risk model
+                    # Use FEATURE_NAMES to ensure feature alignment
+                    if FEATURE_NAMES is not None:
+                        # Convert to DataFrame to select only expected features
+                        X_all_patients_df = pd.DataFrame(X_preprocessed, columns=FEATURE_NAMES if hasattr(X_preprocessed, 'columns') else None)
+                        # Select only features that the model expects
+                        # If X_preprocessed is already aligned with FEATURE_NAMES, use as-is
+                        # Otherwise, ensure we only use the expected features
+                        if hasattr(X_preprocessed, 'columns'):
+                            # DataFrame: select only expected columns
+                            missing_cols = set(FEATURE_NAMES) - set(X_preprocessed.columns)
+                            if missing_cols:
+                                print(f"⚠️  Missing features for outcome model: {missing_cols}")
+                            X_all_patients = X_preprocessed[FEATURE_NAMES].values
+                        else:
+                            # Array: assume it's already in the correct order (from preprocess_data)
+                            # But verify it matches FEATURE_NAMES length
+                            if X_preprocessed.shape[1] == len(FEATURE_NAMES):
+                                X_all_patients = X_preprocessed
+                            else:
+                                print(f"⚠️  Feature count mismatch: X_preprocessed has {X_preprocessed.shape[1]} features, but FEATURE_NAMES has {len(FEATURE_NAMES)}")
+                                # Try to use as-is and let the model handle it
+                                X_all_patients = X_preprocessed
+                    else:
+                        # Fallback: use preprocessed data as-is
+                        X_all_patients = X_preprocessed
 
                     if len(X_all_patients) > 0:
                         # Predict improvement
