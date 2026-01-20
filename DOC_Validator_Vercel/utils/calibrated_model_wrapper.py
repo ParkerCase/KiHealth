@@ -27,27 +27,34 @@ class CalibratedModelWrapper:
         self.platt_scaler = platt_scaler
     
     def predict_proba(self, X):
-        """Get calibrated probabilities"""
+        """Get calibrated probabilities using Platt scaling"""
         uncalibrated = self.base_model.predict_proba(X)[:, 1]
         # Reshape to 2D array for LogisticRegression
         uncalibrated_2d = uncalibrated.reshape(-1, 1)
         
-        # Use predict_proba, handling potential version differences
+        # Use decision_function + sigmoid for version-agnostic Platt scaling
+        # This works across all scikit-learn versions and avoids multi_class issues
         try:
-            calibrated_proba = self.platt_scaler.predict_proba(uncalibrated_2d)
-            # If 2D array returned, take second column (class 1 probability)
-            if calibrated_proba.ndim == 2:
-                calibrated = calibrated_proba[:, 1] if calibrated_proba.shape[1] > 1 else calibrated_proba[:, 0]
-            else:
-                calibrated = calibrated_proba
-        except AttributeError as e:
-            # Fallback: use decision_function and sigmoid if predict_proba fails
-            if 'multi_class' in str(e) or 'predict_proba' in str(e):
-                decision = self.platt_scaler.decision_function(uncalibrated_2d)
-                # Apply sigmoid manually: 1 / (1 + exp(-decision))
-                calibrated = 1.0 / (1.0 + np.exp(-decision.flatten()))
-            else:
-                raise
+            decision = self.platt_scaler.decision_function(uncalibrated_2d)
+            # Apply sigmoid manually: P = 1 / (1 + exp(-decision))
+            # This is exactly what Platt scaling does
+            calibrated = 1.0 / (1.0 + np.exp(-decision.flatten()))
+        except AttributeError:
+            # Fallback: try predict_proba if decision_function doesn't exist
+            try:
+                calibrated_proba = self.platt_scaler.predict_proba(uncalibrated_2d)
+                if calibrated_proba.ndim == 2:
+                    calibrated = calibrated_proba[:, 1] if calibrated_proba.shape[1] > 1 else calibrated_proba[:, 0]
+                else:
+                    calibrated = calibrated_proba
+            except Exception as e:
+                # Last resort: use coefficients directly
+                # Platt scaling: P = 1 / (1 + exp(-(A*x + B)))
+                # where A = coef_[0][0], B = intercept_[0]
+                coef = self.platt_scaler.coef_[0][0] if hasattr(self.platt_scaler, 'coef_') else 1.0
+                intercept = self.platt_scaler.intercept_[0] if hasattr(self.platt_scaler, 'intercept_') else 0.0
+                linear = coef * uncalibrated + intercept
+                calibrated = 1.0 / (1.0 + np.exp(-linear))
         
         # Return in same format as sklearn (2D array with [prob_class_0, prob_class_1])
         return np.column_stack([1 - calibrated, calibrated])
