@@ -144,14 +144,25 @@ def load_models(use_literature_calibration=False):
         FEATURE_NAMES = joblib.load(features_path)
     
     # Determine which model to load
+    print(f"🔍 load_models called with use_literature_calibration={use_literature_calibration}")
     if use_literature_calibration:
         if RF_MODEL_CALIBRATED is None:
             _load_calibrated_model()
         RF_MODEL = RF_MODEL_CALIBRATED
+        model_file = "random_forest_literature_calibrated_base.pkl"
+        print(f"✓ Using Literature-Calibrated model")
+        print(f"  - Model type: {type(RF_MODEL).__name__}")
+        print(f"  - Model file: {model_file}")
+        print(f"  - Model ID: {id(RF_MODEL)}")
     else:
         if RF_MODEL_ORIGINAL is None:
             _load_original_model()
         RF_MODEL = RF_MODEL_ORIGINAL
+        model_file = "random_forest_best.pkl"
+        print(f"✓ Using Pure Data-Driven model")
+        print(f"  - Model type: {type(RF_MODEL).__name__}")
+        print(f"  - Model file: {model_file}")
+        print(f"  - Model ID: {id(RF_MODEL)}")
 
 
 def load_outcome_model():
@@ -252,13 +263,20 @@ class handler(BaseHTTPRequestHandler):
             content_type = self.headers.get("Content-Type", "")
             use_literature_calibration = False
             
+            print(f"🔍 Content-Type: {content_type}")
+            print(f"🔍 Post data length: {len(post_data)} bytes")
+            
             if "boundary=" in content_type:
                 boundary = content_type.split("boundary=")[1].encode()
                 parts = post_data.split(b"--" + boundary)
+                print(f"🔍 Found {len(parts)} parts in multipart data")
 
                 csv_data = None
                 run_outcome = False
-                for part in parts:
+                for i, part in enumerate(parts):
+                    # Log part info (first 200 chars to see structure)
+                    part_preview = part[:200].decode('utf-8', errors='ignore')
+                    print(f"🔍 Part {i} preview: {part_preview[:200]}...")
                     if b"filename=" in part and b".csv" in part:
                         # Extract CSV content
                         content_start = part.find(b"\r\n\r\n") + 4
@@ -277,13 +295,23 @@ class handler(BaseHTTPRequestHandler):
                         run_outcome = value.lower() == "true"
                     elif b'name="use_literature_calibration"' in part:
                         # Extract use_literature_calibration parameter
+                        print(f"🔍 FOUND use_literature_calibration in part {i}!")
+                        print(f"🔍 Full part content: {part.decode('utf-8', errors='ignore')[:500]}")
                         content_start = part.find(b"\r\n\r\n") + 4
+                        if content_start < 4:
+                            # Try alternative separator
+                            content_start = part.find(b"\n\n") + 2
                         value = (
                             part[content_start:]
                             .strip()
                             .decode("utf-8", errors="ignore")
                         )
-                        use_literature_calibration = value.lower() == "true"
+                        # Remove any trailing boundary markers
+                        value = value.rstrip(b'--'.decode('utf-8', errors='ignore'))
+                        print(f"🔍 Raw value extracted: '{value}' (type: {type(value)}, len: {len(value)})")
+                        use_literature_calibration = value.lower().strip() == "true"
+                        print(f"🔍 Parsed use_literature_calibration: {use_literature_calibration}")
+                        print(f"🔍 Value comparison: '{value.lower().strip()}' == 'true' -> {value.lower().strip() == 'true'}")
 
                 if not csv_data:
                     self.send_response(400)
@@ -327,9 +355,21 @@ class handler(BaseHTTPRequestHandler):
                     return
 
             # Load models on first request (with model selection)
+            print(f"🔍 ===== MODEL LOADING ======")
+            print(f"🔍 use_literature_calibration value: {use_literature_calibration} (type: {type(use_literature_calibration)})")
+            print(f"🔍 About to call load_models(use_literature_calibration={use_literature_calibration})")
             try:
                 load_models(use_literature_calibration=use_literature_calibration)
+                print(f"🔍 Models loaded successfully!")
+                print(f"🔍 RF_MODEL type: {type(RF_MODEL).__name__}")
+                print(f"🔍 RF_MODEL ID: {id(RF_MODEL)}")
+                print(f"🔍 RF_MODEL_ORIGINAL ID: {id(RF_MODEL_ORIGINAL) if RF_MODEL_ORIGINAL is not None else 'None'}")
+                print(f"🔍 RF_MODEL_CALIBRATED ID: {id(RF_MODEL_CALIBRATED) if RF_MODEL_CALIBRATED is not None else 'None'}")
+                print(f"🔍 Are they the same object? {RF_MODEL is RF_MODEL_ORIGINAL or RF_MODEL is RF_MODEL_CALIBRATED}")
             except Exception as e:
+                print(f"❌ Model loading error: {str(e)}")
+                import traceback
+                traceback.print_exc()
                 self._send_error(500, f"Model loading error: {str(e)}")
                 return
 
@@ -361,7 +401,10 @@ class handler(BaseHTTPRequestHandler):
 
             # Predict
             try:
+                print(f"🔍 Making predictions with model: {type(RF_MODEL).__name__} (ID: {id(RF_MODEL)})")
+                print(f"🔍 Model has predict_proba: {hasattr(RF_MODEL, 'predict_proba')}")
                 predictions = RF_MODEL.predict_proba(X_preprocessed)[:, 1]
+                print(f"🔍 Predictions made. First prediction: {predictions[0]:.6f} (model type: {type(RF_MODEL).__name__})")
             except Exception as e:
                 self.send_response(500)
                 self.send_header("Content-type", "application/json")
@@ -812,7 +855,16 @@ class handler(BaseHTTPRequestHandler):
                     clean_nan(outcome_predictions) if outcome_predictions else None
                 ),  # NEW
                 "model_type": "Literature-Calibrated" if use_literature_calibration else "Pure Data-Driven (Original)",
+                "model_verification": {
+                    "model_class": type(RF_MODEL).__name__,
+                    "model_id": str(id(RF_MODEL)),
+                    "is_calibrated": use_literature_calibration,
+                    "first_prediction_sample": float(predictions[0]) if len(predictions) > 0 else None,
+                }
             }
+            
+            print(f"🔍 Sending response with model_type: '{response['model_type']}' (use_literature_calibration was: {use_literature_calibration})")
+            print(f"🔍 Model verification: {response['model_verification']}")
 
             self.send_response(200)
             self.send_header("Content-type", "application/json")
