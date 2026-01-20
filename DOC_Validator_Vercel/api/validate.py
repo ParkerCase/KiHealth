@@ -643,30 +643,45 @@ class handler(BaseHTTPRequestHandler):
                     # Run outcome predictions for ALL patients (not just moderate/high risk)
                     # User wants to see outcomes for all risk categories
                     # IMPORTANT: Outcome model expects same features as surgery risk model
-                    # Use FEATURE_NAMES to ensure feature alignment
-                    if FEATURE_NAMES is not None:
-                        # Convert to DataFrame to select only expected features
-                        X_all_patients_df = pd.DataFrame(X_preprocessed, columns=FEATURE_NAMES if hasattr(X_preprocessed, 'columns') else None)
-                        # Select only features that the model expects
-                        # If X_preprocessed is already aligned with FEATURE_NAMES, use as-is
-                        # Otherwise, ensure we only use the expected features
-                        if hasattr(X_preprocessed, 'columns'):
-                            # DataFrame: select only expected columns
-                            missing_cols = set(FEATURE_NAMES) - set(X_preprocessed.columns)
-                            if missing_cols:
-                                print(f"⚠️  Missing features for outcome model: {missing_cols}")
-                            X_all_patients = X_preprocessed[FEATURE_NAMES].values
-                        else:
-                            # Array: assume it's already in the correct order (from preprocess_data)
-                            # But verify it matches FEATURE_NAMES length
-                            if X_preprocessed.shape[1] == len(FEATURE_NAMES):
-                                X_all_patients = X_preprocessed
-                            else:
-                                print(f"⚠️  Feature count mismatch: X_preprocessed has {X_preprocessed.shape[1]} features, but FEATURE_NAMES has {len(FEATURE_NAMES)}")
-                                # Try to use as-is and let the model handle it
-                                X_all_patients = X_preprocessed
+                    # But the model might have been trained with different feature_names.pkl
+                    # Get the features the outcome model actually expects
+                    if hasattr(OUTCOME_MODEL, 'feature_names_in_'):
+                        # Model has feature names (sklearn >= 0.24)
+                        outcome_feature_names = OUTCOME_MODEL.feature_names_in_
+                    elif hasattr(OUTCOME_MODEL, 'n_features_in_'):
+                        # Model knows feature count but not names - use FEATURE_NAMES
+                        outcome_feature_names = FEATURE_NAMES
                     else:
-                        # Fallback: use preprocessed data as-is
+                        # Fallback: use FEATURE_NAMES
+                        outcome_feature_names = FEATURE_NAMES
+                    
+                    # X_preprocessed is a DataFrame with columns matching FEATURE_NAMES
+                    # Select only the features the outcome model expects
+                    if isinstance(X_preprocessed, pd.DataFrame):
+                        # Check which features the model expects vs what we have
+                        model_features = set(outcome_feature_names) if outcome_feature_names else set()
+                        available_features = set(X_preprocessed.columns)
+                        
+                        # Find features in model but not in our data (shouldn't happen)
+                        missing = model_features - available_features
+                        if missing:
+                            print(f"⚠️  Missing features for outcome model: {missing}")
+                            # Add missing features as zeros
+                            for feat in missing:
+                                X_preprocessed[feat] = 0
+                        
+                        # Find features in our data but not in model (this is the problem!)
+                        extra = available_features - model_features
+                        if extra:
+                            print(f"⚠️  Extra features not in outcome model (will be removed): {extra}")
+                        
+                        # Select only features the model expects, in the correct order
+                        if outcome_feature_names:
+                            X_all_patients = X_preprocessed[outcome_feature_names].values
+                        else:
+                            X_all_patients = X_preprocessed.values
+                    else:
+                        # Array: assume it's already aligned (shouldn't happen, but handle it)
                         X_all_patients = X_preprocessed
 
                     if len(X_all_patients) > 0:
