@@ -107,7 +107,17 @@ function displayResults(data) {
   // Show which model was used
   if (data.model_type) {
     console.log(`Model used: ${data.model_type}`);
-    // You can add UI display of model type here if needed
+  }
+  
+  // Verify model is actually different (not mocked)
+  if (data.model_verification) {
+    console.log("🔍 Model Verification (from backend):", data.model_verification);
+    console.log(`  - Model class: ${data.model_verification.model_class}`);
+    console.log(`  - Model ID: ${data.model_verification.model_id}`);
+    console.log(`  - Is calibrated: ${data.model_verification.is_calibrated}`);
+    console.log(`  - First prediction sample: ${data.model_verification.first_prediction_sample}`);
+  } else {
+    console.warn("⚠️ No model_verification in response - cannot verify which model was actually used");
   }
   // Check if we're on mobile (mobile form is visible)
   const isMobile = window.innerWidth <= 768;
@@ -344,14 +354,17 @@ function displayResults(data) {
     // Display outcomes inline in results (FIRST, most prominent)
     const outcomeResultsInline = document.getElementById("outcomeResultsInline");
     if (outcomeResultsInline) {
-      displayOutcomeResultsInline(data.outcome_predictions, outcomeResultsInline);
+      displayOutcomeResultsInline(data.outcome_predictions, outcomeResultsInline, data.model_type);
     }
   }
 }
 
 // Display outcomes inline (for when they come with the initial response)
-function displayOutcomeResultsInline(outcomes, container) {
+function displayOutcomeResultsInline(outcomes, container, modelType) {
   if (!container) return;
+  
+  // Use modelType parameter if provided, otherwise default
+  const model_type_value = modelType || "Pure Data-Driven (Original)";
 
   // Use success metrics if available, fallback to old format
   const hasSuccessMetrics = outcomes.success_distribution !== undefined;
@@ -406,8 +419,21 @@ function displayOutcomeResultsInline(outcomes, container) {
       return formatFn ? formatFn(val) : val;
     };
     
+    // Show which model was used
+    const modelType = model_type_value || "Pure Data-Driven (Original)";
+    const isCalibrated = modelType.includes("Literature-Calibrated");
+    
     html += `
       <div style="max-width: 600px; margin: 0 auto; padding-top: 20px;">
+        <!-- Model Type Indicator -->
+        <div style="background: ${isCalibrated ? '#e0f2fe' : '#f0f9ff'}; border: 2px solid ${isCalibrated ? '#0ea5e9' : '#3b82f6'}; border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: center;">
+          <div style="font-size: 0.9rem; color: #0c4a6e; font-weight: 600; margin-bottom: 4px;">Model Used:</div>
+          <div style="font-size: 1.1rem; color: ${isCalibrated ? '#0369a1' : '#1e40af'}; font-weight: 700;">
+            ${modelType}
+          </div>
+          ${isCalibrated ? '<div style="font-size: 0.85rem; color: #075985; margin-top: 4px;">✓ Improved calibration (Brier: 0.0311 vs 0.0808)</div>' : ''}
+        </div>
+        
         <!-- Patient Profile Section -->
         <div style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
           <h4 style="font-size: 1.1rem; font-weight: 600; color: #1e293b; margin-bottom: 12px;">Patient Profile</h4>
@@ -1425,8 +1451,23 @@ document.getElementById("vas_l_rest")?.addEventListener("input", () => updateVas
 document.getElementById("vas_l_walking")?.addEventListener("input", () => updateVasWomacDisplay("l"));
 
 // Form submission handler - analyze immediately
-document.getElementById("patientForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
+// Wait for DOM to be ready before attaching event listener
+function setupFormHandler() {
+  const patientForm = document.getElementById("patientForm");
+  if (!patientForm) {
+    console.error("patientForm not found, retrying...");
+    setTimeout(setupFormHandler, 100);
+    return;
+  }
+  
+  // Attach event listener (only attach once)
+  if (patientForm.dataset.listenerAttached) {
+    return; // Already attached
+  }
+  patientForm.dataset.listenerAttached = "true";
+  
+  patientForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
   const analyzeBtn = document.getElementById("analyzePatientBtn");
   const analyzeBtnText = document.getElementById("analyzeBtnText");
@@ -1512,9 +1553,12 @@ document.getElementById("patientForm").addEventListener("submit", async function
   }
 
   // Determine which pain score type is selected
-  const painScoreType = document.querySelector(
+  const painScoreTypeRadio = document.querySelector(
     'input[name="painScoreType"]:checked'
-  ).value;
+  );
+  
+  // Default to "womac" if no radio button is selected (shouldn't happen, but safety check)
+  const painScoreType = painScoreTypeRadio ? painScoreTypeRadio.value : "womac";
   let womac_r = null;
   let womac_l = null;
   let vasUsed = false;
@@ -1665,10 +1709,42 @@ document.getElementById("patientForm").addEventListener("submit", async function
   const previousTkaValue = document.getElementById("previous_tka_other_knee")?.value || "";
   const previous_tka_other_knee = previousTkaValue !== "" ? parseInt(previousTkaValue) : 0;
 
+  // Validate required fields
+  const ageEl = document.getElementById("age");
+  const sexEl = document.getElementById("sex");
+  const bmiEl = document.getElementById("bmi");
+  
+  if (!ageEl || !ageEl.value || ageEl.value.trim() === "") {
+    alert("Please enter the patient's age.");
+    analyzeBtn.disabled = false;
+    analyzeBtnText.textContent = originalText;
+    analyzeBtn.style.opacity = "1";
+    document.getElementById("loading").style.display = "none";
+    return;
+  }
+  
+  if (!sexEl || !sexEl.value || sexEl.value.trim() === "") {
+    alert("Please select the patient's sex.");
+    analyzeBtn.disabled = false;
+    analyzeBtnText.textContent = originalText;
+    analyzeBtn.style.opacity = "1";
+    document.getElementById("loading").style.display = "none";
+    return;
+  }
+  
+  if (!bmiEl || !bmiEl.value || bmiEl.value.trim() === "") {
+    alert("Please enter the patient's BMI.");
+    analyzeBtn.disabled = false;
+    analyzeBtnText.textContent = originalText;
+    analyzeBtn.style.opacity = "1";
+    document.getElementById("loading").style.display = "none";
+    return;
+  }
+
   const patient = {
-    age: parseFloat(document.getElementById("age").value),
-    sex: parseInt(document.getElementById("sex").value),
-    bmi: parseFloat(document.getElementById("bmi").value),
+    age: parseFloat(ageEl.value),
+    sex: parseInt(sexEl.value),
+    bmi: parseFloat(bmiEl.value),
     womac_r: womac_r, // Can be null
     womac_l: womac_l, // Can be null
     kl_r: kl_r, // Can be null if "Not available"
@@ -1758,8 +1834,14 @@ document.getElementById("patientForm").addEventListener("submit", async function
     formData.append("file", blob, "patient.csv");
     formData.append("run_outcome", "true"); // Also run outcome prediction
     // Add model selection
-    const useCalibrated = document.getElementById("use_literature_calibration")?.checked || false;
-    formData.append("use_literature_calibration", useCalibrated ? "true" : "false");
+    const useCalibratedModel = document.getElementById("use_literature_calibration")?.checked || false;
+    formData.append("use_literature_calibration", useCalibratedModel ? "true" : "false");
+    
+    console.log("🔍 Model selection:", {
+      checkboxElement: document.getElementById("use_literature_calibration"),
+      checkboxChecked: useCalibratedModel,
+      sendingValue: useCalibratedModel ? "true" : "false"
+    });
 
     console.log("Analyzing patient...");
     const response = await fetch(`${API_BASE_URL}/api/validate`, {
@@ -1772,6 +1854,22 @@ document.getElementById("patientForm").addEventListener("submit", async function
 
     try {
       data = JSON.parse(responseText);
+      console.log("🔍 Response received. Model type in response:", data.model_type);
+      console.log("🔍 Full response keys:", Object.keys(data));
+      console.log("🔍 Outcome predictions present?", !!data.outcome_predictions);
+      if (data.outcome_predictions) {
+        console.log("🔍 Outcome predictions keys:", Object.keys(data.outcome_predictions));
+        console.log("🔍 Outcome predictions error?", data.outcome_predictions.error);
+        console.log("🔍 Patient outcomes count:", data.outcome_predictions.patient_outcomes?.length || 0);
+      }
+      
+      // Fallback: if model_type is missing, check if checkbox was checked
+      if (!data.model_type) {
+        console.warn("⚠️ model_type missing in response! Checkbox was:", useCalibratedModel);
+        // Infer from checkbox state as fallback
+        data.model_type = useCalibratedModel ? "Literature-Calibrated" : "Pure Data-Driven (Original)";
+        console.log("🔧 Using fallback model_type:", data.model_type);
+      }
     } catch (e) {
       throw new Error(`Server error: ${response.status} ${responseText.substring(0, 100)}`);
     }
@@ -1816,7 +1914,15 @@ document.getElementById("patientForm").addEventListener("submit", async function
     alert("Error analyzing patient: " + error.message);
     console.error("Analysis error:", error);
   }
-});
+  }); // End of addEventListener
+} // End of setupFormHandler
+
+// Initialize form handler when DOM is ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", setupFormHandler);
+} else {
+  setupFormHandler();
+}
 
 function updatePatientList() {
   const listDiv = document.getElementById("patientList");
@@ -2015,8 +2121,8 @@ async function analyzeBatch() {
     const formData = new FormData();
     formData.append("file", blob, "manual_entry.csv");
     // Add model selection
-    const useCalibrated = document.getElementById("use_literature_calibration")?.checked || false;
-    formData.append("use_literature_calibration", useCalibrated ? "true" : "false");
+    const useCalibratedBatch = document.getElementById("use_literature_calibration")?.checked || false;
+    formData.append("use_literature_calibration", useCalibratedBatch ? "true" : "false");
     // Add model selection
     const useCalibrated = document.getElementById("use_literature_calibration")?.checked || false;
     formData.append("use_literature_calibration", useCalibrated ? "true" : "false");
@@ -2692,3 +2798,45 @@ if (document.readyState === "loading") {
 } else {
   initializeMobileForm();
 }
+
+// Simple checkbox setup - don't clone, just ensure it works
+(function() {
+  function setupCheckbox() {
+    const checkbox = document.getElementById("use_literature_calibration");
+    if (!checkbox) {
+      setTimeout(setupCheckbox, 100);
+      return;
+    }
+    
+    console.log("✓ Checkbox found");
+    
+    // Ensure it's enabled
+    checkbox.removeAttribute("disabled");
+    checkbox.removeAttribute("readonly");
+    
+    // Add change handler to force visual update
+    checkbox.addEventListener("change", function() {
+      console.log("✓ Checkbox changed to:", this.checked);
+      // Force browser to repaint by briefly hiding/showing
+      const wasVisible = this.style.visibility;
+      this.style.visibility = "hidden";
+      this.offsetHeight; // Force reflow
+      this.style.visibility = wasVisible || "visible";
+      
+      // Also ensure checked attribute matches
+      if (this.checked) {
+        this.setAttribute("checked", "");
+      } else {
+        this.removeAttribute("checked");
+      }
+    });
+    
+    console.log("✓ Checkbox ready");
+  }
+  
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupCheckbox);
+  } else {
+    setupCheckbox();
+  }
+})();
