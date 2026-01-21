@@ -475,8 +475,8 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
             const maxAfter = Math.max(0, Math.min(96, currentWomac - improvement + 15)); // More improvement (lower score)
             
             const chartHeight = 200;
-            const chartWidth = 100; // Percentage
             const maxScore = 96;
+            const uncertaintyBandWidth = 15; // Width of uncertainty band at right side (percentage)
             
             // Calculate Y positions (inverted: higher score = higher on chart)
             const currentY = ((maxScore - currentWomac) / maxScore) * 100;
@@ -489,7 +489,7 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
               <div style="font-size: 0.95rem; font-weight: 600; color: #1e293b; margin-bottom: 20px; text-align: center;">Expected Symptom Improvement</div>
               
               <!-- Chart Container -->
-              <div style="position: relative; height: ${chartHeight}px; margin: 20px 0 40px 0;">
+              <div style="position: relative; height: ${chartHeight}px; margin: 20px 0 50px 0;">
                 <!-- Y-axis (WOMAC/VAS Score) -->
                 <div style="position: absolute; left: 0; top: 0; bottom: 40px; width: 50px; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.75rem; color: #64748b; padding-right: 8px;">
                   <div style="text-align: right;">96</div>
@@ -500,29 +500,10 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                 </div>
                 
                 <!-- Chart area -->
-                <div style="position: absolute; left: 55px; right: 0; top: 0; bottom: 40px; border-left: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1; background: #ffffff;">
-                  
-                  <!-- Uncertainty range: Red area above line (less improvement) -->
-                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;">
-                    <!-- Red area: from current to minAfter (less improvement = higher score) -->
-                    <polygon 
-                      points="0,${currentY} 100,${minY} 100,${currentY} 0,${currentY}" 
-                      fill="rgba(239, 68, 68, 0.2)" 
-                      stroke="rgba(239, 68, 68, 0.4)" 
-                      stroke-width="1"
-                      stroke-dasharray="4,2"/>
-                    
-                    <!-- Green area: from current to maxAfter (more improvement = lower score) -->
-                    <polygon 
-                      points="0,${currentY} 100,${maxY} 100,${currentY} 0,${currentY}" 
-                      fill="rgba(16, 185, 129, 0.2)" 
-                      stroke="rgba(16, 185, 129, 0.4)" 
-                      stroke-width="1"
-                      stroke-dasharray="4,2"/>
-                  </svg>
+                <div style="position: absolute; left: 55px; right: 80px; top: 0; bottom: 40px; border-left: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1; background: #ffffff;">
                   
                   <!-- Blue line: Current to Expected -->
-                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;">
+                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;">
                     <line 
                       x1="0" 
                       y1="${currentY}%" 
@@ -531,6 +512,31 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                       stroke="#3b82f6" 
                       stroke-width="3" 
                       stroke-linecap="round"/>
+                  </svg>
+                  
+                  <!-- Uncertainty range bands at RIGHT SIDE (expected outcome) -->
+                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;">
+                    <!-- Red area: above expected (less improvement = higher score) -->
+                    <rect 
+                      x="${100 - uncertaintyBandWidth}%" 
+                      y="${expectedY}%" 
+                      width="${uncertaintyBandWidth}%" 
+                      height="${minY - expectedY}%" 
+                      fill="rgba(239, 68, 68, 0.25)" 
+                      stroke="rgba(239, 68, 68, 0.5)" 
+                      stroke-width="1"
+                      stroke-dasharray="3,2"/>
+                    
+                    <!-- Green area: below expected (more improvement = lower score) -->
+                    <rect 
+                      x="${100 - uncertaintyBandWidth}%" 
+                      y="${maxY}%" 
+                      width="${uncertaintyBandWidth}%" 
+                      height="${expectedY - maxY}%" 
+                      fill="rgba(16, 185, 129, 0.25)" 
+                      stroke="rgba(16, 185, 129, 0.5)" 
+                      stroke-width="1"
+                      stroke-dasharray="3,2"/>
                   </svg>
                   
                   <!-- Current state marker (left side) -->
@@ -548,9 +554,9 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                     </div>
                   </div>
                   
-                  <!-- Expected state marker (right side) -->
+                  <!-- Expected state marker (right side, at end of line) -->
                   <div style="position: absolute; 
-                              right: 0; 
+                              right: ${uncertaintyBandWidth}%; 
                               top: ${expectedY}%; 
                               transform: translate(50%, -50%);
                               width: 0; 
@@ -562,55 +568,62 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                       Expected: ${expectedAfter.toFixed(0)}
                     </div>
                   </div>
-                  
-                  <!-- Range labels at right side -->
+                </div>
+                
+                <!-- Range labels at right side (outside chart area to avoid overlap) -->
+                <div style="position: absolute; right: 0; top: 0; bottom: 40px; width: 75px; display: flex; flex-direction: column; justify-content: space-between; padding-left: 8px;">
+                  <!-- Less improvement label (top, red) -->
                   <div style="position: absolute; 
-                              right: 0; 
                               top: ${minY}%; 
-                              transform: translate(105%, -50%);
+                              transform: translateY(-50%);
                               font-size: 0.7rem; 
                               color: #ef4444; 
                               font-weight: 600;
                               white-space: nowrap;
                               background: white;
-                              padding: 2px 4px;
-                              border-radius: 3px;">
+                              padding: 3px 6px;
+                              border-radius: 4px;
+                              border: 1px solid #ef4444;
+                              box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                     Less: ${minAfter.toFixed(0)}
                   </div>
+                  
+                  <!-- More improvement label (bottom, green) -->
                   <div style="position: absolute; 
-                              right: 0; 
                               top: ${maxY}%; 
-                              transform: translate(105%, -50%);
+                              transform: translateY(-50%);
                               font-size: 0.7rem; 
                               color: #10b981; 
                               font-weight: 600;
                               white-space: nowrap;
                               background: white;
-                              padding: 2px 4px;
-                              border-radius: 3px;">
+                              padding: 3px 6px;
+                              border-radius: 4px;
+                              border: 1px solid #10b981;
+                              box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                     More: ${maxAfter.toFixed(0)}
                   </div>
                 </div>
                 
                 <!-- X-axis labels -->
-                <div style="position: absolute; left: 55px; right: 0; bottom: -30px; display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; padding-top: 8px;">
+                <div style="position: absolute; left: 55px; right: 80px; bottom: -30px; display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; padding-top: 8px;">
                   <div style="text-align: center; font-weight: 600; color: #3b82f6;">Current State</div>
                   <div style="text-align: center; font-weight: 600; color: #10b981;">Expected After Surgery</div>
                 </div>
               </div>
               
               <!-- Legend -->
-              <div style="display: flex; justify-content: space-around; margin-top: 20px; font-size: 0.8rem; color: #64748b;">
+              <div style="display: flex; justify-content: space-around; margin-top: 20px; font-size: 0.8rem; color: #64748b; flex-wrap: wrap; gap: 12px;">
                 <div style="display: flex; align-items: center; gap: 8px;">
                   <div style="width: 16px; height: 3px; background: #3b82f6; border-radius: 2px;"></div>
                   <span>Expected improvement</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <div style="width: 16px; height: 16px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 3px;"></div>
+                  <div style="width: 16px; height: 16px; background: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; border-radius: 3px;"></div>
                   <span>Less improvement (higher score)</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px;">
-                  <div style="width: 16px; height: 16px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; border-radius: 3px;"></div>
+                  <div style="width: 16px; height: 16px; background: rgba(16, 185, 129, 0.25); border: 1px solid #10b981; border-radius: 3px;"></div>
                   <span>More improvement (lower score)</span>
                 </div>
               </div>
