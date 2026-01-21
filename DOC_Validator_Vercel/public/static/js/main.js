@@ -505,68 +505,58 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                   
                   <!-- Uncertainty bands: narrow along line, expanding after halfway -->
                   <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;">
-                    <!-- Calculate points along the line for shading -->
                     ${(() => {
                       const midpoint = 50; // 50% along x-axis
-                      const narrowWidth = 2; // Narrow band width (%)
-                      const expandWidth = uncertaintyBandWidth; // Expanded width at end (%)
+                      const narrowSpread = 1; // Narrow spread (% of total height)
+                      const fullSpread = Math.abs(lessY - moreY); // Full spread at end
                       
-                      // Points along the blue line
-                      const linePoints = [];
-                      for (let x = 0; x <= 100; x += 5) {
-                        const y = currentY + (expectedY - currentY) * (x / 100);
-                        linePoints.push({x, y});
-                      }
+                      // Generate points along the line
+                      const numPoints = 50;
+                      const redTopPoints = [];
+                      const redBottomPoints = [];
+                      const greenTopPoints = [];
+                      const greenBottomPoints = [];
                       
-                      // Calculate uncertainty spread (starts narrow, expands after midpoint)
-                      const uncertaintySpread = (x) => {
-                        if (x <= midpoint) {
-                          return narrowWidth; // Narrow along first half
+                      for (let i = 0; i <= numPoints; i++) {
+                        const xPercent = (i / numPoints) * 100;
+                        const yOnLine = currentY + (expectedY - currentY) * (i / numPoints);
+                        
+                        // Calculate spread (narrow at start, expanding after midpoint)
+                        let spreadPercent;
+                        if (xPercent <= midpoint) {
+                          spreadPercent = narrowSpread;
                         } else {
-                          // Expand from narrow to full width in second half
-                          const expandFactor = (x - midpoint) / midpoint;
-                          return narrowWidth + (expandWidth - narrowWidth) * expandFactor;
+                          const expandFactor = (xPercent - midpoint) / midpoint;
+                          spreadPercent = narrowSpread + (fullSpread - narrowSpread) * expandFactor;
                         }
-                      };
-                      
-                      // Red area (less improvement = above line, higher score)
-                      const redPath = linePoints.map((p, i) => {
-                        const spread = uncertaintySpread(p.x);
-                        const offsetY = (lessY - expectedY) * (p.x / 100); // Spread increases as we go right
-                        return `${p.x}%,${p.y - offsetY}%`;
-                      }).join(' ');
-                      
-                      const redPathBottom = linePoints.map((p, i) => {
-                        return `${p.x}%,${p.y}%`;
-                      }).reverse().join(' ');
-                      
-                      // Green area (more improvement = below line, lower score)
-                      const greenPath = linePoints.map((p, i) => {
-                        return `${p.x}%,${p.y}%`;
-                      }).join(' ');
-                      
-                      const greenPathBottom = linePoints.map((p, i) => {
-                        const spread = uncertaintySpread(p.x);
-                        const offsetY = (expectedY - moreY) * (p.x / 100); // Spread increases as we go right
-                        return `${p.x}%,${p.y + offsetY}%`;
-                      }).reverse().join(' ');
+                        
+                        // Red area (above line, less improvement = higher score)
+                        const redOffset = (lessY - expectedY) * (spreadPercent / fullSpread);
+                        redTopPoints.push(`${xPercent},${yOnLine - redOffset}`);
+                        redBottomPoints.push(`${xPercent},${yOnLine}`);
+                        
+                        // Green area (below line, more improvement = lower score)
+                        const greenOffset = (expectedY - moreY) * (spreadPercent / fullSpread);
+                        greenTopPoints.push(`${xPercent},${yOnLine}`);
+                        greenBottomPoints.push(`${xPercent},${yOnLine + greenOffset}`);
+                      }
                       
                       return `
                         <!-- Red area: above line (less improvement = higher score) -->
                         <polygon 
-                          points="${redPath} ${redPathBottom}" 
-                          fill="rgba(239, 68, 68, 0.15)" 
-                          stroke="rgba(239, 68, 68, 0.4)" 
+                          points="${redTopPoints.join(' ')} ${redBottomPoints.reverse().join(' ')}" 
+                          fill="rgba(239, 68, 68, 0.2)" 
+                          stroke="rgba(239, 68, 68, 0.5)" 
                           stroke-width="1"
-                          stroke-dasharray="3,2"/>
+                          stroke-dasharray="4,3"/>
                         
                         <!-- Green area: below line (more improvement = lower score) -->
                         <polygon 
-                          points="${greenPath} ${greenPathBottom}" 
-                          fill="rgba(16, 185, 129, 0.15)" 
-                          stroke="rgba(16, 185, 129, 0.4)" 
+                          points="${greenTopPoints.join(' ')} ${greenBottomPoints.reverse().join(' ')}" 
+                          fill="rgba(16, 185, 129, 0.2)" 
+                          stroke="rgba(16, 185, 129, 0.5)" 
                           stroke-width="1"
-                          stroke-dasharray="3,2"/>
+                          stroke-dasharray="4,3"/>
                       `;
                     })()}
                   </svg>
@@ -624,20 +614,21 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                   <div style="position: absolute; 
                               top: ${expectedY}%; 
                               transform: translateY(-50%);
-                              font-size: 0.75rem; 
+                              font-size: 0.7rem; 
                               color: #3b82f6; 
                               font-weight: 600;
-                              white-space: nowrap;
                               background: white;
-                              padding: 4px 8px;
+                              padding: 3px 8px;
                               border-radius: 4px;
                               border: 1px solid #3b82f6;
                               box-shadow: 0 1px 3px rgba(0,0,0,0.1);
                               text-align: center;
                               width: 100%;
+                              min-width: fit-content;
+                              box-sizing: border-box;
                               position: relative;">
-                    Expected: ${expectedAfter.toFixed(0)}
-                    <div style="position: absolute; left: -12px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-right: 8px solid #3b82f6; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                    <span style="white-space: nowrap;">Expected: ${expectedAfter.toFixed(0)}</span>
+                    <div style="position: absolute; left: -10px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-right: 7px solid #3b82f6; border-top: 4px solid transparent; border-bottom: 4px solid transparent;"></div>
                   </div>
                   
                   <!-- More improvement label (bottom, green) -->
@@ -697,7 +688,21 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
           <div class="metric-label" style="font-size: 1.2rem; color: #1e293b; font-weight: 600; margin-bottom: 6px;">Likelihood of Successful Outcome</div>
           <div style="font-size: 0.95rem; color: #475569; margin-top: 8px; font-weight: 500;">${patient.success_category || 'N/A'}</div>
           <div style="font-size: 0.9rem; color: #1e293b; margin-top: 12px; padding: 12px; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #10b981; line-height: 1.6;">
-            <strong>What this means:</strong> More than <strong>${Math.floor(successProb / 2)} in every 2 patients</strong> (${successProb.toFixed(0)}%) with similar characteristics achieved substantial improvement (≥30 points) after surgery. This indicates a <strong>favorable likelihood</strong> of meaningful clinical benefit.
+            <strong>What this means:</strong> ${(() => {
+              // Calculate proper "X in Y" ratio
+              if (successProb >= 50) {
+                // More than 1 in 2, or approximately 2 in 3, etc.
+                if (successProb >= 66) {
+                  return `More than <strong>2 in every 3 patients</strong> (${successProb.toFixed(0)}%)`;
+                } else {
+                  return `More than <strong>1 in every 2 patients</strong> (${successProb.toFixed(0)}%)`;
+                }
+              } else if (successProb >= 33) {
+                return `Approximately <strong>1 in every 3 patients</strong> (${successProb.toFixed(0)}%)`;
+              } else {
+                return `About <strong>1 in every ${Math.round(100 / successProb)} patients</strong> (${successProb.toFixed(0)}%)`;
+              }
+            })()} with similar characteristics achieved substantial improvement (≥30 points) after surgery. This indicates a <strong>favorable likelihood</strong> of meaningful clinical benefit.
           </div>
         </div>
       </div>
