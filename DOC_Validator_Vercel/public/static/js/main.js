@@ -504,14 +504,17 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                 <div style="position: absolute; left: 55px; right: 80px; top: 0; bottom: 40px; border-left: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1; background: #ffffff;">
                   
                   <!-- Uncertainty bands: narrow along line, expanding after halfway -->
-                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;">
+                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;" viewBox="0 0 100 100" preserveAspectRatio="none">
                     ${(() => {
                       const midpoint = 50; // 50% along x-axis
-                      const narrowSpread = 1; // Narrow spread (% of total height)
-                      const fullSpread = Math.abs(lessY - moreY); // Full spread at end
+                      const narrowSpreadPercent = 0.5; // Very narrow spread at start (% of total height)
+                      
+                      // Calculate the full spread distance (in percentage units)
+                      const redDistance = Math.abs(lessY - expectedY); // Distance from line to "less" point
+                      const greenDistance = Math.abs(expectedY - moreY); // Distance from line to "more" point
                       
                       // Generate points along the line
-                      const numPoints = 50;
+                      const numPoints = 100;
                       const redTopPoints = [];
                       const redBottomPoints = [];
                       const greenTopPoints = [];
@@ -521,42 +524,48 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                         const xPercent = (i / numPoints) * 100;
                         const yOnLine = currentY + (expectedY - currentY) * (i / numPoints);
                         
-                        // Calculate spread (narrow at start, expanding after midpoint)
-                        let spreadPercent;
+                        // Calculate expansion factor (0 at start, 1 at end, stays narrow until midpoint)
+                        let expansionFactor;
                         if (xPercent <= midpoint) {
-                          spreadPercent = narrowSpread;
+                          expansionFactor = 0; // Stay narrow for first half
                         } else {
-                          const expandFactor = (xPercent - midpoint) / midpoint;
-                          spreadPercent = narrowSpread + (fullSpread - narrowSpread) * expandFactor;
+                          // Expand from midpoint to end
+                          expansionFactor = (xPercent - midpoint) / midpoint;
                         }
                         
+                        // Calculate current spread (starts narrow, expands after midpoint)
+                        const currentRedSpread = narrowSpreadPercent + (redDistance - narrowSpreadPercent) * expansionFactor;
+                        const currentGreenSpread = narrowSpreadPercent + (greenDistance - narrowSpreadPercent) * expansionFactor;
+                        
                         // Red area (above line, less improvement = higher score)
-                        const redOffset = (lessY - expectedY) * (spreadPercent / fullSpread);
-                        redTopPoints.push(`${xPercent},${yOnLine - redOffset}`);
+                        // lessY is above expectedY (higher score = less improvement)
+                        const redOffset = currentRedSpread;
+                        redTopPoints.push(`${xPercent},${Math.max(0, yOnLine - redOffset)}`);
                         redBottomPoints.push(`${xPercent},${yOnLine}`);
                         
                         // Green area (below line, more improvement = lower score)
-                        const greenOffset = (expectedY - moreY) * (spreadPercent / fullSpread);
+                        // moreY is below expectedY (lower score = more improvement)
+                        const greenOffset = currentGreenSpread;
                         greenTopPoints.push(`${xPercent},${yOnLine}`);
-                        greenBottomPoints.push(`${xPercent},${yOnLine + greenOffset}`);
+                        greenBottomPoints.push(`${xPercent},${Math.min(100, yOnLine + greenOffset)}`);
                       }
                       
                       return `
                         <!-- Red area: above line (less improvement = higher score) -->
                         <polygon 
                           points="${redTopPoints.join(' ')} ${redBottomPoints.reverse().join(' ')}" 
-                          fill="rgba(239, 68, 68, 0.2)" 
-                          stroke="rgba(239, 68, 68, 0.5)" 
-                          stroke-width="1"
-                          stroke-dasharray="4,3"/>
+                          fill="rgba(239, 68, 68, 0.25)" 
+                          stroke="rgba(239, 68, 68, 0.6)" 
+                          stroke-width="0.3"
+                          stroke-dasharray="2,2"/>
                         
                         <!-- Green area: below line (more improvement = lower score) -->
                         <polygon 
                           points="${greenTopPoints.join(' ')} ${greenBottomPoints.reverse().join(' ')}" 
-                          fill="rgba(16, 185, 129, 0.2)" 
-                          stroke="rgba(16, 185, 129, 0.5)" 
-                          stroke-width="1"
-                          stroke-dasharray="4,3"/>
+                          fill="rgba(16, 185, 129, 0.25)" 
+                          stroke="rgba(16, 185, 129, 0.6)" 
+                          stroke-width="0.3"
+                          stroke-dasharray="2,2"/>
                       `;
                     })()}
                   </svg>
