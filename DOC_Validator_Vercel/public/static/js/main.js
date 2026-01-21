@@ -616,7 +616,7 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                               box-shadow: 0 1px 3px rgba(0,0,0,0.1);
                               text-align: center;
                               width: 100%;">
-                    Less: ${lessImprovementScore.toFixed(0)}
+                    Less: ≥${lessImprovementScore.toFixed(0)}
                   </div>
                   
                   <!-- Expected label (middle, blue, with left arrow) -->
@@ -655,7 +655,7 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                               box-shadow: 0 1px 3px rgba(0,0,0,0.1);
                               text-align: center;
                               width: 100%;">
-                    More: ${moreImprovementScore.toFixed(0)}
+                    More: ≤${moreImprovementScore.toFixed(0)}
                   </div>
                 </div>
                 
