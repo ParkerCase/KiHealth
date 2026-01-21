@@ -471,8 +471,9 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                                  worstSide === 'left' ? (mergedPatient.womac_l || 0) : 
                                  (mergedPatient.womac_r || mergedPatient.womac_l || 0);
             const expectedAfter = Math.max(0, Math.min(96, currentWomac - improvement));
-            const minAfter = Math.max(0, Math.min(96, currentWomac - improvement - 15)); // Less improvement (higher score)
-            const maxAfter = Math.max(0, Math.min(96, currentWomac - improvement + 15)); // More improvement (lower score)
+            // FIXED: Less improvement = higher score (closer to current), More improvement = lower score (further from current)
+            const lessImprovementScore = Math.max(0, Math.min(96, expectedAfter + 15)); // Less improvement = higher score = RED, TOP
+            const moreImprovementScore = Math.max(0, Math.min(96, expectedAfter - 15)); // More improvement = lower score = GREEN, BOTTOM
             
             const chartHeight = 200;
             const maxScore = 96;
@@ -481,8 +482,8 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
             // Calculate Y positions (inverted: higher score = higher on chart)
             const currentY = ((maxScore - currentWomac) / maxScore) * 100;
             const expectedY = ((maxScore - expectedAfter) / maxScore) * 100;
-            const minY = ((maxScore - minAfter) / maxScore) * 100; // Less improvement = higher score = higher Y
-            const maxY = ((maxScore - maxAfter) / maxScore) * 100; // More improvement = lower score = lower Y
+            const lessY = ((maxScore - lessImprovementScore) / maxScore) * 100; // Less improvement = higher score = higher Y = RED, TOP
+            const moreY = ((maxScore - moreImprovementScore) / maxScore) * 100; // More improvement = lower score = lower Y = GREEN, BOTTOM
             
             return `
             <div style="margin-top: 24px; padding: 24px; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0;">
@@ -502,8 +503,76 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                 <!-- Chart area -->
                 <div style="position: absolute; left: 55px; right: 80px; top: 0; bottom: 40px; border-left: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1; background: #ffffff;">
                   
-                  <!-- Blue line: Current to Expected -->
+                  <!-- Uncertainty bands: narrow along line, expanding after halfway -->
                   <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;">
+                    <!-- Calculate points along the line for shading -->
+                    ${(() => {
+                      const midpoint = 50; // 50% along x-axis
+                      const narrowWidth = 2; // Narrow band width (%)
+                      const expandWidth = uncertaintyBandWidth; // Expanded width at end (%)
+                      
+                      // Points along the blue line
+                      const linePoints = [];
+                      for (let x = 0; x <= 100; x += 5) {
+                        const y = currentY + (expectedY - currentY) * (x / 100);
+                        linePoints.push({x, y});
+                      }
+                      
+                      // Calculate uncertainty spread (starts narrow, expands after midpoint)
+                      const uncertaintySpread = (x) => {
+                        if (x <= midpoint) {
+                          return narrowWidth; // Narrow along first half
+                        } else {
+                          // Expand from narrow to full width in second half
+                          const expandFactor = (x - midpoint) / midpoint;
+                          return narrowWidth + (expandWidth - narrowWidth) * expandFactor;
+                        }
+                      };
+                      
+                      // Red area (less improvement = above line, higher score)
+                      const redPath = linePoints.map((p, i) => {
+                        const spread = uncertaintySpread(p.x);
+                        const offsetY = (lessY - expectedY) * (p.x / 100); // Spread increases as we go right
+                        return `${p.x}%,${p.y - offsetY}%`;
+                      }).join(' ');
+                      
+                      const redPathBottom = linePoints.map((p, i) => {
+                        return `${p.x}%,${p.y}%`;
+                      }).reverse().join(' ');
+                      
+                      // Green area (more improvement = below line, lower score)
+                      const greenPath = linePoints.map((p, i) => {
+                        return `${p.x}%,${p.y}%`;
+                      }).join(' ');
+                      
+                      const greenPathBottom = linePoints.map((p, i) => {
+                        const spread = uncertaintySpread(p.x);
+                        const offsetY = (expectedY - moreY) * (p.x / 100); // Spread increases as we go right
+                        return `${p.x}%,${p.y + offsetY}%`;
+                      }).reverse().join(' ');
+                      
+                      return `
+                        <!-- Red area: above line (less improvement = higher score) -->
+                        <polygon 
+                          points="${redPath} ${redPathBottom}" 
+                          fill="rgba(239, 68, 68, 0.15)" 
+                          stroke="rgba(239, 68, 68, 0.4)" 
+                          stroke-width="1"
+                          stroke-dasharray="3,2"/>
+                        
+                        <!-- Green area: below line (more improvement = lower score) -->
+                        <polygon 
+                          points="${greenPath} ${greenPathBottom}" 
+                          fill="rgba(16, 185, 129, 0.15)" 
+                          stroke="rgba(16, 185, 129, 0.4)" 
+                          stroke-width="1"
+                          stroke-dasharray="3,2"/>
+                      `;
+                    })()}
+                  </svg>
+                  
+                  <!-- Blue line: Current to Expected -->
+                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 10;">
                     <line 
                       x1="0" 
                       y1="${currentY}%" 
@@ -512,31 +581,6 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                       stroke="#3b82f6" 
                       stroke-width="3" 
                       stroke-linecap="round"/>
-                  </svg>
-                  
-                  <!-- Uncertainty range bands at RIGHT SIDE (expected outcome) -->
-                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;">
-                    <!-- Red area: above expected (less improvement = higher score) -->
-                    <rect 
-                      x="${100 - uncertaintyBandWidth}%" 
-                      y="${expectedY}%" 
-                      width="${uncertaintyBandWidth}%" 
-                      height="${minY - expectedY}%" 
-                      fill="rgba(239, 68, 68, 0.25)" 
-                      stroke="rgba(239, 68, 68, 0.5)" 
-                      stroke-width="1"
-                      stroke-dasharray="3,2"/>
-                    
-                    <!-- Green area: below expected (more improvement = lower score) -->
-                    <rect 
-                      x="${100 - uncertaintyBandWidth}%" 
-                      y="${maxY}%" 
-                      width="${uncertaintyBandWidth}%" 
-                      height="${expectedY - maxY}%" 
-                      fill="rgba(16, 185, 129, 0.25)" 
-                      stroke="rgba(16, 185, 129, 0.5)" 
-                      stroke-width="1"
-                      stroke-dasharray="3,2"/>
                   </svg>
                   
                   <!-- Current state marker (left side) -->
@@ -554,27 +598,13 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                     </div>
                   </div>
                   
-                  <!-- Expected state marker (right side, at end of line) -->
-                  <div style="position: absolute; 
-                              right: ${uncertaintyBandWidth}%; 
-                              top: ${expectedY}%; 
-                              transform: translate(50%, -50%);
-                              width: 0; 
-                              height: 0; 
-                              border-left: 10px solid transparent;
-                              border-right: 10px solid transparent;
-                              border-bottom: 14px solid #10b981;">
-                    <div style="position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.75rem; color: #10b981; font-weight: 600; background: white; padding: 2px 6px; border-radius: 4px; border: 1px solid #10b981;">
-                      Expected: ${expectedAfter.toFixed(0)}
-                    </div>
-                  </div>
                 </div>
                 
-                <!-- Range labels at right side (outside chart area to avoid overlap) -->
-                <div style="position: absolute; right: 0; top: 0; bottom: 40px; width: 75px; display: flex; flex-direction: column; justify-content: space-between; padding-left: 8px;">
+                <!-- Labels at right side (outside chart area, vertically stacked) -->
+                <div style="position: absolute; right: 0; top: 0; bottom: 40px; width: 75px; padding-left: 8px;">
                   <!-- Less improvement label (top, red) -->
                   <div style="position: absolute; 
-                              top: ${minY}%; 
+                              top: ${lessY}%; 
                               transform: translateY(-50%);
                               font-size: 0.7rem; 
                               color: #ef4444; 
@@ -584,13 +614,35 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                               padding: 3px 6px;
                               border-radius: 4px;
                               border: 1px solid #ef4444;
-                              box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                    Less: ${minAfter.toFixed(0)}
+                              box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                              text-align: center;
+                              width: 100%;">
+                    Less: ${lessImprovementScore.toFixed(0)}
+                  </div>
+                  
+                  <!-- Expected label (middle, blue, with left arrow) -->
+                  <div style="position: absolute; 
+                              top: ${expectedY}%; 
+                              transform: translateY(-50%);
+                              font-size: 0.75rem; 
+                              color: #3b82f6; 
+                              font-weight: 600;
+                              white-space: nowrap;
+                              background: white;
+                              padding: 4px 8px;
+                              border-radius: 4px;
+                              border: 1px solid #3b82f6;
+                              box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                              text-align: center;
+                              width: 100%;
+                              position: relative;">
+                    Expected: ${expectedAfter.toFixed(0)}
+                    <div style="position: absolute; left: -12px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-right: 8px solid #3b82f6; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
                   </div>
                   
                   <!-- More improvement label (bottom, green) -->
                   <div style="position: absolute; 
-                              top: ${maxY}%; 
+                              top: ${moreY}%; 
                               transform: translateY(-50%);
                               font-size: 0.7rem; 
                               color: #10b981; 
@@ -600,8 +652,10 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
                               padding: 3px 6px;
                               border-radius: 4px;
                               border: 1px solid #10b981;
-                              box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                    More: ${maxAfter.toFixed(0)}
+                              box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                              text-align: center;
+                              width: 100%;">
+                    More: ${moreImprovementScore.toFixed(0)}
                   </div>
                 </div>
                 
@@ -629,7 +683,7 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
               </div>
               
               <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #64748b; text-align: center;">
-                <strong>Uncertainty range:</strong> ±15 points (${minAfter.toFixed(0)} to ${maxAfter.toFixed(0)} points after surgery)
+                <strong>Uncertainty range:</strong> ±15 points (${moreImprovementScore.toFixed(0)} to ${lessImprovementScore.toFixed(0)} points after surgery)
               </div>
             </div>
             `;
