@@ -209,10 +209,15 @@ function displayResults(data) {
   html += '<h3 style="font-size: 1.5rem; font-weight: 600; color: #475569; margin-bottom: 20px;">Surgery Risk Assessment</h3>';
   if (isSinglePatient) {
     // Single patient: Show risk smaller and less prominent
-    html += `<div class="stat-card" style="grid-column: 1 / -1; max-width: 350px; margin: 0 auto; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; background: #f8fafc; box-shadow: 0 2px 8px rgba(0,0,0,0.05);" title="Probability of needing TKR within 4 years">
+    html += `<div class="stat-card" style="grid-column: 1 / -1; max-width: 400px; margin: 0 auto; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; background: #f8fafc; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
         <div class="stat-value" style="font-size: 2.5rem; color: #64748b; font-weight: 600;">${data.summary.avg_risk.toFixed(1)}%</div>
-        <div class="stat-label" style="font-size: 1rem; margin-top: 10px; color: #475569; font-weight: 600;">Surgery Risk</div>
-        <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px;">Probability of needing TKR within 4 years</div>
+        <div class="stat-label" style="font-size: 1rem; margin-top: 10px; color: #475569; font-weight: 600;">Probability of Needing Surgery</div>
+        <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px; line-height: 1.5;">
+          <strong>What this means:</strong> This patient has a ${data.summary.avg_risk.toFixed(1)}% probability of requiring total knee replacement (TKR) within the next 4 years based on current symptoms and risk factors.
+        </div>
+        <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-style: italic;">
+          <strong>Note:</strong> This is different from "Success Probability" above. Surgery Risk predicts <em>whether</em> surgery will be needed, while Success Probability predicts <em>how well</em> the patient will do if surgery is performed.
+        </div>
     </div>`;
   } else {
     // Multiple patients: Show batch stats
@@ -451,28 +456,123 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
           </div>
         </div>
         
+        <!-- Expected Improvement with Visual Chart -->
         <div class="metric-card outcome-card highlight-card" style="border: 3px solid #3b82f6; margin-bottom: 24px; background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%); padding: 32px; border-radius: 16px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);">
           <div class="metric-value" style="font-size: 4rem; color: #1e40af; margin-bottom: 12px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">${improvement.toFixed(1)}</div>
           <div class="metric-label" style="font-size: 1.3rem; margin-bottom: 10px; color: #1e293b; font-weight: 600;">Expected Improvement (points)</div>
-          <div style="font-size: 1rem; color: #475569; font-weight: 500; margin-bottom: 4px;">WOMAC/Function/Pain improvement</div>
-          <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px; font-style: italic;">±15 points typical uncertainty</div>
-          ${improvement >= 30 
-            ? `<div style="margin-top: 16px; padding: 14px; background: #d1fae5; border-radius: 10px; color: #065f46; font-weight: 700; border: 2px solid #10b981; font-size: 1rem;">
-                ✓ Meets success threshold (≥30 points)
-              </div>`
-            : `<div style="margin-top: 16px; padding: 14px; background: #fee2e2; border-radius: 10px; color: #991b1b; font-weight: 700; border: 2px solid #ef4444; font-size: 1rem;">
-                Below threshold (needs ${(30 - improvement).toFixed(1)} more points)
-              </div>`}
+          <div style="font-size: 1rem; color: #475569; font-weight: 500; margin-bottom: 16px;">WOMAC/Function/Pain improvement</div>
+          
+          <!-- Visual Improvement Chart -->
+          ${(() => {
+            const currentWomac = mergedPatient.womac_r || mergedPatient.womac_l || 0;
+            const expectedAfter = Math.max(0, Math.min(96, currentWomac - improvement));
+            const minAfter = Math.max(0, Math.min(96, currentWomac - improvement - 15));
+            const maxAfter = Math.max(0, Math.min(96, currentWomac - improvement + 15));
+            const chartHeight = 120;
+            const scale = 96; // Max WOMAC score
+            
+            return `
+            <div style="margin-top: 24px; padding: 20px; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0;">
+              <div style="font-size: 0.9rem; font-weight: 600; color: #1e293b; margin-bottom: 16px; text-align: center;">Expected Symptom Improvement Range</div>
+              
+              <!-- Chart Container -->
+              <div style="position: relative; height: ${chartHeight}px; margin: 20px 0;">
+                <!-- Y-axis labels -->
+                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 40px; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.75rem; color: #64748b;">
+                  <span>96</span>
+                  <span>48</span>
+                  <span>0</span>
+                </div>
+                
+                <!-- Chart area -->
+                <div style="position: absolute; left: 45px; right: 0; top: 0; bottom: 0; border-left: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1;">
+                  <!-- Uncertainty range (light green for better, dark pink for worse) -->
+                  <div style="position: absolute; 
+                              left: ${(minAfter / scale) * 100}%; 
+                              width: ${((maxAfter - minAfter) / scale) * 100}%; 
+                              top: 0; 
+                              bottom: 0; 
+                              background: linear-gradient(to bottom, 
+                                rgba(239, 68, 68, 0.15) 0%, 
+                                rgba(239, 68, 68, 0.1) 30%,
+                                rgba(16, 185, 129, 0.1) 70%,
+                                rgba(16, 185, 129, 0.2) 100%
+                              );
+                              border-left: 2px dashed #ef4444;
+                              border-right: 2px dashed #10b981;
+                              opacity: 0.6;"></div>
+                  
+                  <!-- Current state marker -->
+                  <div style="position: absolute; 
+                              left: ${(currentWomac / scale) * 100}%; 
+                              top: 10px; 
+                              width: 0; 
+                              height: 0; 
+                              border-left: 8px solid transparent;
+                              border-right: 8px solid transparent;
+                              border-top: 12px solid #3b82f6;
+                              transform: translateX(-50%);">
+                    <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.7rem; color: #3b82f6; font-weight: 600;">Current: ${currentWomac.toFixed(0)}</div>
+                  </div>
+                  
+                  <!-- Expected improvement arrow -->
+                  <div style="position: absolute; 
+                              left: ${(currentWomac / scale) * 100}%; 
+                              top: 30px; 
+                              width: ${((currentWomac - expectedAfter) / scale) * 100}%; 
+                              height: 3px; 
+                              background: #3b82f6; 
+                              transform-origin: left center;">
+                    <div style="position: absolute; right: -8px; top: -4px; width: 0; height: 0; border-left: 8px solid #3b82f6; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                  </div>
+                  
+                  <!-- Expected state marker -->
+                  <div style="position: absolute; 
+                              left: ${(expectedAfter / scale) * 100}%; 
+                              bottom: 10px; 
+                              width: 0; 
+                              height: 0; 
+                              border-left: 8px solid transparent;
+                              border-right: 8px solid transparent;
+                              border-bottom: 12px solid #10b981;
+                              transform: translateX(-50%);">
+                    <div style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.7rem; color: #10b981; font-weight: 600;">Expected: ${expectedAfter.toFixed(0)}</div>
+                  </div>
+                  
+                  <!-- Range labels -->
+                  <div style="position: absolute; left: ${(minAfter / scale) * 100}%; bottom: -20px; transform: translateX(-50%); font-size: 0.65rem; color: #ef4444; font-weight: 600;">Min: ${minAfter.toFixed(0)}</div>
+                  <div style="position: absolute; right: ${((scale - maxAfter) / scale) * 100}%; bottom: -20px; transform: translateX(50%); font-size: 0.65rem; color: #10b981; font-weight: 600;">Max: ${maxAfter.toFixed(0)}</div>
+                </div>
+              </div>
+              
+              <!-- Legend -->
+              <div style="display: flex; justify-content: space-around; margin-top: 12px; font-size: 0.75rem; color: #64748b;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <div style="width: 12px; height: 12px; background: rgba(239, 68, 68, 0.3); border: 1px solid #ef4444;"></div>
+                  <span>Less improvement</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <div style="width: 12px; height: 12px; background: rgba(16, 185, 129, 0.3); border: 1px solid #10b981;"></div>
+                  <span>More improvement</span>
+                </div>
+              </div>
+              
+              <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #64748b; text-align: center;">
+                <strong>Uncertainty range:</strong> ±15 points (${minAfter.toFixed(0)} to ${maxAfter.toFixed(0)} points after surgery)
+              </div>
+            </div>
+            `;
+          })()}
         </div>
         
         <div class="metric-card outcome-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%); padding: 28px; border-radius: 16px; border: 2px solid #fde68a; box-shadow: 0 4px 12px rgba(234, 179, 8, 0.15);">
           <div class="metric-value" style="font-size: 3rem; color: ${(patient.success_category && (patient.success_category.includes('Excellent') || patient.success_category.includes('Successful'))) ? '#1e40af' : (patient.success_category && patient.success_category.includes('Moderate')) ? '#b45309' : '#c2410c'}; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 8px;">
             ${successProb.toFixed(1)}%
           </div>
-          <div class="metric-label" style="font-size: 1.2rem; color: #1e293b; font-weight: 600; margin-bottom: 6px;">Success Probability</div>
+          <div class="metric-label" style="font-size: 1.2rem; color: #1e293b; font-weight: 600; margin-bottom: 6px;">Likelihood of Successful Outcome</div>
           <div style="font-size: 0.95rem; color: #475569; margin-top: 8px; font-weight: 500;">${patient.success_category || 'N/A'}</div>
-          <div style="font-size: 0.85rem; color: #64748b; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; line-height: 1.5;">
-            <strong>What this means:</strong> Based on similar patients in our training data, ${successProb.toFixed(0)}% achieved a successful outcome (≥30 points improvement in symptoms and function). This probability reflects the likelihood of substantial clinical improvement following surgery.
+          <div style="font-size: 0.9rem; color: #1e293b; margin-top: 12px; padding: 12px; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #10b981; line-height: 1.6;">
+            <strong>What this means:</strong> More than <strong>${Math.floor(successProb / 2)} in every 2 patients</strong> (${successProb.toFixed(0)}%) with similar characteristics achieved substantial improvement (≥30 points) after surgery. This indicates a <strong>favorable likelihood</strong> of meaningful clinical benefit.
           </div>
         </div>
       </div>
@@ -517,7 +617,10 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
           Categories are based on validated clinical outcome measures.
         </p>
         <p class="legend-note" style="margin-top: 8px; font-size: 0.9em; color: #475569; font-weight: 500;">
-          <strong>Note:</strong> These predictions are based on 379 OAI surgical patients. Model explains 41% of variance (R²=0.41) with ±15 point typical uncertainty. Should be validated against Bergman Clinics' surgical outcomes before clinical use.
+          <strong>Prediction Accuracy:</strong> These predictions are based on 379 OAI surgical patients. Model explains 41% of variance (R²=0.41) with ±15 point typical uncertainty. Should be validated against Bergman Clinics' surgical outcomes before clinical use.
+        </p>
+        <p class="legend-note" style="margin-top: 8px; font-size: 0.85em; color: #64748b; font-style: italic;">
+          <strong>Uncertainty Range:</strong> The ±15 point uncertainty reflects the natural variability in surgical outcomes. Improving this to ±10 points would require additional training data (ideally 500+ patients with outcomes) while maintaining PROBAST compliance. Current uncertainty is appropriate for the available sample size.
         </p>
       </div>
     </div>
