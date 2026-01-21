@@ -646,23 +646,39 @@ class handler(BaseHTTPRequestHandler):
                     # But the model might have been trained with different feature_names.pkl
                     # Get the features the outcome model actually expects
                     outcome_feature_names = None
-                    if hasattr(OUTCOME_MODEL, 'feature_names_in_'):
-                        # Model has feature names (sklearn >= 0.24)
-                        outcome_feature_names = list(OUTCOME_MODEL.feature_names_in_)
-                        print(f"🔍 Outcome model expects {len(outcome_feature_names)} features from feature_names_in_")
-                    elif hasattr(OUTCOME_MODEL, 'n_features_in_'):
-                        # Model knows feature count but not names - use FEATURE_NAMES
+                    try:
+                        if hasattr(OUTCOME_MODEL, 'feature_names_in_'):
+                            # Model has feature names (sklearn >= 0.24)
+                            outcome_feature_names = list(OUTCOME_MODEL.feature_names_in_)
+                            print(f"🔍 Outcome model expects {len(outcome_feature_names)} features from feature_names_in_")
+                        elif hasattr(OUTCOME_MODEL, 'n_features_in_'):
+                            # Model knows feature count but not names - use FEATURE_NAMES
+                            if FEATURE_NAMES is not None:
+                                # Ensure FEATURE_NAMES is a list (might be numpy array)
+                                feature_names_list = list(FEATURE_NAMES) if not isinstance(FEATURE_NAMES, list) else FEATURE_NAMES
+                                # Use first n_features_in_ features from FEATURE_NAMES
+                                n_features = OUTCOME_MODEL.n_features_in_
+                                if len(feature_names_list) >= n_features:
+                                    outcome_feature_names = feature_names_list[:n_features]
+                                else:
+                                    outcome_feature_names = feature_names_list
+                                print(f"🔍 Outcome model expects {n_features} features, using first {len(outcome_feature_names)} from FEATURE_NAMES")
+                            else:
+                                outcome_feature_names = None
+                        else:
+                            # Fallback: use FEATURE_NAMES
+                            if FEATURE_NAMES is not None:
+                                outcome_feature_names = list(FEATURE_NAMES) if not isinstance(FEATURE_NAMES, list) else FEATURE_NAMES
+                                print(f"🔍 Using FEATURE_NAMES as fallback: {len(outcome_feature_names)} features")
+                            else:
+                                outcome_feature_names = None
+                    except Exception as e:
+                        print(f"⚠️  Error determining outcome model features: {e}")
+                        # Last resort: try to use FEATURE_NAMES
                         if FEATURE_NAMES is not None:
-                            # Use first n_features_in_ features from FEATURE_NAMES
-                            n_features = OUTCOME_MODEL.n_features_in_
-                            outcome_feature_names = list(FEATURE_NAMES[:n_features]) if len(FEATURE_NAMES) >= n_features else list(FEATURE_NAMES)
-                            print(f"🔍 Outcome model expects {n_features} features, using first {len(outcome_feature_names)} from FEATURE_NAMES")
+                            outcome_feature_names = list(FEATURE_NAMES) if not isinstance(FEATURE_NAMES, list) else FEATURE_NAMES
                         else:
                             outcome_feature_names = None
-                    else:
-                        # Fallback: use FEATURE_NAMES
-                        outcome_feature_names = list(FEATURE_NAMES) if FEATURE_NAMES is not None else None
-                        print(f"🔍 Using FEATURE_NAMES as fallback: {len(outcome_feature_names) if outcome_feature_names else 0} features")
                     
                     # X_preprocessed is a DataFrame with columns matching FEATURE_NAMES
                     # Select only the features the outcome model expects
