@@ -462,102 +462,160 @@ function displayOutcomeResultsInline(outcomes, container, modelType) {
           <div class="metric-label" style="font-size: 1.3rem; margin-bottom: 10px; color: #1e293b; font-weight: 600;">Expected Improvement (points)</div>
           <div style="font-size: 1rem; color: #475569; font-weight: 500; margin-bottom: 16px;">WOMAC/Function/Pain improvement</div>
           
-          <!-- Visual Improvement Chart -->
+          <!-- Visual Improvement Chart - Horizontal Line Style -->
           ${(() => {
-            const currentWomac = mergedPatient.womac_r || mergedPatient.womac_l || 0;
+            // Use worst side (primary complaint) WOMAC score for the chart
+            // This matches the improvement prediction which is based on the worst side
+            const worstSide = calculateWorstSide(mergedPatient);
+            const currentWomac = worstSide === 'right' ? (mergedPatient.womac_r || 0) : 
+                                 worstSide === 'left' ? (mergedPatient.womac_l || 0) : 
+                                 (mergedPatient.womac_r || mergedPatient.womac_l || 0);
             const expectedAfter = Math.max(0, Math.min(96, currentWomac - improvement));
-            const minAfter = Math.max(0, Math.min(96, currentWomac - improvement - 15));
-            const maxAfter = Math.max(0, Math.min(96, currentWomac - improvement + 15));
-            const chartHeight = 120;
-            const scale = 96; // Max WOMAC score
+            const minAfter = Math.max(0, Math.min(96, currentWomac - improvement - 15)); // Less improvement (higher score)
+            const maxAfter = Math.max(0, Math.min(96, currentWomac - improvement + 15)); // More improvement (lower score)
+            
+            const chartHeight = 200;
+            const chartWidth = 100; // Percentage
+            const maxScore = 96;
+            
+            // Calculate Y positions (inverted: higher score = higher on chart)
+            const currentY = ((maxScore - currentWomac) / maxScore) * 100;
+            const expectedY = ((maxScore - expectedAfter) / maxScore) * 100;
+            const minY = ((maxScore - minAfter) / maxScore) * 100; // Less improvement = higher score = higher Y
+            const maxY = ((maxScore - maxAfter) / maxScore) * 100; // More improvement = lower score = lower Y
             
             return `
-            <div style="margin-top: 24px; padding: 20px; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0;">
-              <div style="font-size: 0.9rem; font-weight: 600; color: #1e293b; margin-bottom: 16px; text-align: center;">Expected Symptom Improvement Range</div>
+            <div style="margin-top: 24px; padding: 24px; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0;">
+              <div style="font-size: 0.95rem; font-weight: 600; color: #1e293b; margin-bottom: 20px; text-align: center;">Expected Symptom Improvement</div>
               
               <!-- Chart Container -->
-              <div style="position: relative; height: ${chartHeight}px; margin: 20px 0;">
-                <!-- Y-axis labels -->
-                <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 40px; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.75rem; color: #64748b;">
-                  <span>96</span>
-                  <span>48</span>
-                  <span>0</span>
+              <div style="position: relative; height: ${chartHeight}px; margin: 20px 0 40px 0;">
+                <!-- Y-axis (WOMAC/VAS Score) -->
+                <div style="position: absolute; left: 0; top: 0; bottom: 40px; width: 50px; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.75rem; color: #64748b; padding-right: 8px;">
+                  <div style="text-align: right;">96</div>
+                  <div style="text-align: right;">72</div>
+                  <div style="text-align: right;">48</div>
+                  <div style="text-align: right;">24</div>
+                  <div style="text-align: right;">0</div>
                 </div>
                 
                 <!-- Chart area -->
-                <div style="position: absolute; left: 45px; right: 0; top: 0; bottom: 0; border-left: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1;">
-                  <!-- Uncertainty range (light green for better, dark pink for worse) -->
-                  <div style="position: absolute; 
-                              left: ${(minAfter / scale) * 100}%; 
-                              width: ${((maxAfter - minAfter) / scale) * 100}%; 
-                              top: 0; 
-                              bottom: 0; 
-                              background: linear-gradient(to bottom, 
-                                rgba(239, 68, 68, 0.15) 0%, 
-                                rgba(239, 68, 68, 0.1) 30%,
-                                rgba(16, 185, 129, 0.1) 70%,
-                                rgba(16, 185, 129, 0.2) 100%
-                              );
-                              border-left: 2px dashed #ef4444;
-                              border-right: 2px dashed #10b981;
-                              opacity: 0.6;"></div>
+                <div style="position: absolute; left: 55px; right: 0; top: 0; bottom: 40px; border-left: 2px solid #cbd5e1; border-bottom: 2px solid #cbd5e1; background: #ffffff;">
                   
-                  <!-- Current state marker -->
+                  <!-- Uncertainty range: Red area above line (less improvement) -->
+                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;">
+                    <!-- Red area: from current to minAfter (less improvement = higher score) -->
+                    <polygon 
+                      points="0,${currentY} 100,${minY} 100,${currentY} 0,${currentY}" 
+                      fill="rgba(239, 68, 68, 0.2)" 
+                      stroke="rgba(239, 68, 68, 0.4)" 
+                      stroke-width="1"
+                      stroke-dasharray="4,2"/>
+                    
+                    <!-- Green area: from current to maxAfter (more improvement = lower score) -->
+                    <polygon 
+                      points="0,${currentY} 100,${maxY} 100,${currentY} 0,${currentY}" 
+                      fill="rgba(16, 185, 129, 0.2)" 
+                      stroke="rgba(16, 185, 129, 0.4)" 
+                      stroke-width="1"
+                      stroke-dasharray="4,2"/>
+                  </svg>
+                  
+                  <!-- Blue line: Current to Expected -->
+                  <svg style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;">
+                    <line 
+                      x1="0" 
+                      y1="${currentY}%" 
+                      x2="100%" 
+                      y2="${expectedY}%" 
+                      stroke="#3b82f6" 
+                      stroke-width="3" 
+                      stroke-linecap="round"/>
+                  </svg>
+                  
+                  <!-- Current state marker (left side) -->
                   <div style="position: absolute; 
-                              left: ${(currentWomac / scale) * 100}%; 
-                              top: 10px; 
+                              left: 0; 
+                              top: ${currentY}%; 
+                              transform: translate(-50%, -50%);
                               width: 0; 
                               height: 0; 
-                              border-left: 8px solid transparent;
-                              border-right: 8px solid transparent;
-                              border-top: 12px solid #3b82f6;
-                              transform: translateX(-50%);">
-                    <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.7rem; color: #3b82f6; font-weight: 600;">Current: ${currentWomac.toFixed(0)}</div>
+                              border-left: 10px solid transparent;
+                              border-right: 10px solid transparent;
+                              border-top: 14px solid #3b82f6;">
+                    <div style="position: absolute; top: -35px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.75rem; color: #3b82f6; font-weight: 600; background: white; padding: 2px 6px; border-radius: 4px; border: 1px solid #3b82f6;">
+                      Current: ${currentWomac.toFixed(0)}
+                    </div>
                   </div>
                   
-                  <!-- Expected improvement arrow -->
+                  <!-- Expected state marker (right side) -->
                   <div style="position: absolute; 
-                              left: ${(currentWomac / scale) * 100}%; 
-                              top: 30px; 
-                              width: ${((currentWomac - expectedAfter) / scale) * 100}%; 
-                              height: 3px; 
-                              background: #3b82f6; 
-                              transform-origin: left center;">
-                    <div style="position: absolute; right: -8px; top: -4px; width: 0; height: 0; border-left: 8px solid #3b82f6; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
-                  </div>
-                  
-                  <!-- Expected state marker -->
-                  <div style="position: absolute; 
-                              left: ${(expectedAfter / scale) * 100}%; 
-                              bottom: 10px; 
+                              right: 0; 
+                              top: ${expectedY}%; 
+                              transform: translate(50%, -50%);
                               width: 0; 
                               height: 0; 
-                              border-left: 8px solid transparent;
-                              border-right: 8px solid transparent;
-                              border-bottom: 12px solid #10b981;
-                              transform: translateX(-50%);">
-                    <div style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.7rem; color: #10b981; font-weight: 600;">Expected: ${expectedAfter.toFixed(0)}</div>
+                              border-left: 10px solid transparent;
+                              border-right: 10px solid transparent;
+                              border-bottom: 14px solid #10b981;">
+                    <div style="position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.75rem; color: #10b981; font-weight: 600; background: white; padding: 2px 6px; border-radius: 4px; border: 1px solid #10b981;">
+                      Expected: ${expectedAfter.toFixed(0)}
+                    </div>
                   </div>
                   
-                  <!-- Range labels -->
-                  <div style="position: absolute; left: ${(minAfter / scale) * 100}%; bottom: -20px; transform: translateX(-50%); font-size: 0.65rem; color: #ef4444; font-weight: 600;">Min: ${minAfter.toFixed(0)}</div>
-                  <div style="position: absolute; right: ${((scale - maxAfter) / scale) * 100}%; bottom: -20px; transform: translateX(50%); font-size: 0.65rem; color: #10b981; font-weight: 600;">Max: ${maxAfter.toFixed(0)}</div>
+                  <!-- Range labels at right side -->
+                  <div style="position: absolute; 
+                              right: 0; 
+                              top: ${minY}%; 
+                              transform: translate(105%, -50%);
+                              font-size: 0.7rem; 
+                              color: #ef4444; 
+                              font-weight: 600;
+                              white-space: nowrap;
+                              background: white;
+                              padding: 2px 4px;
+                              border-radius: 3px;">
+                    Less: ${minAfter.toFixed(0)}
+                  </div>
+                  <div style="position: absolute; 
+                              right: 0; 
+                              top: ${maxY}%; 
+                              transform: translate(105%, -50%);
+                              font-size: 0.7rem; 
+                              color: #10b981; 
+                              font-weight: 600;
+                              white-space: nowrap;
+                              background: white;
+                              padding: 2px 4px;
+                              border-radius: 3px;">
+                    More: ${maxAfter.toFixed(0)}
+                  </div>
+                </div>
+                
+                <!-- X-axis labels -->
+                <div style="position: absolute; left: 55px; right: 0; bottom: -30px; display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748b; padding-top: 8px;">
+                  <div style="text-align: center; font-weight: 600; color: #3b82f6;">Current State</div>
+                  <div style="text-align: center; font-weight: 600; color: #10b981;">Expected After Surgery</div>
                 </div>
               </div>
               
               <!-- Legend -->
-              <div style="display: flex; justify-content: space-around; margin-top: 12px; font-size: 0.75rem; color: #64748b;">
-                <div style="display: flex; align-items: center; gap: 6px;">
-                  <div style="width: 12px; height: 12px; background: rgba(239, 68, 68, 0.3); border: 1px solid #ef4444;"></div>
-                  <span>Less improvement</span>
+              <div style="display: flex; justify-content: space-around; margin-top: 20px; font-size: 0.8rem; color: #64748b;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="width: 16px; height: 3px; background: #3b82f6; border-radius: 2px;"></div>
+                  <span>Expected improvement</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 6px;">
-                  <div style="width: 12px; height: 12px; background: rgba(16, 185, 129, 0.3); border: 1px solid #10b981;"></div>
-                  <span>More improvement</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="width: 16px; height: 16px; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 3px;"></div>
+                  <span>Less improvement (higher score)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="width: 16px; height: 16px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; border-radius: 3px;"></div>
+                  <span>More improvement (lower score)</span>
                 </div>
               </div>
               
-              <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #64748b; text-align: center;">
+              <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 0.8rem; color: #64748b; text-align: center;">
                 <strong>Uncertainty range:</strong> ±15 points (${minAfter.toFixed(0)} to ${maxAfter.toFixed(0)} points after surgery)
               </div>
             </div>
