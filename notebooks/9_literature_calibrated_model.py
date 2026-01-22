@@ -208,8 +208,9 @@ if 'top_articles' in locals() and len(top_articles) > 0:
     
     # Calculate adjustment factors based on literature quality
     # Quality score of 0.5 = no adjustment, 1.0 = maximum adjustment
-    # Adjustment multiplier increased from 0.1 to 0.4 for more visible impact
-    adjustment_multiplier = 0.4  # Increased from 0.1 for more meaningful impact
+    # Adjustment multiplier: 0.15 provides visible but conservative impact
+    # Too high (0.4) causes excessive calibration shifts (40+ points)
+    adjustment_multiplier = 0.15  # Conservative: visible impact without excessive shifts
     
     # Intercept adjustment: Shifts the calibration curve
     # Higher quality literature = more confident shift
