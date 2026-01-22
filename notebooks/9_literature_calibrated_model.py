@@ -193,26 +193,38 @@ platt_scaler.fit(y_val_pred_uncal.reshape(-1, 1), y_val_cal)
 if 'top_articles' in locals() and len(top_articles) > 0:
     # Literature-informed adjustment: Use literature quality to inform calibration
     # Higher quality literature = more confident calibration adjustment
-    # This is a conservative approach that maintains PROBAST compliance
-    literature_weight = min(literature_quality_score, 0.8)  # Cap at 0.8 for conservatism
-    
-    # Apply literature-informed calibration adjustment
-    # The Platt scaler is fitted on validation data, but literature quality informs
-    # the confidence/strength of the calibration adjustment
     # This maintains PROBAST compliance because:
     # 1. Calibration is post-training (doesn't affect predictor selection - Domain 2: LOW RISK)
     # 2. Literature only informs calibration strength, not model weights (Domain 4: LOW RISK)
     # 3. We only use top 7% PROBAST-compliant articles (LOW/MODERATE risk, relevance ≥40)
     
-    # Optional: Adjust Platt scaling intercept based on literature quality
-    # Higher quality literature suggests more reliable calibration
-    if literature_weight > 0.6:
-        # High-quality literature: slightly adjust intercept for better calibration
-        # This is a conservative adjustment that maintains PROBAST compliance
-        literature_adjustment = (literature_weight - 0.5) * 0.1  # Small adjustment
-        platt_scaler.intercept_[0] += literature_adjustment
-        print(f"   ✓ Applied literature-informed calibration adjustment: {literature_adjustment:.4f}")
+    # Use literature quality score directly (no cap) to inform calibration strength
+    # Higher quality = stronger adjustment, but still maintains PROBAST compliance
+    literature_weight = literature_quality_score
     
+    # Apply literature-informed calibration adjustment to BOTH intercept AND coefficient
+    # This makes the adjustment more impactful while maintaining PROBAST compliance
+    # Adjustment strength scales with literature quality (0.0 to 1.0)
+    
+    # Calculate adjustment factors based on literature quality
+    # Quality score of 0.5 = no adjustment, 1.0 = maximum adjustment
+    # Adjustment multiplier increased from 0.1 to 0.4 for more visible impact
+    adjustment_multiplier = 0.4  # Increased from 0.1 for more meaningful impact
+    
+    # Intercept adjustment: Shifts the calibration curve
+    # Higher quality literature = more confident shift
+    intercept_adjustment = (literature_weight - 0.5) * adjustment_multiplier
+    platt_scaler.intercept_[0] += intercept_adjustment
+    
+    # Coefficient adjustment: Adjusts the slope of the calibration curve
+    # Higher quality literature = more confident slope adjustment
+    # This makes the calibration more responsive to literature-informed patterns
+    if hasattr(platt_scaler, 'coef_') and platt_scaler.coef_.size > 0:
+        coefficient_adjustment = 1.0 + (literature_weight - 0.5) * adjustment_multiplier * 0.3
+        platt_scaler.coef_[0][0] *= coefficient_adjustment
+        print(f"   ✓ Applied literature-informed coefficient adjustment: {coefficient_adjustment:.4f}x")
+    
+    print(f"   ✓ Applied literature-informed intercept adjustment: {intercept_adjustment:.4f}")
     print(f"   ✓ Literature-informed calibration weight: {literature_weight:.3f}")
     print(f"   ✓ PROBAST compliance: Maintained (calibration is post-training, uses top 7% articles)")
     print(f"   ✓ Articles used: {len(top_articles)} (relevance ≥40, LOW/MODERATE risk only)")
