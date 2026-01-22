@@ -169,21 +169,21 @@ else:
     print("   ⚠️  Literature database not found, using standard calibration")
     literature_quality_score = 0.5  # Default if database not available
 
-# Use Isotonic Calibration (more conservative than Platt scaling)
-# Isotonic calibration preserves ordering and produces more reasonable corrections
+# Use Platt Scaling with conservative literature adjustment
+# Platt scaling is more stable than isotonic for this use case
 # This is PROBAST-compliant (post-training calibration, doesn't affect predictors)
-from sklearn.isotonic import IsotonicRegression
+from sklearn.linear_model import LogisticRegression
 
 # Get uncalibrated predictions on validation set
 # Use the COPY of the model, not the original
 y_val_pred_uncal = base_model_for_calibration.predict_proba(X_val_cal)[:, 1]
 
-# Apply isotonic calibration: fits a monotonic step function
-# Isotonic calibration: P_calibrated = isotonic_transform(P_uncalibrated)
-# This preserves relative ordering and produces more reasonable corrections
-isotonic_scaler = IsotonicRegression(out_of_bounds='clip')
-# Fit on uncalibrated probabilities (1D array for IsotonicRegression)
-isotonic_scaler.fit(y_val_pred_uncal, y_val_cal)
+# Apply Platt scaling: fit logistic regression to map uncalibrated to calibrated
+# Platt scaling: P_calibrated = 1 / (1 + exp(A * P_uncalibrated + B))
+# We fit this using LogisticRegression on the uncalibrated probabilities
+platt_scaler = LogisticRegression()
+# Reshape for sklearn (needs 2D array)
+platt_scaler.fit(y_val_pred_uncal.reshape(-1, 1), y_val_cal)
 
 # Literature-informed adjustment: Blend standard calibration with literature-informed parameters
 # This maintains PROBAST compliance because:
@@ -203,28 +203,22 @@ if 'top_articles' in locals() and len(top_articles) > 0:
     # Higher quality = stronger adjustment, but still maintains PROBAST compliance
     literature_weight = literature_quality_score
     
-    # For isotonic calibration, literature adjustment is applied by blending
-    # the isotonic transformation with a literature-informed smoothing
+    # Apply literature-informed calibration adjustment to Platt scaling
+    # Use very conservative multiplier to avoid excessive shifts
     # This maintains PROBAST compliance while incorporating literature insights
+    adjustment_multiplier = 0.05  # Very conservative: minimal impact to avoid 40+ point shifts
     
-    # Adjustment multiplier: 0.2 provides visible but conservative impact
-    # Isotonic is already less aggressive than Platt, so we can use a slightly higher multiplier
-    adjustment_multiplier = 0.2  # Conservative: visible impact without excessive shifts
+    # Intercept adjustment: Shifts the calibration curve slightly
+    intercept_adjustment = (literature_weight - 0.5) * adjustment_multiplier
+    platt_scaler.intercept_[0] += intercept_adjustment
     
-    # For isotonic calibration, we apply literature-informed smoothing
-    # by adjusting the transformation points based on literature quality
-    # Higher quality literature = more confident adjustment
-    if hasattr(isotonic_scaler, 'X_thresholds_') and hasattr(isotonic_scaler, 'y_thresholds_'):
-        # Adjust the isotonic transformation thresholds based on literature quality
-        # This smooths the calibration curve while preserving monotonicity
-        adjustment_factor = 1.0 + (literature_weight - 0.5) * adjustment_multiplier * 0.15
-        # Apply gentle smoothing to the transformation
-        isotonic_scaler.y_thresholds_ = isotonic_scaler.y_thresholds_ * adjustment_factor
-        # Ensure values stay in [0, 1] range
-        isotonic_scaler.y_thresholds_ = np.clip(isotonic_scaler.y_thresholds_, 0.0, 1.0)
-        print(f"   ✓ Applied literature-informed isotonic smoothing: {adjustment_factor:.4f}x")
+    # Coefficient adjustment: Adjusts the slope slightly
+    if hasattr(platt_scaler, 'coef_') and platt_scaler.coef_.size > 0:
+        coefficient_adjustment = 1.0 + (literature_weight - 0.5) * adjustment_multiplier * 0.1
+        platt_scaler.coef_[0][0] *= coefficient_adjustment
+        print(f"   ✓ Applied literature-informed coefficient adjustment: {coefficient_adjustment:.4f}x")
     
-    print(f"   ✓ Applied literature-informed calibration adjustment")
+    print(f"   ✓ Applied literature-informed intercept adjustment: {intercept_adjustment:.4f}")
     print(f"   ✓ Literature-informed calibration weight: {literature_weight:.3f}")
     print(f"   ✓ PROBAST compliance: Maintained (calibration is post-training, uses top 7% articles)")
     print(f"   ✓ Articles used: {len(top_articles)} (relevance ≥40, LOW/MODERATE risk only)")
@@ -233,10 +227,8 @@ else:
     top_articles = []
     print(f"   ✓ Using standard calibration (literature weight: {literature_weight:.3f})")
 
-print("   ✓ Isotonic calibration fitted")
-if hasattr(isotonic_scaler, 'X_thresholds_') and len(isotonic_scaler.X_thresholds_) > 0:
-    print(f"   Isotonic thresholds: {len(isotonic_scaler.X_thresholds_)} points")
-    print(f"   Range: [{isotonic_scaler.X_thresholds_[0]:.3f}, {isotonic_scaler.X_thresholds_[-1]:.3f}] → [{isotonic_scaler.y_thresholds_[0]:.3f}, {isotonic_scaler.y_thresholds_[-1]:.3f}]")
+print("   ✓ Platt scaling parameters fitted")
+print(f"   Platt coefficients: A={platt_scaler.coef_[0][0]:.4f}, B={platt_scaler.intercept_[0]:.4f}")
 print(f"   Literature integration: Active (using {len(top_articles) if 'top_articles' in locals() else 0} top articles)")
 
 # Import wrapper class
@@ -246,8 +238,7 @@ from calibrated_model_wrapper import CalibratedModelWrapper
 
 # Create calibrated model wrapper using the COPY, not the original
 # This ensures complete separation from the original model
-# Note: wrapper will handle isotonic calibration (it supports both Platt and isotonic)
-calibrated_model = CalibratedModelWrapper(base_model_for_calibration, isotonic_scaler)
+calibrated_model = CalibratedModelWrapper(base_model_for_calibration, platt_scaler)
 print("   ✓ Calibrated model wrapper created (using separate copy of base model)")
 print("   ✓ Original model remains completely untouched")
 
@@ -349,11 +340,11 @@ calibrated_calibrator_path = models_path / "random_forest_literature_calibrated_
 calibrated_metadata_path = models_path / "random_forest_literature_calibrated_metadata.pkl"
 
 joblib.dump(base_model_for_calibration, calibrated_base_path)
-joblib.dump(isotonic_scaler, calibrated_calibrator_path)  # Save isotonic scaler
+joblib.dump(platt_scaler, calibrated_calibrator_path)  # Save Platt scaler
 # Save literature metadata if available
 lit_metadata = {
     "model_type": "literature_calibrated",
-    "calibration_method": "isotonic",  # Changed from platt_scaling
+    "calibration_method": "platt_scaling_conservative",  # Conservative literature adjustment
     "calibration_fit_on": "validation_set",
     "created_date": datetime.now().isoformat(),
     "literature_informed": True,
@@ -372,7 +363,7 @@ lit_metadata = {
 joblib.dump(lit_metadata, calibrated_metadata_path)
 
 print(f"   ✓ Base model saved: {calibrated_base_path}")
-print(f"   ✓ Isotonic calibrator saved: {calibrated_calibrator_path}")
+print(f"   ✓ Platt scaler saved: {calibrated_calibrator_path}")
 print(f"   ✓ Metadata saved: {calibrated_metadata_path}")
 print(f"   Note: Components saved separately for reliable loading")
 
@@ -511,7 +502,7 @@ summary = f"""
 ## Files Generated
 
 1. models/random_forest_literature_calibrated_base.pkl - Base model for calibration
-2. models/random_forest_literature_calibrated_platt.pkl - Isotonic calibration parameters
+2. models/random_forest_literature_calibrated_platt.pkl - Platt scaling parameters (conservative)
 3. models/random_forest_literature_calibrated_metadata.pkl - Model metadata
 4. literature_calibration_comparison.png - Calibration plots
 5. LITERATURE_CALIBRATION_COMPARISON.md - Detailed report
