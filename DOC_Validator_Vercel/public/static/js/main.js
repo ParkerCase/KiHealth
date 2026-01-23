@@ -1118,7 +1118,7 @@ function displayOutcomeResults(outcomes) {
     html += `
       <div style="max-width: 600px; margin: 0 auto;">
         <div class="metric-card outcome-card highlight-card" style="border: 3px solid #3b82f6; margin-bottom: 30px; background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);">
-          <div class="metric-value" style="font-size: 4rem; color: #1e40af; margin-bottom: 10px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">${improvement.toFixed(1)}</div>
+          <div class="metric-value" style="font-size: 4rem; color: #1e40af; margin-bottom: 10px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">${improvement.toFixed(2)}</div>
           <div class="metric-label" style="font-size: 1.3rem; margin-bottom: 8px; color: #1e293b; font-weight: 600;">Expected Improvement (points)</div>
           <div style="font-size: 1rem; color: #475569; font-weight: 500;">WOMAC/Function/Pain improvement</div>
           <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px; font-style: italic;">±15 points typical uncertainty</div>
@@ -2496,7 +2496,7 @@ function displayFilteredPatients(patients) {
           <div style="margin-bottom: 12px; padding: 12px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 8px; color: white;">
             <div style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 4px;">Expected Improvement</div>
             <div style="font-size: 2rem; font-weight: 700; margin-bottom: 4px;">
-              ${patient._womac_improvement.toFixed(1)} points
+              ${patient._womac_improvement.toFixed(2)} points
             </div>
             <div style="font-size: 0.8rem; opacity: 0.9;">
               ${patient._womac_improvement >= 30 
