@@ -214,7 +214,22 @@ function displayResults(data) {
   html += 'Model performance: AUC 0.852, calibration verified on independent test data.';
   html += '</div>';
   
+  // Check if calibrated model is being used
+  const isCalibratedModel = data.model_type && data.model_type.includes("Literature-Calibrated");
+  
   html += '<h3 style="font-size: 1.5rem; font-weight: 600; color: #475569; margin-bottom: 20px;">Surgery Risk Assessment</h3>';
+  
+  // Add note about model differences if calibrated model is used
+  if (isCalibratedModel && isSinglePatient) {
+    html += '<div style="margin-bottom: 20px; padding: 14px 18px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 6px; font-size: 0.9rem; color: #92400e; line-height: 1.6;">';
+    html += '<strong>📊 About Model Differences:</strong> ';
+    html += 'The literature-calibrated model may show different risk percentages than the pure data-driven model. ';
+    html += 'This is expected and correct—the calibrated model adjusts probabilities to correct for overconfidence, ';
+    html += 'providing more accurate risk estimates. Both models use the same predictors and maintain the same discrimination (AUC 0.852). ';
+    html += 'The difference reflects improved probability calibration, not a change in relative risk ranking.';
+    html += '</div>';
+  }
+  
   if (isSinglePatient) {
     // Single patient: Show risk smaller and less prominent
     html += `<div class="stat-card" style="grid-column: 1 / -1; max-width: 400px; margin: 0 auto; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; background: #f8fafc; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
