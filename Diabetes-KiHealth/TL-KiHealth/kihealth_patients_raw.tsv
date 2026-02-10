@@ -1,0 +1,161 @@
+Sample	Donor ID	"At Risk (A1c < 5.7, BMI < 30, HBP, Ins/Cpep <>range)"	At-Risk Binary	Clinical Diagnosis	% methylated	% Unmethylated	Gender	Race	Age (as of Aug 2025)	A1c	Insulin	C-peptide	Ins/C-peptide Ratio	BMI	HBP	DKA (Y or N or N/A)	Heart Rate	Respiratory Rate	Kussmaul Breathing (Y or N or N/A)	Weight Loss (lb)	Acanthosis Nigricans (Y or N or N/A)	Obese (Y or N or N/A)	Polydipsia  (Y or N or N/A)	Nocturia  (Y or N or N/A)	UTI  (Y or N or N/A)	Yeast Infection  (Y or N or N/A)	Concomitant Illnesses	Timing of Diabetes Symptoms (weeks or N/A)	Medications	Glucose (mg/dL)	pH	Bicarbonate (mEQ/L)	Serum BHB (mmol/L)	Insulin Ab (U/mL)	Gad-65 (IU/mL)	IA-2 Ab (U/mL)	ZincT-8 Ab (U/mL)	ICA (Ab)	Urine Glucose (mg/dL)	Urine Ketones (mg/dL)	Serum Anti-thyroglobulin Antibody (IU/mL)	Serum Anti-thyroperoxidase Antibody (IU/mL)	TSH (mcIU/mL)	Free T4 (ng/dL)	Tissue Transglutaminase Antibody (U/mL)	Serum Total IgA (mg/dL)	Have you been diagnosed with High Blood Pressure?	Do you feel hungry shortly after eating a meal?	Do you crave sweets?	"Do you feel tired often, even after a good night&#039;s sleep?"	"Do you have multiple skin tags (more than one small, soft flesh-colored or darker growths that hang off the skin?"	Have you been diagnosed more than one time in the past year with a Urinary Tract Infection or Skin Infections?	Do you usually have mood swings or do you feel easily irritable?	Have you been diagnosed with PCOS (Polycystic Ovary Syndrome)?	Were you prescribed by a physician to take any blood thinners?	"Do you confirm that you have read, understood, and voluntarily accept the terms of this Release."	Additional Information from Bio IVT	Blood Type
+483222	DIA25900027	At risk	1		82.20%	17.80%			55.0	6	109.9	10.6																	LEVOTHYROXIN																		Yes	No	Yes	Yes	No	No	No	No	No	yes		
+CY	69133	YES	1		89.30	10.70	M	W	42	5.3	84.2	6.1	13.80	29.5	YES																																											
+587536	DIA25900063	Healthy	0		97.90%	2.10%	Male	White/Caucasian	40.0	5.2	79.8	7.7																	None																		Yes	No	No	Yes	No	No	Yes	No	No	yes		
+780389	DIA25900047	Healthy	0		91.51%	8.49%	Female	White/Caucasian	62.0	4.5	79.1	4.6																	None																		Yes	No	No	No	No	No	No	No	No	yes		
+156707	DIA25900031	At risk	1		81.17%	18.83%			50.0	6.3	76.2	8.5																	None																		Yes	No	No	Yes	Yes	Yes	Yes	No	No	yes		
+865810	DIA25900011				84.18%	15.82%	Female	White/Caucasian	58.0	5.1	76.1	7.5																	"Metformin, Citalopram, Levothyroxine, Magnesium Glycnate, Nadolol"																		No	Yes	Yes	Yes	No	No	No	No	No	yes		
+KC	61835	YES	1		80.52	19.48	M	W	54	5.4	74.4	9	8.30	31.0	NO																																											
+PM	89916	NO	0		91.09	8.91	F	H	42	5.8	73.7	2.9	25.40	26.6	NO																																											
+374731	DIA25900009	At Risk - Sampling Error	0		95.77%	4.23%	Female	White/Caucasian	21.0	6	70.7	5.1																	None																		No	No	No	Yes	No	No	No	No	No	yes		
+351378	DIA25900041	Borderline	0		92.30%	7.70%	Female	White/Caucasian	45.0	6	63.8	6																	None																		Yes	No	No	No	No	No	No	No	No	yes		
+442105	DIA25900002	Borderline	0		90.00%	10.00%	Male	Asian	55.0	6	62.5	7.3																	None																		No	Yes	Yes	Yes	No	No	Yes	No	No	yes		
+SG	94617	YES	1		77.06	22.94	F	W	39	5.9	60.2	5.5	10.90	36.0	NO																																											
+213097	DIA25900068	Healthy	0		98.07%	1.93%	Female	Asian	55.0	4.8	59.4	5.6																	Metoprolol succinate 50 mg																		No	No	No		No	No	No	No	No	yes		
+PW	84390	NO	0		95.5	4.45	M	W	43	5.1	55.4	8.8	6.30	23.7	NO																																											
+881925	DIA25900006	could be boderline	0		92.44%	7.56%	Male	Asian	55.0	5.4	53.9	4.3																	None																		No	No	No	Yes	No	No	No	No	No	yes		
+856662	DIA25900055	At Risk - Sampling Error?	1		97.75%	2.25%	Female	Asian	27.0	5.8	52.5	6.6																	cholesterol medication																		No	No	Yes	Yes	No	Yes	Yes	No	No	yes		
+615114	DIA25900008	Borderline	0		90.73%	9.27%	Male	White/Caucasian	48.0	6.2	49.5	6																	None																		No	Yes	No	No	No	No	No	No	No	yes		
+JO	46493	NO	0		84.48	15.52	M	W	33	5.3	47	4.7	10.00	20.7	NO																																											
+772205	DIA25900056		0		109.63%	-9.63%	Female	White/Caucasian	65.0	4.8	45.6	8.7																	None																		No	No	No	Yes	No	No	Yes	No	No	yes		
+930968	DIA25900062	At Risk - Sampling Error?	1		102.58%	-2.58%	Female	White/Caucasian	56.0	6.5	45.3	6																	"BUPROPRION 300MG, NIFEDIPINE ER 60MG"																											yes		
+JT	50133	NO	0		108.10	0.00	F	W	44	5.4	45.3	4.6	9.80	24.0	NO																																											
+638060		Borderline			88.86%	11.14%	Female	Other	44.35	5.3	43.7	5.9																	None																		Yes	No	No	No	No	No	Yes	No	No	yes		
+673298	DIA25900022	Healthy	0		95.99%	4.01%	Male	White/Caucasian	49.0	5.6	40.7	5.7																	"LIPITOR, FLOMAX, VITAMIN D"																		No	No	Yes	Yes	No	Yes	No	No	No	yes		
+700113	DIA25900061	At risk	1		73.09%	26.91%	Male	Asian	35.0	4.7	40.5	7																	None																		No	Yes	Yes	Yes	No	No	No	Yes	No	yes		
+CY	96675	NO	0		92.32	7.68	M	W	42	5.4	40.1	2.5	16.04	29.5	YES																																											
+TM	48767	NO	0		87.94	12.06	M	H	40	5.6	39.8	1.8	22.10	n/a	NO																																											
+487965	DIA25900073	Borderline	0		88.56%	11.44%	Female	White/Caucasian	43.0	4.7	39	1.1																	"Tirzepitide, Depo privera"																		Yes	No	Yes	Yes	Yes	No	Yes	No	No	yes		
+516510	DIA25900048	Borderline	0		89.28%	10.72%	Female	White/Caucasian	48.0	4.3	39	4.1																	Spirnolactone 50mg																		No	No	Yes	Yes	No	No	Yes	No	No	yes		
+347755	DIA25900029	At Risk - Sampling Error	1		101.71%	-1.71%			46.0	6.1	38	3.6																	None																		No	Yes	Yes	Yes	No	No	No	No	No	yes		
+378056	DIA25900024	Metabolix Syndrome / Insulin Resistance	1		85.40%	14.60%	Male	White/Caucasian	56.0	6.6	37.4	4.9																	None																		No	No	Yes	Yes	No	No	No	No	No	yes		
+897294	DIA25900013	Borderline	0		88.71%	11.29%	Male	White/Caucasian	51.0	6.4	36.4	4.6																	None																		No	No	Yes	Yes	Yes	No	Yes	No	No	yes		
+697928	DIA25900074	Healthy	0		98.68%	1.32%	Male	White/Caucasian	30.0	4.4	34.1	4.5																	None																		No	No	No	Yes	No	No	No	No	No	yes		
+508007	DIA25900032	At Risk - Sampling Error	1		97.38%	2.62%	Female	White/Caucasian	16.0	5.9	31.9	3.7																	"LOSARTAN 50, ROSUVASTATIN 5 MG"																											yes		
+865151	DIA25900035	Healthy	0		93.38%	6.62%	Female	White/Caucasian	35.0	5.6	31.5	4.9																	metoprolol Succ 12.5mg daily																		No	No	No	No	No	No	No	No	No	yes		
+LP	60961	YES	1		86.97	13.03	M	H	34	5.7	31.2	3.2	9.80	37.7	YES																																											
+992344	DIA25900065	Healthy	0		94.10%	5.90%	Female	White/Caucasian	36.0	4.9	30.2	1.8																	None																											yes		
+401788	DIA25900026	At Risk - Sampling Error	1		104.44%	-4.44%	Male	White/Caucasian	43.0	5.9	29.7	7.6																	"Losartan 50mg qd, carvedilol 3.125mg bid, atorvastatin 10mg hs"																		No	No	Yes	No	No	No	No	No	No	yes		
+EC	89301	NO	0		105.5	0.00	F	W	22	5.4	28.6	1.9	15.05	22.4	NO																																											
+RP	71190	NO	0		94.5	5.47	M	W	n/a	5.2	28	5.3	5.28	n/a	NO																																											
+163387	DIA25900003	DT2 ?- Treatment	1		94.61%	5.39%	Male	White/Caucasian	60.0	6.4	27.6	3.2																	"metformin, losartan, methylated b complex, magnesium complex, vit d w/K2"																											yes		
+WB	94892	NO	0		108.53	0.00	M	W	71	6.2	26.9	4	6.70	27.0	NO																																											
+JJ	17463	NO	0		93.45	6.55	M	A	39	5.5	26.9	4.4	6.10	26.6	NO																																											
+KP	53890	NO	0		95.73	4.27	F	W	n/a	5.8	26.5	2.6	10.20	28.3	NO																																											
+386361	DIA25900057	Borderline	1		90.24%	9.76%	Female	White/Caucasian	36.0	5.5	26	2.2																	Yaz																		No	No	Yes	Yes	No	No	Yes	No	No	yes		
+132650	DIA25900023	Ozempic/ Insulin Resistance?	1		85.05%	14.95%	Female	White/Caucasian	71.0	4.3	26	5																	None																		No	Yes	No	Yes	No	No	No	No	No	yes		
+542124	DIA25900037	At Risk - Sampling Error?	1		106.76%	-6.76%	Male	White/Caucasian	41.0	6	25.2	5.2																	None																		No	No	Yes	Yes	Yes	No	No	No	No	yes		
+RP	95766	NO	0		98.81	1.19	M	W	37	6	25.1	1.6	15.69	n/a	YES																																											
+486324	DIA25900060	Healthy	0		100.43%	-0.43%	Female	White/Caucasian	17.0	6	25	3.8																	"HYDROXYCHLOROQUINE, BIRTH CONTROL"																		No	No	No	No	No	No	No	No	No	yes		
+552420	DIA25900043	At risk	1		86.63%	13.37%	Female	White/Caucasian	57.0	5.2	24.5	3.7																	escitalopram																		No	No	No	No	No	No	No	No	No	yes		
+836571	DIA25900015	Borderline	0		91.91%	8.09%	Female	Asian	56.0	6.3	24	4																	Amlidopine 5mg																		No	No	No	No	No	No	No	No	No	yes		
+563377	DIA25900040	Needs Follow up	0		85.39%	14.61%	Male	Other	41.0	4.9	22.3	4.9																	"Toprol XL 100, Lansoprazole 30mg"																		No	No		No	No	No	No	No	No	yes		
+677096	DIA25900017	At Risk - Sampling Error	1		96.05%	3.95%	Female	Asian	58.0	6.1	22.1	4.8																	"AMLODIPINE, ROSUVASTATIN"																		No	Yes	Yes	Yes	No	No	No	No	Yes	yes		
+428806	DIA25900021	At Risk - Sampling Error	1		99.29%	0.71%	Female	White/Caucasian	43.0	6	22	4																	"amitriptyline, adderall, vitamin D, prolia"																		Yes	No	No	Yes	No	No	No	No	No	yes		
+567662	DIA25900016	Borderline	0		89.96%	10.04%	Male	Asian	53.0	6.6	21.4	2.9																	Jardiance																		Yes	No	No	No	No	No	No	No	No	yes		
+941826	DIA25900077	Borderline	0		89.07%	10.93%	Male	Asian	61.0	6.8	20.7	4.6																	Rosuvastatin																		No	No	Yes	Yes	No	No	No	No	No			
+201891	DIA25900042	Healthy	0		98.34%	1.66%	Male	"Hispanic / Latino, Hawaiian / Pacific Islander"	48.0	5.2	20	3.6																	SYNTHROID																		No	Yes	Yes	Yes	No	No	No	No	No	yes		
+536001	DIA25900020	Borderline	0		90.50%	9.50%	Male	White/Caucasian	58.0	6.3	19.8	3.9																	"losartan/hctz, Diclofenac"																		Yes	No	Yes	No	No	Yes	Yes	No	No	yes		
+726380					81.09%	18.91%	Male	Hispanic / Latino	51.61	5.4	19.5	3.8																	None																		No	No	No	No	Yes	No	No	No	No	yes		
+448794	DIA25900075	At risk	1		84.32%	15.68%	Male	Asian	58.0	5.2	18.6	4.4																	None																		No	No	Yes	No	Yes	No	No	No	No	yes		
+597775	DIA25900053	At risk	1		86.18%	13.82%	Female	Hispanic / Latino	35.0	4.6	17.7	3.1																	None																		No	No	No	No	No	No	No	No	No	yes		
+190098	DIA25900033	Healthy - could be at risk - Suggest follow up	0		91.45%	8.55%	Male	Asian	49.0	5.9	17.4	2.8																	None																		Yes	No	No	Yes	No	No	No	No	No			
+TB	78296	NO	0		104.10	0.00	F	AA	43	6.1	17	2	8.50	26.6	NO																																											
+588627	DIA25900001	Healthy	0		100.41%	-0.41%	Female	Hispanic / Latino	29.0	5.5	16.8	2.7																	None																													
+545065	DIA25900054	Healthy	0		92.42%	7.58%	Female	White/Caucasian	60.0	4.1	16.8	2																	Zoloft																		No	No	No	Yes		No		No	No	yes		
+667034	DIA25900004	Needs Follow up	0		83.40%	16.60%	Female	Hispanic / Latino	22.0	5	15.4	2.9																	None																		Yes	No	No	No	No	No	No	No	No	yes		
+584438	DIA25900072	Healthy	0		92.84%	7.16%	Male	White/Caucasian	50.0	4.6	15	2.3																	coreg 6.25 bid																		No	No	Yes	Yes	No	No	No	No	No	yes		
+759950	DIA25900046	Borderline	0		88.39%	11.61%	Female	White/Caucasian	20.0	4.1	14.6	2.6																	losartan 100mg																		No	Yes			No	No	No	No	No	yes		
+LM	34985	NO	0		108.75	0.00	F	W	40	5.2	14.4	1.9	7.58	31.5	NO																																											
+PW	40430	NO	0		86.11	13.89	M	W	n/a	5.1	14.1	2.3	6.13	n/a	NO																																											
+VP	66661	NO	0		96.25	3.75	F	H	n/a	5.3	13.3	1	13.30	n/a	N/A																																											
+945424	DIA25900058	Healthy	0		106.71%	-6.71%	Female	White/Caucasian	46.0	4.9	13.3	2.5																	None																		No	No	Yes	No	Yes	No	No	No	No			
+VL	48583	NO	0		93.41	6.59	F	H	19	5.7	13.1	1.4	9.40	22.1	NO																																											
+RM	99872	NO	0		93.34	6.66	M	W	38	5.3	12.6	1.4	9.00	28.2	NO																																											
+143350	DIA25900045	Healthy	0		91.75%	8.25%	Female	White/Caucasian	18.0	4.5	12.3	1.9																	"levothyroxine, vit d, magnesium, curcumin"																		Yes	No	No	No	No	No	No	No	No	yes		
+DB	84855	NO	0		91.73	8.27	M	AA	20	5.7	12.2	1.8	6.80	19.8	NO																																											
+166476	DIA25900014	At Risk - Sampling Error	1		96.17%	3.83%		Asian	56.0	6.1	12.1	8.9																	Statin																		No	No	No	No	No	No	No	No	No	yes		
+571401	DIA25900030	Healthy - could be at risk / Sampling error?	0		97.14%	2.86%	Female	"White/Caucasian, Hispanic / Latino"	54.0	6.5	11.8	1.9																	ibsrella																											yes		
+761703	DIA25900028	Healthy	0		94.08%	5.92%	Female	White/Caucasian	47.0	5.3	11.7	2.6																	"Escitalopram, Buspirone, Bupropion"																		No	No	Yes	No	No	No	No	No	No	yes		
+MJ	17029	NO	0		101.62	0.00	M	W	33	5.2	11.5	1.1	10.50	n/a	NO																																											
+305562	DIA25900044	Healthy	0		91.79%	8.21%	Male	White/Caucasian	44.0	4.4	11	1.4																	"Atorvastatin 20mg, Hydrochlorothiazide 12.5mg, Losartan 50mg"																		No	No	Yes	Yes	No	No	No	No	No	yes		
+926411	DIA25900007	TTC5 out of range	0		73.79%	26.21%	Male	White/Caucasian	51.0	4.8	10.5	2.5																	"lansoprazole, loratadine, symbicort"																											yes		
+BC	89494	NO	0		80.73	19.27	F	W	36	5.8	10.2	1.1	9.30	22.6	NO																																											
+311007	DIA25900039	Healthy	0		93.93%	6.07%	Female	White/Caucasian	36.0	5.6	10	1.7																	None																		No	No	Yes	No	No	No	No	No	No	yes		
+AF	22082	NO	0		91.38	8.62	F	W	38	5.4	9.3	1.3	7.20	21.0	NO																																											
+103957	DIA25900010	DT2 ?- Treatment	0		93.96%	6.04%	Male	White/Caucasian	51.0	6.2	9	1.9																	None																		No	No	No	No	No	No	No	No	No	yes		
+TU	50857	NO	0		94.11	5.89	F	AA	38	5.5	9	1.3	6.90	24.3	NO																																											
+487012	DIA25900034	At risk	1		86.88%	13.12%	Female	White/Caucasian	57.0	6.2	8.8	1.6																	None																		No	No	No	No	No	No	No	No	No	yes		
+DP	86769	NO	0		97.56	2.44	F	W	n/a	5.9	8.8	1.5	5.90	19.5	NO																																											
+992343	DIA25900052	Healthy	0		112.92%	-12.92%	Female	White/Caucasian	42.0	5	8.7	1.5																	Balziva																		No	No	No	No	No	No	No	No	No	yes		
+GE	10935	NO	0		110.39	0.00	F	W	49	5.5	8.4	1.8	4.70	33.8	YES																																											
+RC	23055	NO	0		94.02	5.98	F	W	54	5.1	8.3	0.9	9.20	21.9	NO																																											
+610362	DIA25900076	Healthy	0		94.71%	5.29%	Male	White/Caucasian	37.0	4.5	8.1	2.1																	Pepcid																		No	Yes	No	Yes	No	No	No	No	No	yes		
+EC	71754	NO	0		95.3	4.73	F	W	43	5.5	8	1.3	6.15	19.0	NO																																											
+AL	23896	NO	0		93.08	6.92	M	W	37	5.7	7.4	1.4	5.30	22.4	NO																																											
+563428	DIA25900025	Healthy	0		100.24%	-0.24%			59.0	5.4	7.3	2.5																	ozempic																		No	Yes	Yes	Yes	Yes	No	No	No	No	yes		
+768606	DIA25900066	Healthy	0		105.82%	-5.82%	Male	White/Caucasian	51.0	4.1	7.3	2.4																	na																		No	Yes	Yes	Yes	No	No	Yes	No	No	yes		
+265585	DIA25900064	Healthy	0		95.39%	4.61%			N/A	4.7	6.9	4.1																	None																		No	No	Yes	No	No	No	No	No	No	yes		
+JP	10456	NO	0		91.3	8.72	M	W	53	5.6	5.7	0.7	8.10	29.5	NO																																											
+880837	DIA25900036	Healthy	0		107.66%	-7.66%	Male	White/Caucasian	40.0	5	5.7	1.6																	"aspirin, Rosuvastatin"																		No	No	No	No	Yes	No	No	No	No	yes		
+190029	DIA25900070	At risk	1		84.98%	15.02%		White/Caucasian	37.0	6.4	5.5	4.7																	"trazodone, adderall"																		No	No	No	No	No	No	No	No	No	yes		
+338882	DIA25900019	Borderline	0		89.86%	10.14%		White/Caucasian	54.0	4.5	4.9	1.4																	losartan																		No	No	No	No	No	No	No	No	No	yes		
+338881	DIA25900067	Healthy	0		95.57%	4.43%	Female	Asian	32.0	4.1	4.5	1.5																	vitamin D																		No	No	No	Yes	No	No	Yes	No	No	yes		
+516509	DIA25900051	Borderline	0		90.68%	9.32%	Male	Hispanic / Latino	58.0	5.4	4.3	0.6																	None																		No	No	Yes	Yes	No	No	No	No	No	yes		
+261253	DIA25900018	Healthy	0		98.52%	1.48%	Female	White/Caucasian	47.0	3.8	4.3	1.5																	None																		Yes	No	No	No	Yes	No	Yes	Yes	Yes	yes		
+RC	42918	NO	0		86.54	13.46	F	W	54	5.3	4.1	0.1	41.00	21.5	NO																																											
+481459	DIA25900038	Healthy	0		95.50%	4.50%	Male	White/Caucasian	53.0	5	3.9	1																	None																		No	No	No	No	No	No	No	No	No	yes		
+952473		Borderline			88.40%	11.60%	Male	Hispanic / Latino	31.90	5.9	1.9	1																	None																		No	No	Yes	Yes	No	No	Yes	Yes	No	yes		
+295673	DIA25900069	At risk	1		81.06%	18.94%	Female	Asian	48.0	4.6	0.9	0.8																	None																		Yes	No	Yes	No	No	No	Yes	No	No	yes		
+N-KH-11		T1D Study	1		96.97%	3.03%	M	N/A	17	1900/1				15.3	136/78	Y	104	25	N	20	N	N	Y	N	N	N	None	4	None	535	7.037	8	9.99	0.4	>250	>350	87	Neg	>1000	>150	<0.9	<0.3	1.15	None	<1.0	338.699												
+N-KH-04		T1D Study	1		107.69%	-7.69%	F	N/A	6	17.7				9.4	105/75	Y	105	20	Y	5	N	N	Y	Y	N	N	Asthma	4	"Albuterol PRN, Alvesco Inhaler Singular 4mg, 1 Fiber gummies, 1 multivitamin gummiesl'il critters paw patrol."	427	None	5	9.34	3	54	>350.0	>500	Pos	>1000	>150	<0.9	0.9	0.38	None	<1.0	99.647												
+N-KH-14		T1D Study	1		66.53%	33.47%	M	N/A	14	17.3				18.1	125/79	N	113	22	N	20 (in 2 months)	N	N	Y	Y	N	N	None	3	None	652	7.431	25	2.5	Pending	Pending	Pending	Pending	Pending	>1000	60	1.2	0.4	1.75	None	55.7	248.822												
+N-KH-02		T1D Study	1		73.53%	26.47%	F	N/A	5	16.7				12.8	106/73	Y	107	24	Y	4	N	N	Y	Y	N	N	None	1	None	644	7.237	6	9.84	<0.4	<5	259.3	53	Neg	>1000	>150	<0.9	0.9	1.19	0.6	<1.0	266.057												
+N-KH-09		T1D Study	1		93.94%	6.06%	M	N/A	15	16.7				17.4	125/84	N	80	22	N	20	N	N	Y	Y	N	N	None	8	None	480	7.381	29	0.43	<0.4	<5	<5.4	None	Neg	>2000	40	<0.9	<0.3	None	None	<1.0	132.388												
+N-KH-12		T1D Study	1		108.77%	-8.77%	M	N/A	12	14.3				27.4	135/97	N	83	20	N	20	Y	Y	Y	N	N	N	None	4	None	405	7.362	16	6.53	Pending	Pending	Pending	Pending	Pending	>1000	150	4.5	2	2.44	None	<1.0	135.269												
+N-KH-07		T1D Study	1		101.40%	-1.40%	F	N/A	15	13.6				31.4	133/78	N	100	24	N	10 to 20	Y	Y	Y	Y	N	N	Asthma & ADHD	1 yr	Albuterol PRN	333	7.37	21	13.3	<0.4	<5	<5.4	<10	Neg	None	None	<0.9	2	0.88	None	<1.0	230.331												
+LS1182034C	CC01631	Yes	1		89.73%	10.27%	Male	Other	55	13.32				35.2																																											Classified as Healthy	O+
+N-KH-10		T1D Study	1		95.68%	4.32%	M	N/A	10	13.2				16.9	98/70	N	68	22	N	0	N	N	Y	N	N	N	None	1 day	Multivatimin & Melatonin 1mg PRN	502	7.469	26	None	<0.4	6	244.9	>500	Neg	>1000	10	<0.9	0.4	3.89	1.1	<1.0	100.004												
+N-KH-03		T1D Study	1		89.45%	10.55%	F	N/A	7	12.2				17.7	123/89	Y	113	36	Y	5	N	N	Y	Y	N	N	ADHD & Seasonal Allergies	2.5	Claritin 5mg chewable tab. Melatonin 1 mg	364	None	4	9.04	<0.4	99	>350.0	11	Pos	None	None	<0.9	4.3	1.25	None	<1.0	160.777												
+N-KH-01		T1D Study	1		98.72%	1.28%	M	N/A	12	11.8				13.1	112/70	Y	145	26	Y	15	N	N	Y	Y	N	N	None	2	None	448	7.023	7	9.5	11.7	13	>350.0	>500	Pos	None	None	<0.9	7.3	None	None	1.5	296.296												
+N-KH-06		T1D Study	1		87.19%	12.81%	M	N/A	15	11.8				20.4	128/85	N	78	18	N	11	N	N	Y	Y	N	N	Oral Thrush & right ankle fracture	1	Amoxicillin & Glucosamine	594	7.392	22	3.92	<0.4	7	>350.0	>500.0	Pos	1000	80+	<0.9	<0.3	1.55	0.8	<1.0	114.881												
+LS2439132C	RR00794	Yes	1		88.36%	11.64%	Male	Caucasian	33	10.8				42.7																																											Classified as Healthy	AB–
+HMN1391467B	RG5611	Yes	1		91.26%	8.74%	Male	White or Caucasian	59	10.23				30.8																																											"Serum  HBbA1c=11.7  BMI= 31, Classified as Healthy"	A +
+	210632	T1D	1		75.98%	24.02	F	W	31	10.2					NO																																											
+LS2439336B	48102	Yes	1		82.34%	17.66%	Male	African American	56	10.16				36.5																																											Classified as Healthy	AB+
+LS2439433B	RR00228	Yes	1		88.02%	11.98%	Male	Other	27	9.59				36.4																																											Classified as Healthy	O+
+N-KH-13		T1D Study	1		84.67%	15.33%	M	N/A	9	9.5				14.3	103/62	N	89	22	N	0	N	N	Y	Y	N	N	Selective mutism	1	Fluoxetine	280	7.428	25	0.47	Pending	Pending	Pending	Pending	Pending	>1000	10	<0.9	<0.3	1.42	None	<1.0	178.523												
+LS2439353C	38854	Yes	1		89.27%	10.73%	Male	Other	48	9.01				27.9																																											Classified as Healthy	B+
+LS2439122C	RR00331	Yes	1		97.08%	2.92%	Male	Caucasian	36	8.63				34.9																																											Classified as Healthy	O+
+N-KH-08		T1D Study	1		89.39%	10.61%	M	N/A	14	8.2				13.1	117/73	N	91	24	N	1	N	N	Y	Y	N	N	None	2	None	293	7.375	26	0.11	<0.4	>250	<5.4	189	40	>1000	Neg	<0.9	1.3	1.68	0.9	50.4	42.245												
+HMN1391466B	RG5161	Yes	1		88.47%	11.53%	Female	Asian 	38	8.1				30.3																																											"Serum  HbA1c= 10.2  BMI=30, Classified as Healthy"	O+
+LS2439282B	RR02845	Yes	1		80.16%	19.84%	Male	African American	25	8.1				26.9																																											Classified as Healthy	O+
+	157571	T1D	1		87.32%	12.68	M	W	29	7.6					NO																																											
+HMN1391465B	RG3961	Yes	1		90.42%	9.58%	Male	White or Caucasian	64	6.39				33.3																																											"Serum HbA1c=7.3  BMI=33, Classified as Healthy"	A +
+	181034	YES	1		86.41%	13.59	F	A	69	6.2					NO																																											
+	ABS_012	NewD	1		73.58%	26.42	M	W	31					21.3	NO																																											
+	178954	YES	1		77.38%	22.62	F	W	25						NO																																											
+	HMN1227264	YES	1		80.47%	19.53	F	A	47					33.6	NO																																											
+	ABS_007	NewD	1		80.70%	19.30	M	AA	46					28.5	NO																																											
+	ABS_006	NewD	1		81.00%	19.00	M	W	45					56.7	NO																																											
+	ABS_014	YES	1		82.65%	17.35	F	O	29					27.4	NO																																											
+	PFM-009	T1D	1		86.29%	13.71	F	W	61					25.0	NO																																											
+	HMN1227270	YES	1		86.90%	13.10	M	W	34					37.8	NO																																											
+	PFM-014	T1D	1		87.06%	12.94	F	W	19					28.1	NO																																											
+	ABS_005	YES	1		87.15%	12.85	M	W	55					34.6	NO																																											
+	HMN1227268	YES	1		87.65%	12.35	M	W	60					25.4	NO																																											
+	PFM-016	T1D	1		88.24%	11.76	F	W	36					71.1	NO																																											
+	PFM-015	T1D	1		90.02%	9.98	M	W	52					34.0	NO																																											
+	PFM-017	T1D	1		91.40%	8.60	F	AA	38					24.5	NO																																											
+	ABS_020	YES	1		92.25%	7.75	F	W	55					48.3	NO																																											
+	HMN1227269	YES	1		93.34%	6.66	M	AA	49					51.0	NO																																											
+CM	68263	NO	0		93.67	6.33	M	W							NO																																											
+	2221355	NO 	0		97.15%	2.85	M	AA	21					23.0	NO																																											
+	2220451	NO 	0		101.48%	0.00	F	W	74					22.5	NO																																											
+	2220344	NO 	0		110.51%	0.00	F	W	62					23.3	NO																																											
+955873					86.13%	13.87%	Female	White/Caucasian	59.41																				OTC vitamins																		No	No	No		No	No	No	No	No	yes		
+956701					103.57%	-3.57%	Female	White/Caucasian	38.26																				"adderall 10mg, sertraline 50mg, spironolactone 150mg"																		No	No	Yes	Yes	Yes	No	Yes	No	No	yes		
+167755					85.31%	14.69%	Female	White/Caucasian	62.81																				"ozempic, Lisinopril, Escitalopram, Hctz"																		No	No	No	Yes	No	No	No	Yes	No	yes		
+826182					95.93%	4.07%																																									Yes	No	Yes	Yes	No	No	Yes	No	No	yes		
+329492					86.41%	13.59%																																																				
+112481					107.55%	-7.55%																																																				

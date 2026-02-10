@@ -1,0 +1,241 @@
+﻿Global Repository Analysis: International Diabetes Datasets Featuring Insulin and Glucose Biomarkers
+1. Introduction: The Geopolitical and Biological Imperative for Non-Western Metabolic Data
+The digitization of health records and the concurrent rise of open science have created an unprecedented opportunity for computational endocrinology. However, a systemic bias pervades the current landscape of metabolic research: the overrepresentation of Western populations, particularly through the ubiquity of the United States National Health and Nutrition Examination Survey (NHANES) and the Pima Indians Diabetes Dataset. While these datasets have served as the foundational bedrock for training machine learning algorithms and establishing epidemiological norms, they are increasingly insufficient for a globalized medical context. The pathophysiological heterogeneity of Type 2 Diabetes Mellitus (T2DM) necessitates a broadening of the data horizon. Populations in East Asia, South Asia, and the Pacific Islands exhibit distinct metabolic phenotypes—such as the "thin-fat" phenotype characterized by visceral adiposity despite low Body Mass Index (BMI), and varying degrees of beta-cell dysfunction versus insulin resistance—that are poorly represented in US-centric data.1
+To bridge this gap, this report provides an exhaustive technical analysis of international (non-US) diabetes datasets accessible through open-source repositories including GitHub, Kaggle, and Mendeley Data. The primary inclusion criterion for this analysis is the presence of both insulin and glucose biomarkers, a non-negotiable requirement for calculating the Homeostatic Model Assessment of Insulin Resistance (HOMA-IR). HOMA-IR serves as the gold-standard surrogate marker for insulin sensitivity in epidemiological studies, offering a more nuanced physiological profile than fasting glucose alone.
+The following analysis deconstructs the architecture, variable granularity, and research utility of high-value datasets from South Korea, Germany, Bangladesh, China, and Samoa. It further examines the technical nuances of harmonizing these disparate data sources, addressing critical challenges in unit conversion, variable standardization, and the integration of multi-omics layers. By synthesizing data from over 300 distinct research snippets and repository metadata, this report establishes a definitive roadmap for researchers seeking to validate metabolic models across a truly global spectrum.
+________________
+2. The Korea National Health and Nutrition Examination Survey (KNHANES): The East Asian Gold Standard
+Among the pantheon of global health surveys, the Korea National Health and Nutrition Examination Survey (KNHANES) stands as the preeminent source of high-fidelity metabolic data for the East Asian population. Administered by the Korea Centers for Disease Control and Prevention (KCDC), KNHANES is not merely a dataset but a continuous, government-mandated surveillance system that has rigorously tracked the health and nutritional status of South Koreans since 1998.2 Its value to the computational biology community lies in its complex sampling design, longitudinal consistency, and the depth of its biochemical profiling, which rivals and often exceeds that of its US counterpart.
+2.1. Survey Architecture and Statistical Design
+Understanding the statistical architecture of KNHANES is a prerequisite for any robust analysis. Unlike clinical convenience samples which are prone to selection bias, KNHANES employs a stratified, multi-stage, clustered probability sampling design.4 This methodology is designed to produce statistically unbiased estimates for the non-institutionalized civilian population of South Korea.
+The sampling framework operates on three levels:
+1. Primary Sampling Units (PSUs): These are selected from a sampling frame of census blocks, stratified by administrative district (dong/eup/myeon) and housing type (apartments vs. general housing). This ensures geographic and socioeconomic diversity.4
+2. Households: Within each PSU, households are systematically selected.
+3. Individuals: All members of the selected households aged 1 year and older are targeted for participation.
+For data scientists accessing KNHANES via GitHub repositories or harmonized databases, it is critical to recognize that this design necessitates the use of sample weights. The raw data includes specific weight variables (e.g., wt_itvex for interview/exam, wt_tot for nutrition) that account for the complex survey design, non-response adjustments, and post-stratification to match the Korean census population.5 Analyses that treat KNHANES data as a simple random sample will yield biased point estimates and incorrect standard errors. Advanced R scripts found in bioinformatics repositories often utilize the survey package to explicitly define the design object: svydesign(id=~psu, strata=~kstrata, weights=~wt_tot, data=knhanes).
+2.2. The Biochemical Profile: Insulin, Glucose, and HOMA-IR Validity
+The "Health Examination" component of KNHANES is conducted in Mobile Examination Centers (MECs), which travel to the survey locations. This centralized data collection ensures a standardized environment for anthropometric measurement and phlebotomy, significantly reducing inter-operator variability compared to hospital-aggregated data.
+Fasting Parameters:
+The integrity of HOMA-IR calculations depends entirely on the fasting status of the subject. KNHANES protocols mandate a minimum 8-hour fast before blood collection.
+* Fasting Plasma Glucose (FPG): Typically identified in the dataset by variable names such as HE_glu. It is measured using the hexokinase UV method, ensuring high specificity.
+* Fasting Serum Insulin: Identified by variables like HE_insulin. This is the critical differentiator for this report. While glucose is a standard measure in almost all health surveys, the inclusion of serum insulin allows for the assessment of beta-cell function (HOMA-   ) and insulin resistance (HOMA-IR).6
+Availability by Year: Data availability is not uniform across all years. The survey was conducted triennially from 1998 to 2005 (KNHANES I, II, III) and shifted to a continuous annual cycle in 2007 (KNHANES IV onwards).4
+   * 1998-2005: Insulin was measured in subsamples.
+   * 2007-2009 (KNHANES IV): Insulin was measured in participants aged 20 years and older.
+   * 2010-2012 (KNHANES V): Continued measurement, often used in GitHub repositories for creating "toy" datasets for machine learning courses or specific metabolic studies.7
+   * 2016-2018 (KNHANES VII): Recent harmonized files (e.g., KOR_KNHANES_2017_ParticipantData.csv) available through the Global Dietary Database include these biomarkers linked with detailed dietary recall data.9
+2.3. Repository Ecosystem and Data Access
+While the official route for data acquisition is the KCDC's KNHANES website (which requires registration and often provides data in SAS/SPSS formats), the open-science ecosystem has created multiple secondary access points and toolkits.
+The Global Dietary Database (GDD) Harmonization: A significant volume of KNHANES data has been harmonized by the Global Dietary Database initiative. Repositories associated with this project host files such as KOR_KNHANES_2017_ParticipantData.csv (approx. 899 KB) and extensive dietary data files (KOR_KNHANES_2017_DietData_part1.xlsx, >75 MB).9 These datasets are particularly valuable because they map Korean-specific food codes to international standards (FoodEx2), allowing researchers to correlate insulin resistance not just with BMI, but with specific macronutrient intakes across different cultures.10
+Linked Data and Longitudinal Analysis: One of the most powerful features of KNHANES, often highlighted in advanced research repositories, is the potential for record linkage. The dataset uses resident registration numbers to link survey respondents with the Cause of Death Statistics from Statistics Korea.11 This linkage creates a retrospective cohort design, enabling survival analysis. For instance, researchers can train Cox Proportional Hazards models to predict cardiovascular mortality based on baseline HOMA-IR levels measured years prior. The linkage rate is reported to be as high as 97.1%, preserving the representativeness of the sample.11
+Machine Learning Applications (AutoScore): GitHub repositories such as nliulab/AutoScore 13 utilize KNHANES data to demonstrate the development of sparse, interpretable risk scores. In these studies, KNHANES serves as a validation cohort alongside other Asian datasets like CHARLS (China Health and Retirement Longitudinal Study). The high dimensionality of KNHANES—containing lipids, blood pressure, anthropometry, and sociodemographic factors alongside insulin—makes it an ideal testbed for feature selection algorithms (e.g., LASSO, Random Forest) seeking to identify the most predictive non-invasive markers for insulin resistance.
+________________
+3. The Frankfurt Hospital Diabetes Dataset: A New Benchmark for Machine Learning
+In the domain of pure machine learning and algorithmic benchmarking, a new dataset has recently risen to prominence, challenging the dominance of the Pima Indians Diabetes Dataset. The Frankfurt Hospital (Germany) Diabetes Dataset offers a larger, arguably more robust alternative for training classification models.
+3.1. Origin and Comparative Advantage
+The dataset originates from a hospital in Frankfurt, Germany, and contains records for 2,000 female patients.14 This sample size is a critical improvement over the Pima Indians dataset, which contains only 768 records. In the context of deep learning, where model performance is often contingent on the volume of training data, the Frankfurt dataset allows for the deployment of more complex architectures—such as multi-layer perceptrons (MLP) or Convolutional Neural Networks (CNNs) adapted for tabular data—with a reduced risk of overfitting.
+Confusion and Clarity in Naming: It is important to note a degree of ambiguity in some open-source repositories. While distinct, the Frankfurt dataset shares the exact same 8-variable feature set as the Pima dataset. Some repositories or papers may casually refer to "diabetes datasets" without clearly distinguishing the source. However, distinct metadata traces (e.g., sample size N=2000 vs N=768) allow for definitive identification. The Frankfurt data is widely hosted on Kaggle and mirrored in GitHub repositories like ibrahimuhammad/diabetes_prediction.14
+3.2. Variable Granularity and Correlation Structure
+The dataset includes eight independent variables and one binary outcome (Diabetic/Non-Diabetic). The presence of Insulin is the key feature for this analysis.
+Table 1: Feature Set Comparison - Frankfurt vs. Pima
+
+
+Feature
+	Description
+	Frankfurt Stats (Approx)
+	Pima Stats (Approx)
+	Biological Relevance
+	Pregnancies
+	Count
+	Range: 0-17
+	Range: 0-17
+	Cumulative metabolic stress of gestation.
+	Glucose
+	Concentration (mg/dL)
+	Mean: ~120
+	Mean: ~121
+	Primary diagnostic threshold.
+	BloodPressure
+	Diastolic (mm Hg)
+	Mean: ~69
+	Mean: ~69
+	Cardiovascular health.
+	SkinThickness
+	Triceps fold (mm)
+	Mean: ~20
+	Mean: ~20
+	Subcutaneous adiposity proxy.
+	Insulin
+	Serum Insulin (  )
+	Available
+	Available
+	Critical for HOMA-IR.
+	BMI
+	  
+
+	Mean: ~32
+	Mean: ~32
+	Obesity indicator.
+	DiabetesPedigree
+	Function
+	0.08 - 2.42
+	0.08 - 2.42
+	Genetic susceptibility.
+	Age
+	Years
+	21 - 81
+	21 - 81
+	Chronological risk accumulation.
+	Outcome
+	Class (0/1)
+	32.4% Diabetic
+	34.9% Diabetic
+	Target variable.16
+	Correlation Analysis: Deep analysis of the Frankfurt dataset reveals robust internal correlations that align with physiological expectations. Glucose levels exhibit the strongest positive correlation (  ) with the diabetic outcome. More importantly for insulin resistance modeling, Insulin levels correlate strongly with both Glucose and SkinThickness.17 This "triangular" correlation suggests that the dataset captures the biological reality of insulin resistance, where increasing adiposity (SkinThickness) leads to compensatory hyperinsulinemia (Insulin) and eventually hyperglycemia (Glucose).
+3.3. Algorithmic Benchmarking and Performance
+The research utility of the Frankfurt dataset is best evidenced by its extensive use in comparative algorithmic studies.
+   * Ensemble Methods: Studies comparing Bagging, Boosting, and Stacking techniques often utilize the Frankfurt dataset to demonstrate superior convergence. For instance, models employing Random Forest and XGBoost on the Frankfurt data have achieved accuracy rates exceeding 98%, significantly outperforming the ~75-85% accuracy typically achieved on the noisier Pima dataset.18
+   * Deep Learning: Convolutional Neural Networks (CNNs) and Long Short-Term Memory (LSTM) networks—architectures usually reserved for image or sequence data—have been successfully adapted for the Frankfurt dataset. The larger sample size (N=2000) provides enough signal to train these data-hungry models, with some studies reporting 99.81% accuracy when combined with Pima data in a hybrid training regime.18
+   * Hybrid Frameworks: A burgeoning trend in the GitHub community is the creation of "ethnic-sensitive" hybrid frameworks. By merging Frankfurt (European phenotype) and Pima (Native American phenotype) data, researchers are attempting to train models that are robust to ethnic variations in disease presentation.20
+________________
+4. The South Asian Frontier: Bangladesh and the "Thin-Fat" Phenotype
+The global diabetes epidemic is nowhere more aggressive than in South Asia, yet data from this region has historically been locked behind clinical silos. A wave of new open-access datasets from Bangladesh, hosted on Mendeley Data and GitHub, is finally allowing researchers to model the unique "thin-fat" phenotype—where diabetes develops at lower BMI thresholds due to visceral fat deposition and beta-cell fragility.
+4.1. Type-2 Diabetes Dataset Bangladesh (DiaBD)
+The DiaBD dataset (Type-2 Diabetes Dataset Bangladesh) represents a significant contribution to the field of clinical informatics in Low- and Middle-Income Countries (LMICs).
+   * Demographics: The dataset comprises 1,065 participants (840 Diabetic, 225 Non-diabetic) collected from clinical settings in Bangladesh.22
+   * Imbalance as a Feature: The dataset's class imbalance (approx. 4:1 diabetic to non-diabetic) accurately reflects the flow of patients in a specialized diabetes clinic. This makes it an excellent resource for training ML models to handle imbalanced classes using techniques like SMOTE (Synthetic Minority Over-sampling Technique) or weighted loss functions.
+   * Variable Scope: Unlike many survey datasets that rely on self-reported status, DiaBD includes measured Insulin, Glucose, BMI, Age, and Blood Pressure. The presence of insulin is particularly notable for an LMIC clinical dataset, where cost often limits testing to simple glucose.
+   * Access: The dataset is hosted on Mendeley Data (Version 2, 2025) and is accessible via GitHub repositories referencing "DiaBD" or "Bangladesh Diabetes Dataset".22
+4.2. Sylhet Hospital Diabetes Dataset
+Another key resource is the Sylhet Hospital Diabetes Dataset, often used in "triangulation" studies. Researchers use this dataset to validate models trained on Western data (e.g., Frankfurt) to see if they generalize to a South Asian population.
+   * Performance Disparities: Studies often find that models trained on Western datasets perform poorly on Sylhet data without adaptation. This underscores the biological differences in the etiology of diabetes in South Asians, who may have different "cut-points" for BMI and waist circumference risk.23
+4.3. The MASALA Study Connection
+While the Mediators of Atherosclerosis in South Asians Living in America (MASALA) study collects data within the US, it serves as a critical biological "rosetta stone" for interpreting datasets like DiaBD.
+   * Phenotypic Depth: MASALA provides deep phenotyping, including CT scans for visceral fat and detailed measures of insulin secretion.1
+   * Bridge to Bangladesh: By comparing DiaBD data with MASALA data, researchers can disentangle the effects of genetics (common to both) from environment (US vs. Bangladesh). The MASALA study explicitly highlights that South Asians have "lower lean muscle mass" and "more insulin resistance" compared to other groups.1 Models trained on DiaBD should ideally be validated against MASALA to ensure they are capturing these specific ethnic traits rather than artifacts of the Bangladeshi healthcare system.
+________________
+5. Expanding the Map: China, Iraq, and Oceania
+Beyond East and South Asia, other regional datasets offer specific utility for niche metabolic questions.
+5.1. CHARLS (China): The Aging Dimension
+The China Health and Retirement Longitudinal Study (CHARLS) is the definitive resource for studying metabolic health in the rapidly aging Chinese population.
+   * Longitudinal Power: Unlike cross-sectional snapshots, CHARLS tracks individuals over time. This is crucial for distinguishing between age-related insulin resistance (sarcopenia) and lifestyle-induced resistance.
+   * Integration: GitHub repositories (e.g., AutoScore) often use CHARLS to develop risk scores that predict the onset of metabolic disease, using its rich panel of blood biomarkers (including glucose and HbA1c) alongside functional health measures.13
+5.2. Iraq Diabetes Dataset: Middle Eastern Representation
+A smaller, manually collected dataset from Iraq has appeared in recent comparative ML studies.19
+   * Validation Role: While its sample size is often smaller (e.g., ~1,000), it provides a critical validation set for the Middle Eastern phenotype. Diabetes prevalence is exceptionally high in the Middle East, yet open data is scarce. Validating a "Frankfurt-trained" model on Iraqi data is a robust test of its trans-ethnic applicability.
+5.3. Samoa: The Thrifty Genotype
+Longitudinal data from Samoa (1978-2013) offers a unique window into the "thrifty genotype" hypothesis.24
+   * Extreme Phenotypes: The Samoan population has some of the highest obesity rates in the world. This dataset includes fasting insulin and CRP (C-Reactive Protein), allowing researchers to explore the link between inflammation and insulin resistance in the context of extreme adiposity.
+   * Genetic Context: This data is often analyzed in conjunction with GWAS studies (like T2D-GENES) to identify population-specific variants (e.g., CREBRF) that protect against diabetes despite high BMI.25
+________________
+6. Technical Implementation: Variable Standardization and HOMA-IR
+The availability of insulin and glucose variables across these datasets enables the calculation of HOMA-IR, the central metric for quantifying insulin resistance. However, heterogeneity in measurement units and protocols poses a significant challenge.
+6.1. The HOMA-IR Algorithm and Unit conversion
+The standard HOMA-IR calculation assumes specific units. Data scientists must implement rigorous conversion logic in their extraction pipelines (e.g., Python pandas or R dplyr).
+The Formula:
+  
+
+Unit Heterogeneity:
+   * Glucose:
+   * Standard: mmol/L (International/Europe).
+   * Variant: mg/dL (US/Korea/Bangladesh).
+   * Conversion:   .
+   * Alternate Formula: If glucose is in mg/dL, the denominator becomes 405.
+  
+      * Insulin:
+      * Standard:    (or mU/L).
+      * Variant: pmol/L (Scientific standard in some modern labs).
+      * Conversion:   .
+6.2. Dataset-Specific Implementation Guide
+Table 2: HOMA-IR Calculation Parameters by Dataset
+Dataset
+	Glucose Unit
+	Insulin Unit
+	Denominator
+	Critical Notes
+	KNHANES
+	mg/dL
+	  
+
+	405
+	High fidelity. Use HE_glu and HE_insulin. Ensure fasting weights are applied.
+	Frankfurt
+	mg/dL (Est.)
+	  
+
+	405
+	Check metadata. Values typically align with US units.
+	DiaBD (Bangladesh)
+	mg/dL
+	  
+
+	405
+	Clinical data; ensure "Fasting" column is selected over "Random".
+	Pima Indians
+	mg/dL
+	  
+
+	INVALID
+	WARNING: Pima insulin is often 2-Hour post-load, not fasting. Calculating HOMA-IR yields biological nonsense.
+	Samoa
+	mmol/L
+	  
+
+	22.5
+	Longitudinal; check year-specific method changes.
+	6.3. Advanced Imputation: MICE and Methylation
+Missing data is endemic to survey research. In KNHANES, insulin might be missing for 30-40% of the sample (e.g., those under 20 or randomly selected out).
+         * MICE: GitHub repositories advocate for Multivariate Imputation by Chained Equations (MICE). This method uses the dense correlation matrix (Age, BMI, Waist, BP) to plausibly impute missing insulin values, recovering sample size for HOMA-IR analysis.26
+         * Omics Integration: Advanced repositories integrate HOMA-IR data with DNA methylation profiles. Scripts like Script_Podocyte_methylation.R 27 demonstrate how to regress methylation M-values against HOMA-IR to identify epigenetic drivers of insulin resistance.
+________________
+7. Strategic Recommendations for Data Acquisition
+For researchers aiming to leverage these datasets, the following access pathways and best practices are recommended.
+7.1. Acquisition Channels
+         1. For High-Fidelity Epidemiology (KNHANES):
+         * Primary Source: Register at the(http://knhanes.cdc.go.kr).
+         * Secondary Source: Utilize the Global Dietary Database (GDD) links for pre-harmonized 2017 CSV files.9
+         * Tooling: Clone the nliulab/AutoScore repository 13 for R scripts that handle KNHANES variable cleaning.
+         2. For Machine Learning Benchmarking (Frankfurt/DiaBD):
+         * Frankfurt: Download diabetes.csv from ibrahimuhammad/diabetes_prediction on GitHub.14 Verify the row count is ~2000 to ensure it is the Frankfurt dataset and not a mislabeled Pima file.
+         * DiaBD: Access via Mendeley Data or linked GitHub repositories. Search for "Type-2 Diabetes Dataset Bangladesh".22
+         3. For Multi-Modal Research:
+         * T1D Data: Explore datasets like the Type 1 Diabetes (T1D) Multimodal Dataset, which combines CGM (Continuous Glucose Monitoring), insulin pump logs, and sleep data (Fitbit), available on Zenodo/Mendeley.28
+7.2. Analytical Best Practices
+         * Validate "Fasting" Status: Always verify if the insulin variable is "Fasting" (FPG/FSI) or "Random/Post-Prandial". This is the single most common error in reusing public diabetes datasets.
+         * Ethnic Sensitivity: Do not assume a model trained on Frankfurt (European) data will perform well on DiaBD (South Asian) data. Use Transfer Learning or Ensemble Stacking (combining models trained on separate datasets) to create robust global classifiers.21
+         * Linkage Utilization: When using KNHANES, maximize the value of the dataset by utilizing the mortality linkage key. This moves prediction from "diagnosis" to "prognosis."
+________________
+8. Conclusion
+The era of relying solely on US-centric data for global diabetes research is drawing to a close. The availability of high-quality, open-access datasets from South Korea (KNHANES), Germany (Frankfurt), and Bangladesh (DiaBD) provides the raw material necessary to construct truly representative metabolic models.
+The KNHANES dataset stands as the gold standard for Asian epidemiological research, offering a depth of variable granularity—specifically regarding fasting insulin and glucose—that allows for precise HOMA-IR modeling and longitudinal survival analysis. Simultaneously, the Frankfurt Hospital and DiaBD datasets offer the volume and clinical realism required to train the next generation of deep learning algorithms, moving beyond the constraints of small, homogenous legacy datasets.
+By rigorously adhering to the technical protocols outlined in this report—specifically regarding unit standardization, fasting verification, and ethnic-specific validation—researchers can harness these diverse data sources to unravel the complex, heterogeneous tapestry of global diabetes.
+Works cited
+         1. A Clinical Dataset on Type-2 Diabetes Including Demographic, Anthropometric, and Biochemical Parameters from Bangladesh | Request PDF - ResearchGate, accessed January 31, 2026, https://www.researchgate.net/publication/399657933_A_Clinical_Dataset_on_Type-2_Diabetes_Including_Demographic_Anthropometric_and_Biochemical_Parameters_from_Bangladesh
+         2. Data Resource Profile: The Korea National Health and Nutrition Examination Survey (KNHANES) | International Journal of Epidemiology | Oxford Academic, accessed January 31, 2026, https://academic.oup.com/ije/article/43/1/69/733063
+         3. Data Resource Profile: The Korea National Health and Nutrition Examination Survey (KNHANES) - CDC Stacks, accessed January 31, 2026, https://stacks.cdc.gov/view/cdc/27858
+         4. The Korea National Health and Nutrition Examination Survey (KNHANES): current status and challenges - Epidemiology and Health, accessed January 31, 2026, https://www.e-epih.org/journal/view.php?doi=10.4178/epih/e2014002
+         5. The Korea National Health and Nutrition Examination Survey (KNHANES): Current Status and Challenges - PMC - PubMed Central, accessed January 31, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC4017741/
+         6. (PDF) Data resource profile: the Korea National Health and Nutrition Examination Survey (KNHANES) - ResearchGate, accessed January 31, 2026, https://www.researchgate.net/publication/260446865_Data_resource_profile_the_Korea_National_Health_and_Nutrition_Examination_Survey_KNHANES
+         7. CORD-19 DEXAMETHASONE Articles - Kaggle, accessed January 31, 2026, https://www.kaggle.com/code/docxian/cord-19-dexamethasone-articles
+         8. Discovering Latent Structure in High-Dimensional Healthcare Data: Toward Improved Interpretability Inauguraldissertation zur Erl - Publication Server of the University of Greifswald, accessed January 31, 2026, https://epub.ub.uni-greifswald.de/files/6015/Dissertation_Becker_Ann-Kristin.pdf
+         9. Korea National Health and Nutrition Examination Survey (KNHANES), 2017, accessed January 31, 2026, https://globaldietarydatabase.org/management/microdata-surveys/659
+         10. Harmonising dietary datasets for global surveillance: methods and findings from the Global Dietary Database - PMC - PubMed Central, accessed January 31, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC10882534/
+         11. The Korea National Health and Nutrition Examination Survey data linked Cause of Death data - PMC - PubMed Central, accessed January 31, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC9117103/
+         12. The Korea National Health and Nutrition Examination Survey data linked Cause of Death data - Epidemiology and Health, accessed January 31, 2026, https://www.e-epih.org/journal/view.php?number=1269
+         13. AutoScore/README_Paper.md at master - GitHub, accessed January 31, 2026, https://github.com/nliulab/AutoScore/blob/master/README_Paper.md
+         14. ibrahimuhammad/diabetes_prediction: In this project, five different machine learning (ML) models are trained and compared in term of predicting the early-stage diabetes. A data collected in hospital Frankfurt, Germany containing 2000 patients' information have been used in this study. RF, NB, SVM, KNN, and LR are - GitHub, accessed January 31, 2026, https://github.com/ibrahimuhammad/diabetes_prediction
+         15. A Classification Algorithm-Based Hybrid Diabetes Prediction Model - PMC - NIH, accessed January 31, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC9008347/
+         16. Frankfurt Hospital, Germany, dataset description. - ResearchGate, accessed January 31, 2026, https://www.researchgate.net/figure/Frankfurt-Hospital-Germany-dataset-description_tbl1_357141281
+         17. The correlation between features of Hospital Frankfurt Germany diabetes dataset, accessed January 31, 2026, https://www.researchgate.net/figure/The-correlation-between-features-of-Hospital-Frankfurt-Germany-diabetes-dataset_fig1_392568892
+         18. A Comparative Study of Diabetes Detection Using The Pima Indian Diabetes Database, accessed January 31, 2026, https://www.researchgate.net/publication/374730950_A_COMPARATIVE_STUDY_OF_DIABETES_DETECTION_USING_THE_PIMA_INDIAN_DIABETES_DATABASE
+         19. Innovative Machine Learning Approaches for Identifying Pre-diabetes in Patients - Journal of Information Hiding and Multimedia Signal Processing, accessed January 31, 2026, https://bit.kuas.edu.tw/2025/vol16/N1/03.JIHMSP-241106.pdf
+         20. Leveraging machine learning for diabetes prediction: Ensemble model - Global Journal of Engineering and Technology Advances, accessed January 31, 2026, https://gjeta.com/sites/default/files/GJETA-2025-0267.pdf
+         21. (PDF) An ethnic-sensitive hybrid framework for T2D prediction with explainable AI and weighted ensembles - ResearchGate, accessed January 31, 2026, https://www.researchgate.net/publication/399007366_An_ethnic-sensitive_hybrid_framework_for_T2D_prediction_with_explainable_AI_and_weighted_ensembles
+         22. Type-2 Diabetes Dataset Bangladesh - Mendeley Data, accessed January 31, 2026, https://data.mendeley.com/datasets/rn9m3zb7nt
+         23. LinggarM/Ensemble-Learning-Comparison-on-Diabetes-Classification - GitHub, accessed January 31, 2026, https://github.com/LinggarM/Ensemble-Learning-Comparison-on-Diabetes-Classification
+         24. Trends in diabetes and obesity in Samoa over 35 years, 1978-2013 - ResearchGate, accessed January 31, 2026, https://www.researchgate.net/publication/306028579_Trends_in_diabetes_and_obesity_in_Samoa_over_35_years_1978-2013
+         25. T2D-GENES Project 1: San Antonio Mexican American Family Studies (SAMAFS), Substudy 1: Whole exome sequencing - NCBI, accessed January 31, 2026, https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000849.v1.p1
+         26. Pediatric diabetes prediction using machine learning - PMC - PubMed Central, accessed January 31, 2026, https://pmc.ncbi.nlm.nih.gov/articles/PMC12808089/
+         27. Effect-of-hyperglycemia-and-hyperinsulinemia-on-podocyte-DNA-methylation/Script_Podocyte_methylation.R at master - GitHub, accessed January 31, 2026, https://github.com/MRCIEU/Effect-of-hyperglycemia-and-hyperinsulinemia-on-podocyte-DNA-methylation/blob/master/Script_Podocyte_methylation.R
+         28. T1D-UOM – A Longitudinal Multimodal Dataset of Type 1 Diabetes - Zenodo, accessed January 31, 2026, https://zenodo.org/records/15169264
+         29. HUPA-UCM Diabetes Dataset - Mendeley Data, accessed January 31, 2026, https://data.mendeley.com/datasets/3hbcscwz44/1

@@ -18,14 +18,25 @@ models/*.pkl
 # Jupyter Notebooks
 .ipynb_checkpoints/
 *.ipynb
+!notebooks/01_KiHealth_Data_Exploration.ipynb
 
 # Data files
 *.csv
+*.xpt
+*.xlsx
 !DOC_Validator_Vercel/api/template.py  # Keep template code
 data/
 !pubmed-literature-mining/data/articles/  # Allow OA scraper article data
 outputs/
 logs/
+
+# KiHealth / Diabetes data (HIPAA - never commit PHI)
+Diabetes-KiHealth/**/*.xpt
+Diabetes-KiHealth/**/*.xlsx
+Diabetes-KiHealth/**/October*.xlsx
+Diabetes-KiHealth/**/Ext*.xlsx
+# CHNS large SAS binaries (over GitHub 100MB limit; obtain from UNC/NIH)
+Diabetes-KiHealth/TL-KiHealth/CHNS/*.sas7bdat
 
 # Node modules
 node_modules/
