@@ -94,13 +94,18 @@ stage = st.sidebar.radio(
 if stage == "0. M1 Deliverables":
     st.header("M1 Package Contents")
     st.markdown("""
-    This is what KiHealth would have seen in the **M1 zip**: documentation, data overview, code structure, and presentation.
+    This is what would be seen in the **M1 zip**: documentation, data overview, code structure, and presentation.
     **Numbers below reflect the current dataset** when the unified CSV is present.
     """)
 
     stats = get_unified_stats()
     if stats:
-        st.subheader("Current dataset (live)")
+        col_head, col_btn = st.columns([5, 1])
+        with col_head:
+            st.subheader("Current dataset (live)")
+        with col_btn:
+            if st.button("Refresh data", help="Re-read unified_kihealth.csv and update the numbers below"):
+                st.rerun()
         c1, c2, c3, c4, c5 = st.columns(5)
         with c1:
             st.metric("Total samples", f"{stats['total']:,}")
