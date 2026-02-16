@@ -5,7 +5,7 @@
   "authors": "Rienstra, Wietske; Blikman, Tim; Dijkstra, Baukje; Stewart, Roy; Zijlstra, Wierd; van Raaij, Tom; Ten Hagen, Anita; Bulstra, Sjoerd; Stevens, Martin; van den Akker-Scheek, Inge",
   "journal": "BMJ open",
   "doi": "10.1136/bmjopen-2021-052944",
-  "publication_date": "2025-12-29T07:17:52.913877",
+  "publication_date": "2026-02-16T07:55:42.938337",
   "access_type": "open_access",
   "pdf_url": "https://bmjopen.bmj.com/content/bmjopen/11/11/e052944.full.pdf",
   "pdf_path": "data/pdfs/34732491.pdf",
@@ -78,7 +78,7 @@
       "context": "kl grade 0.167"
     }
   ],
-  "processing_status": "error",
-  "created_at": "2025-12-29T07:17:57.205073",
-  "updated_at": "2025-12-29T07:17:58.234639"
+  "processing_status": "processed",
+  "created_at": "2026-02-16T07:55:47.401209",
+  "updated_at": "2026-02-16T07:55:47.401455"
 }
