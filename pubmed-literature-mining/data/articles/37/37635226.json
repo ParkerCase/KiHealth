@@ -5,7 +5,7 @@
   "authors": "Shen, Lianwei; Yue, Shouwei",
   "journal": "Journal of orthopaedic surgery and research",
   "doi": "10.1186/s13018-023-04118-4",
-  "publication_date": "2025-12-29T07:16:57.447956",
+  "publication_date": "2026-02-16T07:54:55.310881",
   "access_type": "open_access",
   "pdf_url": "https://josr-online.biomedcentral.com/counter/pdf/10.1186/s13018-023-04118-4",
   "pdf_path": "data/pdfs/37635226.pdf",
@@ -92,7 +92,7 @@
       "context": "score calculator; jbs3 (%) (10 years risk of developing cvd), percent risk of developing cardiovascular disease in the next 10 years calculated as per the jbs3 risk score"
     }
   ],
-  "processing_status": "error",
-  "created_at": "2025-12-29T07:17:06.348267",
-  "updated_at": "2025-12-29T07:17:07.410804"
+  "processing_status": "processed",
+  "created_at": "2026-02-16T07:55:03.227192",
+  "updated_at": "2026-02-16T07:55:03.227485"
 }

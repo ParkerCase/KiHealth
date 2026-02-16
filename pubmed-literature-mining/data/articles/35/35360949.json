@@ -5,9 +5,9 @@
   "authors": "Banger, Matthew S; Doonan, James; Jones, Bryn G; MacLean, Angus D; Rowe, Philip J; Blyth, Mark J G",
   "journal": "The bone & joint journal",
   "doi": "10.1302/0301-620X.104B4.BJJ-2021-0837.R1",
-  "publication_date": "2025-12-29T07:17:39.802620",
-  "access_type": "paywalled",
-  "pdf_url": null,
+  "publication_date": "2026-02-16T07:55:34.921067",
+  "access_type": "open_access",
+  "pdf_url": "https://eprints.gla.ac.uk/296340/",
   "relevance_score": 42,
   "relevance_score_breakdown": {
     "clinical_relevance": 11,
@@ -35,7 +35,7 @@
       "context": "l knee arthroplasty (tka) at one year post-surgery. a total of 76 patients (34 bi-uka and 42 tka patients) were analyzed in a prospective, single-centre, randomized controlled trial. flat ground shod gait analysis was performed preoperatively and one year postoperatively. knee flexion moment was calculated from motion capture markers and force plates. the same setup determined proprioception outcomes during a"
     }
   ],
-  "processing_status": "error",
-  "created_at": "2025-12-29T07:17:41.646384",
-  "updated_at": "2025-12-29T07:17:42.645533"
+  "processing_status": "processed",
+  "created_at": "2026-02-16T07:55:37.240403",
+  "updated_at": "2026-02-16T07:55:37.240598"
 }
