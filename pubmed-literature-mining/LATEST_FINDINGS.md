@@ -1,11 +1,11 @@
-# PubMed Daily Summary - 2026-01-05
+# PubMed Daily Summary - 2026-02-16
 
 ## Overview
 
 - **Total Articles:** 137
 - **Flagged for Review:** 5 (3.6%)
 - **High-Relevance Articles:** 2 (score ≥ 70)
-- **Paywalled Articles:** 61
+- **Paywalled Articles:** 59
 - **Factor Patterns Detected:** 0
 
 ## Articles Flagged for Review
@@ -25,28 +25,28 @@
 
 1. **Enhancing total knee replacement prediction: a longitudinal joint space radiomic**
    - Score: 70/100
-   - Flags: should_review, medium_high, large_sample, recent, high_quality, priority, high_value
-   - Reason: Medium-high value (score: 70); Recent high-value article (13 days old); Large sample size (n=614)
+   - Flags: large_sample, priority, high_quality, recent, high_value, medium_high, should_review
+   - Reason: Medium-high value (score: 70); Recent high-value article (55 days old); Large sample size (n=614)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41376347/)
 
 2. **Preoperative neuropathic-like pain and central sensitisation are risk factors fo**
    - Score: 70/100
-   - Flags: systematic_review, should_review, medium_high, comprehensive, recent, priority, high_value
-   - Reason: Medium-high value (score: 70); Recent high-value article (13 days old); Systematic review or meta-analysis
+   - Flags: priority, systematic_review, comprehensive, recent, high_value, medium_high, should_review
+   - Reason: Medium-high value (score: 70); Recent high-value article (55 days old); Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/40995335/)
 
 3. **Fear avoidance and catastrophizing are associated with both knee awareness and q**
    - Score: 66/100
-   - Flags: large_sample, high_quality
+   - Flags: high_quality, large_sample
    - Reason: Large sample size (n=653)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41410384/)
 
 4. **Physical Activity and 4-Year Radiographic Medial Joint Space Loss in Knee Osteoa**
    - Score: 63/100
-   - Flags: large_sample, high_quality
+   - Flags: high_quality, large_sample
    - Reason: Large sample size (n=1806)
    - Access: paywalled
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41337563/)
