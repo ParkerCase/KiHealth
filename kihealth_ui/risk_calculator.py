@@ -1239,13 +1239,12 @@ def main():
         
         mode_data = {
             "Mode": ["Screening", "Balanced", "Confirmation"],
-            "Threshold": [0.24, 0.56, 0.64],
             "Sensitivity": ["100%", "76%", "59%"],
             "Specificity": ["60%", "82%", "87%"],
             "Use Case": [
-                "Catch all at-risk patients (minimize false negatives)",
-                "Optimal trade-off for general screening",
-                "High confidence positives (minimize false positives)"
+                "Catch all at-risk patients",
+                "Optimal trade-off",
+                "High confidence positives"
             ]
         }
         st.table(pd.DataFrame(mode_data))
@@ -1299,18 +1298,6 @@ def main():
         st.table(pd.DataFrame(corr_data))
         
         st.info("**Key Insight:** Beta Score measures active beta cell damage, which is independent of obesity and blood pressure. This makes it valuable for early detection before traditional markers become abnormal.")
-        
-        st.divider()
-        
-        # Model Comparison
-        st.markdown("### Comparison with KiHealth Current Model")
-        
-        comparison_data = {
-            "Feature": ["Features Required", "AUC", "Works with Missing Data", "External Validation", "Deployment"],
-            "KiHealth Current": ["4 (Beta, HbA1c, Insulin, C-pep)", "~0.975 (clean samples)", "No", "No", "Simple averaging"],
-            "M2 Transfer Learning": ["2 (Beta, Foundation Pred)", "0.875 (diverse patients)", "Yes", "Yes (17,427 patients)", "Learned patterns"]
-        }
-        st.table(pd.DataFrame(comparison_data))
         
         st.divider()
         
