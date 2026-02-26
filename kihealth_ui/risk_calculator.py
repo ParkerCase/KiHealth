@@ -1218,7 +1218,7 @@ def main():
         st.markdown("### Validation Dataset Composition")
         
         dataset_data = {
-            "Source": ["Cardinal", "BioIVT", "T1D Study", "BioIVT Fresh", "**Total**"],
+            "Source": ["Cardinal", "V1 Validation", "T1D Study", "BioIVT Fresh", "**Total**"],
             "Patients": [73, 34, 12, 10, "**129**"],
             "At-Risk": [25, 4, 12, 10, "**51**"],
             "Not At-Risk": [48, 30, 0, 0, "**78**"],
