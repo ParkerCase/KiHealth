@@ -1,49 +1,88 @@
-# KiHealth Pipeline UI
+# KiHealth Diabetes Risk Calculator
 
-A simple web UI to run the KiHealth transfer-learning pipeline and view results — no zip files or command line required.
+A Streamlit-based web application for assessing diabetes risk using KiHealth's proprietary Beta Score technology combined with transfer learning from large external datasets.
 
-## What it does
+## Features
 
-1. **Stage 1: M1 Overview** — View transfer learning dataset stats (38k+ rows, HOMA-eligible, diabetes cases) and sample rows
-2. **Stage 2: Data Prep** — Use existing patient TSV or upload new; convert TSV → CSV
-3. **Stage 3: Run Predictions** — Execute the pipeline (train on 33k samples, predict for each patient)
-4. **Stage 4: Results** — Summary counts, risk tier distribution, sample table, download full CSV
+- **M2 Transfer Learning Model**: AUC 0.875, validated on 129 patients
+- **Foundation Model**: Trained on 17,427 NHANES+CHNS patients
+- **Three Clinical Modes**:
+  - Screening (>24%): 100% Sensitivity, 60% Specificity
+  - Balanced (>56%): 76% Sensitivity, 82% Specificity
+  - Confirmation (>64%): 59% Sensitivity, 87% Specificity
 
-## Quick start
+## Quick Start
 
-From the **project root** (KiHealth-Project-1):
-
-```bash
-# Install dependencies (if needed)
-pip install streamlit pandas
-
-# Run the UI
-streamlit run kihealth_ui/app.py
-```
-
-Or use the start script (runs on port 8502 to avoid conflicting with other apps):
+### Local Development
 
 ```bash
-chmod +x kihealth_ui/START.sh
-./kihealth_ui/START.sh
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the app
+streamlit run risk_calculator.py
 ```
 
-The app opens in your browser at `http://localhost:8501` (or 8502).
+### Streamlit Cloud Deployment
 
-## Requirements
+1. Fork or clone this repository
+2. Go to [Streamlit Cloud](https://share.streamlit.io)
+3. Connect your GitHub account
+4. Select this repository
+5. Set main file path: `kihealth_ui/risk_calculator.py`
+6. Deploy
 
-- Python 3.9+
-- `data/processed/unified_kihealth.csv` must exist (from M1 data prep)
-- `Diabetes-KiHealth/TL-KiHealth/kihealth_patients_raw.tsv` for existing patients (or upload via UI)
+## Input Parameters
 
-## Deploying for Clifford
+### Primary Biomarker
+- **% Unmethylated (Beta Score)**: KiHealth's proprietary methylation biomarker
+  - 0-6%: Good - beta cells healthy
+  - 6-10%: Borderline - monitor closely
+  - 10-15%: Elevated - beta cell damage detected
+  - 15-20%: High - significant beta cell death
+  - 20%+: Very High - severe beta cell destruction
 
-**Option A: Local** — Clifford runs `streamlit run kihealth_ui/app.py` on his machine after pulling the repo.
+### Secondary Markers
+- **HbA1c (%)**: Glycated hemoglobin
+- **Fasting Insulin (uU/mL)**: Optional, improves HOMA-IR calculation
+- **Fasting Glucose (mg/dL)**: Optional
 
-**Option B: Deploy (remote access)** — Deploy to Streamlit Cloud, Railway, or Heroku so Clifford can access from **anywhere** (different state, home, office) via a URL. No need to pull the repo or run commands on his machine.
+## Model Architecture
 
-- **Streamlit Cloud:** Connect repo to [share.streamlit.io](https://share.streamlit.io), set app path to `kihealth_ui/app.py` → he gets a public URL
-- **Railway / Heroku:** Similar idea — deploy the app, get a URL
-- **Caveat:** The deployed app needs the `unified_kihealth.csv` and KiHealth data bundled or accessible (e.g. from a cloud storage bucket). For a full remote deployment, you'd need to include the data in the deploy or point to a remote data source.
+```
+Stage 1: Foundation Model
+├── Input: HbA1c, HOMA-IR
+├── Training: 17,427 NHANES+CHNS patients
+└── Output: Traditional risk probability
 
-**Option C: Single executable** — Package with PyInstaller for a double-click .exe (more setup).
+Stage 2: Final Model
+├── Input: Beta Score + Foundation Prediction
+├── Training: 129 KiHealth patients
+└── Output: Final risk probability (0-100%)
+```
+
+## Test Cases
+
+| Patient Type | Beta Score | HbA1c | Expected Risk |
+|--------------|------------|-------|---------------|
+| Normal | 5% unmeth | 5.2% | ~32% |
+| Prediabetic | 12% unmeth | 6.0% | ~56% |
+| T1D | 26% unmeth | 10.2% | ~91% |
+
+## Files
+
+- `risk_calculator.py`: Main Streamlit application
+- `requirements.txt`: Python dependencies
+- `.streamlit/config.toml`: Streamlit configuration
+
+## Model Files (Required)
+
+Located in `../Diabetes-KiHealth/TL-KiHealth/M2_Models/`:
+- `foundation_combined.joblib`: Foundation model
+- `foundation_scaler.joblib`: Foundation feature scaler
+- `beta_foundation_model.joblib`: Final transfer learning model
+- `beta_foundation_scaler.joblib`: Final model scaler
+
+## License
+
+Proprietary - KiHealth Inc.
