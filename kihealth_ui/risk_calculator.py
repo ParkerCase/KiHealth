@@ -1269,7 +1269,6 @@ def main():
         
         **Why Transfer Learning?**
         - Foundation model learns from 17,427 patients (vs 129 KiHealth patients)
-        - Provides +0.8% AUC improvement over baseline
         - More robust to edge cases
         - Better calibrated predictions
         """)
@@ -1307,7 +1306,7 @@ def main():
         st.warning("""
         **Limitations:**
         - Sample size: 129 patients (moderate - recommend collecting more)
-        - Confidence interval: ±0.065 (wider than ideal for clinical deployment)
+        - 95% CI: [0.82, 0.93] - reasonable but would narrow with more data
         - Best for: Beta cell damage detection (T1D, advanced T2D)
         - May miss: Early obesity-driven risk with intact beta cells
         
