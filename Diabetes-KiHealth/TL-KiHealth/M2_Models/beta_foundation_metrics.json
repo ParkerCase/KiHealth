@@ -1,0 +1,37 @@
+{
+  "model_name": "Beta + Foundation (Transfer Learning)",
+  "foundation_patients": 17427,
+  "training_patients": 63,
+  "validation_patients": 87,
+  "foundation_auc": 0.9650174182777447,
+  "final_auc": 0.9140708915145005,
+  "features": [
+    "beta_score",
+    "foundation_pred"
+  ],
+  "foundation_features": [
+    "hba1c",
+    "homa_ir"
+  ],
+  "coefficients": {
+    "beta_score": 0.589953575038313,
+    "foundation_pred": 0.5555920021828058
+  },
+  "thresholds": {
+    "sens_100": {
+      "threshold": 0.05,
+      "sensitivity": 1.0,
+      "specificity": 0.0
+    },
+    "sens_95": {
+      "threshold": 0.05,
+      "sensitivity": 1.0,
+      "specificity": 0.0
+    },
+    "sens_90": {
+      "threshold": 0.05,
+      "sensitivity": 1.0,
+      "specificity": 0.0
+    }
+  }
+}
