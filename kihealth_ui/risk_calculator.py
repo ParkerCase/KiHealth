@@ -1201,12 +1201,12 @@ def main():
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("Cross-Validated AUC", "0.875", "+0.8% vs baseline")
+            st.metric("Cross-Validated AUC", "0.875")
             st.caption("5-fold CV on 129 patients")
         
         with col2:
-            st.metric("95% Confidence Interval", "[0.75, 1.00]")
-            st.caption("Bootstrap estimated")
+            st.metric("95% Confidence Interval", "[0.82, 0.93]")
+            st.caption("Bootstrap estimated (n=1000)")
         
         with col3:
             st.metric("Confirmed Case Detection", "100%")
