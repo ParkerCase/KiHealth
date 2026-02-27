@@ -1359,7 +1359,7 @@ def main():
         - Uses **complex, multi-stage probability sampling** to represent the entire US population
         - Participants are **randomly selected from US households** across all income levels
         - **Intentional oversampling of minorities** ensures statistical power for subgroup analysis
-        - This is a **methodological strength**, not a bias - it means the model is validated across ALL demographic groups
+        - This is a **methodological strength**, not a bias - it means the model is validated across all demographic groups
         
         **Comparison to US Census (2020):**
         | Group | US Population | Our NHANES Data |
