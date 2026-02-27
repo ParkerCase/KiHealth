@@ -27,8 +27,8 @@ ENSEMBLE_MODEL_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "ense
 ENSEMBLE_THRESHOLD_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "ensemble_threshold.joblib"
 
 # M2 Transfer Learning Model paths
-# Validated on 129 patients: AUC 0.875 ± 0.065, 95% CI [0.75, 1.00]
-# Foundation trained on 17,427 NHANES+CHNS patients
+# Validated on 129 patients: AUC 0.889 ± 0.081, 95% CI [0.84, 0.94]
+# Foundation trained on 23,716 NHANES+CHNS patients using HbA1c + Age + BMI
 M2_MODELS_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "M2_Models"
 M2_FOUNDATION_PATH = M2_MODELS_PATH / "foundation_combined.joblib"
 M2_FOUNDATION_SCALER_PATH = M2_MODELS_PATH / "foundation_scaler.joblib"
@@ -70,7 +70,7 @@ def load_models():
     try:
         import joblib
         
-        # Load M2 Transfer Learning Model (AUC 0.875, validated on 129 patients)
+        # Load M2 Transfer Learning Model (AUC 0.889, validated on 129 patients)
         if M2_FOUNDATION_PATH.exists() and M2_BETA_MODEL_PATH.exists():
             models["m2_foundation"] = joblib.load(M2_FOUNDATION_PATH)
             models["m2_foundation_scaler"] = joblib.load(M2_FOUNDATION_SCALER_PATH)
@@ -100,44 +100,39 @@ def predict_with_m2_model(data: dict, models: dict) -> dict:
     Predict using M2 Transfer Learning model.
     
     This model uses a two-stage approach:
-    1. Foundation model (trained on 17,427 NHANES+CHNS patients) predicts traditional risk
+    1. Foundation model (trained on 23,716 NHANES+CHNS patients) predicts traditional risk
+       using HbA1c, Age, and BMI (no glucose/HOMA-IR required)
     2. Final model combines Beta Score with foundation prediction
     
     Performance (validated on unified dataset n=129):
-    - Cross-validated AUC: 0.875 ± 0.065
-    - Screening mode: 100% sensitivity, 60% specificity
+    - Cross-validated AUC: 0.889 ± 0.081
+    - Screening mode: 98% sensitivity, 46% specificity
     - Balanced mode: 76% sensitivity, 82% specificity
-    - Confirmation mode: 59% sensitivity, 87% specificity
+    - Confirmation mode: 67% sensitivity, 86% specificity
     """
     result = {
         "probability": None,
         "foundation_pred": None,
-        "model_name": "M2 Transfer Learning (AUC: 0.875)"
+        "model_name": "M2 Transfer Learning (AUC: 0.889)"
     }
     
     beta_score = data.get("beta_score")  # This is % Unmethylated
     hba1c = data.get("hba1c")
-    insulin = data.get("insulin")
-    glucose = data.get("glucose")
+    age = data.get("age")
+    bmi = data.get("bmi")
     
     if beta_score is None or hba1c is None:
         return result
     
-    # Calculate HOMA-IR (needed for foundation model)
-    if insulin and glucose and insulin > 0 and glucose > 0:
-        homa_ir = (insulin * glucose) / 405
-    else:
-        # Estimate glucose from HbA1c if not provided
-        estimated_glucose = (hba1c - 2.15) * 35.6
-        if insulin and insulin > 0:
-            homa_ir = (insulin * estimated_glucose) / 405
-        else:
-            # Use median HOMA-IR from training data
-            homa_ir = 2.5
+    # Use defaults for missing age/BMI (median from training data)
+    if age is None:
+        age = 50  # Median age
+    if bmi is None:
+        bmi = 27.5  # Median BMI
     
     try:
-        # Stage 1: Foundation model prediction
-        X_foundation = pd.DataFrame([[hba1c, homa_ir]], columns=['hba1c', 'homa_ir'])
+        # Stage 1: Foundation model prediction (HbA1c + Age + BMI)
+        X_foundation = pd.DataFrame([[hba1c, age, bmi]], columns=['hba1c_percent', 'age_years', 'bmi_kg_m2'])
         X_foundation_scaled = models["m2_foundation_scaler"].transform(X_foundation)
         foundation_pred = models["m2_foundation"].predict_proba(X_foundation_scaled)[0, 1]
         result["foundation_pred"] = foundation_pred
@@ -312,23 +307,23 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
                 results["foundation_pred"] = m2_result["foundation_pred"]
                 
                 # M2 model thresholds (optimized on unified dataset n=129)
-                # Based on actual cross-validated performance
+                # Based on actual cross-validated performance (HbA1c + Age + BMI foundation)
                 m2_thresholds = {
-                    "screening": 0.24,      # 100% sensitivity, 60% specificity
-                    "balanced": 0.56,       # 76% sensitivity, 82% specificity
-                    "confirmation": 0.64,   # 59% sensitivity, 87% specificity
+                    "screening": 0.22,      # 98% sensitivity, 46% specificity
+                    "balanced": 0.40,       # 76% sensitivity, 82% specificity
+                    "confirmation": 0.58,   # 67% sensitivity, 86% specificity
                 }
-                threshold = m2_thresholds.get(clinical_mode, 0.56)
+                threshold = m2_thresholds.get(clinical_mode, 0.40)
                 
                 # M2 mode-specific performance (validated on n=129 unified dataset)
                 m2_performance = {
-                    "screening": {"sens": "100%", "spec": "60%", "desc": "Catches all at-risk patients"},
+                    "screening": {"sens": "98%", "spec": "46%", "desc": "Catches nearly all at-risk patients"},
                     "balanced": {"sens": "76%", "spec": "82%", "desc": "Optimal trade-off"},
-                    "confirmation": {"sens": "59%", "spec": "87%", "desc": "High confidence positives"},
+                    "confirmation": {"sens": "67%", "spec": "86%", "desc": "High confidence positives"},
                 }
                 
                 perf = m2_performance.get(clinical_mode, m2_performance["balanced"])
-                results["model_used"] = f"M2 Transfer Learning (AUC: 0.875) - {clinical_mode.title()} Mode (Sens: {perf['sens']}, Spec: {perf['spec']})"
+                results["model_used"] = f"M2 Transfer Learning (AUC: 0.889) - {clinical_mode.title()} Mode (Sens: {perf['sens']}, Spec: {perf['spec']})"
                 results["clinical_mode"] = clinical_mode
                 results["threshold"] = threshold
                 
@@ -513,10 +508,10 @@ def main():
         st.markdown(f"""
         <div class="icon-text" style="color: #22c55e;">
             {svg_icon("shield_check", 20)}
-            <span><strong>M2 Transfer Learning Model loaded:</strong> AUC 0.875 (CV) | Validated on 129 patients</span>
+            <span><strong>M2 Transfer Learning Model loaded:</strong> AUC 0.889 (CV) | Validated on 129 patients</span>
         </div>
         """, unsafe_allow_html=True)
-        st.caption("Transfer learning from 17,427 NHANES+CHNS patients. Performance varies by clinical mode.")
+        st.caption("Transfer learning from 23,716 NHANES+CHNS patients using HbA1c, Age, BMI. No glucose required.")
     elif "final" in models:
         st.markdown(f"""
         <div class="icon-text" style="color: #22c55e;">
@@ -935,9 +930,9 @@ def main():
             "Select assessment mode based on clinical context:",
             ["screening", "balanced", "confirmation"],
             format_func=lambda x: {
-                "screening": "Screening (at-risk if >24%) - 100% Sensitivity, catches all cases",
-                "balanced": "Balanced (at-risk if >56%) - 76% Sensitivity, 82% Specificity",
-                "confirmation": "Confirmation (at-risk if >64%) - High confidence, 87% Specificity"
+                "screening": "Screening (at-risk if >22%) - 98% Sensitivity, catches nearly all cases",
+                "balanced": "Balanced (at-risk if >40%) - 76% Sensitivity, 82% Specificity",
+                "confirmation": "Confirmation (at-risk if >58%) - High confidence, 86% Specificity"
             }[x],
             index=1,
             key="clinical_mode",
@@ -1201,16 +1196,16 @@ def main():
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.metric("Cross-Validated AUC", "0.875")
+            st.metric("Cross-Validated AUC", "0.889")
             st.caption("5-fold CV on 129 patients")
         
         with col2:
-            st.metric("95% Confidence Interval", "[0.82, 0.93]")
+            st.metric("95% Confidence Interval", "[0.84, 0.94]")
             st.caption("Bootstrap estimated (n=1000)")
         
         with col3:
-            st.metric("Confirmed Case Detection", "100%")
-            st.caption("51/51 at-risk detected at screening threshold")
+            st.metric("Confirmed Case Detection", "98%")
+            st.caption("50/51 at-risk detected at screening threshold")
         
         st.divider()
         
@@ -1239,10 +1234,10 @@ def main():
         
         mode_data = {
             "Mode": ["Screening", "Balanced", "Confirmation"],
-            "Sensitivity": ["100%", "76%", "59%"],
-            "Specificity": ["60%", "82%", "87%"],
+            "Sensitivity": ["98%", "76%", "67%"],
+            "Specificity": ["46%", "82%", "86%"],
             "Use Case": [
-                "Catch all at-risk patients",
+                "Catch nearly all at-risk patients",
                 "Optimal trade-off",
                 "High confidence positives"
             ]
@@ -1257,10 +1252,11 @@ def main():
         st.markdown("""
         **Two-Stage Prediction Process:**
         
-        1. **Foundation Model** (trained on 17,427 NHANES+CHNS patients)
+        1. **Foundation Model** (trained on 23,716 NHANES+CHNS patients)
            - Learns traditional metabolic risk patterns
-           - Input: HbA1c, HOMA-IR
+           - Input: HbA1c, Age, BMI
            - Output: Traditional risk probability
+           - **No glucose measurement required**
         
         2. **Final Model** (fine-tuned on KiHealth data)
            - Combines Beta Score with foundation prediction
@@ -1268,7 +1264,8 @@ def main():
            - Output: Final risk probability (0-100%)
         
         **Why Transfer Learning?**
-        - Foundation model learns from 17,427 patients (vs 129 KiHealth patients)
+        - Foundation model learns from 23,716 patients (vs 129 KiHealth patients)
+        - Uses only features KiHealth collects in production (no glucose needed)
         - More robust to edge cases
         - Better calibrated predictions
         """)
@@ -1306,14 +1303,14 @@ def main():
         st.warning("""
         **Limitations:**
         - Sample size: 129 patients (moderate - recommend collecting more)
-        - 95% CI: [0.82, 0.93] - reasonable but would narrow with more data
+        - 95% CI: [0.84, 0.94] - reasonable but would narrow with more data
         - Best for: Beta cell damage detection (T1D, advanced T2D)
         - May miss: Early obesity-driven risk with intact beta cells
         
         **Recommendations:**
         - Use as complementary to traditional metabolic screening
         - Prospective validation recommended before clinical deployment
-        - Consider combining with BMI/HBP for comprehensive risk assessment
+        - Model now uses Age + BMI which captures obesity-related risk
         """)
         
         st.divider()

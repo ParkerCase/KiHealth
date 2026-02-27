@@ -1,37 +1,50 @@
 {
-  "model_name": "Beta + Foundation (Transfer Learning)",
-  "foundation_patients": 17427,
-  "training_patients": 63,
-  "validation_patients": 87,
-  "foundation_auc": 0.9650174182777447,
-  "final_auc": 0.9140708915145005,
-  "features": [
-    "beta_score",
-    "foundation_pred"
-  ],
+  "model_type": "M2_Transfer_Learning_HbA1c_Age_BMI",
   "foundation_features": [
-    "hba1c",
-    "homa_ir"
+    "hba1c_percent",
+    "age_years",
+    "bmi_kg_m2"
   ],
-  "coefficients": {
-    "beta_score": 0.589953575038313,
-    "foundation_pred": 0.5555920021828058
-  },
+  "foundation_patients": 23716,
+  "foundation_auc": 0.9488608431858775,
+  "kihealth_patients": 129,
+  "kihealth_at_risk": 51,
+  "cv_auc_mean": 0.8894545454545455,
+  "cv_auc_std": 0.08147920309618942,
+  "cv_scores": [
+    0.7272727272727273,
+    0.93125,
+    0.94375,
+    0.925,
+    0.92
+  ],
+  "final_auc": 0.8914027149321266,
+  "ci_lower": 0.8352913943355119,
+  "ci_upper": 0.9427132779147631,
   "thresholds": {
-    "sens_100": {
-      "threshold": 0.05,
-      "sensitivity": 1.0,
-      "specificity": 0.0
+    "screening": {
+      "threshold": 0.22,
+      "sensitivity": 0.9803921568627451,
+      "specificity": 0.46153846153846156
     },
-    "sens_95": {
-      "threshold": 0.05,
-      "sensitivity": 1.0,
-      "specificity": 0.0
+    "balanced": {
+      "threshold": 0.4,
+      "sensitivity": 0.7647058823529411,
+      "specificity": 0.8205128205128205
     },
-    "sens_90": {
-      "threshold": 0.05,
-      "sensitivity": 1.0,
-      "specificity": 0.0
+    "confirmation": {
+      "threshold": 0.58,
+      "sensitivity": 0.6666666666666666,
+      "specificity": 0.8589743589743589
     }
+  },
+  "foundation_coefficients": {
+    "hba1c": 3.4058316729827913,
+    "age": 0.42605605376500844,
+    "bmi": 0.23157222708064745
+  },
+  "final_coefficients": {
+    "beta_score": 0.7122528255576225,
+    "foundation_pred": 1.395286098209505
   }
 }
