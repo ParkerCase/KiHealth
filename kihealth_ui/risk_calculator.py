@@ -1384,7 +1384,7 @@ def main():
         corr_data = {
             "Feature": ["BMI", "High Blood Pressure", "HbA1c", "HOMA-IR", "C-peptide"],
             "Correlation with Beta Score": ["+0.22", "+0.02", "+0.13", "+0.17", "+0.76"],
-            "Significance": ["Weak (p=0.15)", "None (p=0.85)", "Weak (p=0.19)", "Weak (p=0.07)", "Strong (p<0.001)"],
+            "Significance": ["Weak (p=0.15)", "None (p=0.85)", "Weak (p=0.19)", "Moderate (p=0.07)", "Strong (p<0.001)"],
             "Interpretation": [
                 "Obesity doesn't directly cause beta cell death",
                 "No relationship to beta cell health",
