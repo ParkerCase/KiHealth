@@ -1355,9 +1355,6 @@ def main():
         st.markdown("#### Why NHANES is Nationally Representative")
         
         st.markdown("""
-        **Common Misconception:** Some believe NHANES only samples low-income or minority populations.
-        
-        **The Facts:**
         - NHANES is conducted by the **CDC's National Center for Health Statistics**
         - Uses **complex, multi-stage probability sampling** to represent the entire US population
         - Participants are **randomly selected from US households** across all income levels
