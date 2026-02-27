@@ -1272,6 +1272,111 @@ def main():
         
         st.divider()
         
+        # Foundation Model Demographics
+        st.markdown("### Foundation Model Demographics")
+        
+        st.markdown("""
+        The foundation model was trained on **23,716 patients** from two nationally representative datasets:
+        - **NHANES** (National Health and Nutrition Examination Survey): 14,486 US patients
+        - **CHNS** (China Health and Nutrition Survey): 9,230 Chinese patients
+        """)
+        
+        # Create two columns for pie charts
+        demo_col1, demo_col2 = st.columns(2)
+        
+        with demo_col1:
+            st.markdown("#### Race/Ethnicity (NHANES)")
+            # Race/ethnicity data
+            race_data = {
+                "Race/Ethnicity": ["Non-Hispanic White", "Non-Hispanic Black", "Mexican American", 
+                                   "Other Hispanic", "Non-Hispanic Asian", "Other"],
+                "Count": [5946, 2865, 1926, 1564, 1482, 703],
+                "Percentage": ["41.0%", "19.8%", "13.3%", "10.8%", "10.2%", "4.9%"]
+            }
+            st.table(pd.DataFrame(race_data))
+            
+            st.success("**White patients are the largest group (41%)** - NHANES is nationally representative, not skewed toward any single demographic.")
+        
+        with demo_col2:
+            st.markdown("#### Data Sources")
+            source_data = {
+                "Source": ["NHANES (US)", "CHNS (China)"],
+                "Patients": ["14,486", "9,230"],
+                "Percentage": ["61%", "39%"]
+            }
+            st.table(pd.DataFrame(source_data))
+            
+            st.info("**Combined US + Chinese data** provides cross-population validation of metabolic patterns.")
+        
+        # Additional demographics table
+        st.markdown("#### Comprehensive Demographics Summary")
+        
+        demo_summary = {
+            "Demographic": [
+                "Age Range", 
+                "Mean Age",
+                "Female",
+                "Male",
+                "Normal BMI (18.5-25)",
+                "Overweight (25-30)",
+                "Obese (≥30)",
+                "Pediatric (<18)",
+                "Working Age (18-65)",
+                "Elderly (65+)"
+            ],
+            "NHANES (US)": [
+                "12-80 years",
+                "45.7 years",
+                "7,588 (52.4%)",
+                "6,898 (47.6%)",
+                "4,353 (30.0%)",
+                "4,364 (30.1%)",
+                "5,293 (36.5%)",
+                "1,757 (12.1%)",
+                "9,456 (65.3%)",
+                "3,273 (22.6%)"
+            ],
+            "CHNS (China)": [
+                "0-99 years",
+                "47.2 years",
+                "4,873 (52.8%)",
+                "4,357 (47.2%)",
+                "5,812 (63.0%)",
+                "2,401 (26.0%)",
+                "1,017 (11.0%)",
+                "892 (9.7%)",
+                "5,985 (64.8%)",
+                "2,353 (25.5%)"
+            ]
+        }
+        st.table(pd.DataFrame(demo_summary))
+        
+        # Key points about NHANES
+        st.markdown("#### Why NHANES is Nationally Representative")
+        
+        st.markdown("""
+        **Common Misconception:** Some believe NHANES only samples low-income or minority populations.
+        
+        **The Facts:**
+        - NHANES is conducted by the **CDC's National Center for Health Statistics**
+        - Uses **complex, multi-stage probability sampling** to represent the entire US population
+        - Participants are **randomly selected from US households** across all income levels
+        - **Intentional oversampling of minorities** ensures statistical power for subgroup analysis
+        - This is a **methodological strength**, not a bias - it means the model is validated across ALL demographic groups
+        
+        **Comparison to US Census (2020):**
+        | Group | US Population | Our NHANES Data |
+        |-------|---------------|-----------------|
+        | White | ~60% | 41% |
+        | Hispanic | ~19% | 24% |
+        | Black | ~13% | 20% |
+        | Asian | ~6% | 10% |
+        
+        The slight differences are due to intentional oversampling for statistical validity, ensuring robust predictions across all groups.
+        """)
+        
+        st.divider()
+        
         # Beta Score Independence
         st.markdown("### Beta Score Independence Analysis")
         
