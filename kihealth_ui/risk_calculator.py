@@ -452,8 +452,6 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
         ]
         results["recommendations_t1"] = [
             "Consider diabetes autoantibody testing (GAD-65, IA-2, ZnT8) if clinical concern for T1D",
-            "Refer to endocrinology if antibody-positive or high suspicion",
-            "Patient education: symptoms of DKA and when to seek urgent care",
             "Retest HbA1c and/or C-peptide in 3-6 months as indicated",
         ]
         results["recommendations"] = results["recommendations_t2"]  # default display; UI shows both blocks
