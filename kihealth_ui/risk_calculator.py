@@ -442,13 +442,21 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
             "Regular HbA1c testing every 3 months",
         ]
     elif status == "Prediabetic" or results["risk_category"] in ["High", "Very High"]:
-        results["recommendations"] = [
-            "Lifestyle intervention is critical - can reduce progression risk by 58%",
+        # Split so clinicians can use the right set: T2D/metabolic vs T1D/autoimmune
+        results["recommendations_t2"] = [
+            "Lifestyle intervention is critical - can reduce progression risk by 58% (DPP evidence)",
             "Target 7% weight loss if overweight",
             "150 minutes/week of moderate physical activity",
             "Consider metformin if high-risk (discuss with physician)",
             "Retest HbA1c in 3-6 months",
         ]
+        results["recommendations_t1"] = [
+            "Consider diabetes autoantibody testing (GAD-65, IA-2, ZnT8) if clinical concern for T1D",
+            "Refer to endocrinology if antibody-positive or high suspicion",
+            "Patient education: symptoms of DKA and when to seek urgent care",
+            "Retest HbA1c and/or C-peptide in 3-6 months as indicated",
+        ]
+        results["recommendations"] = results["recommendations_t2"]  # default display; UI shows both blocks
     else:
         results["recommendations"] = [
             "Maintain healthy lifestyle",
@@ -1092,8 +1100,17 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            for i, rec in enumerate(results["recommendations"], 1):
-                st.markdown(f"{i}. {rec}")
+            if "recommendations_t2" in results and "recommendations_t1" in results:
+                st.markdown("**If metabolic / type 2 diabetes risk:**")
+                for i, rec in enumerate(results["recommendations_t2"], 1):
+                    st.markdown(f"{i}. {rec}")
+                st.markdown("**If type 1 / autoimmune diabetes concern:**")
+                for i, rec in enumerate(results["recommendations_t1"], 1):
+                    st.markdown(f"{i}. {rec}")
+                st.caption("Use the set that fits clinical context. Beta Score can reflect beta cell damage from either T1D or T2D.")
+            else:
+                for i, rec in enumerate(results["recommendations"], 1):
+                    st.markdown(f"{i}. {rec}")
             
             st.divider()
             
