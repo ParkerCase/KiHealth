@@ -1,0 +1,48 @@
+{
+  "pmid": "41568780",
+  "title": "Predictors of Functional Recovery in Individuals Exposed to Late-Stage Exercise Programs After Total Knee Replacement: A Secondary Analysis of a Randomized Controlled Trial.",
+  "abstract": "Total knee replacement (TKR) is common for advanced cartilage degeneration. Often, functional limitations persist, and late-stage exercise (2-4 months after TKR) may improve recovery. The objective of this study was to identify predictors of late-stage functional recovery after TKR and their variations by exercise program. This study was a secondary analysis of a randomized controlled trial. The settings were 1 physical therapy clinic and 4 community centers in Allegheny County, Pennsylvania. The study included 199 individuals (mean age = 70 years; body mass index = 31 kg/m2; 60% women). Interventions were physical therapy exercises, community-based exercises, and usual care. The main outcome was functional recovery at 6 months after intervention. Functional recovery was defined as ≥50% improvement on the Western Ontario and McMaster Universities Osteoarthritis Index physical function subscale, at least somewhat better on the Global Rating of Change, and ≥ 20% improvement on ≥2 performance-based tests. Predictors were identified using logistic regression. Odds ratios (ORs) and 95% confidence intervals (CIs) were reported. In the entire cohort, 33% of participants achieved functional recovery, including 42% in the physical therapy group and 38% in the community group. Overall, better baseline health (odds ratio [OR] = 2.70 [95% CI = 1.34-5.47]), discharge to home (OR = 6.24 [95% CI = 1.94-20.09]), and higher Western Ontario and McMaster Universities Osteoarthritis Index pain subscale scores (OR = 1.22 [95% CI = 1.07-1.40]) predicted functional recovery. In the physical therapy group (n = 83), positive predictors were better health (OR = 4.40 [95% CI = 1.20-16.06]), discharge to home (OR = 11.67 [95% CI = 2.01-67.76]), regular use of nonsteroidal anti-inflammatory drugs (OR = 3.76 [95% CI = 1.11-12.78]), and as-needed use of analgesics (OR = 10.53 [95% CI = 1.75-63.48]). Negative predictors, associated with a lower likelihood of recovery, were regular use of salicylates (OR = 0.22 [95% CI = 0.07-0.74]) and greater use of pain-coping strategies (OR = 0.51 [95% CI = 0.29-0.89]). No predictors were identified in the community group (n = 76). Better baseline health, discharge to home after TKR, and higher pain levels predicted functional recovery. Physical therapy provided additional benefits for a subset of participants. This evidence helps clinicians set realistic functional recovery expectations and strategies to facilitate function late after TKR.",
+  "authors": "Carlesso, Cristiane R; Smith, Clair; Patterson, Charity G; Bove, Allyn M; Piva, Sara R",
+  "journal": "Physical therapy",
+  "doi": "10.1093/ptj/pzag006",
+  "publication_date": "2026-03-02T07:49:24.558562",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 40,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 17,
+    "novelty_impact": 8,
+    "actionability": 4,
+    "total_score": 40
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 63,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "total knee replacement (tkr) is common for advanced cartilage degeneration. often, functional limitations persist, and late-stage exercise (2-4 months after tkr) may improve recovery. the objective of this study was to identify predictors of late-stage functional recovery after tkr and their variations by exercise program. this"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "lysis of a randomized controlled trial. the settings were 1 physical therapy clinic and 4 community centers in allegheny county, pennsylvania. the study included 199 individuals (mean age = 70 years; body mass index = 31 kg/m2; 60% women). interventions were physical therapy exercises, community-based exercises, and usual care. the main outcome was functional recovery at 6 months after intervention. functional r"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "l, better baseline health (odds ratio [or] = 2.70 [95% ci = 1.34-5.47]), discharge to home (or = 6.24 [95% ci = 1.94-20.09]), and higher western ontario and mcmaster universities osteoarthritis index pain subscale scores (or = 1.22 [95% ci = 1.07-1.40]) predicted functional recovery. in the physical therapy group (n = 83), positive predictors were better health (or = 4.40 [95% ci = 1.20-16.06]), disch"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2026-03-02T07:49:31.520002",
+  "updated_at": "2026-03-02T07:49:31.520130"
+}
