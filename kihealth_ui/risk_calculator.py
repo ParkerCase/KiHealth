@@ -27,7 +27,7 @@ ENSEMBLE_MODEL_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "ense
 ENSEMBLE_THRESHOLD_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "ensemble_threshold.joblib"
 
 # M2 Transfer Learning Model paths
-# Validated on 129 patients: AUC 0.889 ± 0.081, 95% CI [0.84, 0.94]
+# Validated on 129 patients; AUC ~0.896, 95% CI [0.85, 0.95]; optional insulin + C-peptide
 # Foundation trained on 23,716 NHANES+CHNS patients using HbA1c + Age + BMI
 M2_MODELS_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "M2_Models"
 M2_FOUNDATION_PATH = M2_MODELS_PATH / "foundation_combined.joblib"
@@ -70,7 +70,7 @@ def load_models():
     try:
         import joblib
         
-        # Load M2 Transfer Learning Model (AUC 0.889, validated on 129 patients)
+        # Load M2 Transfer Learning Model (validated on 129 patients)
         if M2_FOUNDATION_PATH.exists() and M2_BETA_MODEL_PATH.exists():
             models["m2_foundation"] = joblib.load(M2_FOUNDATION_PATH)
             models["m2_foundation_scaler"] = joblib.load(M2_FOUNDATION_SCALER_PATH)
@@ -78,6 +78,11 @@ def load_models():
             models["m2_beta_scaler"] = joblib.load(M2_BETA_SCALER_PATH)
             if M2_THRESHOLDS_PATH.exists():
                 models["m2_thresholds"] = joblib.load(M2_THRESHOLDS_PATH)
+            m2_metrics_path = M2_MODELS_PATH / "beta_foundation_metrics.json"
+            if m2_metrics_path.exists():
+                import json
+                with open(m2_metrics_path) as f:
+                    models["m2_metrics"] = json.load(f)
             models["m2_available"] = True
         
         # Load final model (AUC 0.890, multiple thresholds) as fallback
@@ -98,25 +103,18 @@ def load_models():
 def predict_with_m2_model(data: dict, models: dict) -> dict:
     """
     Predict using M2 Transfer Learning model.
-    
-    This model uses a two-stage approach:
-    1. Foundation model (trained on 23,716 NHANES+CHNS patients) predicts traditional risk
-       using HbA1c, Age, and BMI (no glucose/HOMA-IR required)
-    2. Final model combines Beta Score with foundation prediction
-    
-    Performance (validated on unified dataset n=129):
-    - Cross-validated AUC: 0.889 ± 0.081
-    - Screening mode: 98% sensitivity, 46% specificity
-    - Balanced mode: 76% sensitivity, 82% specificity
-    - Confirmation mode: 67% sensitivity, 86% specificity
+    Two-stage: Foundation (HbA1c, Age, BMI) then Final (Beta Score + foundation pred; optional insulin + C-peptide).
+    When insulin or C-peptide are missing, training medians are used (safe fallback).
     """
+    metrics = models.get("m2_metrics", {})
+    auc_label = f"{metrics.get('cv_auc_mean', 0.896):.2f}" if metrics else "0.896"
     result = {
         "probability": None,
         "foundation_pred": None,
-        "model_name": "M2 Transfer Learning (AUC: 0.889)"
+        "model_name": f"M2 Transfer Learning (AUC: {auc_label})"
     }
     
-    beta_score = data.get("beta_score")  # This is % Unmethylated
+    beta_score = data.get("beta_score")  # % Unmethylated
     hba1c = data.get("hba1c")
     age = data.get("age")
     bmi = data.get("bmi")
@@ -124,22 +122,33 @@ def predict_with_m2_model(data: dict, models: dict) -> dict:
     if beta_score is None or hba1c is None:
         return result
     
-    # Use defaults for missing age/BMI (median from training data)
     if age is None:
-        age = 50  # Median age
+        age = 50
     if bmi is None:
-        bmi = 27.5  # Median BMI
+        bmi = 27.5
     
     try:
-        # Stage 1: Foundation model prediction (HbA1c + Age + BMI)
+        # Stage 1: Foundation (HbA1c + Age + BMI)
         X_foundation = pd.DataFrame([[hba1c, age, bmi]], columns=['hba1c_percent', 'age_years', 'bmi_kg_m2'])
         X_foundation_scaled = models["m2_foundation_scaler"].transform(X_foundation)
         foundation_pred = models["m2_foundation"].predict_proba(X_foundation_scaled)[0, 1]
         result["foundation_pred"] = foundation_pred
         
-        # Stage 2: Final model (Beta Score + Foundation Prediction)
-        X_final = pd.DataFrame([[beta_score, foundation_pred]], columns=['beta_score', 'foundation_pred'])
-        X_final_scaled = models["m2_beta_scaler"].transform(X_final)
+        # Stage 2: Final model (2 or 4 features)
+        scaler = models["m2_beta_scaler"]
+        n_features = getattr(scaler, "n_features_in_", 2)
+        if n_features == 4 and metrics:
+            # Use insulin and C-peptide; fallback to median when missing
+            insulin = data.get("insulin")
+            cpeptide = data.get("c_peptide")
+            if insulin is None or (isinstance(insulin, float) and np.isnan(insulin)):
+                insulin = metrics.get("median_insulin", 21.0)
+            if cpeptide is None or (isinstance(cpeptide, float) and np.isnan(cpeptide)):
+                cpeptide = metrics.get("median_cpeptide", 2.9)
+            X_final = pd.DataFrame([[beta_score, foundation_pred, float(insulin), float(cpeptide)]], columns=['beta_score', 'foundation_pred', 'insulin', 'cpeptide'])
+        else:
+            X_final = pd.DataFrame([[beta_score, foundation_pred]], columns=['beta_score', 'foundation_pred'])
+        X_final_scaled = scaler.transform(X_final)
         final_prob = models["m2_beta_model"].predict_proba(X_final_scaled)[0, 1]
         result["probability"] = final_prob
         
@@ -306,24 +315,26 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
                 results["risk_probability"] = round(prob * 100, 1)
                 results["foundation_pred"] = m2_result["foundation_pred"]
                 
-                # M2 model thresholds (optimized on unified dataset n=129)
-                # Based on actual cross-validated performance (HbA1c + Age + BMI foundation)
-                m2_thresholds = {
-                    "screening": 0.22,      # 98% sensitivity, 46% specificity
-                    "balanced": 0.40,       # 76% sensitivity, 82% specificity
-                    "confirmation": 0.58,   # 67% sensitivity, 86% specificity
-                }
-                threshold = m2_thresholds.get(clinical_mode, 0.40)
+                # M2 thresholds and performance (from loaded file or fallback for n=129 model)
+                m2_metrics = models.get("m2_metrics", {})
+                th = m2_metrics.get("thresholds", {})
+                def _tval(mode, default):
+                    loaded = (models.get("m2_thresholds") or {}).get(mode) or th.get(mode, {})
+                    if isinstance(loaded, dict):
+                        return loaded.get("threshold", default)
+                    return loaded if isinstance(loaded, (int, float)) else default
+                m2_thresholds = {"screening": _tval("screening", 0.22), "balanced": _tval("balanced", 0.45), "confirmation": _tval("confirmation", 0.58)}
+                threshold = m2_thresholds.get(clinical_mode, 0.45)
                 
-                # M2 mode-specific performance (validated on n=129 unified dataset)
+                def _pct(x):
+                    return f"{int(round(x * 100))}%" if isinstance(x, (int, float)) else str(x)
                 m2_performance = {
-                    "screening": {"sens": "98%", "spec": "46%", "desc": "Catches nearly all at-risk patients"},
-                    "balanced": {"sens": "76%", "spec": "82%", "desc": "Optimal trade-off"},
-                    "confirmation": {"sens": "67%", "spec": "86%", "desc": "High confidence positives"},
+                    "screening": {"sens": _pct(th.get("screening", {}).get("sensitivity", 0.98)), "spec": _pct(th.get("screening", {}).get("specificity", 0.59)), "desc": "Catches nearly all at-risk patients"},
+                    "balanced": {"sens": _pct(th.get("balanced", {}).get("sensitivity", 0.76)), "spec": _pct(th.get("balanced", {}).get("specificity", 0.83)), "desc": "Optimal trade-off"},
+                    "confirmation": {"sens": _pct(th.get("confirmation", {}).get("sensitivity", 0.73)), "spec": _pct(th.get("confirmation", {}).get("specificity", 0.87)), "desc": "High confidence positives"},
                 }
-                
                 perf = m2_performance.get(clinical_mode, m2_performance["balanced"])
-                results["model_used"] = f"M2 Transfer Learning (AUC: 0.889) - {clinical_mode.title()} Mode (Sens: {perf['sens']}, Spec: {perf['spec']})"
+                results["model_used"] = f"{m2_result['model_name']} - {clinical_mode.title()} Mode (Sens: {perf['sens']}, Spec: {perf['spec']})"
                 results["clinical_mode"] = clinical_mode
                 results["threshold"] = threshold
                 
@@ -511,13 +522,17 @@ def main():
     
     # Model status
     if models.get("m2_available"):
+        m2_metrics = models.get("m2_metrics", {})
+        auc_str = f"{m2_metrics.get('cv_auc_mean', 0.896):.2f}" if m2_metrics else "0.90"
+        ci = m2_metrics.get("ci_lower"), m2_metrics.get("ci_upper")
+        ci_str = f"[{ci[0]:.2f}, {ci[1]:.2f}]" if (ci[0] is not None and ci[1] is not None) else "[0.85, 0.95]"
         st.markdown(f"""
         <div class="icon-text" style="color: #22c55e;">
             {svg_icon("shield_check", 20)}
-            <span><strong>M2 Transfer Learning Model loaded:</strong> AUC 0.889 (CV) | Validated on 129 patients</span>
+            <span><strong>M2 Transfer Learning Model loaded:</strong> AUC {auc_str} (CV) | 95% CI {ci_str} | 129 patients</span>
         </div>
         """, unsafe_allow_html=True)
-        st.caption("Transfer learning from 23,716 NHANES+CHNS patients using HbA1c, Age, BMI. No glucose required.")
+        st.caption("Transfer learning from 23,716 NHANES+CHNS (HbA1c, Age, BMI). Optional insulin + C-peptide; medians used when missing.")
     elif "final" in models:
         st.markdown(f"""
         <div class="icon-text" style="color: #22c55e;">
@@ -1207,20 +1222,21 @@ def main():
         
         # Model Performance Summary
         st.markdown("### Model Performance Summary")
-        
+        m2_metrics = models.get("m2_metrics", {})
+        auc_val = f"{m2_metrics.get('cv_auc_mean', 0.896):.2f}" if m2_metrics else "0.90"
+        ci_lo = m2_metrics.get("ci_lower")
+        ci_hi = m2_metrics.get("ci_upper")
+        ci_val = f"[{ci_lo:.2f}, {ci_hi:.2f}]" if (ci_lo is not None and ci_hi is not None) else "[0.85, 0.95]"
         col1, col2, col3 = st.columns(3)
-        
         with col1:
-            st.metric("Cross-Validated AUC", "0.889")
+            st.metric("Cross-Validated AUC", auc_val)
             st.caption("5-fold CV on 129 patients")
-        
         with col2:
-            st.metric("95% Confidence Interval", "[0.84, 0.94]")
-            st.caption("Bootstrap estimated (n=1000)")
-        
+            st.metric("95% Confidence Interval", ci_val)
+            st.caption("Bootstrap (n=1000)")
         with col3:
-            st.metric("Confirmed Case Detection", "98%")
-            st.caption("50/51 at-risk detected at screening threshold")
+            st.metric("Screening sensitivity", "98%")
+            st.caption("At screening threshold (50/51 at-risk)")
         
         st.divider()
         
