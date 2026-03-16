@@ -1,7 +1,7 @@
 ================================================================================
 PAYWALLED ARTICLES - KNEE OA PROGRESSION
 ================================================================================
-Generated: 2026-03-09 07:52:21
+Generated: 2026-03-16 08:14:29
 Total Articles: 60
 Relevance Threshold: 0/100
 
@@ -17,7 +17,7 @@ Articles: 7
    PMID: 31182407
    DOI: 10.1016/j.arth.2019.04.048
    Authors: Shah, Ajay; Memon, Muzammil; Kay, Jeffrey; Wood, Thomas J; Tushinski, Daniel M; Khanna, Vickas
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 58/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/31182407/
 
@@ -41,7 +41,7 @@ Articles: 7
    PMID: 29655497
    DOI: 10.1016/j.arth.2018.03.013
    Authors: Chin, Seung Joon; Moore, Grant A; Zhang, Mei; Clarke, Henry D; Spangehl, Mark J; Young, Simon W
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 30/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/29655497/
 
@@ -65,7 +65,7 @@ Articles: 7
    PMID: 27836579
    DOI: 10.1016/j.arth.2016.09.039
    Authors: Waldstein, Wenzel; Schmidt-Braekling, Tom; Perino, Giorgio; Kasparek, Maximilian F; Windhager, Reinhard; Boettner, Friedrich
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 19/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/27836579/
 
@@ -95,7 +95,7 @@ Articles: 6
    PMID: 29681527
    DOI: 10.1016/j.knee.2018.03.008
    Authors: An, Vincent V G; Scholes, Corey J; Fritsch, Brett A
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 30/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/29681527/
 
@@ -209,7 +209,7 @@ Articles: 3
    PMID: 32133537
    DOI: 10.1007/s00167-020-05909-6
    Authors: Longo, Umile Giuseppe; Candela, Vincenzo; Pirato, Francesco; Hirschmann, Michael T; Becker, Roland; Denaro, Vincenzo
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 32/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32133537/
 
@@ -217,7 +217,7 @@ Articles: 3
    PMID: 32170358
    DOI: 10.1007/s00167-020-05925-6
    Authors: MacDessi, Samuel J; Wood, Jil A; Diwan, Ashish D; Harris, Ian A
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 24/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32170358/
 
@@ -239,7 +239,7 @@ Articles: 3
    PMID: 33241542
    DOI: 10.1055/s-0040-1721035
    Authors: Kondo, Yasutaka; Yoshida, Yoshihiro; Iioka, Takashi; Kataoka, Hideki; Sakamoto, Junya; Hirase, Tatsuya; Honda, Yuichiro; Nawata, Atsushi; Okita, Minoru
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 32/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/33241542/
 
@@ -261,7 +261,7 @@ Articles: 3
    PMID: 34802087
    DOI: 10.1007/s10067-021-05986-z
    Authors: Wu, Rongjie; Ma, Yuanchen; Yang, Yuhui; Li, Mengyuan; Zheng, Qiujian; Fu, Guangtao
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 31/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/34802087/
 
@@ -355,7 +355,7 @@ Articles: 1
    PMID: 35533061
    DOI: 10.1097/JSA.0000000000000345
    Authors: Migliorini, Filippo; Vecchio, Gianluca; Pintore, Andrea; Oliva, Francesco; Maffulli, Nicola
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 51/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/35533061/
 
@@ -369,7 +369,7 @@ Articles: 1
    PMID: 35156408
    DOI: 10.1177/03635465211051740
    Authors: Diaz, Connor C; Lavoie-Gagne, Ophelie Z; Knapik, Derrick M; Korrapati, Avinaash; Chahla, Jorge; Forsythe, Brian
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 46/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/35156408/
 
@@ -383,7 +383,7 @@ Articles: 1
    PMID: 38265451
    DOI: 10.1007/s00256-024-04590-x
    Authors: Tong, Beibei; Chen, Hongbo; Wang, Cui; Zeng, Wen; Li, Dan; Liu, Peiyuan; Liu, Ming; Jin, Xiaoyan; Shang, Shaomei
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 45/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/38265451/
 
@@ -397,7 +397,7 @@ Articles: 1
    PMID: 27425372
    DOI: 10.1080/14397595.2016.1206509
    Authors: Liu, Lizu; Ishijima, Muneaki; Kaneko, Haruka; Sadatsuki, Ryo; Hada, Shinnosuke; Kinoshita, Mayuko; Aoki, Takako; Futami, Ippei; Yusup, Anwarjan; Arita, Hitoshi; Shiozawa, Jun; Takazawa, Yuji; Ikeda, Hiroshi; Kaneko, Kazuo
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 42/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/27425372/
 
@@ -425,7 +425,7 @@ Articles: 1
    PMID: 32249039
    DOI: 10.1016/j.semarthrit.2020.03.002
    Authors: Bihlet, Asger Reinstrup; Bjerre-Bastos, Jonathan Jetsmark; Andersen, Jeppe Ragnar; Byrjalsen, Inger; Karsdal, Morten Asser; Bay-Jensen, Anne-Christine
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 41/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32249039/
 
@@ -439,7 +439,7 @@ Articles: 1
    PMID: 41568780
    DOI: 10.1093/ptj/pzag006
    Authors: Carlesso, Cristiane R; Smith, Clair; Patterson, Charity G; Bove, Allyn M; Piva, Sara R
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 40/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/41568780/
 
@@ -481,7 +481,7 @@ Articles: 1
    PMID: 37335227
    DOI: 10.1097/AJP.0000000000001139
    Authors: Crane, Patricia; Morris, John; Egan, William; Young, Jodi L; Nova, Vitalina; Rhon, Daniel I
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 38/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/37335227/
 
@@ -509,7 +509,7 @@ Articles: 1
    PMID: 34427757
    DOI: 10.1007/s00402-021-04130-5
    Authors: Batailler, Cécile; Swan, John; Marinier, Elliot Sappey; Servien, Elvire; Lustig, Sébastien
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 35/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/34427757/
 
@@ -523,7 +523,7 @@ Articles: 1
    PMID: 37231221
    DOI: 10.1007/s12529-023-10184-z
    Authors: Mun, Chung Jung; Speed, Traci J; Finan, Patrick H; Wideman, Timothy H; Quartana, Phillip J; Smith, Michael T
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 34/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/37231221/
 
@@ -565,7 +565,7 @@ Articles: 1
    PMID: 32322943
    DOI: 10.1007/s00264-020-04571-4
    Authors: Hernigou, Philippe; Delambre, Jérôme; Quiennec, Steffen; Poignard, Alexandre
-   Published: 2026-03-09
+   Published: 2026-03-16
    Relevance Score: 29/100
    PubMed Link: https://pubmed.ncbi.nlm.nih.gov/32322943/
 
