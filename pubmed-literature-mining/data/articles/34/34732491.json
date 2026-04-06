@@ -5,7 +5,7 @@
   "authors": "Rienstra, Wietske; Blikman, Tim; Dijkstra, Baukje; Stewart, Roy; Zijlstra, Wierd; van Raaij, Tom; Ten Hagen, Anita; Bulstra, Sjoerd; Stevens, Martin; van den Akker-Scheek, Inge",
   "journal": "BMJ open",
   "doi": "10.1136/bmjopen-2021-052944",
-  "publication_date": "2026-03-30T08:23:13.274274",
+  "publication_date": "2026-04-06T08:23:23.176308",
   "access_type": "open_access",
   "pdf_url": "https://bmjopen.bmj.com/content/bmjopen/11/11/e052944.full.pdf",
   "pdf_path": "data/pdfs/34732491.pdf",
@@ -21,34 +21,6 @@
   "priority_level": "low_priority",
   "relevance_score_legacy": 61,
   "predictive_factors": [
-    {
-      "factor": "Age",
-      "outcome": "knee osteoarthritis progression",
-      "effect_size": "not specified",
-      "significance": "mentioned in text",
-      "context": "ostoperatively between the two groups (p=0.280). 12 patients from the intervention group (21%) discontinued duloxetine due to adverse effects. preoperative targeted treatment with duloxetine in end-stage knee and hip oa patients with sensitisation does not influence postoperative chronic residual pain after tka/tha. ntr4744. open access original research"
-    },
-    {
-      "factor": "Gender",
-      "outcome": "knee osteoarthritis progression",
-      "effect_size": "not specified",
-      "significance": "mentioned in text",
-      "context": "gender (female) 69 (62.2) 38 (66.7) 31 (57.4) 0.334"
-    },
-    {
-      "factor": "Bmi",
-      "outcome": "knee osteoarthritis progression",
-      "effect_size": "not specified",
-      "significance": "mentioned in text",
-      "context": "bmi 28.9 (4.5) 28.8 (5.0) 29.0 (3.9) 0.874"
-    },
-    {
-      "factor": "Body Mass Index",
-      "outcome": "knee osteoarthritis progression",
-      "effect_size": "not specified",
-      "significance": "mentioned in text",
-      "context": "adl, activities of daily living; asa score, american society of anesthesiologists score; bmi, body mass index; kl grade, kelgren and"
-    },
     {
       "factor": "Pain",
       "outcome": "knee osteoarthritis progression",
@@ -69,16 +41,9 @@
       "effect_size": "not specified",
       "significance": "mentioned in text",
       "context": "ne was compared with usual care. primary outcome measure was pain at 6 months after arthroplasty, assessed with the pain subscale of the knee injury and osteoarthritis outcome score (koos) or the hip disability and osteoarthritis outcome score (hoos) with a 0-100 scale. secondary outcome measures were visual analogue scale (vas), and neuropathic-like pain measured using the modified paindetect questionnaire"
-    },
-    {
-      "factor": "Kl Grade",
-      "outcome": "knee osteoarthritis progression",
-      "effect_size": "not specified",
-      "significance": "mentioned in text",
-      "context": "kl grade 0.167"
     }
   ],
   "processing_status": "processed",
-  "created_at": "2026-03-30T08:23:17.604145",
-  "updated_at": "2026-03-30T08:23:17.604418"
+  "created_at": "2026-04-06T08:23:23.514465",
+  "updated_at": "2026-04-06T08:23:23.514677"
 }
