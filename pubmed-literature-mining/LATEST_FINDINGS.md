@@ -1,11 +1,11 @@
-# PubMed Daily Summary - 2026-05-25
+# PubMed Daily Summary - 2026-06-01
 
 ## Overview
 
 - **Total Articles:** 138
 - **Flagged for Review:** 5 (3.6%)
 - **High-Relevance Articles:** 2 (score ≥ 70)
-- **Paywalled Articles:** 59
+- **Paywalled Articles:** 58
 - **Factor Patterns Detected:** 0
 
 ## Articles Flagged for Review
@@ -25,15 +25,15 @@
 
 1. **Enhancing total knee replacement prediction: a longitudinal joint space radiomic**
    - Score: 70/100
-   - Flags: large_sample, high_value, recent, should_review, priority, high_quality, medium_high
-   - Reason: Medium-high value (score: 70); Recent high-value article (153 days old); Large sample size (n=614)
+   - Flags: recent, large_sample, medium_high, should_review, high_value, priority, high_quality
+   - Reason: Medium-high value (score: 70); Recent high-value article (160 days old); Large sample size (n=614)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41376347/)
 
 2. **Preoperative neuropathic-like pain and central sensitisation are risk factors fo**
    - Score: 70/100
-   - Flags: comprehensive, high_value, recent, should_review, priority, medium_high, systematic_review
-   - Reason: Medium-high value (score: 70); Recent high-value article (153 days old); Systematic review or meta-analysis
+   - Flags: systematic_review, recent, medium_high, should_review, comprehensive, high_value, priority
+   - Reason: Medium-high value (score: 70); Recent high-value article (160 days old); Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/40995335/)
 
