@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Deployed via Streamlit Community Cloud
+# Auto-deploys on push to main branch of connected GitHub repo
+# Model files are committed to repo (total ~7MB, acceptable for Streamlit Cloud)
 """
 KiHealth Diabetes Risk Calculator UI
 
@@ -10,31 +13,35 @@ A comprehensive patient assessment tool that:
 5. Provides personalized recommendations
 """
 
+import json
+import os
 import sys
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import streamlit as st
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(PROJECT_ROOT))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, BASE_DIR)
 
-# Model paths
-FINAL_MODEL_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "final_model_calibrated.joblib"
-FINAL_THRESHOLDS_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "final_thresholds.joblib"
-ENSEMBLE_MODEL_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "ensemble_model_calibrated.joblib"
-ENSEMBLE_THRESHOLD_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "ensemble_threshold.joblib"
+TL_KIHEALTH_DIR = os.path.join(BASE_DIR, "Diabetes-KiHealth", "TL-KiHealth")
+MODEL_DIR = os.path.join(TL_KIHEALTH_DIR, "M2_Models")
 
-# M2 Transfer Learning Model paths
+# Legacy fallback model paths
+FINAL_MODEL_PATH = os.path.join(TL_KIHEALTH_DIR, "final_model_calibrated.joblib")
+FINAL_THRESHOLDS_PATH = os.path.join(TL_KIHEALTH_DIR, "final_thresholds.joblib")
+ENSEMBLE_MODEL_PATH = os.path.join(TL_KIHEALTH_DIR, "ensemble_model_calibrated.joblib")
+ENSEMBLE_THRESHOLD_PATH = os.path.join(TL_KIHEALTH_DIR, "ensemble_threshold.joblib")
+
+# M2-B transfer learning model paths (production)
 # Validated on 129 patients; AUC ~0.896, 95% CI [0.85, 0.95]; optional insulin + C-peptide
 # Foundation trained on 23,716 NHANES+CHNS patients using HbA1c + Age + BMI
-M2_MODELS_PATH = PROJECT_ROOT / "Diabetes-KiHealth" / "TL-KiHealth" / "M2_Models"
-M2_FOUNDATION_PATH = M2_MODELS_PATH / "foundation_combined.joblib"
-M2_FOUNDATION_SCALER_PATH = M2_MODELS_PATH / "foundation_scaler.joblib"
-M2_BETA_MODEL_PATH = M2_MODELS_PATH / "beta_foundation_model.joblib"
-M2_BETA_SCALER_PATH = M2_MODELS_PATH / "beta_foundation_scaler.joblib"
-M2_THRESHOLDS_PATH = M2_MODELS_PATH / "beta_foundation_thresholds.joblib"
+M2_FOUNDATION_PATH = os.path.join(MODEL_DIR, "foundation_combined.joblib")
+M2_FOUNDATION_SCALER_PATH = os.path.join(MODEL_DIR, "foundation_scaler.joblib")
+M2_BETA_MODEL_PATH = os.path.join(MODEL_DIR, "beta_foundation_model.joblib")
+M2_BETA_SCALER_PATH = os.path.join(MODEL_DIR, "beta_foundation_scaler.joblib")
+M2_THRESHOLDS_PATH = os.path.join(MODEL_DIR, "beta_foundation_thresholds.joblib")
+M2_METRICS_PATH = os.path.join(MODEL_DIR, "beta_foundation_metrics.json")
 
 # SVG Icons
 SVG_ICONS = {
@@ -64,39 +71,63 @@ def svg_icon(name: str, size: int = 24) -> str:
     return svg
 
 
+def _load_joblib(model_path: str, required: bool = True):
+    """Load a joblib artifact; stop the app if a required file is missing."""
+    import joblib
+
+    try:
+        return joblib.load(model_path)
+    except FileNotFoundError:
+        if required:
+            st.error(
+                f"Model file not found at {model_path}. "
+                "Ensure model files are committed to the repository."
+            )
+            st.stop()
+        return None
+
+
 def load_models():
     """Load the prediction models."""
     models = {}
-    try:
-        import joblib
-        
-        # Load M2 Transfer Learning Model (validated on 129 patients)
-        if M2_FOUNDATION_PATH.exists() and M2_BETA_MODEL_PATH.exists():
-            models["m2_foundation"] = joblib.load(M2_FOUNDATION_PATH)
-            models["m2_foundation_scaler"] = joblib.load(M2_FOUNDATION_SCALER_PATH)
-            models["m2_beta_model"] = joblib.load(M2_BETA_MODEL_PATH)
-            models["m2_beta_scaler"] = joblib.load(M2_BETA_SCALER_PATH)
-            if M2_THRESHOLDS_PATH.exists():
-                models["m2_thresholds"] = joblib.load(M2_THRESHOLDS_PATH)
-            m2_metrics_path = M2_MODELS_PATH / "beta_foundation_metrics.json"
-            if m2_metrics_path.exists():
-                import json
-                with open(m2_metrics_path) as f:
-                    models["m2_metrics"] = json.load(f)
-            models["m2_available"] = True
-        
-        # Load final model (AUC 0.890, multiple thresholds) as fallback
-        if FINAL_MODEL_PATH.exists():
-            models["final"] = joblib.load(FINAL_MODEL_PATH)
-            if FINAL_THRESHOLDS_PATH.exists():
-                models["thresholds"] = joblib.load(FINAL_THRESHOLDS_PATH)
-        # Fallback to ensemble model
-        elif ENSEMBLE_MODEL_PATH.exists():
-            models["ensemble"] = joblib.load(ENSEMBLE_MODEL_PATH)
-            if ENSEMBLE_THRESHOLD_PATH.exists():
-                models["ensemble_threshold"] = joblib.load(ENSEMBLE_THRESHOLD_PATH)
-    except Exception as e:
-        st.warning(f"Could not load models: {e}")
+
+    m2_core_paths = [
+        M2_FOUNDATION_PATH,
+        M2_FOUNDATION_SCALER_PATH,
+        M2_BETA_MODEL_PATH,
+        M2_BETA_SCALER_PATH,
+    ]
+    if all(os.path.isfile(p) for p in m2_core_paths):
+        models["m2_foundation"] = _load_joblib(M2_FOUNDATION_PATH)
+        models["m2_foundation_scaler"] = _load_joblib(M2_FOUNDATION_SCALER_PATH)
+        models["m2_beta_model"] = _load_joblib(M2_BETA_MODEL_PATH)
+        models["m2_beta_scaler"] = _load_joblib(M2_BETA_SCALER_PATH)
+        if os.path.isfile(M2_THRESHOLDS_PATH):
+            models["m2_thresholds"] = _load_joblib(M2_THRESHOLDS_PATH, required=False)
+        if os.path.isfile(M2_METRICS_PATH):
+            with open(M2_METRICS_PATH) as f:
+                models["m2_metrics"] = json.load(f)
+        models["m2_available"] = True
+    elif os.path.isdir(MODEL_DIR):
+        st.error(
+            f"Required M2-B model files missing in {MODEL_DIR}. "
+            "Ensure foundation_combined.joblib, foundation_scaler.joblib, "
+            "beta_foundation_model.joblib, and beta_foundation_scaler.joblib are committed."
+        )
+        st.stop()
+
+    if not models.get("m2_available"):
+        if os.path.isfile(FINAL_MODEL_PATH):
+            models["final"] = _load_joblib(FINAL_MODEL_PATH, required=False)
+            if os.path.isfile(FINAL_THRESHOLDS_PATH):
+                models["thresholds"] = _load_joblib(FINAL_THRESHOLDS_PATH, required=False)
+        elif os.path.isfile(ENSEMBLE_MODEL_PATH):
+            models["ensemble"] = _load_joblib(ENSEMBLE_MODEL_PATH, required=False)
+            if os.path.isfile(ENSEMBLE_THRESHOLD_PATH):
+                models["ensemble_threshold"] = _load_joblib(
+                    ENSEMBLE_THRESHOLD_PATH, required=False
+                )
+
     return models
 
 
@@ -111,7 +142,7 @@ def predict_with_m2_model(data: dict, models: dict) -> dict:
     result = {
         "probability": None,
         "foundation_pred": None,
-        "model_name": f"M2 Transfer Learning (AUC: {auc_label})"
+        "model_name": f"M2-B Transfer Learning (AUC: {auc_label})"
     }
     
     beta_score = data.get("beta_score")  # % Unmethylated
@@ -479,7 +510,7 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
 
 def main():
     st.set_page_config(
-        page_title="KiHealth Diabetes Risk Calculator",
+        page_title="KiHealth Diabetes Risk Calculator (M2-B)",
         page_icon="data:image/svg+xml," + SVG_ICONS["heart"].replace("#", "%23"),
         layout="wide",
     )
@@ -529,7 +560,7 @@ def main():
         st.markdown(f"""
         <div class="icon-text" style="color: #22c55e;">
             {svg_icon("shield_check", 20)}
-            <span><strong>M2 Transfer Learning Model loaded:</strong> AUC {auc_str} (CV) | 95% CI {ci_str} | 129 patients</span>
+            <span><strong>M2-B Transfer Learning Model loaded:</strong> AUC {auc_str} (CV) | 95% CI {ci_str} | 129 patients</span>
         </div>
         """, unsafe_allow_html=True)
         st.caption("Transfer learning from 23,716 NHANES+CHNS (HbA1c, Age, BMI). Optional insulin + C-peptide; medians used when missing.")
@@ -951,9 +982,9 @@ def main():
             "Select assessment mode based on clinical context:",
             ["screening", "balanced", "confirmation"],
             format_func=lambda x: {
-                "screening": "Screening (at-risk if >22%) - 98% Sensitivity, catches nearly all cases",
-                "balanced": "Balanced (at-risk if >40%) - 76% Sensitivity, 82% Specificity",
-                "confirmation": "Confirmation (at-risk if >58%) - High confidence, 86% Specificity"
+                "screening": "Screening (at-risk if >22%) - 98% Sensitivity, 59% Specificity, catches nearly all cases",
+                "balanced": "Balanced (at-risk if >45%) - 76% Sensitivity, 83% Specificity",
+                "confirmation": "Confirmation (at-risk if >58%) - 72% Sensitivity, 87% Specificity, high confidence"
             }[x],
             index=1,
             key="clinical_mode",
@@ -1211,7 +1242,7 @@ def main():
         st.markdown(f"""
         <div class="icon-text">
             {svg_icon("chart", 28)}
-            <h2 style="margin: 0;">M2 Transfer Learning Model</h2>
+            <h2 style="margin: 0;">M2-B Transfer Learning Model</h2>
         </div>
         """, unsafe_allow_html=True)
         
@@ -1260,13 +1291,23 @@ def main():
         
         st.divider()
         
-        # Clinical Modes
+        # Clinical Modes (from metrics when available)
         st.markdown("### Clinical Mode Performance")
-        
+        th = (models.get("m2_metrics") or {}).get("thresholds", {})
+        def _pct(x):
+            return f"{int(round((x or 0) * 100))}%" if isinstance(x, (int, float)) else str(x)
         mode_data = {
             "Mode": ["Screening", "Balanced", "Confirmation"],
-            "Sensitivity": ["98%", "76%", "67%"],
-            "Specificity": ["46%", "82%", "86%"],
+            "Sensitivity": [
+                _pct(th.get("screening", {}).get("sensitivity", 0.98)),
+                _pct(th.get("balanced", {}).get("sensitivity", 0.76)),
+                _pct(th.get("confirmation", {}).get("sensitivity", 0.72))
+            ],
+            "Specificity": [
+                _pct(th.get("screening", {}).get("specificity", 0.59)),
+                _pct(th.get("balanced", {}).get("specificity", 0.83)),
+                _pct(th.get("confirmation", {}).get("specificity", 0.87))
+            ],
             "Use Case": [
                 "Catch nearly all at-risk patients",
                 "Optimal trade-off",
@@ -1290,13 +1331,13 @@ def main():
            - **No glucose measurement required**
         
         2. **Final Model** (fine-tuned on KiHealth data)
-           - Combines Beta Score with foundation prediction
-           - Input: Beta Score, Foundation Prediction
+           - Combines Beta Score with foundation prediction (and optionally insulin + C-peptide; medians used when missing)
+           - Input: Beta Score, Foundation Prediction, optional Insulin, optional C-peptide
            - Output: Final risk probability (0-100%)
         
         **Why Transfer Learning?**
         - Foundation model learns from 23,716 patients (vs 129 KiHealth patients)
-        - Uses only features KiHealth collects in production (no glucose needed)
+        - Uses features KiHealth collects (HbA1c, Age, BMI, Beta Score); insulin and C-peptide optional (no extra testing required when missing)
         - More robust to edge cases
         - Better calibrated predictions
         """)
@@ -1436,7 +1477,7 @@ def main():
         st.warning("""
         **Limitations:**
         - Sample size: 129 patients (moderate - recommend collecting more)
-        - 95% CI: [0.84, 0.94] - reasonable but would narrow with more data
+        - 95% CI: [0.85, 0.95] - reasonable but would narrow with more data
         - Best for: Beta cell damage detection (T1D, advanced T2D)
         - May miss: Early obesity-driven risk with intact beta cells
         
@@ -1452,7 +1493,7 @@ def main():
         st.markdown("### Model Files")
         
         st.markdown("""
-        The following model files are available in `Diabetes-KiHealth/TL-KiHealth/M2_Models/`:
+        The following M2-B model files are available in `Diabetes-KiHealth/TL-KiHealth/M2_Models/`:
         
         | File | Description |
         |------|-------------|
