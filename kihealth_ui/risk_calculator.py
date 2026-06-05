@@ -22,10 +22,29 @@ import pandas as pd
 import streamlit as st
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
 
 TL_KIHEALTH_DIR = os.path.join(BASE_DIR, "Diabetes-KiHealth", "TL-KiHealth")
-MODEL_DIR = os.path.join(TL_KIHEALTH_DIR, "M2_Models")
+BUNDLED_MODEL_DIR = os.path.join(APP_DIR, "models", "m2")
+REPO_MODEL_DIR = os.path.join(TL_KIHEALTH_DIR, "M2_Models")
+
+
+def _resolve_model_dir() -> str | None:
+    """Prefer bundled models next to the app (Streamlit Cloud); fall back to repo path."""
+    bundled_core = [
+        "foundation_combined.joblib",
+        "foundation_scaler.joblib",
+        "beta_foundation_model.joblib",
+        "beta_foundation_scaler.joblib",
+    ]
+    for candidate in (BUNDLED_MODEL_DIR, REPO_MODEL_DIR):
+        if all(os.path.isfile(os.path.join(candidate, name)) for name in bundled_core):
+            return candidate
+    return None
+
+
+MODEL_DIR = _resolve_model_dir() or REPO_MODEL_DIR
 
 # Legacy fallback model paths
 FINAL_MODEL_PATH = os.path.join(TL_KIHEALTH_DIR, "final_model_calibrated.joblib")
@@ -72,9 +91,17 @@ def svg_icon(name: str, size: int = 24) -> str:
 
 
 def _load_joblib(model_path: str, required: bool = True):
-    """Load a joblib artifact; stop the app if a required file is missing."""
+    """Load a joblib artifact; stop the app if a required file is missing or corrupt."""
     import joblib
 
+    if not os.path.isfile(model_path):
+        if required:
+            st.error(
+                f"Model file not found at {model_path}. "
+                "Ensure model files are committed to the repository."
+            )
+            st.stop()
+        return None
     try:
         return joblib.load(model_path)
     except FileNotFoundError:
@@ -85,36 +112,52 @@ def _load_joblib(model_path: str, required: bool = True):
             )
             st.stop()
         return None
+    except Exception as exc:
+        if required:
+            import sklearn
+
+            st.error(
+                f"Failed to load model at {model_path}: {exc}. "
+                f"scikit-learn runtime={sklearn.__version__}. "
+                "Model artifacts must match pinned requirements (see requirements.txt)."
+            )
+            st.stop()
+        return None
 
 
 def load_models():
     """Load the prediction models."""
     models = {}
+    model_dir = _resolve_model_dir()
 
-    m2_core_paths = [
-        M2_FOUNDATION_PATH,
-        M2_FOUNDATION_SCALER_PATH,
-        M2_BETA_MODEL_PATH,
-        M2_BETA_SCALER_PATH,
-    ]
-    if all(os.path.isfile(p) for p in m2_core_paths):
-        models["m2_foundation"] = _load_joblib(M2_FOUNDATION_PATH)
-        models["m2_foundation_scaler"] = _load_joblib(M2_FOUNDATION_SCALER_PATH)
-        models["m2_beta_model"] = _load_joblib(M2_BETA_MODEL_PATH)
-        models["m2_beta_scaler"] = _load_joblib(M2_BETA_SCALER_PATH)
-        if os.path.isfile(M2_THRESHOLDS_PATH):
-            models["m2_thresholds"] = _load_joblib(M2_THRESHOLDS_PATH, required=False)
-        if os.path.isfile(M2_METRICS_PATH):
-            with open(M2_METRICS_PATH) as f:
-                models["m2_metrics"] = json.load(f)
-        models["m2_available"] = True
-    elif os.path.isdir(MODEL_DIR):
+    if model_dir is None:
         st.error(
-            f"Required M2-B model files missing in {MODEL_DIR}. "
-            "Ensure foundation_combined.joblib, foundation_scaler.joblib, "
-            "beta_foundation_model.joblib, and beta_foundation_scaler.joblib are committed."
+            "M2-B model files not found. Expected bundled path "
+            f"`kihealth_ui/models/m2/` or repo path `{REPO_MODEL_DIR}`. "
+            f"App directory: {APP_DIR}. Repository root: {BASE_DIR}."
         )
         st.stop()
+
+    m2_core_paths = [
+        os.path.join(model_dir, "foundation_combined.joblib"),
+        os.path.join(model_dir, "foundation_scaler.joblib"),
+        os.path.join(model_dir, "beta_foundation_model.joblib"),
+        os.path.join(model_dir, "beta_foundation_scaler.joblib"),
+    ]
+    models["m2_foundation"] = _load_joblib(m2_core_paths[0])
+    models["m2_foundation_scaler"] = _load_joblib(m2_core_paths[1])
+    models["m2_beta_model"] = _load_joblib(m2_core_paths[2])
+    models["m2_beta_scaler"] = _load_joblib(m2_core_paths[3])
+
+    thresholds_path = os.path.join(model_dir, "beta_foundation_thresholds.joblib")
+    metrics_path = os.path.join(model_dir, "beta_foundation_metrics.json")
+    if os.path.isfile(thresholds_path):
+        models["m2_thresholds"] = _load_joblib(thresholds_path, required=False)
+    if os.path.isfile(metrics_path):
+        with open(metrics_path) as f:
+            models["m2_metrics"] = json.load(f)
+    models["m2_available"] = True
+    models["m2_model_dir"] = model_dir
 
     if not models.get("m2_available"):
         if os.path.isfile(FINAL_MODEL_PATH):

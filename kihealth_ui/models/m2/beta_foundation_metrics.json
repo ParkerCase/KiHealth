@@ -1,0 +1,52 @@
+{
+  "model_type": "M2_Transfer_Learning_HbA1c_Age_BMI_Insulin_Cpeptide",
+  "foundation_features": [
+    "hba1c_percent",
+    "age_years",
+    "bmi_kg_m2"
+  ],
+  "final_features": [
+    "beta_score",
+    "foundation_pred",
+    "insulin",
+    "cpeptide"
+  ],
+  "median_insulin": 21.049999999999997,
+  "median_cpeptide": 2.9,
+  "foundation_patients": 23716,
+  "foundation_auc": 0.949,
+  "kihealth_patients": 129,
+  "kihealth_at_risk": 51,
+  "cv_auc_mean": 0.8958863636363636,
+  "cv_auc_std": 0.07720748731397108,
+  "ci_lower": 0.8546806532270667,
+  "ci_upper": 0.9522482174688057,
+  "thresholds": {
+    "screening": {
+      "threshold": 0.22,
+      "sensitivity": 0.9803921568627451,
+      "specificity": 0.5897435897435898
+    },
+    "balanced": {
+      "threshold": 0.45,
+      "sensitivity": 0.7647058823529411,
+      "specificity": 0.8333333333333334
+    },
+    "confirmation": {
+      "threshold": 0.58,
+      "sensitivity": 0.7254901960784313,
+      "specificity": 0.8717948717948718
+    }
+  },
+  "foundation_coefficients": {
+    "hba1c": 3.41,
+    "age": 0.43,
+    "bmi": 0.23
+  },
+  "final_coefficients": {
+    "beta_score": 0.7038002177862387,
+    "foundation_pred": 1.3836236103984105,
+    "insulin": -0.1737378740044014,
+    "cpeptide": 0.7193713116039853
+  }
+}
