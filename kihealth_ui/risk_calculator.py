@@ -875,17 +875,14 @@ def main():
                 help="Higher % unmethylated = more beta cell damage. Normal: 0-6%, Elevated: 10%+",
                 key="unmethylated"
             )
-            
-            # Secondary display: % Methylated (for reference)
-            beta_score = st.number_input(
-                "% Methylated (Reference)",
-                min_value=0.0,
-                max_value=150.0,
-                value=95.0,
-                step=0.1,
-                help="% Methylated = 100 - % Unmethylated. Higher = healthier beta cells.",
-                key="beta_score"
-            )
+
+            if unmethylated is not None and unmethylated != "":
+                methylated = 100.0 - float(unmethylated)
+                st.metric(
+                    label="% Methylated (calculated)",
+                    value=f"{methylated:.1f}%",
+                    help="Automatically calculated as 100% minus % Unmethylated",
+                )
             
             st.divider()
             
@@ -958,14 +955,13 @@ def main():
         
         # Store biomarker data
         # CRITICAL: Model expects beta_score as % UNMETHYLATED (higher = more risk)
-        # UI input "% Methylated" needs to be converted: unmethylated = 100 - methylated
         st.session_state.patient_data.update({
             "patient_id": patient_id,
             "age": age,
             "sex": sex,
             "race": race,
             "beta_score": unmethylated,  # Model uses % Unmethylated
-            "beta_score_methylated": beta_score,  # Store original for display
+            "beta_score_methylated": 100.0 - float(unmethylated) if unmethylated is not None else None,
             "unmethylated": unmethylated,
             "bmi": bmi,
             "hba1c": hba1c,
