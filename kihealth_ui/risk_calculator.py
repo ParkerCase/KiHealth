@@ -63,7 +63,7 @@ M2_THRESHOLDS_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_thresholds.joblib"
 M2_METRICS_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-06-05-m2b-enhanced-hba1c"
+DEPLOY_VERSION = "2026-06-05-m2b-metrics-thresholds"
 SVG_ICONS = {
     "check_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>''',
     "alert_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>''',
@@ -81,6 +81,61 @@ SVG_ICONS = {
     "trending_down": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline><polyline points="17 18 23 18 23 12"></polyline></svg>''',
     "dna": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15c6.667-6 13.333 0 20-6"></path><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"></path><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"></path><path d="M17 6l-2.5-2.5"></path><path d="M14 8l-1-1"></path><path d="M7 18l2.5 2.5"></path><path d="M3.5 14.5l.5.5"></path><path d="M20 9l.5.5"></path><path d="M6.5 12.5l1 1"></path><path d="M16.5 10.5l1 1"></path><path d="M10 16l1.5 1.5"></path></svg>''',
 }
+
+
+def _pct_metric(x, default=0.0):
+    """Format a 0-1 metric as integer percent string."""
+    if isinstance(x, (int, float)):
+        return f"{int(round(x * 100))}%"
+    return str(x)
+
+
+def _get_m2_threshold_info(models: dict) -> dict:
+    """Clinical mode thresholds and performance from m2b_final_clean_metrics.json."""
+    th = (models.get("m2_metrics") or {}).get("thresholds", {})
+    defaults = {
+        "screening": {"threshold": 0.09, "sensitivity": 0.98, "specificity": 0.49},
+        "balanced": {"threshold": 0.35, "sensitivity": 0.76, "specificity": 0.81},
+        "confirmation": {"threshold": 0.47, "sensitivity": 0.71, "specificity": 0.87},
+    }
+    info = {}
+    for mode, default in defaults.items():
+        entry = th.get(mode, {})
+        if not isinstance(entry, dict):
+            entry = {}
+        threshold = entry.get("threshold", default["threshold"])
+        sensitivity = entry.get("sensitivity", default["sensitivity"])
+        specificity = entry.get("specificity", default["specificity"])
+        info[mode] = {
+            "threshold": threshold,
+            "threshold_pct": int(round(threshold * 100)),
+            "sensitivity": sensitivity,
+            "specificity": specificity,
+            "sensitivity_pct": int(round(sensitivity * 100)),
+            "specificity_pct": int(round(specificity * 100)),
+        }
+    return info
+
+
+def _clinical_mode_label(mode: str, mode_info: dict) -> str:
+    """Radio label for a clinical mode using metrics-driven cutoffs."""
+    m = mode_info[mode]
+    if mode == "screening":
+        return (
+            f"Screening (at-risk if >{m['threshold_pct']}%) - "
+            f"{m['sensitivity_pct']}% Sensitivity, {m['specificity_pct']}% Specificity, "
+            "catches nearly all cases"
+        )
+    if mode == "balanced":
+        return (
+            f"Balanced (at-risk if >{m['threshold_pct']}%) - "
+            f"{m['sensitivity_pct']}% Sensitivity, {m['specificity_pct']}% Specificity"
+        )
+    return (
+        f"Confirmation (at-risk if >{m['threshold_pct']}%) - "
+        f"{m['sensitivity_pct']}% Sensitivity, {m['specificity_pct']}% Specificity, "
+        "high confidence"
+    )
 
 
 def svg_icon(name: str, size: int = 24) -> str:
@@ -117,7 +172,7 @@ def _load_joblib(model_path: str, required: bool = True):
 @st.cache_resource(show_spinner="Loading M2-B models…")
 def load_models():
     """Load the prediction models."""
-    models = {"m2_available": False, "load_errors": []}
+    models = {"m2_available": False, "load_errors": [], "loaded_paths": {}}
     model_dir = _resolve_model_dir()
 
     if model_dir is None:
@@ -141,9 +196,12 @@ def load_models():
             models["load_errors"].append(err)
             return models
         models[key] = obj
+        models["loaded_paths"][filename] = path
 
     thresholds_path = os.path.join(model_dir, "m2b_final_clean_thresholds.joblib")
     metrics_path = os.path.join(model_dir, "m2b_final_clean_metrics.json")
+    models["loaded_paths"]["m2b_final_clean_thresholds.joblib"] = thresholds_path
+    models["loaded_paths"]["m2b_final_clean_metrics.json"] = metrics_path
     if os.path.isfile(thresholds_path):
         thresholds, _ = _load_joblib(thresholds_path, required=False)
         if thresholds is not None:
@@ -444,21 +502,21 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
                 
                 # M2 thresholds and performance (from loaded file or fallback for n=129 model)
                 m2_metrics = models.get("m2_metrics", {})
-                th = m2_metrics.get("thresholds", {})
-                def _tval(mode, default):
-                    loaded = (models.get("m2_thresholds") or {}).get(mode) or th.get(mode, {})
-                    if isinstance(loaded, dict):
-                        return loaded.get("threshold", default)
-                    return loaded if isinstance(loaded, (int, float)) else default
-                m2_thresholds = {"screening": _tval("screening", 0.22), "balanced": _tval("balanced", 0.45), "confirmation": _tval("confirmation", 0.58)}
-                threshold = m2_thresholds.get(clinical_mode, 0.45)
-                
-                def _pct(x):
-                    return f"{int(round(x * 100))}%" if isinstance(x, (int, float)) else str(x)
+                mode_info = _get_m2_threshold_info(models)
+                m2_thresholds = {mode: mode_info[mode]["threshold"] for mode in mode_info}
+                threshold = m2_thresholds.get(clinical_mode, 0.35)
+
                 m2_performance = {
-                    "screening": {"sens": _pct(th.get("screening", {}).get("sensitivity", 0.98)), "spec": _pct(th.get("screening", {}).get("specificity", 0.59)), "desc": "Catches nearly all at-risk patients"},
-                    "balanced": {"sens": _pct(th.get("balanced", {}).get("sensitivity", 0.76)), "spec": _pct(th.get("balanced", {}).get("specificity", 0.83)), "desc": "Optimal trade-off"},
-                    "confirmation": {"sens": _pct(th.get("confirmation", {}).get("sensitivity", 0.73)), "spec": _pct(th.get("confirmation", {}).get("specificity", 0.87)), "desc": "High confidence positives"},
+                    mode: {
+                        "sens": _pct_metric(mode_info[mode]["sensitivity"]),
+                        "spec": _pct_metric(mode_info[mode]["specificity"]),
+                        "desc": {
+                            "screening": "Catches nearly all at-risk patients",
+                            "balanced": "Optimal trade-off",
+                            "confirmation": "High confidence positives",
+                        }[mode],
+                    }
+                    for mode in mode_info
                 }
                 perf = m2_performance.get(clinical_mode, m2_performance["balanced"])
                 results["model_used"] = f"{m2_result['model_name']} - {clinical_mode.title()} Mode (Sens: {perf['sens']}, Spec: {perf['spec']})"
@@ -1073,14 +1131,11 @@ def main():
         
         # Clinical Mode Selector
         st.markdown("### Clinical Mode")
+        mode_info = _get_m2_threshold_info(models)
         clinical_mode = st.radio(
             "Select assessment mode based on clinical context:",
             ["screening", "balanced", "confirmation"],
-            format_func=lambda x: {
-                "screening": "Screening (at-risk if >22%) - 98% Sensitivity, 59% Specificity, catches nearly all cases",
-                "balanced": "Balanced (at-risk if >45%) - 76% Sensitivity, 83% Specificity",
-                "confirmation": "Confirmation (at-risk if >58%) - 72% Sensitivity, 87% Specificity, high confidence"
-            }[x],
+            format_func=lambda x: _clinical_mode_label(x, mode_info),
             index=1,
             key="clinical_mode",
             horizontal=False
@@ -1389,20 +1444,23 @@ def main():
         
         # Clinical Modes (from metrics when available)
         st.markdown("### Clinical Mode Performance")
-        th = (models.get("m2_metrics") or {}).get("thresholds", {})
-        def _pct(x):
-            return f"{int(round((x or 0) * 100))}%" if isinstance(x, (int, float)) else str(x)
+        mode_info = _get_m2_threshold_info(models)
         mode_data = {
             "Mode": ["Screening", "Balanced", "Confirmation"],
+            "Threshold": [
+                f">{mode_info['screening']['threshold_pct']}%",
+                f">{mode_info['balanced']['threshold_pct']}%",
+                f">{mode_info['confirmation']['threshold_pct']}%",
+            ],
             "Sensitivity": [
-                _pct(th.get("screening", {}).get("sensitivity", 0.98)),
-                _pct(th.get("balanced", {}).get("sensitivity", 0.76)),
-                _pct(th.get("confirmation", {}).get("sensitivity", 0.72))
+                _pct_metric(mode_info["screening"]["sensitivity"]),
+                _pct_metric(mode_info["balanced"]["sensitivity"]),
+                _pct_metric(mode_info["confirmation"]["sensitivity"]),
             ],
             "Specificity": [
-                _pct(th.get("screening", {}).get("specificity", 0.59)),
-                _pct(th.get("balanced", {}).get("specificity", 0.83)),
-                _pct(th.get("confirmation", {}).get("specificity", 0.87))
+                _pct_metric(mode_info["screening"]["specificity"]),
+                _pct_metric(mode_info["balanced"]["specificity"]),
+                _pct_metric(mode_info["confirmation"]["specificity"]),
             ],
             "Use Case": [
                 "Catch nearly all at-risk patients",
@@ -1595,10 +1653,12 @@ def main():
         |------|-------------|
         | `foundation_combined.joblib` | Foundation model (NHANES+CHNS) |
         | `foundation_scaler.joblib` | Feature scaler for foundation |
-        | `beta_foundation_model.joblib` | Final prediction model |
-        | `beta_foundation_scaler.joblib` | Feature scaler for final model |
-        | `beta_foundation_thresholds.joblib` | Optimized thresholds |
-        | `beta_foundation_metrics.json` | Performance metrics |
+        | `foundation_combined.joblib` | Foundation model (NHANES+CHNS) |
+        | `foundation_scaler.joblib` | Feature scaler for foundation |
+        | `m2b_final_clean_model_calibrated.joblib` | Final prediction model (5 features) |
+        | `m2b_final_clean_scaler.joblib` | Feature scaler for final model |
+        | `m2b_final_clean_thresholds.joblib` | Optimized thresholds |
+        | `m2b_final_clean_metrics.json` | Performance metrics |
         """)
 
 

@@ -27,22 +27,22 @@
   "ci_upper": 0.9522482174688057,
   "thresholds": {
     "screening": {
-      "threshold": 0.2492,
-      "sensitivity": 1.0,
-      "specificity": 0.5256410256410257,
-      "youden": 0.5256410256410255
+      "threshold": 0.09,
+      "sensitivity": 0.98,
+      "specificity": 0.49,
+      "youden": 0.47
     },
     "balanced": {
-      "threshold": 0.377,
-      "sensitivity": 0.8627450980392157,
-      "specificity": 0.7435897435897436,
-      "youden": 0.6063348416289593
+      "threshold": 0.35,
+      "sensitivity": 0.76,
+      "specificity": 0.81,
+      "youden": 0.57
     },
     "confirmation": {
-      "threshold": 0.377,
-      "sensitivity": 0.8627450980392157,
-      "specificity": 0.7435897435897436,
-      "youden": 0.6063348416289593
+      "threshold": 0.47,
+      "sensitivity": 0.71,
+      "specificity": 0.87,
+      "youden": 0.58
     }
   }
 }
