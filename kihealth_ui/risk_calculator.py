@@ -35,8 +35,8 @@ def _resolve_model_dir() -> str | None:
     bundled_core = [
         "foundation_combined.joblib",
         "foundation_scaler.joblib",
-        "beta_foundation_model.joblib",
-        "beta_foundation_scaler.joblib",
+        "m2b_final_clean_model_calibrated.joblib",
+        "m2b_final_clean_scaler.joblib",
     ]
     for candidate in (BUNDLED_MODEL_DIR, REPO_MODEL_DIR):
         if all(os.path.isfile(os.path.join(candidate, name)) for name in bundled_core):
@@ -52,18 +52,18 @@ FINAL_THRESHOLDS_PATH = os.path.join(TL_KIHEALTH_DIR, "final_thresholds.joblib")
 ENSEMBLE_MODEL_PATH = os.path.join(TL_KIHEALTH_DIR, "ensemble_model_calibrated.joblib")
 ENSEMBLE_THRESHOLD_PATH = os.path.join(TL_KIHEALTH_DIR, "ensemble_threshold.joblib")
 
-# M2-B transfer learning model paths (production)
-# Validated on 129 patients; AUC ~0.896, 95% CI [0.85, 0.95]; optional insulin + C-peptide
+# M2-B enhanced transfer learning model paths (production)
+# Validated on 129 patients; AUC ~0.896, 95% CI [0.85, 0.95]; 5 features incl. direct HbA1c
 # Foundation trained on 23,716 NHANES+CHNS patients using HbA1c + Age + BMI
 M2_FOUNDATION_PATH = os.path.join(MODEL_DIR, "foundation_combined.joblib")
 M2_FOUNDATION_SCALER_PATH = os.path.join(MODEL_DIR, "foundation_scaler.joblib")
-M2_BETA_MODEL_PATH = os.path.join(MODEL_DIR, "beta_foundation_model.joblib")
-M2_BETA_SCALER_PATH = os.path.join(MODEL_DIR, "beta_foundation_scaler.joblib")
-M2_THRESHOLDS_PATH = os.path.join(MODEL_DIR, "beta_foundation_thresholds.joblib")
-M2_METRICS_PATH = os.path.join(MODEL_DIR, "beta_foundation_metrics.json")
+M2_BETA_MODEL_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_model_calibrated.joblib")
+M2_BETA_SCALER_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_scaler.joblib")
+M2_THRESHOLDS_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_thresholds.joblib")
+M2_METRICS_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-06-05-py313-wheels"
+DEPLOY_VERSION = "2026-06-05-m2b-enhanced-hba1c"
 SVG_ICONS = {
     "check_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>''',
     "alert_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>''',
@@ -131,8 +131,8 @@ def load_models():
     m2_core = {
         "m2_foundation": "foundation_combined.joblib",
         "m2_foundation_scaler": "foundation_scaler.joblib",
-        "m2_beta_model": "beta_foundation_model.joblib",
-        "m2_beta_scaler": "beta_foundation_scaler.joblib",
+        "m2_beta_model": "m2b_final_clean_model_calibrated.joblib",
+        "m2_beta_scaler": "m2b_final_clean_scaler.joblib",
     }
     for key, filename in m2_core.items():
         path = os.path.join(model_dir, filename)
@@ -142,8 +142,8 @@ def load_models():
             return models
         models[key] = obj
 
-    thresholds_path = os.path.join(model_dir, "beta_foundation_thresholds.joblib")
-    metrics_path = os.path.join(model_dir, "beta_foundation_metrics.json")
+    thresholds_path = os.path.join(model_dir, "m2b_final_clean_thresholds.joblib")
+    metrics_path = os.path.join(model_dir, "m2b_final_clean_metrics.json")
     if os.path.isfile(thresholds_path):
         thresholds, _ = _load_joblib(thresholds_path, required=False)
         if thresholds is not None:
@@ -199,8 +199,8 @@ def _render_model_load_failure(models: dict) -> None:
                     for name in (
                         "foundation_combined.joblib",
                         "foundation_scaler.joblib",
-                        "beta_foundation_model.joblib",
-                        "beta_foundation_scaler.joblib",
+                        "m2b_final_clean_model_calibrated.joblib",
+                        "m2b_final_clean_scaler.joblib",
                     )
                 ],
             ]
@@ -220,16 +220,17 @@ def _render_model_load_failure(models: dict) -> None:
 
 def predict_with_m2_model(data: dict, models: dict) -> dict:
     """
-    Predict using M2 Transfer Learning model.
-    Two-stage: Foundation (HbA1c, Age, BMI) then Final (Beta Score + foundation pred; optional insulin + C-peptide).
-    When insulin or C-peptide are missing, training medians are used (safe fallback).
+    Predict using M2-B enhanced transfer learning model.
+    Two-stage: Foundation (HbA1c, Age, BMI) then Final
+    (Beta Score + foundation pred + insulin + C-peptide + HbA1c direct).
+    Missing insulin/C-peptide/HbA1c fall back to training medians from metrics.
     """
     metrics = models.get("m2_metrics", {})
-    auc_label = f"{metrics.get('cv_auc_mean', 0.896):.2f}" if metrics else "0.896"
+    auc_label = f"{metrics.get('cv_auc_mean', 0.896):.2f}" if metrics else "0.90"
     result = {
         "probability": None,
         "foundation_pred": None,
-        "model_name": f"M2-B Transfer Learning (AUC: {auc_label})"
+        "model_name": f"M2-B Enhanced Transfer Learning (AUC: {auc_label})"
     }
     
     beta_score = data.get("beta_score")  # % Unmethylated
@@ -241,9 +242,9 @@ def predict_with_m2_model(data: dict, models: dict) -> dict:
         return result
     
     if age is None:
-        age = 50
+        age = metrics.get("median_age", 50)
     if bmi is None:
-        bmi = 27.5
+        bmi = metrics.get("median_bmi", 27.5)
     
     try:
         # Stage 1: Foundation (HbA1c + Age + BMI)
@@ -252,18 +253,26 @@ def predict_with_m2_model(data: dict, models: dict) -> dict:
         foundation_pred = models["m2_foundation"].predict_proba(X_foundation_scaled)[0, 1]
         result["foundation_pred"] = foundation_pred
         
-        # Stage 2: Final model (2 or 4 features)
+        # Stage 2: Final model (4 or 5 features)
         scaler = models["m2_beta_scaler"]
         n_features = getattr(scaler, "n_features_in_", 2)
-        if n_features == 4 and metrics:
-            # Use insulin and C-peptide; fallback to median when missing
-            insulin = data.get("insulin")
-            cpeptide = data.get("c_peptide")
-            if insulin is None or (isinstance(insulin, float) and np.isnan(insulin)):
-                insulin = metrics.get("median_insulin", 21.0)
-            if cpeptide is None or (isinstance(cpeptide, float) and np.isnan(cpeptide)):
-                cpeptide = metrics.get("median_cpeptide", 2.9)
-            X_final = pd.DataFrame([[beta_score, foundation_pred, float(insulin), float(cpeptide)]], columns=['beta_score', 'foundation_pred', 'insulin', 'cpeptide'])
+        insulin = data.get("insulin")
+        cpeptide = data.get("c_peptide")
+        if insulin is None or (isinstance(insulin, float) and np.isnan(insulin)):
+            insulin = metrics.get("median_insulin", 21.0)
+        if cpeptide is None or (isinstance(cpeptide, float) and np.isnan(cpeptide)):
+            cpeptide = metrics.get("median_cpeptide", 2.9)
+        if n_features >= 5:
+            hba1c_val = hba1c if hba1c is not None else metrics.get("median_hba1c", 5.7)
+            X_final = pd.DataFrame(
+                [[beta_score, foundation_pred, float(insulin), float(cpeptide), float(hba1c_val)]],
+                columns=['beta_score', 'foundation_pred', 'insulin', 'cpeptide', 'hba1c'],
+            )
+        elif n_features == 4:
+            X_final = pd.DataFrame(
+                [[beta_score, foundation_pred, float(insulin), float(cpeptide)]],
+                columns=['beta_score', 'foundation_pred', 'insulin', 'cpeptide'],
+            )
         else:
             X_final = pd.DataFrame([[beta_score, foundation_pred]], columns=['beta_score', 'foundation_pred'])
         X_final_scaled = scaler.transform(X_final)
@@ -649,10 +658,11 @@ def main():
         st.markdown(f"""
         <div class="icon-text" style="color: #22c55e;">
             {svg_icon("shield_check", 20)}
-            <span><strong>M2-B Transfer Learning Model loaded:</strong> AUC {auc_str} (CV) | 95% CI {ci_str} | 129 patients</span>
+            <span><strong>M2-B Enhanced Transfer Learning Model loaded:</strong> AUC {auc_str} (CV) | 95% CI {ci_str} | 129 patients</span>
         </div>
         """, unsafe_allow_html=True)
         st.caption("Transfer learning from 23,716 NHANES+CHNS (HbA1c, Age, BMI). Optional insulin + C-peptide; medians used when missing.")
+        st.caption("Enhanced with direct HbA1c feature")
     elif "final" in models:
         st.markdown(f"""
         <div class="icon-text" style="color: #22c55e;">
@@ -876,12 +886,13 @@ def main():
                 key="unmethylated"
             )
 
-            if unmethylated is not None and unmethylated != "":
-                methylated = 100.0 - float(unmethylated)
+            beta_score = unmethylated  # % Unmethylated (model input)
+            if beta_score is not None:
+                methylated = 100.0 - float(beta_score)
                 st.metric(
                     label="% Methylated (calculated)",
                     value=f"{methylated:.1f}%",
-                    help="Automatically calculated as 100% minus % Unmethylated",
+                    help="Calculated as 100% minus % Unmethylated",
                 )
             
             st.divider()
@@ -960,8 +971,7 @@ def main():
             "age": age,
             "sex": sex,
             "race": race,
-            "beta_score": unmethylated,  # Model uses % Unmethylated
-            "beta_score_methylated": 100.0 - float(unmethylated) if unmethylated is not None else None,
+            "beta_score": unmethylated,  # Model uses % Unmethylated only
             "unmethylated": unmethylated,
             "bmi": bmi,
             "hba1c": hba1c,
@@ -1353,6 +1363,7 @@ def main():
         with col3:
             st.metric("Screening sensitivity", "98%")
             st.caption("At screening threshold (50/51 at-risk)")
+        st.caption("Enhanced with direct HbA1c feature")
         
         st.divider()
         
