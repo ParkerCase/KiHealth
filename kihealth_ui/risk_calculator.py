@@ -62,7 +62,8 @@ M2_BETA_SCALER_PATH = os.path.join(MODEL_DIR, "beta_foundation_scaler.joblib")
 M2_THRESHOLDS_PATH = os.path.join(MODEL_DIR, "beta_foundation_thresholds.joblib")
 M2_METRICS_PATH = os.path.join(MODEL_DIR, "beta_foundation_metrics.json")
 
-# SVG Icons
+# Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
+DEPLOY_VERSION = "2026-06-05-sklearn152"
 SVG_ICONS = {
     "check_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>''',
     "alert_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>''',
@@ -91,87 +92,130 @@ def svg_icon(name: str, size: int = 24) -> str:
 
 
 def _load_joblib(model_path: str, required: bool = True):
-    """Load a joblib artifact; stop the app if a required file is missing or corrupt."""
+    """Load a joblib artifact; return (obj, error_message)."""
     import joblib
 
     if not os.path.isfile(model_path):
-        if required:
-            st.error(
-                f"Model file not found at {model_path}. "
-                "Ensure model files are committed to the repository."
-            )
-            st.stop()
-        return None
+        msg = (
+            f"Model file not found: `{model_path}`. "
+            "Ensure `kihealth_ui/models/m2/*.joblib` is committed on GitHub."
+        )
+        return (None, msg) if required else (None, None)
     try:
-        return joblib.load(model_path)
-    except FileNotFoundError:
-        if required:
-            st.error(
-                f"Model file not found at {model_path}. "
-                "Ensure model files are committed to the repository."
-            )
-            st.stop()
-        return None
+        return joblib.load(model_path), None
     except Exception as exc:
-        if required:
-            import sklearn
+        import sklearn
 
-            st.error(
-                f"Failed to load model at {model_path}: {exc}. "
-                f"scikit-learn runtime={sklearn.__version__}. "
-                "Model artifacts must match pinned requirements (see requirements.txt)."
-            )
-            st.stop()
-        return None
+        msg = (
+            f"Failed to load `{model_path}`: {exc}. "
+            f"Runtime scikit-learn={sklearn.__version__}. "
+            "Pinned requirements: scikit-learn==1.5.2 (see root requirements.txt)."
+        )
+        return (None, msg) if required else (None, None)
 
 
+@st.cache_resource(show_spinner="Loading M2-B models…")
 def load_models():
     """Load the prediction models."""
-    models = {}
+    models = {"m2_available": False, "load_errors": []}
     model_dir = _resolve_model_dir()
 
     if model_dir is None:
-        st.error(
+        models["load_errors"].append(
             "M2-B model files not found. Expected bundled path "
             f"`kihealth_ui/models/m2/` or repo path `{REPO_MODEL_DIR}`. "
-            f"App directory: {APP_DIR}. Repository root: {BASE_DIR}."
+            f"App directory: `{APP_DIR}`. Repository root: `{BASE_DIR}`."
         )
-        st.stop()
+        return models
 
-    m2_core_paths = [
-        os.path.join(model_dir, "foundation_combined.joblib"),
-        os.path.join(model_dir, "foundation_scaler.joblib"),
-        os.path.join(model_dir, "beta_foundation_model.joblib"),
-        os.path.join(model_dir, "beta_foundation_scaler.joblib"),
-    ]
-    models["m2_foundation"] = _load_joblib(m2_core_paths[0])
-    models["m2_foundation_scaler"] = _load_joblib(m2_core_paths[1])
-    models["m2_beta_model"] = _load_joblib(m2_core_paths[2])
-    models["m2_beta_scaler"] = _load_joblib(m2_core_paths[3])
+    m2_core = {
+        "m2_foundation": "foundation_combined.joblib",
+        "m2_foundation_scaler": "foundation_scaler.joblib",
+        "m2_beta_model": "beta_foundation_model.joblib",
+        "m2_beta_scaler": "beta_foundation_scaler.joblib",
+    }
+    for key, filename in m2_core.items():
+        path = os.path.join(model_dir, filename)
+        obj, err = _load_joblib(path)
+        if err:
+            models["load_errors"].append(err)
+            return models
+        models[key] = obj
 
     thresholds_path = os.path.join(model_dir, "beta_foundation_thresholds.joblib")
     metrics_path = os.path.join(model_dir, "beta_foundation_metrics.json")
     if os.path.isfile(thresholds_path):
-        models["m2_thresholds"] = _load_joblib(thresholds_path, required=False)
+        thresholds, _ = _load_joblib(thresholds_path, required=False)
+        if thresholds is not None:
+            models["m2_thresholds"] = thresholds
     if os.path.isfile(metrics_path):
         with open(metrics_path) as f:
             models["m2_metrics"] = json.load(f)
+
     models["m2_available"] = True
     models["m2_model_dir"] = model_dir
 
     if not models.get("m2_available"):
         if os.path.isfile(FINAL_MODEL_PATH):
-            models["final"] = _load_joblib(FINAL_MODEL_PATH, required=False)
+            final_model, _ = _load_joblib(FINAL_MODEL_PATH, required=False)
+            if final_model is not None:
+                models["final"] = final_model
             if os.path.isfile(FINAL_THRESHOLDS_PATH):
-                models["thresholds"] = _load_joblib(FINAL_THRESHOLDS_PATH, required=False)
+                thresholds, _ = _load_joblib(FINAL_THRESHOLDS_PATH, required=False)
+                if thresholds is not None:
+                    models["thresholds"] = thresholds
         elif os.path.isfile(ENSEMBLE_MODEL_PATH):
-            models["ensemble"] = _load_joblib(ENSEMBLE_MODEL_PATH, required=False)
+            ensemble, _ = _load_joblib(ENSEMBLE_MODEL_PATH, required=False)
+            if ensemble is not None:
+                models["ensemble"] = ensemble
             if os.path.isfile(ENSEMBLE_THRESHOLD_PATH):
-                models["ensemble_threshold"] = _load_joblib(
-                    ENSEMBLE_THRESHOLD_PATH, required=False
-                )
+                threshold, _ = _load_joblib(ENSEMBLE_THRESHOLD_PATH, required=False)
+                if threshold is not None:
+                    models["ensemble_threshold"] = threshold
 
     return models
+
+
+def _render_model_load_failure(models: dict) -> None:
+    """Show a clear error instead of a Streamlit StopException traceback."""
+    st.error("Could not load the M2-B prediction models.")
+    for msg in models.get("load_errors", []):
+        st.markdown(msg)
+
+    bundled = BUNDLED_MODEL_DIR
+    repo = REPO_MODEL_DIR
+    st.markdown("**Deploy diagnostics**")
+    st.code(
+        "\n".join(
+            [
+                f"DEPLOY_VERSION={DEPLOY_VERSION}",
+                f"APP_DIR={APP_DIR}",
+                f"BASE_DIR={BASE_DIR}",
+                f"BUNDLED_MODEL_DIR={bundled} exists={os.path.isdir(bundled)}",
+                f"REPO_MODEL_DIR={repo} exists={os.path.isdir(repo)}",
+                "Bundled files:",
+                *[
+                    f"  {name}: {os.path.isfile(os.path.join(bundled, name))}"
+                    for name in (
+                        "foundation_combined.joblib",
+                        "foundation_scaler.joblib",
+                        "beta_foundation_model.joblib",
+                        "beta_foundation_scaler.joblib",
+                    )
+                ],
+            ]
+        )
+    )
+    try:
+        import sklearn
+
+        st.caption(f"Runtime: Python {sys.version.split()[0]}, scikit-learn {sklearn.__version__}")
+    except Exception:
+        pass
+    st.info(
+        "On share.streamlit.io: open **Manage app → Reboot app**, confirm main file is "
+        "`kihealth_ui/risk_calculator.py`, branch `main`, and requirements `requirements.txt`."
+    )
 
 
 def predict_with_m2_model(data: dict, models: dict) -> dict:
@@ -593,8 +637,10 @@ def main():
     
     # Load models
     models = load_models()
-    
-    # Model status
+    if not models.get("m2_available"):
+        _render_model_load_failure(models)
+        st.caption(f"Deploy version: {DEPLOY_VERSION}")
+        return
     if models.get("m2_available"):
         m2_metrics = models.get("m2_metrics", {})
         auc_str = f"{m2_metrics.get('cv_auc_mean', 0.896):.2f}" if m2_metrics else "0.90"
