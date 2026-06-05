@@ -1653,8 +1653,6 @@ def main():
         |------|-------------|
         | `foundation_combined.joblib` | Foundation model (NHANES+CHNS) |
         | `foundation_scaler.joblib` | Feature scaler for foundation |
-        | `foundation_combined.joblib` | Foundation model (NHANES+CHNS) |
-        | `foundation_scaler.joblib` | Feature scaler for foundation |
         | `m2b_final_clean_model_calibrated.joblib` | Final prediction model (5 features) |
         | `m2b_final_clean_scaler.joblib` | Feature scaler for final model |
         | `m2b_final_clean_thresholds.joblib` | Optimized thresholds |
