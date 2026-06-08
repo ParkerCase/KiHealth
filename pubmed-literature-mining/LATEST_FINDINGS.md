@@ -1,4 +1,4 @@
-# PubMed Daily Summary - 2026-06-01
+# PubMed Daily Summary - 2026-06-08
 
 ## Overview
 
@@ -25,35 +25,35 @@
 
 1. **Enhancing total knee replacement prediction: a longitudinal joint space radiomic**
    - Score: 70/100
-   - Flags: recent, large_sample, medium_high, should_review, high_value, priority, high_quality
-   - Reason: Medium-high value (score: 70); Recent high-value article (160 days old); Large sample size (n=614)
+   - Flags: high_value, high_quality, large_sample, medium_high, recent, should_review, priority
+   - Reason: Medium-high value (score: 70); Recent high-value article (167 days old); Large sample size (n=614)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41376347/)
 
 2. **Preoperative neuropathic-like pain and central sensitisation are risk factors fo**
    - Score: 70/100
-   - Flags: systematic_review, recent, medium_high, should_review, comprehensive, high_value, priority
-   - Reason: Medium-high value (score: 70); Recent high-value article (160 days old); Systematic review or meta-analysis
+   - Flags: high_value, systematic_review, medium_high, comprehensive, recent, should_review, priority
+   - Reason: Medium-high value (score: 70); Recent high-value article (167 days old); Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/40995335/)
 
 3. **Fear avoidance and catastrophizing are associated with both knee awareness and q**
    - Score: 66/100
-   - Flags: large_sample, high_quality
+   - Flags: high_quality, large_sample
    - Reason: Large sample size (n=653)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41410384/)
 
 4. **Physical Activity and 4-Year Radiographic Medial Joint Space Loss in Knee Osteoa**
    - Score: 63/100
-   - Flags: large_sample, high_quality
+   - Flags: high_quality, large_sample
    - Reason: Large sample size (n=1806)
    - Access: paywalled
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41337563/)
 
 5. **Changes in knee pain and walking speed following primary, unilateral total knee **
    - Score: 60/100
-   - Flags: comprehensive, systematic_review
+   - Flags: systematic_review, comprehensive
    - Reason: Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41146955/)
