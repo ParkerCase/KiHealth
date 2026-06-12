@@ -94,22 +94,15 @@ def _pct_metric(x, default=0.0):
     return str(x)
 
 
-def _get_m2_threshold_info(models: dict) -> dict:
-    """Clinical mode thresholds and performance from m2b_final_clean_metrics.json."""
-    th = (models.get("m2_metrics") or {}).get("thresholds", {})
-    defaults = {
-        "screening": {"threshold": 0.09, "sensitivity": 0.98, "specificity": 0.49},
-        "balanced": {"threshold": 0.35, "sensitivity": 0.76, "specificity": 0.81},
-        "confirmation": {"threshold": 0.47, "sensitivity": 0.71, "specificity": 0.87},
-    }
+def _build_threshold_info(entries: dict) -> dict:
+    """Normalize threshold/sensitivity/specificity dicts for UI display."""
     info = {}
-    for mode, default in defaults.items():
-        entry = th.get(mode, {})
+    for mode, entry in entries.items():
         if not isinstance(entry, dict):
             entry = {}
-        threshold = entry.get("threshold", default["threshold"])
-        sensitivity = entry.get("sensitivity", default["sensitivity"])
-        specificity = entry.get("specificity", default["specificity"])
+        threshold = entry.get("threshold", 0.0)
+        sensitivity = entry.get("sensitivity", 0.0)
+        specificity = entry.get("specificity", 0.0)
         info[mode] = {
             "threshold": threshold,
             "threshold_pct": int(round(threshold * 100)),
@@ -119,6 +112,52 @@ def _get_m2_threshold_info(models: dict) -> dict:
             "specificity_pct": int(round(specificity * 100)),
         }
     return info
+
+
+def _get_m2_threshold_info(models: dict) -> dict:
+    """Clinical mode thresholds for legacy single-threshold M2 prediction."""
+    th = (models.get("m2_metrics") or {}).get("thresholds", {})
+    defaults = {
+        "screening": {"threshold": 0.09, "sensitivity": 0.98, "specificity": 0.49},
+        "balanced": {"threshold": 0.35, "sensitivity": 0.76, "specificity": 0.81},
+        "confirmation": {"threshold": 0.47, "sensitivity": 0.71, "specificity": 0.87},
+    }
+    entries = {}
+    for mode, default in defaults.items():
+        entry = th.get(mode, {})
+        if not isinstance(entry, dict):
+            entry = {}
+        entries[mode] = {
+            "threshold": entry.get("threshold", default["threshold"]),
+            "sensitivity": entry.get("sensitivity", default["sensitivity"]),
+            "specificity": entry.get("specificity", default["specificity"]),
+        }
+    return _build_threshold_info(entries)
+
+
+def _get_clinical_mode_display_info(models: dict) -> dict:
+    """Threshold/performance for radio labels; prefers cascade metrics when loaded."""
+    if models.get("cascade_available"):
+        screen_m = models.get("cascade_screening_metrics", {})
+        confirm_m = models.get("cascade_confirmation_metrics", {})
+        return _build_threshold_info({
+            "screening": screen_m.get("thresholds", {}).get("screening", {
+                "threshold": 0.11,
+                "sensitivity": 0.98,
+                "specificity": 0.60,
+            }),
+            "balanced": confirm_m.get("thresholds", {}).get("balanced", {
+                "threshold": 0.45,
+                "sensitivity": 0.76,
+                "specificity": 0.91,
+            }),
+            "confirmation": confirm_m.get("thresholds", {}).get("confirmation", {
+                "threshold": 0.37,
+                "sensitivity": 0.78,
+                "specificity": 0.87,
+            }),
+        })
+    return _get_m2_threshold_info(models)
 
 
 def _encode_hba1c_tier(hba1c: float) -> float:
@@ -147,12 +186,15 @@ def _encode_cpeptide_risk_tier(cpeptide: float) -> float:
     return 1.0
 
 
-def _clinical_mode_label(mode: str, mode_info: dict) -> str:
+def _clinical_mode_label(mode: str, mode_info: dict, models: dict | None = None) -> str:
     """Radio label for a clinical mode using metrics-driven cutoffs."""
     if mode == "cascade":
+        confirm_m = (models or {}).get("cascade_confirmation_metrics", {})
+        rep_auc = confirm_m.get("cv_auc_repeated_mean", 0.915)
+        bal_j = confirm_m.get("youden_j", {}).get("balanced", 0.67)
         return (
             "Cascade (Recommended) - Two-stage screening then confirmation "
-            "(Rep AUC 0.915, Balanced J 0.67)"
+            f"(Rep AUC {rep_auc:.3f}, Balanced J {bal_j:.2f})"
         )
     m = mode_info[mode]
     if mode == "screening":
@@ -1427,7 +1469,7 @@ def main():
         
         # Clinical Mode Selector
         st.markdown("### Clinical Mode")
-        mode_info = _get_m2_threshold_info(models)
+        mode_info = _get_clinical_mode_display_info(models)
         mode_options = (
             ["cascade", "screening", "balanced", "confirmation"]
             if models.get("cascade_available")
@@ -1436,7 +1478,7 @@ def main():
         clinical_mode = st.radio(
             "Select assessment mode based on clinical context:",
             mode_options,
-            format_func=lambda x: _clinical_mode_label(x, mode_info),
+            format_func=lambda x: _clinical_mode_label(x, mode_info, models),
             index=0,
             key="clinical_mode",
             horizontal=False,
@@ -1853,14 +1895,17 @@ def main():
         
         # Clinical Modes (from metrics when available)
         st.markdown("### Clinical Mode Performance")
-        mode_info = _get_m2_threshold_info(models)
+        mode_info = _get_clinical_mode_display_info(models)
+        screen_m = models.get("cascade_screening_metrics", {})
         confirm_m = models.get("cascade_confirmation_metrics", {})
         confirm_yj = confirm_m.get("youden_j", {})
+        cascade_auc = f"{confirm_m.get('cv_auc_repeated_mean', 0.915):.3f}"
+        screen_auc = f"{screen_m.get('cv_auc_repeated_mean', 0.902):.3f}"
         mode_rows = []
         if models.get("cascade_available"):
             mode_rows.append({
                 "Mode": "Cascade (Recommended)",
-                "AUC": "0.915",
+                "AUC": cascade_auc,
                 "Balanced J": f"{confirm_yj.get('balanced', 0.67):.2f}",
                 "Confirm J": f"{confirm_yj.get('confirmation', 0.64):.2f}",
                 "Use Case": "Two-stage screening → confirmation workflow",
@@ -1875,24 +1920,24 @@ def main():
             },
             {
                 "Mode": "Screening",
-                "AUC": f"{models.get('cascade_screening_metrics', {}).get('cv_auc_repeated_mean', 0.902):.3f}" if models.get("cascade_available") else auc_val,
-                "Balanced J": "—",
+                "AUC": screen_auc if models.get("cascade_available") else auc_val,
+                "Balanced J": f"{mode_info['screening']['sensitivity'] + mode_info['screening']['specificity'] - 1:.2f}" if models.get("cascade_available") else "—",
                 "Confirm J": "—",
                 "Use Case": "Catch nearly all at-risk patients",
             },
             {
                 "Mode": "Balanced",
-                "AUC": auc_val,
+                "AUC": cascade_auc if models.get("cascade_available") else auc_val,
                 "Balanced J": f"{mode_info['balanced']['sensitivity'] + mode_info['balanced']['specificity'] - 1:.2f}",
                 "Confirm J": "—",
-                "Use Case": "Optimal trade-off (single model)",
+                "Use Case": "Optimal trade-off (confirmation model)" if models.get("cascade_available") else "Optimal trade-off (single model)",
             },
             {
                 "Mode": "Confirmation",
-                "AUC": auc_val,
+                "AUC": cascade_auc if models.get("cascade_available") else auc_val,
                 "Balanced J": "—",
                 "Confirm J": f"{mode_info['confirmation']['sensitivity'] + mode_info['confirmation']['specificity'] - 1:.2f}",
-                "Use Case": "High confidence positives (single model)",
+                "Use Case": "High confidence positives (confirmation model)" if models.get("cascade_available") else "High confidence positives (single model)",
             },
         ])
         st.table(pd.DataFrame(mode_rows))
