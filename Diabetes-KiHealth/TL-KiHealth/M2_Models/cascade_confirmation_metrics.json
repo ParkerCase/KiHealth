@@ -1,0 +1,47 @@
+{
+  "model_type": "Cascade_Confirmation_C6",
+  "features": [
+    "beta_score",
+    "foundation_pred",
+    "insulin_imp",
+    "cpeptide_imp",
+    "hba1c_direct",
+    "beta_high",
+    "cpeptide_low"
+  ],
+  "kihealth_patients": 129,
+  "kihealth_at_risk": 51,
+  "cv_auc_single_seed": 0.9047259929612871,
+  "cv_auc_repeated_mean": 0.9140666666666667,
+  "cv_auc_repeated_std": 0.04806693873312044,
+  "ci_lower": 0.8420419363917817,
+  "ci_upper": 0.9559000774783079,
+  "train_auc": 0.9436902966314731,
+  "overfit_gap": 0.038964303670185996,
+  "overfit_flag": false,
+  "thresholds": {
+    "balanced": {
+      "threshold": 0.43,
+      "sensitivity": 0.7647058823529411,
+      "specificity": 0.8974358974358975,
+      "youden_j": 0.6621417797888385
+    },
+    "confirmation": {
+      "threshold": 0.41,
+      "sensitivity": 0.7843137254901961,
+      "specificity": 0.8717948717948718,
+      "youden_j": 0.6561085972850678
+    }
+  },
+  "youden_j": {
+    "screening": null,
+    "balanced": 0.6621417797888385,
+    "confirmation": 0.6561085972850678
+  },
+  "median_insulin": 21.049999999999997,
+  "median_cpeptide": 2.9,
+  "median_age": 43.0,
+  "median_bmi": 26.6,
+  "cp_25th": 1.9,
+  "beta_75th": 11.64
+}

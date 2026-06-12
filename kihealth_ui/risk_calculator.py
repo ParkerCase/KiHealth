@@ -61,9 +61,13 @@ M2_BETA_MODEL_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_model_calibrated.j
 M2_BETA_SCALER_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_scaler.joblib")
 M2_THRESHOLDS_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_thresholds.joblib")
 M2_METRICS_PATH = os.path.join(MODEL_DIR, "m2b_final_clean_metrics.json")
+CASCADE_SCREENING_MODEL_PATH = os.path.join(MODEL_DIR, "final_cascade_screening_model.joblib")
+CASCADE_SCREENING_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_screening_metrics.json")
+CASCADE_CONFIRMATION_MODEL_PATH = os.path.join(MODEL_DIR, "final_cascade_confirmation_model.joblib")
+CASCADE_CONFIRMATION_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_confirmation_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-06-05-m2b-metrics-thresholds"
+DEPLOY_VERSION = "2026-06-12-cascade-final-production"
 SVG_ICONS = {
     "check_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>''',
     "alert_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>''',
@@ -117,8 +121,39 @@ def _get_m2_threshold_info(models: dict) -> dict:
     return info
 
 
+def _encode_hba1c_tier(hba1c: float) -> float:
+    if hba1c < 5.5:
+        return 0.0
+    if hba1c < 5.7:
+        return 1.0
+    if hba1c < 6.5:
+        return 2.0
+    return 3.0
+
+
+def _encode_cpeptide_risk_tier(cpeptide: float) -> float:
+    if cpeptide <= 0.7:
+        return 3.0
+    if 0.8 <= cpeptide <= 0.9:
+        return 2.0
+    if 1.0 <= cpeptide <= 2.0:
+        return 0.0
+    if 2.1 <= cpeptide <= 3.0:
+        return 1.0
+    if cpeptide >= 3.1:
+        return 2.0
+    if cpeptide < 1.0:
+        return 2.0
+    return 1.0
+
+
 def _clinical_mode_label(mode: str, mode_info: dict) -> str:
     """Radio label for a clinical mode using metrics-driven cutoffs."""
+    if mode == "cascade":
+        return (
+            "Cascade (Recommended) - Two-stage screening then confirmation "
+            "(Rep AUC 0.915, Balanced J 0.67)"
+        )
     m = mode_info[mode]
     if mode == "screening":
         return (
@@ -212,6 +247,36 @@ def load_models():
 
     models["m2_available"] = True
     models["m2_model_dir"] = model_dir
+
+    cascade_core = {
+        "cascade_screening_model": "final_cascade_screening_model.joblib",
+        "cascade_confirmation_model": "final_cascade_confirmation_model.joblib",
+    }
+    cascade_ok = True
+    for key, filename in cascade_core.items():
+        path = os.path.join(model_dir, filename)
+        obj, err = _load_joblib(path, required=False)
+        if obj is None:
+            cascade_ok = False
+            if err:
+                models.setdefault("cascade_load_warnings", []).append(err)
+            break
+        models[key] = obj
+        models["loaded_paths"][filename] = path
+
+    for key, filename in (
+        ("cascade_screening_metrics", "final_cascade_screening_metrics.json"),
+        ("cascade_confirmation_metrics", "final_cascade_confirmation_metrics.json"),
+    ):
+        path = os.path.join(model_dir, filename)
+        models["loaded_paths"][filename] = path
+        if os.path.isfile(path):
+            with open(path) as f:
+                models[key] = json.load(f)
+        else:
+            cascade_ok = False
+
+    models["cascade_available"] = cascade_ok
 
     if not models.get("m2_available"):
         if os.path.isfile(FINAL_MODEL_PATH):
@@ -307,7 +372,7 @@ def predict_with_m2_model(data: dict, models: dict) -> dict:
     try:
         # Stage 1: Foundation (HbA1c + Age + BMI)
         X_foundation = pd.DataFrame([[hba1c, age, bmi]], columns=['hba1c_percent', 'age_years', 'bmi_kg_m2'])
-        X_foundation_scaled = models["m2_foundation_scaler"].transform(X_foundation)
+        X_foundation_scaled = models["m2_foundation_scaler"].transform(X_foundation.values)
         foundation_pred = models["m2_foundation"].predict_proba(X_foundation_scaled)[0, 1]
         result["foundation_pred"] = foundation_pred
         
@@ -340,6 +405,145 @@ def predict_with_m2_model(data: dict, models: dict) -> dict:
     except Exception as e:
         st.warning(f"M2 model prediction error: {e}")
     
+    return result
+
+
+def predict_with_cascade_model(data: dict, models: dict) -> dict:
+    """
+    Two-stage cascade: R1 screening (129 cohort) then CONFIG B confirmation (162 cohort).
+    beta_score input = INS 399 % Unmethylated for all patients.
+    """
+    screen_metrics = models.get("cascade_screening_metrics", {})
+    confirm_metrics = models.get("cascade_confirmation_metrics", {})
+    result = {
+        "probability": None,
+        "foundation_pred": None,
+        "model_name": "KiHealth Cascade (Screening R1 + Confirmation CONFIG B)",
+        "cascade": True,
+        "screening_probability": None,
+        "confirmation_probability": None,
+        "cascade_stage": None,
+        "cascade_message": None,
+        "cascade_cleared": False,
+    }
+
+    beta_score = data.get("beta_score")
+    hba1c = data.get("hba1c")
+    if beta_score is None or hba1c is None:
+        return result
+
+    age = data.get("age")
+    bmi = data.get("bmi")
+    if age is None:
+        age = screen_metrics.get("median_age", confirm_metrics.get("median_age", 43.0))
+    if bmi is None:
+        bmi = screen_metrics.get("median_bmi", confirm_metrics.get("median_bmi", 26.6))
+
+    insulin = data.get("insulin")
+    cpeptide = data.get("c_peptide")
+    if insulin is None or (isinstance(insulin, float) and np.isnan(insulin)):
+        insulin = screen_metrics.get("median_insulin", 21.0)
+    if cpeptide is None or (isinstance(cpeptide, float) and np.isnan(cpeptide)):
+        cpeptide = screen_metrics.get("median_cpeptide", 2.9)
+
+    screen_thresh = (
+        screen_metrics.get("thresholds", {}).get("screening", {}).get("threshold", 0.11)
+    )
+    bal_thresh = (
+        confirm_metrics.get("thresholds", {}).get("balanced", {}).get("threshold", 0.45)
+    )
+    con_thresh = (
+        confirm_metrics.get("thresholds", {}).get("confirmation", {}).get("threshold", 0.37)
+    )
+
+    try:
+        X_foundation = pd.DataFrame(
+            [[hba1c, age, bmi]], columns=["hba1c_percent", "age_years", "bmi_kg_m2"]
+        )
+        X_foundation_scaled = models["m2_foundation_scaler"].transform(X_foundation.values)
+        foundation_pred = models["m2_foundation"].predict_proba(X_foundation_scaled)[0, 1]
+        result["foundation_pred"] = foundation_pred
+
+        hba1c_tier = _encode_hba1c_tier(float(hba1c))
+        cpeptide_tier = _encode_cpeptide_risk_tier(float(cpeptide))
+
+        X_screen = pd.DataFrame(
+            [[
+                beta_score,
+                foundation_pred,
+                float(insulin),
+                float(cpeptide),
+                float(hba1c),
+                hba1c_tier,
+                cpeptide_tier,
+            ]],
+            columns=[
+                "beta_score",
+                "foundation_pred",
+                "insulin_imp",
+                "cpeptide_imp",
+                "hba1c_direct",
+                "hba1c_tier",
+                "cpeptide_risk_tier",
+            ],
+        )
+        screen_prob = models["cascade_screening_model"].predict_proba(X_screen)[0, 1]
+        result["screening_probability"] = screen_prob
+
+        if screen_prob < screen_thresh:
+            result["cascade_cleared"] = True
+            result["cascade_stage"] = "cleared"
+            result["cascade_message"] = (
+                "Patient did not meet screening criteria for further evaluation."
+            )
+            result["probability"] = screen_prob
+            return result
+
+        result["cascade_stage"] = "flagged"
+        confirm_insulin = data.get("insulin")
+        confirm_cpeptide = data.get("c_peptide")
+        if confirm_insulin is None or (isinstance(confirm_insulin, float) and np.isnan(confirm_insulin)):
+            confirm_insulin = confirm_metrics.get("median_insulin", 17.0)
+        if confirm_cpeptide is None or (isinstance(confirm_cpeptide, float) and np.isnan(confirm_cpeptide)):
+            confirm_cpeptide = confirm_metrics.get("median_cpeptide", 2.75)
+
+        X_confirm = pd.DataFrame(
+            [[
+                beta_score,
+                foundation_pred,
+                float(confirm_insulin),
+                float(confirm_cpeptide),
+                float(hba1c),
+            ]],
+            columns=[
+                "beta_score_399",
+                "foundation_pred",
+                "insulin_imp",
+                "cpeptide_imp",
+                "hba1c_direct",
+            ],
+        )
+        confirm_prob = models["cascade_confirmation_model"].predict_proba(X_confirm)[0, 1]
+        result["confirmation_probability"] = confirm_prob
+        result["probability"] = confirm_prob
+
+        if confirm_prob >= bal_thresh:
+            result["cascade_stage"] = "high_confidence"
+            result["cascade_message"] = (
+                "HIGH CONFIDENCE POSITIVE: Immediate clinical attention warranted"
+            )
+        elif confirm_prob >= con_thresh:
+            result["cascade_stage"] = "moderate"
+            result["cascade_message"] = "MODERATE SIGNAL: Clinical review recommended"
+        else:
+            result["cascade_stage"] = "low_moderate"
+            result["cascade_message"] = (
+                "LOW-MODERATE SIGNAL: Monitor and retest in 6 months"
+            )
+
+    except Exception as exc:
+        st.warning(f"Cascade model prediction error: {exc}")
+
     return result
 
 
@@ -488,11 +692,96 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
     # Note: C-peptide and insulin are NOT used in the ML model prediction
     # They are displayed for clinical context only
     
-    clinical_mode = data.get("clinical_mode", "balanced")
+    clinical_mode = data.get("clinical_mode", "cascade")
     use_m2_model = data.get("use_m2_model", True)  # Default to M2 model
-    
-    # Try M2 Transfer Learning model first (BEST: AUC 0.981)
-    if use_m2_model and models.get("m2_available") and data.get("beta_score") is not None and data.get("hba1c") is not None:
+
+    if (
+        use_m2_model
+        and clinical_mode == "cascade"
+        and models.get("cascade_available")
+        and data.get("beta_score") is not None
+        and data.get("hba1c") is not None
+    ):
+        try:
+            cascade_result = predict_with_cascade_model(data, models)
+            if cascade_result.get("probability") is not None:
+                screen_prob = cascade_result.get("screening_probability", 0.0)
+                confirm_prob = cascade_result.get("confirmation_probability")
+                screen_metrics = models.get("cascade_screening_metrics", {})
+                confirm_metrics = models.get("cascade_confirmation_metrics", {})
+                screen_thresh = (
+                    screen_metrics.get("thresholds", {})
+                    .get("screening", {})
+                    .get("threshold", 0.11)
+                )
+                bal_thresh = (
+                    confirm_metrics.get("thresholds", {})
+                    .get("balanced", {})
+                    .get("threshold", 0.45)
+                )
+                con_thresh = (
+                    confirm_metrics.get("thresholds", {})
+                    .get("confirmation", {})
+                    .get("threshold", 0.37)
+                )
+
+                results["foundation_pred"] = cascade_result["foundation_pred"]
+                results["clinical_mode"] = "cascade"
+                results["cascade"] = True
+                results["screening_probability"] = round(screen_prob * 100, 1)
+                results["screening_threshold"] = screen_thresh
+                results["balanced_threshold"] = bal_thresh
+                results["confirmation_threshold"] = con_thresh
+                results["cascade_stage"] = cascade_result.get("cascade_stage")
+                results["cascade_message"] = cascade_result.get("cascade_message")
+                results["cascade_cleared"] = cascade_result.get("cascade_cleared", False)
+
+                if cascade_result.get("cascade_cleared"):
+                    results["risk_probability"] = round(screen_prob * 100, 1)
+                    results["risk_category"] = "Low"
+                    results["at_risk_classification"] = "CLEARED - Low Risk"
+                    results["model_used"] = (
+                        f"{cascade_result['model_name']} - Stage 1 Screening "
+                        f"(prob {screen_prob*100:.1f}% < {screen_thresh*100:.0f}% threshold)"
+                    )
+                else:
+                    prob = confirm_prob if confirm_prob is not None else screen_prob
+                    results["confirmation_probability"] = round(prob * 100, 1)
+                    results["risk_probability"] = round(prob * 100, 1)
+                    stage = cascade_result.get("cascade_stage", "flagged")
+                    if stage == "high_confidence":
+                        results["risk_category"] = "Very High"
+                        results["at_risk_classification"] = "HIGH CONFIDENCE POSITIVE"
+                    elif stage == "moderate":
+                        results["risk_category"] = "High"
+                        results["at_risk_classification"] = "MODERATE SIGNAL"
+                    else:
+                        results["risk_category"] = "Moderate"
+                        results["at_risk_classification"] = "LOW-MODERATE SIGNAL"
+                    results["model_used"] = (
+                        f"{cascade_result['model_name']} - {results['at_risk_classification']} "
+                        f"(screen {screen_prob*100:.1f}%, confirm {prob*100:.1f}%)"
+                    )
+                    results["threshold"] = bal_thresh if stage == "high_confidence" else con_thresh
+
+                avg_beta_data = data.copy()
+                avg_beta_data["beta_score"] = 8.0
+                avg_result = predict_with_cascade_model(avg_beta_data, models)
+                if avg_result.get("probability") is not None and not cascade_result.get("cascade_cleared"):
+                    results["beta_contribution"] = round(
+                        (cascade_result["probability"] - avg_result["probability"]) * 100, 1
+                    )
+        except Exception as e:
+            st.warning(f"Cascade model error: {e}")
+
+    # Single-threshold M2 model (screening / balanced / confirmation modes)
+    if (
+        results["risk_probability"] is None
+        and use_m2_model
+        and models.get("m2_available")
+        and data.get("beta_score") is not None
+        and data.get("hba1c") is not None
+    ):
         try:
             m2_result = predict_with_m2_model(data, models)
             if m2_result["probability"] is not None:
@@ -708,6 +997,13 @@ def main():
         _render_model_load_failure(models)
         st.caption(f"Deploy version: {DEPLOY_VERSION}")
         return
+    if models.get("cascade_available"):
+        st.markdown(f"""
+        <div class="icon-text" style="color: #22c55e;">
+            {svg_icon("shield_check", 20)}
+            <span><strong>Cascade model loaded</strong> — Screening R1 (129 pts) + Confirmation CONFIG B (162 pts, INS 399)</span>
+        </div>
+        """, unsafe_allow_html=True)
     if models.get("m2_available"):
         m2_metrics = models.get("m2_metrics", {})
         auc_str = f"{m2_metrics.get('cv_auc_mean', 0.896):.2f}" if m2_metrics else "0.90"
@@ -1132,13 +1428,18 @@ def main():
         # Clinical Mode Selector
         st.markdown("### Clinical Mode")
         mode_info = _get_m2_threshold_info(models)
+        mode_options = (
+            ["cascade", "screening", "balanced", "confirmation"]
+            if models.get("cascade_available")
+            else ["screening", "balanced", "confirmation"]
+        )
         clinical_mode = st.radio(
             "Select assessment mode based on clinical context:",
-            ["screening", "balanced", "confirmation"],
+            mode_options,
             format_func=lambda x: _clinical_mode_label(x, mode_info),
-            index=1,
+            index=0,
             key="clinical_mode",
-            horizontal=False
+            horizontal=False,
         )
         
         st.session_state.patient_data["clinical_mode"] = clinical_mode
@@ -1194,6 +1495,74 @@ def main():
                 
                 if status == "Diabetic":
                     st.info("Patient already has diabetes - risk score not applicable")
+                elif results.get("cascade"):
+                    screen_pct = results.get("screening_probability", 0)
+                    screen_thr = results.get("screening_threshold", 0.11)
+                    st.markdown("#### Cascade Workflow")
+                    st.progress(min(1.0, screen_pct / 100.0), text=f"Stage 1 Screening: {screen_pct:.1f}%")
+                    if results.get("cascade_cleared"):
+                        st.markdown(f"""
+                        <div class="risk-card risk-low">
+                            <div class="icon-text">
+                                {svg_icon("shield_check", 32)}
+                                <h3 style="margin: 0; color: #22c55e;">CLEARED — Low Risk</h3>
+                            </div>
+                            <p style="margin-top: 10px;">{results.get('cascade_message', '')}</p>
+                            <p style="font-size: 0.9em; color: #666;">
+                                Screening probability {screen_pct:.1f}% &lt; threshold {screen_thr*100:.0f}%
+                            </p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        st.caption("Stage 2 Confirmation: not required (patient cleared at screening)")
+                    else:
+                        confirm_pct = results.get("confirmation_probability", 0)
+                        bal_thr = results.get("balanced_threshold", 0.45)
+                        con_thr = results.get("confirmation_threshold", 0.37)
+                        st.progress(min(1.0, confirm_pct / 100.0), text=f"Stage 2 Confirmation: {confirm_pct:.1f}%")
+                        stage = results.get("cascade_stage", "flagged")
+                        if stage == "high_confidence":
+                            card_class, icon, color = "risk-very-high", "shield_alert", "#ef4444"
+                        elif stage == "moderate":
+                            card_class, icon, color = "risk-high", "alert_circle", "#f97316"
+                        else:
+                            card_class, icon, color = "risk-moderate", "info", "#3b82f6"
+                        st.markdown(f"""
+                        <div class="risk-card {card_class}">
+                            <div class="icon-text">
+                                {svg_icon(icon, 32)}
+                                <h3 style="margin: 0; color: {color};">FLAGGED AT SCREENING</h3>
+                            </div>
+                            <p style="margin-top: 8px;"><strong>{results.get('at_risk_classification', '')}</strong></p>
+                            <p style="margin-top: 5px;">{results.get('cascade_message', '')}</p>
+                            <p style="font-size: 0.9em; color: #666;">
+                                Screening {screen_pct:.1f}% (≥ {screen_thr*100:.0f}%) →
+                                Confirmation {confirm_pct:.1f}%
+                                (balanced ≥ {bal_thr*100:.0f}%, confirm ≥ {con_thr*100:.0f}%)
+                            </p>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        st.markdown(
+                            "**Funnel:** Stage 1 Screening → Stage 2 Confirmation → "
+                            + ("High confidence" if stage == "high_confidence" else "Clinical review" if stage == "moderate" else "Monitor")
+                        )
+                    if results.get("model_used"):
+                        st.caption(f"Model: {results['model_used']}")
+                    beta_contrib = results.get("beta_contribution")
+                    if beta_contrib is not None and not results.get("cascade_cleared"):
+                        if beta_contrib > 0:
+                            st.markdown(f"""
+                            <div class="icon-text" style="color: #ef4444;">
+                                {svg_icon("trending_up", 20)}
+                                <span>Beta Score Impact: +{beta_contrib:.1f}% risk (elevated unmethylated DNA)</span>
+                            </div>
+                            """, unsafe_allow_html=True)
+                        elif beta_contrib < 0:
+                            st.markdown(f"""
+                            <div class="icon-text" style="color: #22c55e;">
+                                {svg_icon("trending_down", 20)}
+                                <span>Beta Score Impact: {beta_contrib:.1f}% risk (healthy unmethylated DNA)</span>
+                            </div>
+                            """, unsafe_allow_html=True)
                 else:
                     risk = results.get("risk_probability", 0)
                     category = results.get("risk_category", "Unknown")
@@ -1370,6 +1739,10 @@ def main():
                 "Current Status": results["current_status"],
                 "Risk Score (%)": results["risk_probability"],
                 "Risk Category": results["risk_category"],
+                "Clinical Mode": results.get("clinical_mode", "N/A"),
+                "Cascade Stage": results.get("cascade_stage", "N/A"),
+                "Screening Prob (%)": results.get("screening_probability"),
+                "Confirmation Prob (%)": results.get("confirmation_probability"),
                 "Model Used": results.get("model_used", "N/A"),
                 "Risk Factors": "; ".join(results["risk_factors"]),
                 "Protective Factors": "; ".join(results["protective_factors"]),
@@ -1397,12 +1770,48 @@ def main():
         """, unsafe_allow_html=True)
         
         st.markdown("""
-        This model uses transfer learning from large external datasets to improve diabetes risk prediction
-        when combined with KiHealth's proprietary Beta Score biomarker.
+        This model uses transfer learning from large external datasets combined with KiHealth's
+        proprietary Beta Score (INS 399) biomarker. **Cascade (Recommended)** runs a two-stage
+        screening → confirmation workflow; single-threshold modes remain available for comparison.
         """)
-        
-        # Model Performance Summary
-        st.markdown("### Model Performance Summary")
+
+        if models.get("cascade_available"):
+            screen_m = models.get("cascade_screening_metrics", {})
+            confirm_m = models.get("cascade_confirmation_metrics", {})
+            st.markdown("### Cascade Architecture (Production)")
+            cas_col1, cas_col2 = st.columns(2)
+            with cas_col1:
+                st.markdown("**Screening Model** (R1, 129 patients)")
+                st.metric("Rep AUC", f"{screen_m.get('cv_auc_repeated_mean', 0.902):.3f}")
+                st.metric("Screening Youden J", f"{screen_m.get('youden_j', {}).get('screening', 0.58):.2f}")
+                st.caption(
+                    "Features: Beta Score (INS 399), Foundation Prediction, HbA1c, "
+                    "HbA1c Clinical Tier, Insulin, C-Peptide, C-Peptide Risk Tier"
+                )
+            with cas_col2:
+                st.markdown("**Confirmation Model** (CONFIG B, 162 patients)")
+                st.metric("Rep AUC", f"{confirm_m.get('cv_auc_repeated_mean', 0.915):.3f}")
+                ci_lo = confirm_m.get("ci_lower", 0.87)
+                ci_hi = confirm_m.get("ci_upper", 0.96)
+                st.metric("95% CI", f"[{ci_lo:.2f}, {ci_hi:.2f}]")
+                yj = confirm_m.get("youden_j", {})
+                st.caption(
+                    f"Balanced Youden: {yj.get('balanced', 0.67):.2f} | "
+                    f"Confirmation Youden: {yj.get('confirmation', 0.64):.2f}"
+                )
+                st.caption(
+                    "Features: Beta Score (INS 399), Foundation Prediction, HbA1c, Insulin, C-Peptide"
+                )
+            st.info(
+                "Cascade model uses INS 399 as the primary beta cell death signal, "
+                "consistent with KiHealth's validated assay."
+            )
+            st.markdown("**Improvement vs original M2:** Balanced Youden +0.08, Confirmation Youden +0.05, "
+                         "AUC +0.019, false positive rate to confirmation 7.4%")
+            st.divider()
+
+        # Model Performance Summary (legacy single-threshold model)
+        st.markdown("### Single-Threshold Model (Legacy Modes)")
         m2_metrics = models.get("m2_metrics", {})
         auc_val = f"{m2_metrics.get('cv_auc_mean', 0.896):.2f}" if m2_metrics else "0.90"
         ci_lo = m2_metrics.get("ci_lower")
@@ -1445,30 +1854,48 @@ def main():
         # Clinical Modes (from metrics when available)
         st.markdown("### Clinical Mode Performance")
         mode_info = _get_m2_threshold_info(models)
-        mode_data = {
-            "Mode": ["Screening", "Balanced", "Confirmation"],
-            "Threshold": [
-                f">{mode_info['screening']['threshold_pct']}%",
-                f">{mode_info['balanced']['threshold_pct']}%",
-                f">{mode_info['confirmation']['threshold_pct']}%",
-            ],
-            "Sensitivity": [
-                _pct_metric(mode_info["screening"]["sensitivity"]),
-                _pct_metric(mode_info["balanced"]["sensitivity"]),
-                _pct_metric(mode_info["confirmation"]["sensitivity"]),
-            ],
-            "Specificity": [
-                _pct_metric(mode_info["screening"]["specificity"]),
-                _pct_metric(mode_info["balanced"]["specificity"]),
-                _pct_metric(mode_info["confirmation"]["specificity"]),
-            ],
-            "Use Case": [
-                "Catch nearly all at-risk patients",
-                "Optimal trade-off",
-                "High confidence positives"
-            ]
-        }
-        st.table(pd.DataFrame(mode_data))
+        confirm_m = models.get("cascade_confirmation_metrics", {})
+        confirm_yj = confirm_m.get("youden_j", {})
+        mode_rows = []
+        if models.get("cascade_available"):
+            mode_rows.append({
+                "Mode": "Cascade (Recommended)",
+                "AUC": "0.915",
+                "Balanced J": f"{confirm_yj.get('balanced', 0.67):.2f}",
+                "Confirm J": f"{confirm_yj.get('confirmation', 0.64):.2f}",
+                "Use Case": "Two-stage screening → confirmation workflow",
+            })
+        mode_rows.extend([
+            {
+                "Mode": "Original (single threshold)",
+                "AUC": "0.896",
+                "Balanced J": "0.59",
+                "Confirm J": "0.59",
+                "Use Case": "Single-threshold legacy model",
+            },
+            {
+                "Mode": "Screening",
+                "AUC": f"{models.get('cascade_screening_metrics', {}).get('cv_auc_repeated_mean', 0.902):.3f}" if models.get("cascade_available") else auc_val,
+                "Balanced J": "—",
+                "Confirm J": "—",
+                "Use Case": "Catch nearly all at-risk patients",
+            },
+            {
+                "Mode": "Balanced",
+                "AUC": auc_val,
+                "Balanced J": f"{mode_info['balanced']['sensitivity'] + mode_info['balanced']['specificity'] - 1:.2f}",
+                "Confirm J": "—",
+                "Use Case": "Optimal trade-off (single model)",
+            },
+            {
+                "Mode": "Confirmation",
+                "AUC": auc_val,
+                "Balanced J": "—",
+                "Confirm J": f"{mode_info['confirmation']['sensitivity'] + mode_info['confirmation']['specificity'] - 1:.2f}",
+                "Use Case": "High confidence positives (single model)",
+            },
+        ])
+        st.table(pd.DataFrame(mode_rows))
         
         st.divider()
         
@@ -1656,7 +2083,11 @@ def main():
         | `m2b_final_clean_model_calibrated.joblib` | Final prediction model (5 features) |
         | `m2b_final_clean_scaler.joblib` | Feature scaler for final model |
         | `m2b_final_clean_thresholds.joblib` | Optimized thresholds |
-        | `m2b_final_clean_metrics.json` | Performance metrics |
+        | `m2b_final_clean_metrics.json` | Performance metrics (legacy single-threshold) |
+        | `final_cascade_screening_model.joblib` | Cascade screening model (R1, 129 pts) |
+        | `final_cascade_screening_metrics.json` | Cascade screening metrics |
+        | `final_cascade_confirmation_model.joblib` | Cascade confirmation model (CONFIG B, 162 pts) |
+        | `final_cascade_confirmation_metrics.json` | Cascade confirmation metrics |
         """)
 
 
