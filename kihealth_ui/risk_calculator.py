@@ -68,6 +68,76 @@ CASCADE_CONFIRMATION_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_confi
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
 DEPLOY_VERSION = "2026-06-12-cascade-final-production"
+
+# KiHealth validation cohort composition (UI documentation only; models unchanged)
+V1_VALIDATION_DATASET = {
+    "cohort": "V1",
+    "label": "V1 Validation Cohort (Original KiHealth Dataset)",
+    "rows": [
+        {
+            "Source": "Cardinal",
+            "Patients": 73,
+            "At-Risk": 25,
+            "Not At-Risk": 48,
+            "Description": "Blood drive samples with questionnaire",
+        },
+        {
+            "Source": "V1 Validation",
+            "Patients": 34,
+            "At-Risk": 4,
+            "Not At-Risk": 30,
+            "Description": "Biobank validation samples",
+        },
+        {
+            "Source": "T1D Study",
+            "Patients": 12,
+            "At-Risk": 12,
+            "Not At-Risk": 0,
+            "Description": "Pediatric T1D onset cases",
+        },
+        {
+            "Source": "BioIVT Fresh",
+            "Patients": 10,
+            "At-Risk": 10,
+            "Not At-Risk": 0,
+            "Description": "Fresh diabetic samples",
+        },
+    ],
+    "total_patients": 129,
+    "total_at_risk": 51,
+    "total_not_at_risk": 78,
+    "model_use": "Screening model (R1), legacy single-threshold model, and all original M2 metrics",
+}
+
+V2_VALIDATION_DATASET = {
+    "cohort": "V2",
+    "label": "V2 Validation Cohort (Reference Range Expansion, Jun 2026)",
+    "rows": [
+        {
+            "Source": "V2 Reference Range",
+            "Patients": 33,
+            "At-Risk": 7,
+            "Not At-Risk": 26,
+            "Description": "Norgen Plasma samples with INS 399 site-specific beta score",
+        },
+    ],
+    "raw_submitted": 55,
+    "qc_excluded": 22,
+    "total_patients": 33,
+    "total_at_risk": 7,
+    "total_not_at_risk": 26,
+    "qc_note": "%cfDNA ≥ 70%, concentration ≥ 80 pg/µL, valid INS 399 and HbA1c",
+    "model_use": "Confirmation model (CONFIG B) only — added to V1 for expanded training",
+}
+
+COMBINED_VALIDATION_DATASET = {
+    "label": "Combined V1 + V2 Training Cohort",
+    "total_patients": 162,
+    "total_at_risk": 58,
+    "total_not_at_risk": 104,
+    "model_use": "Confirmation model (CONFIG B) — 129 V1 + 33 V2 patients",
+}
+
 SVG_ICONS = {
     "check_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>''',
     "alert_circle": '''<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>''',
@@ -87,11 +157,82 @@ SVG_ICONS = {
 }
 
 
+def _validation_dataset_table_rows(cohort_rows: list[dict], total_patients: int,
+                                   total_at_risk: int, total_not_at_risk: int) -> pd.DataFrame:
+    """Build a validation cohort table with a bold total row."""
+    rows = [{**row} for row in cohort_rows]
+    rows.append({
+        "Source": "**Total**",
+        "Patients": f"**{total_patients}**",
+        "At-Risk": f"**{total_at_risk}**",
+        "Not At-Risk": f"**{total_not_at_risk}**",
+        "Description": "",
+    })
+    return pd.DataFrame(rows)
+
+
+def _render_validation_dataset_composition() -> None:
+    """Render V1/V2 validation cohort tables with a clear cohort boundary."""
+    st.markdown("### Validation Dataset Composition")
+    st.info(
+        "**V1** is the original KiHealth validation cohort. **V2** is the June 2026 "
+        "reference-range expansion. Screening metrics use **V1 only**; confirmation metrics "
+        "use **V1 + V2 combined**. Models are unchanged — this section documents the data "
+        "behind the displayed performance."
+    )
+
+    st.markdown(f"#### {V1_VALIDATION_DATASET['label']}")
+    st.caption(V1_VALIDATION_DATASET["model_use"])
+    st.table(_validation_dataset_table_rows(
+        V1_VALIDATION_DATASET["rows"],
+        V1_VALIDATION_DATASET["total_patients"],
+        V1_VALIDATION_DATASET["total_at_risk"],
+        V1_VALIDATION_DATASET["total_not_at_risk"],
+    ))
+
+    st.markdown(f"#### {V2_VALIDATION_DATASET['label']}")
+    st.caption(
+        f"{V2_VALIDATION_DATASET['model_use']} | "
+        f"{V2_VALIDATION_DATASET['raw_submitted']} samples submitted; "
+        f"{V2_VALIDATION_DATASET['qc_excluded']} excluded by QC "
+        f"({V2_VALIDATION_DATASET['qc_note']})"
+    )
+    st.table(_validation_dataset_table_rows(
+        V2_VALIDATION_DATASET["rows"],
+        V2_VALIDATION_DATASET["total_patients"],
+        V2_VALIDATION_DATASET["total_at_risk"],
+        V2_VALIDATION_DATASET["total_not_at_risk"],
+    ))
+
+    st.markdown(f"#### {COMBINED_VALIDATION_DATASET['label']}")
+    st.caption(COMBINED_VALIDATION_DATASET["model_use"])
+    st.table(pd.DataFrame([{
+        "Cohort": "V1 + V2 Combined",
+        "Patients": f"**{COMBINED_VALIDATION_DATASET['total_patients']}**",
+        "At-Risk": f"**{COMBINED_VALIDATION_DATASET['total_at_risk']}**",
+        "Not At-Risk": f"**{COMBINED_VALIDATION_DATASET['total_not_at_risk']}**",
+        "Breakdown": "129 V1 + 33 V2 (post-QC)",
+    }]))
+
+
 def _pct_metric(x, default=0.0):
     """Format a 0-1 metric as integer percent string."""
     if isinstance(x, (int, float)):
         return f"{int(round(x * 100))}%"
     return str(x)
+
+
+PROGRESSION_RISK_LABEL = "estimated risk of progressing to diabetes"
+
+
+def _format_progression_risk(pct: float) -> str:
+    """Human-readable diabetes progression risk from a model probability."""
+    return f"{pct:.1f}% {PROGRESSION_RISK_LABEL}"
+
+
+def _format_stage_progression_risk(stage: str, pct: float) -> str:
+    """Stage label plus explicit progression-risk wording."""
+    return f"{stage} — {_format_progression_risk(pct)}"
 
 
 def _build_threshold_info(entries: dict) -> dict:
@@ -784,7 +925,8 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
                     results["at_risk_classification"] = "CLEARED - Low Risk"
                     results["model_used"] = (
                         f"{cascade_result['model_name']} - Stage 1 Screening "
-                        f"(prob {screen_prob*100:.1f}% < {screen_thresh*100:.0f}% threshold)"
+                        f"({_format_progression_risk(screen_prob * 100)} "
+                        f"< {screen_thresh * 100:.0f}% threshold)"
                     )
                 else:
                     prob = confirm_prob if confirm_prob is not None else screen_prob
@@ -802,7 +944,8 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
                         results["at_risk_classification"] = "LOW-MODERATE SIGNAL"
                     results["model_used"] = (
                         f"{cascade_result['model_name']} - {results['at_risk_classification']} "
-                        f"(screen {screen_prob*100:.1f}%, confirm {prob*100:.1f}%)"
+                        f"(screening {_format_progression_risk(screen_prob * 100)}, "
+                        f"confirmation {_format_progression_risk(prob * 100)})"
                     )
                     results["threshold"] = bal_thresh if stage == "high_confidence" else con_thresh
 
@@ -1043,7 +1186,7 @@ def main():
         st.markdown(f"""
         <div class="icon-text" style="color: #22c55e;">
             {svg_icon("shield_check", 20)}
-            <span><strong>Cascade model loaded</strong> — Screening R1 (129 pts) + Confirmation CONFIG B (162 pts, INS 399)</span>
+            <span><strong>Cascade model loaded</strong> — Screening R1 (V1, 129 pts) + Confirmation CONFIG B (V1+V2, 162 pts, INS 399)</span>
         </div>
         """, unsafe_allow_html=True)
     if models.get("m2_available"):
@@ -1054,7 +1197,7 @@ def main():
         st.markdown(f"""
         <div class="icon-text" style="color: #22c55e;">
             {svg_icon("shield_check", 20)}
-            <span><strong>M2-B Enhanced Transfer Learning Model loaded:</strong> AUC {auc_str} (CV) | 95% CI {ci_str} | 129 patients</span>
+            <span><strong>M2-B Enhanced Transfer Learning Model loaded:</strong> AUC {auc_str} (CV) | 95% CI {ci_str} | V1 cohort (129 patients)</span>
         </div>
         """, unsafe_allow_html=True)
         st.caption("Transfer learning from 23,716 NHANES+CHNS (HbA1c, Age, BMI). Optional insulin + C-peptide; medians used when missing.")
@@ -1541,7 +1684,14 @@ def main():
                     screen_pct = results.get("screening_probability", 0)
                     screen_thr = results.get("screening_threshold", 0.11)
                     st.markdown("#### Cascade Workflow")
-                    st.progress(min(1.0, screen_pct / 100.0), text=f"Stage 1 Screening: {screen_pct:.1f}%")
+                    st.caption(
+                        "Percentages are the model's estimated probability that this patient "
+                        "will progress to diabetes, based on KiHealth validation cohorts."
+                    )
+                    st.progress(
+                        min(1.0, screen_pct / 100.0),
+                        text=_format_stage_progression_risk("Stage 1 Screening", screen_pct),
+                    )
                     if results.get("cascade_cleared"):
                         st.markdown(f"""
                         <div class="risk-card risk-low">
@@ -1551,7 +1701,7 @@ def main():
                             </div>
                             <p style="margin-top: 10px;">{results.get('cascade_message', '')}</p>
                             <p style="font-size: 0.9em; color: #666;">
-                                Screening probability {screen_pct:.1f}% &lt; threshold {screen_thr*100:.0f}%
+                                {_format_progression_risk(screen_pct)} &lt; screening threshold {screen_thr*100:.0f}%
                             </p>
                         </div>
                         """, unsafe_allow_html=True)
@@ -1560,7 +1710,10 @@ def main():
                         confirm_pct = results.get("confirmation_probability", 0)
                         bal_thr = results.get("balanced_threshold", 0.45)
                         con_thr = results.get("confirmation_threshold", 0.37)
-                        st.progress(min(1.0, confirm_pct / 100.0), text=f"Stage 2 Confirmation: {confirm_pct:.1f}%")
+                        st.progress(
+                            min(1.0, confirm_pct / 100.0),
+                            text=_format_stage_progression_risk("Stage 2 Confirmation", confirm_pct),
+                        )
                         stage = results.get("cascade_stage", "flagged")
                         if stage == "high_confidence":
                             card_class, icon, color = "risk-very-high", "shield_alert", "#ef4444"
@@ -1577,9 +1730,9 @@ def main():
                             <p style="margin-top: 8px;"><strong>{results.get('at_risk_classification', '')}</strong></p>
                             <p style="margin-top: 5px;">{results.get('cascade_message', '')}</p>
                             <p style="font-size: 0.9em; color: #666;">
-                                Screening {screen_pct:.1f}% (≥ {screen_thr*100:.0f}%) →
-                                Confirmation {confirm_pct:.1f}%
-                                (balanced ≥ {bal_thr*100:.0f}%, confirm ≥ {con_thr*100:.0f}%)
+                                Screening: {_format_progression_risk(screen_pct)} (flagged at ≥ {screen_thr*100:.0f}%) →
+                                Confirmation: {_format_progression_risk(confirm_pct)}
+                                (high confidence ≥ {bal_thr*100:.0f}%, moderate signal ≥ {con_thr*100:.0f}%)
                             </p>
                         </div>
                         """, unsafe_allow_html=True)
@@ -1595,14 +1748,14 @@ def main():
                             st.markdown(f"""
                             <div class="icon-text" style="color: #ef4444;">
                                 {svg_icon("trending_up", 20)}
-                                <span>Beta Score Impact: +{beta_contrib:.1f}% risk (elevated unmethylated DNA)</span>
+                                <span>Beta Score Impact: +{beta_contrib:.1f}% added diabetes progression risk (elevated unmethylated DNA)</span>
                             </div>
                             """, unsafe_allow_html=True)
                         elif beta_contrib < 0:
                             st.markdown(f"""
                             <div class="icon-text" style="color: #22c55e;">
                                 {svg_icon("trending_down", 20)}
-                                <span>Beta Score Impact: {beta_contrib:.1f}% risk (healthy unmethylated DNA)</span>
+                                <span>Beta Score Impact: {beta_contrib:.1f}% diabetes progression risk (healthy unmethylated DNA)</span>
                             </div>
                             """, unsafe_allow_html=True)
                 else:
@@ -1620,8 +1773,8 @@ def main():
                                 {svg_icon("shield_alert", 32)}
                                 <h3 style="margin: 0; color: #ef4444;">CLASSIFIED: AT RISK</h3>
                             </div>
-                            <p style="margin-top: 5px;">Risk Score: {risk:.1f}%</p>
-                            <p style="margin-top: 3px; font-size: 0.9em; color: #666;">Classified as at-risk because prediction ({risk:.1f}%) > threshold ({threshold*100:.0f}%)</p>
+                            <p style="margin-top: 5px;">{_format_progression_risk(risk)}</p>
+                            <p style="margin-top: 3px; font-size: 0.9em; color: #666;">Classified as at-risk because {_format_progression_risk(risk)} &gt; threshold ({threshold*100:.0f}%)</p>
                         </div>
                         """, unsafe_allow_html=True)
                     else:
@@ -1631,8 +1784,8 @@ def main():
                                 {svg_icon("shield_check", 32)}
                                 <h3 style="margin: 0; color: #22c55e;">CLASSIFIED: NOT AT RISK</h3>
                             </div>
-                            <p style="margin-top: 5px;">Risk Score: {risk:.1f}%</p>
-                            <p style="margin-top: 3px; font-size: 0.9em; color: #666;">Classified as not at-risk because prediction ({risk:.1f}%) ≤ threshold ({threshold*100:.0f}%)</p>
+                            <p style="margin-top: 5px;">{_format_progression_risk(risk)}</p>
+                            <p style="margin-top: 3px; font-size: 0.9em; color: #666;">Classified as not at-risk because {_format_progression_risk(risk)} ≤ threshold ({threshold*100:.0f}%)</p>
                         </div>
                         """, unsafe_allow_html=True)
                     
@@ -1646,14 +1799,14 @@ def main():
                             st.markdown(f"""
                             <div class="icon-text" style="color: #ef4444;">
                                 {svg_icon("trending_up", 20)}
-                                <span>Beta Score Impact: +{beta_contrib:.1f}% risk (elevated unmethylated DNA)</span>
+                                <span>Beta Score Impact: +{beta_contrib:.1f}% added diabetes progression risk (elevated unmethylated DNA)</span>
                             </div>
                             """, unsafe_allow_html=True)
                         elif beta_contrib < 0:
                             st.markdown(f"""
                             <div class="icon-text" style="color: #22c55e;">
                                 {svg_icon("trending_down", 20)}
-                                <span>Beta Score Impact: {beta_contrib:.1f}% risk (healthy unmethylated DNA)</span>
+                                <span>Beta Score Impact: {beta_contrib:.1f}% diabetes progression risk (healthy unmethylated DNA)</span>
                             </div>
                             """, unsafe_allow_html=True)
             
@@ -1779,12 +1932,12 @@ def main():
                 "Fasting Glucose (mg/dL)": st.session_state.patient_data.get("glucose"),
                 "BMI": st.session_state.patient_data.get("bmi"),
                 "Current Status": results["current_status"],
-                "Risk Score (%)": results["risk_probability"],
+                "Diabetes Progression Risk (%)": results["risk_probability"],
                 "Risk Category": results["risk_category"],
                 "Clinical Mode": results.get("clinical_mode", "N/A"),
                 "Cascade Stage": results.get("cascade_stage", "N/A"),
-                "Screening Prob (%)": results.get("screening_probability"),
-                "Confirmation Prob (%)": results.get("confirmation_probability"),
+                "Screening Progression Risk (%)": results.get("screening_probability"),
+                "Confirmation Progression Risk (%)": results.get("confirmation_probability"),
                 "Model Used": results.get("model_used", "N/A"),
                 "Risk Factors": "; ".join(results["risk_factors"]),
                 "Protective Factors": "; ".join(results["protective_factors"]),
@@ -1823,15 +1976,16 @@ def main():
             st.markdown("### Cascade Architecture (Production)")
             cas_col1, cas_col2 = st.columns(2)
             with cas_col1:
-                st.markdown("**Screening Model** (R1, 129 patients)")
+                st.markdown("**Screening Model** (R1, V1 only — 129 patients)")
                 st.metric("Rep AUC", f"{screen_m.get('cv_auc_repeated_mean', 0.902):.3f}")
                 st.metric("Screening Youden J", f"{screen_m.get('youden_j', {}).get('screening', 0.58):.2f}")
                 st.caption(
+                    "Trained on V1 validation cohort only (Cardinal, V1 Validation, T1D Study, BioIVT Fresh). "
                     "Features: Beta Score (INS 399), Foundation Prediction, HbA1c, "
                     "HbA1c Clinical Tier, Insulin, C-Peptide, C-Peptide Risk Tier"
                 )
             with cas_col2:
-                st.markdown("**Confirmation Model** (CONFIG B, 162 patients)")
+                st.markdown("**Confirmation Model** (CONFIG B, V1+V2 — 162 patients)")
                 st.metric("Rep AUC", f"{confirm_m.get('cv_auc_repeated_mean', 0.915):.3f}")
                 ci_lo = confirm_m.get("ci_lower", 0.87)
                 ci_hi = confirm_m.get("ci_upper", 0.96)
@@ -1842,18 +1996,19 @@ def main():
                     f"Confirmation Youden: {yj.get('confirmation', 0.64):.2f}"
                 )
                 st.caption(
+                    "Trained on V1 + V2 combined (129 + 33 post-QC). "
                     "Features: Beta Score (INS 399), Foundation Prediction, HbA1c, Insulin, C-Peptide"
                 )
             st.info(
-                "Cascade model uses INS 399 as the primary beta cell death signal, "
-                "consistent with KiHealth's validated assay."
+                "Cascade model uses INS 399 as the primary beta cell death signal. "
+                "V1 data powers screening; V2 reference-range patients expand confirmation training only."
             )
             st.markdown("**Improvement vs original M2:** Balanced Youden +0.08, Confirmation Youden +0.05, "
                          "AUC +0.019, false positive rate to confirmation 7.4%")
             st.divider()
 
         # Model Performance Summary (legacy single-threshold model)
-        st.markdown("### Single-Threshold Model (Legacy Modes)")
+        st.markdown("### Single-Threshold Model (Legacy Modes, V1 Only)")
         m2_metrics = models.get("m2_metrics", {})
         auc_val = f"{m2_metrics.get('cv_auc_mean', 0.896):.2f}" if m2_metrics else "0.90"
         ci_lo = m2_metrics.get("ci_lower")
@@ -1862,34 +2017,21 @@ def main():
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric("Cross-Validated AUC", auc_val)
-            st.caption("5-fold CV on 129 patients")
+            st.caption(f"5-fold CV on V1 cohort ({V1_VALIDATION_DATASET['total_patients']} patients)")
         with col2:
             st.metric("95% Confidence Interval", ci_val)
             st.caption("Bootstrap (n=1000)")
         with col3:
             st.metric("Screening sensitivity", "98%")
-            st.caption("At screening threshold (50/51 at-risk)")
-        st.caption("Enhanced with direct HbA1c feature")
+            st.caption(
+                f"At screening threshold "
+                f"({V1_VALIDATION_DATASET['total_at_risk'] - 1}/{V1_VALIDATION_DATASET['total_at_risk']} at-risk)"
+            )
+        st.caption("V1-only legacy model with direct HbA1c feature — not trained on V2 patients")
         
         st.divider()
         
-        # Dataset Composition
-        st.markdown("### Validation Dataset Composition")
-        
-        dataset_data = {
-            "Source": ["Cardinal", "V1 Validation", "T1D Study", "BioIVT Fresh", "**Total**"],
-            "Patients": [73, 34, 12, 10, "**129**"],
-            "At-Risk": [25, 4, 12, 10, "**51**"],
-            "Not At-Risk": [48, 30, 0, 0, "**78**"],
-            "Description": [
-                "Blood drive samples with questionnaire",
-                "Biobank validation samples", 
-                "Pediatric T1D onset cases",
-                "Fresh diabetic samples",
-                ""
-            ]
-        }
-        st.table(pd.DataFrame(dataset_data))
+        _render_validation_dataset_composition()
         
         st.divider()
         
@@ -1908,7 +2050,7 @@ def main():
                 "AUC": cascade_auc,
                 "Balanced J": f"{confirm_yj.get('balanced', 0.67):.2f}",
                 "Confirm J": f"{confirm_yj.get('confirmation', 0.64):.2f}",
-                "Use Case": "Two-stage screening → confirmation workflow",
+                "Use Case": "Two-stage workflow — screening on V1 (129), confirmation on V1+V2 (162)",
             })
         mode_rows.extend([
             {
@@ -1923,21 +2065,21 @@ def main():
                 "AUC": screen_auc if models.get("cascade_available") else auc_val,
                 "Balanced J": f"{mode_info['screening']['sensitivity'] + mode_info['screening']['specificity'] - 1:.2f}" if models.get("cascade_available") else "—",
                 "Confirm J": "—",
-                "Use Case": "Catch nearly all at-risk patients",
+                "Use Case": "Catch nearly all at-risk patients (V1, 129 pts)" if models.get("cascade_available") else "Catch nearly all at-risk patients",
             },
             {
                 "Mode": "Balanced",
                 "AUC": cascade_auc if models.get("cascade_available") else auc_val,
                 "Balanced J": f"{mode_info['balanced']['sensitivity'] + mode_info['balanced']['specificity'] - 1:.2f}",
                 "Confirm J": "—",
-                "Use Case": "Optimal trade-off (confirmation model)" if models.get("cascade_available") else "Optimal trade-off (single model)",
+                "Use Case": "Optimal trade-off (V1+V2 confirmation, 162 pts)" if models.get("cascade_available") else "Optimal trade-off (single model)",
             },
             {
                 "Mode": "Confirmation",
                 "AUC": cascade_auc if models.get("cascade_available") else auc_val,
                 "Balanced J": "—",
                 "Confirm J": f"{mode_info['confirmation']['sensitivity'] + mode_info['confirmation']['specificity'] - 1:.2f}",
-                "Use Case": "High confidence positives (confirmation model)" if models.get("cascade_available") else "High confidence positives (single model)",
+                "Use Case": "High confidence positives (V1+V2 confirmation, 162 pts)" if models.get("cascade_available") else "High confidence positives (single model)",
             },
         ])
         st.table(pd.DataFrame(mode_rows))
@@ -1956,13 +2098,15 @@ def main():
            - Output: Traditional risk probability
            - **No glucose measurement required**
         
-        2. **Final Model** (fine-tuned on KiHealth data)
+        2. **Final Model** (fine-tuned on KiHealth validation data)
+           - **Screening (R1):** trained on **V1 only** (129 patients)
+           - **Confirmation (CONFIG B):** trained on **V1 + V2** (162 patients)
            - Combines Beta Score with foundation prediction (and optionally insulin + C-peptide; medians used when missing)
            - Input: Beta Score, Foundation Prediction, optional Insulin, optional C-peptide
            - Output: Final risk probability (0-100%)
         
         **Why Transfer Learning?**
-        - Foundation model learns from 23,716 patients (vs 129 KiHealth patients)
+        - Foundation model learns from 23,716 patients (vs 129–162 KiHealth validation patients)
         - Uses features KiHealth collects (HbA1c, Age, BMI, Beta Score); insulin and C-peptide optional (no extra testing required when missing)
         - More robust to edge cases
         - Better calibrated predictions
@@ -2100,10 +2244,11 @@ def main():
         # Limitations
         st.markdown("### Limitations & Recommendations")
         
-        st.warning("""
+        st.warning(f"""
         **Limitations:**
-        - Sample size: 129 patients (moderate - recommend collecting more)
-        - 95% CI: [0.85, 0.95] - reasonable but would narrow with more data
+        - V1 screening cohort: {V1_VALIDATION_DATASET['total_patients']} patients (moderate — recommend collecting more)
+        - V2 confirmation expansion: {V2_VALIDATION_DATASET['total_patients']} additional patients ({V2_VALIDATION_DATASET['raw_submitted']} submitted, {V2_VALIDATION_DATASET['qc_excluded']} excluded by QC)
+        - Combined confirmation cohort: {COMBINED_VALIDATION_DATASET['total_patients']} patients — 95% CI still reasonable but would narrow with more data
         - Best for: Beta cell damage detection (T1D, advanced T2D)
         - May miss: Early obesity-driven risk with intact beta cells
         
@@ -2111,6 +2256,7 @@ def main():
         - Use as complementary to traditional metabolic screening
         - Prospective validation recommended before clinical deployment
         - Model now uses Age + BMI which captures obesity-related risk
+        - Continue V2 reference-range enrollment to strengthen confirmation-stage performance
         """)
         
         st.divider()
@@ -2129,10 +2275,10 @@ def main():
         | `m2b_final_clean_scaler.joblib` | Feature scaler for final model |
         | `m2b_final_clean_thresholds.joblib` | Optimized thresholds |
         | `m2b_final_clean_metrics.json` | Performance metrics (legacy single-threshold) |
-        | `final_cascade_screening_model.joblib` | Cascade screening model (R1, 129 pts) |
-        | `final_cascade_screening_metrics.json` | Cascade screening metrics |
-        | `final_cascade_confirmation_model.joblib` | Cascade confirmation model (CONFIG B, 162 pts) |
-        | `final_cascade_confirmation_metrics.json` | Cascade confirmation metrics |
+        | `final_cascade_screening_model.joblib` | Cascade screening model (R1, V1 only — 129 pts) |
+        | `final_cascade_screening_metrics.json` | Cascade screening metrics (V1 cohort) |
+        | `final_cascade_confirmation_model.joblib` | Cascade confirmation model (CONFIG B, V1+V2 — 162 pts) |
+        | `final_cascade_confirmation_metrics.json` | Cascade confirmation metrics (V1+V2 cohort) |
         """)
 
 
