@@ -1676,7 +1676,7 @@ def main():
                     """, unsafe_allow_html=True)
             
             with col2:
-                st.subheader("Diabetes Risk Score")
+                st.subheader("Diabetes Risk Prediction")
                 
                 if status == "Diabetic":
                     st.info("Patient already has diabetes - risk score not applicable")
