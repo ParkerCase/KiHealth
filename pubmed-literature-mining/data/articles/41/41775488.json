@@ -1,0 +1,98 @@
+{
+  "pmid": "41775488",
+  "title": "Effect of prehabilitation before total knee replacement on postoperative patient-reported joint awareness, enablement and knee function: protocol for the PROTEKT randomised controlled trial.",
+  "abstract": "Knee osteoarthritis (OA) causes pain, reduced function and disability and may require total knee replacement (TKR). Although TKR is effective, up to 20% of patients remain dissatisfied, partly due to poor preoperative function and unrealistic expectations. Long waiting times for surgery may worsen patients' function, yet preoperative physiotherapy is rarely offered. Prehabilitation-exercise and education before surgery-could improve postoperative recovery, but current evidence is limited. This trial investigates whether adding prehabilitation to standard care before TKR improves postoperative patient-reported joint awareness, enablement and knee function. This multicentre, randomised controlled parallel-group trial is planned to be conducted within two specialised orthopaedic outpatient rehabilitation units in the southeast healthcare region of Sweden. Eligible patients (40-85 years, awaiting unilateral TKR) are randomised 1:1, stratified by age (≤67, >67 years), to either 8 weeks of prehabilitation-comprising two times per week supervised exercise therapy (strength, range of motion and balance) and education-in addition to standard care, or to standard care alone. Standard care consists of self-care, a single standardised preoperative education session and standardised postoperative rehabilitation. Assessments are conducted at baseline, post-intervention, 1 week pre-surgery and 6, 12 and 52 weeks post-surgery. A total of 110 patients will be recruited to the trial. Primary outcomes are joint awareness (Forgotten Joint Score-12) and patient enablement (modified Patient Enablement Instrument-2). Secondary outcomes are patient satisfaction (5-category Likert scale), the Knee injury and Osteoarthritis Outcome Score, the EuroQol 5 Dimension 3 Level questionnaire, the International Physical Activity Questionnaire-short form, objective function and accelerometer-based physical activity. Analyses will follow intention-to-treat and per-protocol principles. Between-group and within-group differences will be tested using t-tests or non-parametric equivalents, and linear mixed models or generalised linear models. Multiple linear regression and logistic regression will be used to analyse predictor variables for the primary outcomes. Sensitivity analyses will be performed to quantify the magnitude of missing data from patients lost to follow-up. The trial has received ethical approval from the Swedish Ethical Review Authority (reg. no.2023-05120-01) and complies with the Declaration of Helsinki. Signed informed consent is collected for all patients before entering the trial. Results will be submitted for publication in a peer-reviewed journal and presented at international/national conferences. The findings may improve future clinical guidelines and care pathways for patients undergoing TKR. NCT06290336.",
+  "authors": "Ljung, Marcus; Gustafsson, Kristin; Kvist, Joanna",
+  "journal": "BMJ open",
+  "doi": "10.1136/bmjopen-2025-113185",
+  "publication_date": "2026-06-15T09:10:27.254487",
+  "access_type": "open_access",
+  "pdf_url": "https://bmjopen.bmj.com/content/bmjopen/16/3/e113185.full.pdf",
+  "pdf_path": "data/pdfs/41775488.pdf",
+  "relevance_score": 32,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 5,
+    "novelty_impact": 8,
+    "actionability": 8,
+    "total_score": 32
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 50,
+  "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "in two specialised orthopaedic outpatient rehabilitation units in the southeast healthcare region of sweden. eligible patients (40-85 years, awaiting unilateral tkr) are randomised 1:1, stratified by age (≤67, >67 years), to either 8 weeks of prehabilitation-comprising two times per week supervised exercise therapy (strength, range of motion and balance) and education-in addition to standard care, or"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "such as weight, height, body mass index and american adjustment methods, such as the bonferroni method."
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "knee osteoarthritis (oa) causes pain, reduced function and disability and may require total knee replacement (tkr). although tkr is effective, up to 20% of patients remain dissatisfied, partly due to poor preoperative function and unrea"
+    },
+    {
+      "factor": "Koos",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "koos x x x x x x"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "3rehabilitation centre, ryhov activity. analyses will follow intention- to-t reat and per- such as pain, swelling, stiffness and reduced"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "knee osteoarthritis (oa) causes pain, reduced function and disability and may require total knee replacement (tkr). although tkr is effective, up to 20% of patients remain dissatisfied, partly due to poor preoperative function and unrealistic expectations. long waiting"
+    },
+    {
+      "factor": "Anxiety",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "19 alattas sa, smith t, bhatti m, et al. greater pre- operative anxiety, enablement. fam pract 2021;38:339–45."
+    },
+    {
+      "factor": "Muscle Strength",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "loss of leg muscle strength and volume, and reduced"
+    },
+    {
+      "factor": "Range Of Motion",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "40-85 years, awaiting unilateral tkr) are randomised 1:1, stratified by age (≤67, >67 years), to either 8 weeks of prehabilitation-comprising two times per week supervised exercise therapy (strength, range of motion and balance) and education-in addition to standard care, or to standard care alone. standard care consists of self-care, a single standardised preoperative education session and standardised postoper"
+    },
+    {
+      "factor": "Rom",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ert scale), the knee injury and osteoarthritis outcome score, the euroqol 5 dimension 3 level questionnaire, the international physical activity questionnaire-short form, objective function and accelerometer-based physical activity. analyses will follow intention-to-treat and per-protocol principles. between-group and within-group differences will be tested using t-tests or non-parametric equivalents"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2026-06-15T09:10:31.164555",
+  "updated_at": "2026-06-15T09:10:31.164710"
+}

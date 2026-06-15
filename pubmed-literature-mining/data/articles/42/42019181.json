@@ -1,0 +1,41 @@
+{
+  "pmid": "42019181",
+  "title": "Impact of prior bariatric surgery on revision rates following total knee arthroplasty: a systematic review and meta-analysis.",
+  "abstract": "Total knee arthroplasty (TKA) is a common and increasingly performed procedure, particularly in patients with end-stage osteoarthritis. Obesity, a major risk factor for osteoarthritis, is also associated with higher rates of complications following TKA. Bariatric surgery (BS) has been proposed as a preoperative optimisation strategy to mitigate obesity-related risks. The objective of this study was to evaluate the effect of prior BS on revision rates following primary TKA in obese patients. A systematic review and meta-analysis were conducted in accordance with Cochrane MECIR and PRISMA 2020 guidelines. MEDLINE, Embase, CENTRAL, and PubMed were searched through March 2025. The primary outcome was revision surgery (short-term ≤90 days, long-term >90 days); secondary outcomes included indications for revision and subgroup analysis by BS type and timing. Risk of bias was assessed using RoB-2 and ROBINS-I tools. Fifteen studies were included (n = 3,241,049; BS group n = 130,029). Pooled meta-analyses showed no significant difference in revision risk between BS and non-BS groups at 90 days (OR 1.24, 95% CI 0.66-2.34) or at 1-2 years (ORs 0.98-1.24; all p > 0.05). Data regarding timing of TKA suggests lower revision risks when performed within 2 years of BS. Our pooled analysis showed that prior bariatric surgery did not significantly impact revision rates after TKA. However, no change in BMI status after BS was recorded. Future research should prioritise prospective studies and long-term registry follow-up with detailed nutritional and clinical data to clarify the role of BS as a pre-arthroplasty optimisation strategy.",
+  "authors": "Zaffar, Haroon; Oochit, Krishna; Dedhia, Manasi; Usman, Mehvish; Patel, Akash",
+  "journal": "The Knee",
+  "doi": "10.1016/j.knee.2026.104456",
+  "publication_date": "2026-06-15T09:10:25.549283",
+  "access_type": "open_access",
+  "pdf_url": "https://doi.org/10.1016/j.knee.2026.104456",
+  "relevance_score": 52,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 25,
+    "novelty_impact": 10,
+    "actionability": 6,
+    "total_score": 52
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 62,
+  "predictive_factors": [
+    {
+      "factor": "Bmi",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "suggests lower revision risks when performed within 2 years of bs. our pooled analysis showed that prior bariatric surgery did not significantly impact revision rates after tka. however, no change in bmi status after bs was recorded. future research should prioritise prospective studies and long-term registry follow-up with detailed nutritional and clinical data to clarify the role of bs as a pre-art"
+    },
+    {
+      "factor": "Obesity",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "total knee arthroplasty (tka) is a common and increasingly performed procedure, particularly in patients with end-stage osteoarthritis. obesity, a major risk factor for osteoarthritis, is also associated with higher rates of complications following tka. bariatric surgery (bs) has been proposed as a preoperative optimisation strategy to mitig"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2026-06-15T09:10:26.611476",
+  "updated_at": "2026-06-15T09:10:26.611598"
+}
