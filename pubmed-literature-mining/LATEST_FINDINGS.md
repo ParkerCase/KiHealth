@@ -1,8 +1,8 @@
-# PubMed Daily Summary - 2026-06-08
+# PubMed Daily Summary - 2026-06-15
 
 ## Overview
 
-- **Total Articles:** 138
+- **Total Articles:** 140
 - **Flagged for Review:** 5 (3.6%)
 - **High-Relevance Articles:** 2 (score ≥ 70)
 - **Paywalled Articles:** 58
@@ -25,28 +25,28 @@
 
 1. **Enhancing total knee replacement prediction: a longitudinal joint space radiomic**
    - Score: 70/100
-   - Flags: high_value, high_quality, large_sample, medium_high, recent, should_review, priority
-   - Reason: Medium-high value (score: 70); Recent high-value article (167 days old); Large sample size (n=614)
+   - Flags: recent, priority, should_review, high_quality, medium_high, large_sample, high_value
+   - Reason: Medium-high value (score: 70); Recent high-value article (174 days old); Large sample size (n=614)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41376347/)
 
 2. **Preoperative neuropathic-like pain and central sensitisation are risk factors fo**
    - Score: 70/100
-   - Flags: high_value, systematic_review, medium_high, comprehensive, recent, should_review, priority
-   - Reason: Medium-high value (score: 70); Recent high-value article (167 days old); Systematic review or meta-analysis
+   - Flags: recent, systematic_review, priority, should_review, medium_high, comprehensive, high_value
+   - Reason: Medium-high value (score: 70); Recent high-value article (174 days old); Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/40995335/)
 
 3. **Fear avoidance and catastrophizing are associated with both knee awareness and q**
    - Score: 66/100
-   - Flags: high_quality, large_sample
+   - Flags: large_sample, high_quality
    - Reason: Large sample size (n=653)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41410384/)
 
 4. **Physical Activity and 4-Year Radiographic Medial Joint Space Loss in Knee Osteoa**
    - Score: 63/100
-   - Flags: high_quality, large_sample
+   - Flags: large_sample, high_quality
    - Reason: Large sample size (n=1806)
    - Access: paywalled
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41337563/)
