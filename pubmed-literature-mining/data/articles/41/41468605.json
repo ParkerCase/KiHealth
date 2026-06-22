@@ -5,9 +5,9 @@
   "authors": "Liu, Yanwen; Xiao, Guangzhi; Zhang, Youqun; Wang, Xinyi; Jia, Junfeng; Xie, Aiguo; Zheng, Zhaohui; Zhang, Kui",
   "journal": "Journal of medical Internet research",
   "doi": "10.2196/80430",
-  "publication_date": "2026-06-15T09:10:33.001564",
+  "publication_date": "2026-06-22T09:05:18.774938",
   "access_type": "open_access",
-  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12753132/",
+  "pdf_url": "https://www.jmir.org/2025/1/e80430/PDF",
   "relevance_score": 40,
   "relevance_score_breakdown": {
     "clinical_relevance": 12,
@@ -20,6 +20,55 @@
   "priority_level": "low_priority",
   "relevance_score_legacy": 65,
   "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "pain, limitation of motion, and dysfunction [1]. oa is the"
+    },
+    {
+      "factor": "Womac",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "sities osteoarthritis index [womac] pain subscale score)"
+    },
+    {
+      "factor": "Stiffness",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "z score=−8.73; p<.001). besides, statistically significant tion progression, and stiffness progression. for predicting"
+    },
+    {
+      "factor": "Disability",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "15th major cause of disability worldwide, with a prevalence"
+    },
+    {
+      "factor": "Kl Grade",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "besides, the definition of the increase in kl grade is also"
+    },
+    {
+      "factor": "Kellgren-Lawrence",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "[jsw] or an increase in kellgren-lawrence [kl] grade) [6,"
+    },
+    {
+      "factor": "Osteophyte",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "terized by degeneration of articular cartilage, osteophyte"
+    },
     {
       "factor": "Mri",
       "outcome": "knee osteoarthritis progression",
@@ -36,6 +85,7 @@
     }
   ],
   "processing_status": "processed",
-  "created_at": "2026-06-15T09:10:33.490676",
-  "updated_at": "2026-06-15T09:10:33.490890"
+  "created_at": "2026-06-22T09:05:23.505222",
+  "updated_at": "2026-06-22T09:05:23.505498",
+  "pdf_path": "data/pdfs/41468605.pdf"
 }
