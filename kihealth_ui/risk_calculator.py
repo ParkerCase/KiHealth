@@ -524,6 +524,583 @@ def _render_model_load_failure(models: dict) -> None:
     )
 
 
+ML_FEATURE_LABELS = {
+    "beta_score": "KiHealth Beta Score",
+    "hba1c": "HbA1c",
+    "glucose": "Fasting Glucose",
+    "age": "Age",
+    "bmi": "BMI",
+    "insulin": "Fasting Insulin",
+    "c_peptide": "C-Peptide",
+}
+
+UPSELL_FULL_PANEL_MESSAGE = (
+    "A complete KiHealth panel (Beta Score + glycemic markers) provides the most accurate "
+    "diabetes progression risk estimate. Order full testing for a validated clinical result."
+)
+
+
+def _is_missing(value) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, float) and np.isnan(value):
+        return True
+    return False
+
+
+def _get_training_medians(models: dict) -> dict:
+    metrics = models.get("m2_metrics") or {}
+    screen = models.get("cascade_screening_metrics") or {}
+    confirm = models.get("cascade_confirmation_metrics") or {}
+    return {
+        "median_beta_score": 8.0,
+        "median_hba1c": metrics.get("median_hba1c", screen.get("median_hba1c", 5.7)),
+        "median_age": metrics.get("median_age", screen.get("median_age", confirm.get("median_age", 43.0))),
+        "median_bmi": metrics.get("median_bmi", screen.get("median_bmi", confirm.get("median_bmi", 26.6))),
+        "median_insulin": metrics.get("median_insulin", screen.get("median_insulin", 21.0)),
+        "median_cpeptide": metrics.get("median_cpeptide", screen.get("median_cpeptide", 2.9)),
+    }
+
+
+def _estimate_hba1c_from_glucose(glucose: float) -> float:
+    """ADAG inverse: estimated average glucose (mg/dL) = 28.7 × A1c − 46.7."""
+    return max(3.0, min(15.0, (float(glucose) + 46.7) / 28.7))
+
+
+def _resolve_patient_inputs(
+    data: dict, models: dict
+) -> tuple[dict, list[str], list[str], list[str]]:
+    """Return resolved values plus provided, imputed, and proxied field names."""
+    medians = _get_training_medians(models)
+    resolved = {}
+    provided = []
+    imputed = []
+    proxied = []
+
+    for field, median_key in (
+        ("beta_score", "median_beta_score"),
+        ("hba1c", "median_hba1c"),
+        ("age", "median_age"),
+        ("bmi", "median_bmi"),
+        ("insulin", "median_insulin"),
+        ("c_peptide", "median_cpeptide"),
+    ):
+        raw = data.get(field)
+        if _is_missing(raw):
+            resolved[field] = medians[median_key]
+            imputed.append(field)
+        else:
+            resolved[field] = float(raw)
+            provided.append(field)
+
+    glucose_raw = data.get("glucose")
+    if not _is_missing(glucose_raw):
+        resolved["glucose"] = float(glucose_raw)
+        provided.append("glucose")
+        if "hba1c" not in provided:
+            resolved["hba1c"] = _estimate_hba1c_from_glucose(resolved["glucose"])
+            if "hba1c" in imputed:
+                imputed.remove("hba1c")
+            proxied.append("hba1c")
+
+    return resolved, provided, imputed, proxied
+
+
+def _confidence_from_inputs(
+    provided: list[str],
+    imputed: list[str],
+    tier: str,
+    proxied: list[str] | None = None,
+) -> str:
+    proxied = proxied or []
+    core = {"beta_score", "hba1c"}
+    core_provided = core.intersection(provided)
+    has_direct_hba1c = "hba1c" in provided
+    if tier == "full_cascade":
+        if core_provided == core and has_direct_hba1c:
+            return "high" if "insulin" in provided else "moderate"
+        return "moderate" if "hba1c" in proxied else "low"
+    if tier in {"full_m2", "partial_kihealth"}:
+        if core_provided == core and has_direct_hba1c:
+            return "moderate" if imputed else "high"
+        if "hba1c" in proxied:
+            return "low"
+        return "low"
+    if tier == "foundation":
+        if "hba1c" in provided and {"age", "bmi"}.issubset(provided):
+            return "moderate"
+        if "hba1c" in provided or {"age", "bmi"}.issubset(provided):
+            return "low"
+        return "very_low"
+    if tier == "foundation_glucose_proxy":
+        return "low"
+    if tier == "glycemic_marker_screen":
+        return "very_low"
+    if tier == "legacy":
+        return "moderate"
+    return "very_low"
+
+
+def _build_prediction_disclaimer(
+    tier: str,
+    provided: list[str],
+    imputed: list[str],
+    proxied: list[str] | None = None,
+) -> str | None:
+    if tier in {"full_cascade", "full_m2"} and not imputed and not proxied:
+        return None
+
+    proxied = proxied or []
+    provided_labels = [ML_FEATURE_LABELS.get(f, f) for f in provided]
+    imputed_labels = [ML_FEATURE_LABELS.get(f, f) for f in imputed if f in ML_FEATURE_LABELS]
+    proxied_labels = [ML_FEATURE_LABELS.get(f, f) for f in proxied if f in ML_FEATURE_LABELS]
+
+    parts = []
+    if provided_labels:
+        parts.append(f"Based on {len(provided_labels)} provided value(s): {', '.join(provided_labels)}.")
+    if proxied_labels:
+        parts.append(
+            f"{', '.join(proxied_labels)} estimated from fasting glucose (ADAG formula) — less accurate than a measured A1c, especially in the prediabetic range."
+        )
+    if imputed_labels:
+        parts.append(
+            f"{len(imputed_labels)} value(s) assumed at population medians: {', '.join(imputed_labels)}."
+        )
+
+    tier_notes = {
+        "foundation": (
+            "Population screening model (HbA1c + Age + BMI) — does not include KiHealth Beta Score."
+        ),
+        "foundation_glucose_proxy": (
+            "Population screening model using glucose-derived A1c estimate — confirm with measured HbA1c when possible."
+        ),
+        "partial_kihealth": (
+            "KiHealth model with imputed core labs — useful screening estimate only."
+        ),
+        "glycemic_marker_screen": (
+            "Screening estimate from insulin/C-peptide only — cannot run validated HbA1c-based models."
+        ),
+        "legacy": "Legacy 2-feature model — limited biomarker coverage.",
+        "rule_based": "Rule-based estimate — insufficient data for validated ML model.",
+    }
+    if tier in tier_notes:
+        parts.append(tier_notes[tier])
+    parts.append("Not for clinical diagnosis. Complete KiHealth testing recommended.")
+    return " ".join(parts)
+
+
+def _categorize_risk(prob: float, threshold: float) -> tuple[str, str]:
+    if prob < threshold * 0.5:
+        category = "Low"
+    elif prob < threshold:
+        category = "Moderate"
+    elif prob < threshold * 1.5:
+        category = "High"
+    else:
+        category = "Very High"
+    classification = "At Risk" if prob >= threshold else "Not At Risk"
+    return category, classification
+
+
+def predict_glycemic_marker_screen(
+    resolved: dict,
+    provided: list[str],
+    models: dict,
+    data: dict,
+) -> dict:
+    """
+    Screening estimate when only insulin and/or C-peptide are available.
+    Uses KiHealth cohort reference ranges; blends with demographics foundation when possible.
+    """
+    medians = _get_training_medians(models)
+    result = {
+        "probability": None,
+        "model_name": "Insulin/C-Peptide Screening Estimate",
+        "tier": "glycemic_marker_screen",
+    }
+
+    score = 25.0
+    if "insulin" in provided:
+        insulin = resolved["insulin"]
+        if insulin > 39:
+            score += 22
+        elif insulin > medians["median_insulin"]:
+            score += 12
+        elif insulin < 8:
+            score -= 4
+
+    if "c_peptide" in provided:
+        cpeptide = resolved["c_peptide"]
+        if cpeptide > 4.8:
+            score += 18
+        elif cpeptide > medians["median_cpeptide"]:
+            score += 10
+        elif cpeptide <= 0.7:
+            score += 8
+
+    if {"age", "bmi"}.intersection(provided) and models.get("m2_foundation"):
+        try:
+            X_foundation = pd.DataFrame(
+                [[resolved["hba1c"], resolved["age"], resolved["bmi"]]],
+                columns=["hba1c_percent", "age_years", "bmi_kg_m2"],
+            )
+            X_scaled = models["m2_foundation_scaler"].transform(X_foundation.values)
+            demo_prob = models["m2_foundation"].predict_proba(X_scaled)[0, 1]
+            score = 0.35 * score + 0.65 * (demo_prob * 100)
+        except Exception:
+            pass
+
+    result["probability"] = max(0.05, min(0.92, score / 100.0))
+    mode_info = _get_m2_threshold_info(models)
+    result["threshold"] = mode_info.get(
+        data.get("clinical_mode", "balanced"), mode_info["balanced"]
+    )["threshold"]
+    return result
+
+
+def predict_foundation_model(data: dict, models: dict) -> dict:
+    """Population screening model: HbA1c + Age + BMI (NHANES+CHNS, AUC ~0.95)."""
+    metrics = models.get("m2_metrics") or {}
+    resolved, provided, imputed, proxied = _resolve_patient_inputs(data, models)
+    tier = "foundation_glucose_proxy" if "hba1c" in proxied else "foundation"
+    result = {
+        "probability": None,
+        "foundation_pred": None,
+        "model_name": "Foundation Population Model (NHANES+CHNS, AUC ~0.95)",
+        "provided_fields": provided,
+        "imputed_fields": imputed,
+        "proxied_fields": proxied,
+        "tier": tier,
+    }
+
+    has_direct_hba1c = "hba1c" in provided
+    has_glucose = "glucose" in provided
+    has_demographics = bool({"age", "bmi"}.intersection(provided))
+    if not (has_direct_hba1c or has_glucose or has_demographics):
+        return result
+
+    if not models.get("m2_foundation") or not models.get("m2_foundation_scaler"):
+        return result
+
+    try:
+        X_foundation = pd.DataFrame(
+            [[resolved["hba1c"], resolved["age"], resolved["bmi"]]],
+            columns=["hba1c_percent", "age_years", "bmi_kg_m2"],
+        )
+        X_scaled = models["m2_foundation_scaler"].transform(X_foundation.values)
+        prob = models["m2_foundation"].predict_proba(X_scaled)[0, 1]
+        result["probability"] = prob
+        result["foundation_pred"] = prob
+        mode_info = _get_m2_threshold_info(models)
+        result["threshold"] = mode_info.get(
+            data.get("clinical_mode", "balanced"), mode_info["balanced"]
+        )["threshold"]
+        result["confidence"] = _confidence_from_inputs(provided, imputed, tier, proxied)
+        result["disclaimer"] = _build_prediction_disclaimer(tier, provided, imputed, proxied)
+        if "beta_score" not in provided:
+            result["upsell_message"] = UPSELL_FULL_PANEL_MESSAGE
+        auc = metrics.get("foundation_auc", 0.949)
+        result["model_name"] = f"Foundation Population Model (NHANES+CHNS, AUC {auc:.2f})"
+    except Exception as exc:
+        result["error"] = str(exc)
+
+    return result
+
+
+def _build_cascade_output(cascade_result: dict, data: dict, models: dict) -> dict:
+    screen_prob = cascade_result.get("screening_probability", 0.0)
+    confirm_prob = cascade_result.get("confirmation_probability")
+    screen_metrics = models.get("cascade_screening_metrics", {})
+    confirm_metrics = models.get("cascade_confirmation_metrics", {})
+    screen_thresh = screen_metrics.get("thresholds", {}).get("screening", {}).get("threshold", 0.11)
+    bal_thresh = confirm_metrics.get("thresholds", {}).get("balanced", {}).get("threshold", 0.45)
+    con_thresh = confirm_metrics.get("thresholds", {}).get("confirmation", {}).get("threshold", 0.37)
+
+    output = {
+        "foundation_pred": cascade_result["foundation_pred"],
+        "clinical_mode": "cascade",
+        "cascade": True,
+        "screening_probability": round(screen_prob * 100, 1),
+        "screening_threshold": screen_thresh,
+        "balanced_threshold": bal_thresh,
+        "confirmation_threshold": con_thresh,
+        "cascade_stage": cascade_result.get("cascade_stage"),
+        "cascade_message": cascade_result.get("cascade_message"),
+        "cascade_cleared": cascade_result.get("cascade_cleared", False),
+        "prediction_tier": "full_cascade",
+    }
+
+    if cascade_result.get("cascade_cleared"):
+        output["risk_probability"] = round(screen_prob * 100, 1)
+        output["risk_category"] = "Low"
+        output["at_risk_classification"] = "CLEARED - Low Risk"
+        output["model_used"] = (
+            f"{cascade_result['model_name']} - Stage 1 Screening "
+            f"({_format_progression_risk(screen_prob * 100)} "
+            f"< {screen_thresh * 100:.0f}% threshold)"
+        )
+    else:
+        prob = confirm_prob if confirm_prob is not None else screen_prob
+        output["confirmation_probability"] = round(prob * 100, 1)
+        output["risk_probability"] = round(prob * 100, 1)
+        stage = cascade_result.get("cascade_stage", "flagged")
+        if stage == "high_confidence":
+            output["risk_category"] = "Very High"
+            output["at_risk_classification"] = "HIGH CONFIDENCE POSITIVE"
+        elif stage == "moderate":
+            output["risk_category"] = "High"
+            output["at_risk_classification"] = "MODERATE SIGNAL"
+        else:
+            output["risk_category"] = "Moderate"
+            output["at_risk_classification"] = "LOW-MODERATE SIGNAL"
+        output["model_used"] = (
+            f"{cascade_result['model_name']} - {output['at_risk_classification']} "
+            f"(screening {_format_progression_risk(screen_prob * 100)}, "
+            f"confirmation {_format_progression_risk(prob * 100)})"
+        )
+        output["threshold"] = bal_thresh if stage == "high_confidence" else con_thresh
+
+    avg_beta_data = data.copy()
+    avg_beta_data["beta_score"] = 8.0
+    avg_result = predict_with_cascade_model(avg_beta_data, models)
+    if avg_result.get("probability") is not None and not cascade_result.get("cascade_cleared"):
+        output["beta_contribution"] = round(
+            (cascade_result["probability"] - avg_result["probability"]) * 100, 1
+        )
+    return output
+
+
+def _build_m2_output(m2_result: dict, data: dict, models: dict, clinical_mode: str, tier: str) -> dict:
+    prob = m2_result["probability"]
+    mode_info = _get_m2_threshold_info(models)
+    threshold = mode_info.get(clinical_mode, mode_info["balanced"])["threshold"]
+    perf = {
+        mode: {
+            "sens": _pct_metric(mode_info[mode]["sensitivity"]),
+            "spec": _pct_metric(mode_info[mode]["specificity"]),
+        }
+        for mode in mode_info
+    }
+    selected = perf.get(clinical_mode, perf["balanced"])
+    category, classification = _categorize_risk(prob, threshold)
+
+    output = {
+        "risk_probability": round(prob * 100, 1),
+        "foundation_pred": m2_result["foundation_pred"],
+        "model_used": (
+            f"{m2_result['model_name']} - {clinical_mode.title()} Mode "
+            f"(Sens: {selected['sens']}, Spec: {selected['spec']})"
+        ),
+        "clinical_mode": clinical_mode,
+        "threshold": threshold,
+        "risk_category": category,
+        "at_risk_classification": classification,
+        "prediction_tier": tier,
+    }
+
+    avg_beta_data = data.copy()
+    avg_beta_data["beta_score"] = 8.0
+    avg_result = predict_with_m2_model(avg_beta_data, models)
+    if avg_result.get("probability") is not None:
+        output["beta_contribution"] = round((prob - avg_result["probability"]) * 100, 1)
+    return output
+
+
+def run_tiered_prediction(
+    data: dict,
+    models: dict,
+    *,
+    status: str,
+    risk_factors: list[str],
+    protective_factors: list[str],
+) -> dict:
+    """
+    Select the best available ML tier for whatever biomarkers were provided.
+    Designed for partial inputs (e.g. marketing widget) with accuracy disclaimers.
+    """
+    resolved, provided, imputed, proxied = _resolve_patient_inputs(data, models)
+    resolved_data = {**data, **resolved}
+    clinical_mode = data.get("clinical_mode", "cascade")
+    use_m2_model = data.get("use_m2_model", True)
+
+    has_beta = "beta_score" in provided
+    has_hba1c = "hba1c" in provided
+    has_glucose = "glucose" in provided
+    has_hba1c_effective = has_hba1c or "hba1c" in proxied
+    can_run_full_kihealth = has_beta and has_hba1c_effective
+    can_run_partial_kihealth = has_beta and not has_hba1c_effective
+    can_run_foundation = (
+        has_hba1c
+        or has_glucose
+        or bool({"age", "bmi"}.intersection(provided))
+    )
+    glycemic_labs = {"beta_score", "hba1c", "glucose", "insulin", "c_peptide"}
+    labs_provided = glycemic_labs.intersection(provided)
+    can_run_glycemic_screen = (
+        bool(labs_provided)
+        and labs_provided <= {"insulin", "c_peptide"}
+        and not has_beta
+        and not has_hba1c
+        and not has_glucose
+    )
+
+    output = {
+        "provided_fields": provided,
+        "imputed_fields": imputed,
+        "proxied_fields": proxied,
+        "prediction_tier": None,
+        "prediction_confidence": None,
+        "prediction_disclaimer": None,
+        "upsell_message": None,
+    }
+
+    def _finalize_tier(tier: str) -> None:
+        output["prediction_tier"] = tier
+        output["prediction_confidence"] = _confidence_from_inputs(provided, imputed, tier, proxied)
+        output["prediction_disclaimer"] = _build_prediction_disclaimer(
+            tier, provided, imputed, proxied
+        )
+
+    if (
+        use_m2_model
+        and can_run_full_kihealth
+        and clinical_mode == "cascade"
+        and models.get("cascade_available")
+    ):
+        try:
+            cascade_result = predict_with_cascade_model(resolved_data, models)
+            if cascade_result.get("probability") is not None:
+                tier = "full_cascade"
+                output.update(_build_cascade_output(cascade_result, resolved_data, models))
+                _finalize_tier(tier)
+                if imputed or proxied:
+                    output["upsell_message"] = UPSELL_FULL_PANEL_MESSAGE
+                return output
+        except Exception as exc:
+            output["prediction_error"] = f"Cascade model error: {exc}"
+
+    if use_m2_model and can_run_full_kihealth and models.get("m2_available"):
+        try:
+            m2_result = predict_with_m2_model(resolved_data, models)
+            if m2_result.get("probability") is not None:
+                tier = "full_m2"
+                output.update(_build_m2_output(m2_result, resolved_data, models, clinical_mode, tier))
+                _finalize_tier(tier)
+                if imputed or proxied:
+                    output["upsell_message"] = UPSELL_FULL_PANEL_MESSAGE
+                return output
+        except Exception as exc:
+            output["prediction_error"] = f"M2 model error: {exc}"
+
+    if use_m2_model and can_run_partial_kihealth and models.get("m2_available"):
+        try:
+            m2_result = predict_with_m2_model(resolved_data, models)
+            if m2_result.get("probability") is not None:
+                tier = "partial_kihealth"
+                output.update(_build_m2_output(m2_result, resolved_data, models, clinical_mode, tier))
+                _finalize_tier(tier)
+                output["upsell_message"] = UPSELL_FULL_PANEL_MESSAGE
+                return output
+        except Exception as exc:
+            output["prediction_error"] = f"Partial KiHealth model error: {exc}"
+
+    if can_run_foundation and not has_beta and models.get("m2_available"):
+        foundation_result = predict_foundation_model(data, models)
+        if foundation_result.get("probability") is not None:
+            prob = foundation_result["probability"]
+            threshold = foundation_result.get("threshold", 0.35)
+            category, classification = _categorize_risk(prob, threshold)
+            output.update({
+                "risk_probability": round(prob * 100, 1),
+                "foundation_pred": foundation_result["foundation_pred"],
+                "model_used": foundation_result["model_name"],
+                "clinical_mode": clinical_mode,
+                "threshold": threshold,
+                "risk_category": category,
+                "at_risk_classification": classification,
+                "prediction_tier": foundation_result.get("tier", "foundation"),
+                "prediction_confidence": foundation_result.get("confidence"),
+                "prediction_disclaimer": foundation_result.get("disclaimer"),
+                "upsell_message": foundation_result.get("upsell_message"),
+            })
+            return output
+
+    if can_run_glycemic_screen:
+        glycemic_result = predict_glycemic_marker_screen(resolved, provided, models, data)
+        if glycemic_result.get("probability") is not None:
+            prob = glycemic_result["probability"]
+            threshold = glycemic_result.get("threshold", 0.35)
+            category, classification = _categorize_risk(prob, threshold)
+            tier = "glycemic_marker_screen"
+            output.update({
+                "risk_probability": round(prob * 100, 1),
+                "model_used": glycemic_result["model_name"],
+                "clinical_mode": clinical_mode,
+                "threshold": threshold,
+                "risk_category": category,
+                "at_risk_classification": classification,
+            })
+            _finalize_tier(tier)
+            output["upsell_message"] = UPSELL_FULL_PANEL_MESSAGE
+            return output
+
+    model_key = "final" if "final" in models else "ensemble" if "ensemble" in models else None
+    if model_key and can_run_full_kihealth:
+        try:
+            features = pd.DataFrame([{
+                "beta_score": resolved["beta_score"],
+                "hba1c": resolved["hba1c"],
+            }])
+            prob = models[model_key].predict_proba(features)[0, 1]
+            thresholds = models.get("thresholds", {"screening": 0.25, "balanced": 0.45, "confirmation": 0.60})
+            threshold = thresholds.get(clinical_mode, 0.45)
+            category, classification = _categorize_risk(prob, threshold)
+            output.update({
+                "risk_probability": round(prob * 100, 1),
+                "model_used": f"KiHealth Final (AUC: 0.890) - {clinical_mode.title()} Mode",
+                "clinical_mode": clinical_mode,
+                "threshold": threshold,
+                "risk_category": category,
+                "at_risk_classification": classification,
+            })
+            _finalize_tier("legacy")
+            output["upsell_message"] = UPSELL_FULL_PANEL_MESSAGE
+            return output
+        except Exception as exc:
+            output["prediction_error"] = f"Legacy model error: {exc}"
+
+    base_risk = 20.0
+    if status == "Prediabetic":
+        base_risk += 30
+    elif status == "Diabetic":
+        base_risk = 95
+    unmeth = resolved.get("beta_score", 5.0)
+    if unmeth > 10:
+        base_risk += (unmeth - 10) * 2
+    elif unmeth <= 6:
+        base_risk -= (6 - unmeth) * 1.5
+    base_risk += len(risk_factors) * 3
+    base_risk -= len(protective_factors) * 2
+    risk_probability = max(5, min(95, base_risk))
+    if risk_probability < 25:
+        category = "Low"
+    elif risk_probability < 50:
+        category = "Moderate"
+    elif risk_probability < 75:
+        category = "High"
+    else:
+        category = "Very High"
+
+    output.update({
+        "risk_probability": risk_probability,
+        "model_used": "Rule-based estimation",
+        "risk_category": category,
+    })
+    _finalize_tier("rule_based")
+    output["upsell_message"] = UPSELL_FULL_PANEL_MESSAGE
+    return output
+
+
 def predict_with_m2_model(data: dict, models: dict) -> dict:
     """
     Predict using M2-B enhanced transfer learning model.
@@ -746,6 +1323,14 @@ def calculate_homa_beta(insulin: float, glucose: float) -> float:
     return np.nan
 
 
+def calculate_bmi_from_imperial(height_ft: float, height_in: float, weight_lbs: float) -> float:
+    """Calculate BMI (kg/m²) from height (ft/in) and weight (lbs)."""
+    total_inches = height_ft * 12 + height_in
+    if total_inches <= 0 or weight_lbs <= 0:
+        return np.nan
+    return (703 * weight_lbs) / (total_inches ** 2)
+
+
 def get_diabetes_status(hba1c: float, glucose: float) -> tuple[str, str]:
     """Determine diabetes status based on ADA criteria."""
     if pd.isna(hba1c) and pd.isna(glucose):
@@ -772,11 +1357,12 @@ def get_diabetes_status(hba1c: float, glucose: float) -> tuple[str, str]:
             reasons.append(f"Fasting glucose {glucose:.0f} mg/dL in 100-125 range")
         return "Prediabetic", " and ".join(reasons)
     
-    # Normal - handle case where glucose is not provided
+    # Normal - handle partial lab data
+    if pd.isna(hba1c):
+        return "Normal", f"Fasting glucose {glucose:.0f} mg/dL within normal range (<100)"
     if pd.isna(glucose):
         return "Normal", f"HbA1c {hba1c:.1f}% within normal range (<5.7%)"
-    else:
-        return "Normal", f"HbA1c {hba1c:.1f}% and glucose {glucose:.0f} mg/dL within normal ranges"
+    return "Normal", f"HbA1c {hba1c:.1f}% and glucose {glucose:.0f} mg/dL within normal ranges"
 
 
 def calculate_risk_score(data: dict, models: dict) -> dict:
@@ -796,14 +1382,16 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
     }
     
     # Calculate HOMA indices
-    if data.get("insulin") and data.get("glucose"):
+    if not _is_missing(data.get("insulin")) and not _is_missing(data.get("glucose")):
         results["homa_ir"] = calculate_homa_ir(data["insulin"], data["glucose"])
         results["homa_beta"] = calculate_homa_beta(data["insulin"], data["glucose"])
     
     # Determine current status
+    hba1c_val = data.get("hba1c")
+    glucose_val = data.get("glucose")
     status, explanation = get_diabetes_status(
-        data.get("hba1c", np.nan), 
-        data.get("glucose", np.nan)
+        np.nan if _is_missing(hba1c_val) else hba1c_val,
+        np.nan if _is_missing(glucose_val) else glucose_val,
     )
     results["current_status"] = status
     results["status_explanation"] = explanation
@@ -860,248 +1448,34 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
     c_peptide = data.get("c_peptide")
     insulin = data.get("insulin")
     
-    if c_peptide is not None:
+    if c_peptide is not None and not _is_missing(c_peptide):
         # Based on KiHealth data distribution (mean=3.5, 75th percentile=4.8)
         if c_peptide > 4.8:
             results["risk_factors"].append(f"Elevated C-peptide ({c_peptide:.2f} ng/mL) - associated with insulin resistance in KiHealth data")
         results["c_peptide_value"] = c_peptide
     
-    if insulin is not None:
+    if insulin is not None and not _is_missing(insulin):
         # Based on KiHealth data distribution (mean=27.4, 75th percentile=39)
         if insulin > 39:
             results["risk_factors"].append(f"Elevated insulin ({insulin:.1f} uU/mL) - associated with insulin resistance in KiHealth data")
         results["insulin_value"] = insulin
     
-    # Note: C-peptide and insulin are NOT used in the ML model prediction
-    # They are displayed for clinical context only
-    
-    clinical_mode = data.get("clinical_mode", "cascade")
-    use_m2_model = data.get("use_m2_model", True)  # Default to M2 model
+    # Note: insulin/C-peptide also feed imputed KiHealth models when provided.
 
-    if (
-        use_m2_model
-        and clinical_mode == "cascade"
-        and models.get("cascade_available")
-        and data.get("beta_score") is not None
-        and data.get("hba1c") is not None
-    ):
-        try:
-            cascade_result = predict_with_cascade_model(data, models)
-            if cascade_result.get("probability") is not None:
-                screen_prob = cascade_result.get("screening_probability", 0.0)
-                confirm_prob = cascade_result.get("confirmation_probability")
-                screen_metrics = models.get("cascade_screening_metrics", {})
-                confirm_metrics = models.get("cascade_confirmation_metrics", {})
-                screen_thresh = (
-                    screen_metrics.get("thresholds", {})
-                    .get("screening", {})
-                    .get("threshold", 0.11)
-                )
-                bal_thresh = (
-                    confirm_metrics.get("thresholds", {})
-                    .get("balanced", {})
-                    .get("threshold", 0.45)
-                )
-                con_thresh = (
-                    confirm_metrics.get("thresholds", {})
-                    .get("confirmation", {})
-                    .get("threshold", 0.37)
-                )
+    tier_output = run_tiered_prediction(
+        data,
+        models,
+        status=status,
+        risk_factors=results["risk_factors"],
+        protective_factors=results["protective_factors"],
+    )
+    for key, value in tier_output.items():
+        if value is not None or key in {"provided_fields", "imputed_fields"}:
+            results[key] = value
 
-                results["foundation_pred"] = cascade_result["foundation_pred"]
-                results["clinical_mode"] = "cascade"
-                results["cascade"] = True
-                results["screening_probability"] = round(screen_prob * 100, 1)
-                results["screening_threshold"] = screen_thresh
-                results["balanced_threshold"] = bal_thresh
-                results["confirmation_threshold"] = con_thresh
-                results["cascade_stage"] = cascade_result.get("cascade_stage")
-                results["cascade_message"] = cascade_result.get("cascade_message")
-                results["cascade_cleared"] = cascade_result.get("cascade_cleared", False)
+    if tier_output.get("prediction_error"):
+        st.warning(tier_output["prediction_error"])
 
-                if cascade_result.get("cascade_cleared"):
-                    results["risk_probability"] = round(screen_prob * 100, 1)
-                    results["risk_category"] = "Low"
-                    results["at_risk_classification"] = "CLEARED - Low Risk"
-                    results["model_used"] = (
-                        f"{cascade_result['model_name']} - Stage 1 Screening "
-                        f"({_format_progression_risk(screen_prob * 100)} "
-                        f"< {screen_thresh * 100:.0f}% threshold)"
-                    )
-                else:
-                    prob = confirm_prob if confirm_prob is not None else screen_prob
-                    results["confirmation_probability"] = round(prob * 100, 1)
-                    results["risk_probability"] = round(prob * 100, 1)
-                    stage = cascade_result.get("cascade_stage", "flagged")
-                    if stage == "high_confidence":
-                        results["risk_category"] = "Very High"
-                        results["at_risk_classification"] = "HIGH CONFIDENCE POSITIVE"
-                    elif stage == "moderate":
-                        results["risk_category"] = "High"
-                        results["at_risk_classification"] = "MODERATE SIGNAL"
-                    else:
-                        results["risk_category"] = "Moderate"
-                        results["at_risk_classification"] = "LOW-MODERATE SIGNAL"
-                    results["model_used"] = (
-                        f"{cascade_result['model_name']} - {results['at_risk_classification']} "
-                        f"(screening {_format_progression_risk(screen_prob * 100)}, "
-                        f"confirmation {_format_progression_risk(prob * 100)})"
-                    )
-                    results["threshold"] = bal_thresh if stage == "high_confidence" else con_thresh
-
-                avg_beta_data = data.copy()
-                avg_beta_data["beta_score"] = 8.0
-                avg_result = predict_with_cascade_model(avg_beta_data, models)
-                if avg_result.get("probability") is not None and not cascade_result.get("cascade_cleared"):
-                    results["beta_contribution"] = round(
-                        (cascade_result["probability"] - avg_result["probability"]) * 100, 1
-                    )
-        except Exception as e:
-            st.warning(f"Cascade model error: {e}")
-
-    # Single-threshold M2 model (screening / balanced / confirmation modes)
-    if (
-        results["risk_probability"] is None
-        and use_m2_model
-        and models.get("m2_available")
-        and data.get("beta_score") is not None
-        and data.get("hba1c") is not None
-    ):
-        try:
-            m2_result = predict_with_m2_model(data, models)
-            if m2_result["probability"] is not None:
-                prob = m2_result["probability"]
-                results["risk_probability"] = round(prob * 100, 1)
-                results["foundation_pred"] = m2_result["foundation_pred"]
-                
-                # M2 thresholds and performance (from loaded file or fallback for n=129 model)
-                m2_metrics = models.get("m2_metrics", {})
-                mode_info = _get_m2_threshold_info(models)
-                m2_thresholds = {mode: mode_info[mode]["threshold"] for mode in mode_info}
-                threshold = m2_thresholds.get(clinical_mode, 0.35)
-
-                m2_performance = {
-                    mode: {
-                        "sens": _pct_metric(mode_info[mode]["sensitivity"]),
-                        "spec": _pct_metric(mode_info[mode]["specificity"]),
-                        "desc": {
-                            "screening": "Catches nearly all at-risk patients",
-                            "balanced": "Optimal trade-off",
-                            "confirmation": "High confidence positives",
-                        }[mode],
-                    }
-                    for mode in mode_info
-                }
-                perf = m2_performance.get(clinical_mode, m2_performance["balanced"])
-                results["model_used"] = f"{m2_result['model_name']} - {clinical_mode.title()} Mode (Sens: {perf['sens']}, Spec: {perf['spec']})"
-                results["clinical_mode"] = clinical_mode
-                results["threshold"] = threshold
-                
-                # Categorize risk
-                if prob < threshold * 0.5:
-                    results["risk_category"] = "Low"
-                elif prob < threshold:
-                    results["risk_category"] = "Moderate"
-                elif prob < threshold * 1.5:
-                    results["risk_category"] = "High"
-                else:
-                    results["risk_category"] = "Very High"
-                
-                results["at_risk_classification"] = "At Risk" if prob >= threshold else "Not At Risk"
-                
-                # Calculate Beta Score contribution (compare to average beta score of 8%)
-                avg_beta_data = data.copy()
-                avg_beta_data["beta_score"] = 8.0  # Average in validation data
-                avg_result = predict_with_m2_model(avg_beta_data, models)
-                if avg_result["probability"] is not None:
-                    results["beta_contribution"] = round((prob - avg_result["probability"]) * 100, 1)
-                
-        except Exception as e:
-            st.warning(f"M2 model error: {e}")
-    
-    # Fallback to original model (AUC 0.890) if M2 not available or failed
-    if results["risk_probability"] is None:
-        model_key = "final" if "final" in models else "ensemble" if "ensemble" in models else None
-        
-        if model_key and data.get("beta_score") is not None and data.get("hba1c") is not None:
-            try:
-                features = pd.DataFrame([{
-                    "beta_score": data.get("beta_score", 90),
-                    "hba1c": data.get("hba1c", 5.5),
-                }])
-                
-                prob = models[model_key].predict_proba(features)[0, 1]
-                results["risk_probability"] = round(prob * 100, 1)
-                
-                # Get threshold based on clinical mode
-                thresholds = models.get("thresholds", {"screening": 0.25, "balanced": 0.45, "confirmation": 0.60})
-                threshold = thresholds.get(clinical_mode, 0.45)
-                
-                # Mode-specific performance (fallback model)
-                mode_performance = {
-                    "screening": {"sens": "100%", "spec": "60%", "desc": "Catches all at-risk patients"},
-                    "balanced": {"sens": "76%", "spec": "82%", "desc": "Optimal trade-off"},
-                    "confirmation": {"sens": "59%", "spec": "87%", "desc": "High confidence positives"},
-                }
-                
-                perf = mode_performance.get(clinical_mode, mode_performance["balanced"])
-                results["model_used"] = f"KiHealth Final (AUC: 0.890) - {clinical_mode.title()} Mode (Sens: {perf['sens']}, Spec: {perf['spec']})"
-                results["clinical_mode"] = clinical_mode
-                results["threshold"] = threshold
-                
-                # Categorize risk based on threshold
-                if prob < threshold * 0.5:
-                    results["risk_category"] = "Low"
-                elif prob < threshold:
-                    results["risk_category"] = "Moderate"
-                elif prob < threshold * 1.5:
-                    results["risk_category"] = "High"
-                else:
-                    results["risk_category"] = "Very High"
-                
-                # Binary classification based on mode threshold
-                results["at_risk_classification"] = "At Risk" if prob >= threshold else "Not At Risk"
-                
-                # Calculate Beta Score contribution
-                features_avg = features.copy()
-                features_avg["beta_score"] = 92.0
-                prob_avg = models[model_key].predict_proba(features_avg)[0, 1]
-                results["beta_contribution"] = round((prob - prob_avg) * 100, 1)
-                
-            except Exception as e:
-                st.warning(f"Model error: {e}")
-    
-    # Fallback estimation if no model
-    if results["risk_probability"] is None:
-        base_risk = 20.0
-        
-        if status == "Prediabetic":
-            base_risk += 30
-        elif status == "Diabetic":
-            base_risk = 95
-        
-        # Beta Score impact (beta_score is % Unmethylated - higher = more risk)
-        unmeth = data.get("beta_score", 5.0)  # Default to healthy 5%
-        if unmeth > 10:
-            base_risk += (unmeth - 10) * 2  # Add risk for elevated unmethylated
-        elif unmeth <= 6:
-            base_risk -= (6 - unmeth) * 1.5  # Reduce risk for very healthy
-        
-        base_risk += len(results["risk_factors"]) * 3
-        base_risk -= len(results["protective_factors"]) * 2
-        
-        results["risk_probability"] = max(5, min(95, base_risk))
-        results["model_used"] = "Rule-based estimation"
-        
-        if results["risk_probability"] < 25:
-            results["risk_category"] = "Low"
-        elif results["risk_probability"] < 50:
-            results["risk_category"] = "Moderate"
-        elif results["risk_probability"] < 75:
-            results["risk_category"] = "High"
-        else:
-            results["risk_category"] = "Very High"
-    
     # Generate recommendations
     if status == "Diabetic":
         results["recommendations"] = [
@@ -1134,6 +1508,65 @@ def calculate_risk_score(data: dict, models: dict) -> dict:
         ]
     
     return results
+
+
+def _render_prediction_quality_banner(results: dict) -> None:
+    """Show model tier, confidence, imputation details, and upsell when estimate is partial."""
+    tier = results.get("prediction_tier")
+    if not tier:
+        return
+
+    tier_labels = {
+        "full_cascade": "Full KiHealth Cascade model",
+        "full_m2": "Full M2-B KiHealth model",
+        "partial_kihealth": "KiHealth model (partial labs — Beta Score without full glycemic panel)",
+        "foundation": "Population screening model (HbA1c + Age + BMI)",
+        "foundation_glucose_proxy": "Population screening model (glucose-derived A1c estimate + Age + BMI)",
+        "glycemic_marker_screen": "Insulin/C-peptide screening estimate",
+        "legacy": "Legacy KiHealth model",
+        "rule_based": "Rule-based estimate",
+    }
+    confidence_labels = {
+        "high": "High confidence",
+        "moderate": "Moderate confidence",
+        "low": "Low confidence — screening estimate only",
+        "very_low": "Very low confidence — screening estimate only",
+    }
+
+    if (
+        tier in {"full_cascade", "full_m2"}
+        and results.get("prediction_confidence") == "high"
+        and not results.get("prediction_disclaimer")
+    ):
+        return
+
+    label = tier_labels.get(tier, tier)
+    conf = confidence_labels.get(results.get("prediction_confidence"), "")
+    st.info(f"**Estimate type:** {label}" + (f" ({conf})" if conf else ""))
+
+    if results.get("prediction_disclaimer"):
+        st.warning(results["prediction_disclaimer"])
+    if results.get("upsell_message"):
+        st.markdown(f"**Improve accuracy:** {results['upsell_message']}")
+
+    provided = results.get("provided_fields") or []
+    imputed = results.get("imputed_fields") or []
+    if provided:
+        st.caption(
+            "Provided: "
+            + ", ".join(ML_FEATURE_LABELS.get(field, field) for field in provided)
+        )
+    if imputed:
+        st.caption(
+            "Assumed at population median: "
+            + ", ".join(ML_FEATURE_LABELS.get(field, field) for field in imputed)
+        )
+    proxied = results.get("proxied_fields") or []
+    if proxied:
+        st.caption(
+            "Estimated from other labs: "
+            + ", ".join(ML_FEATURE_LABELS.get(field, field) for field in proxied)
+        )
 
 
 def main():
@@ -1373,6 +1806,10 @@ def main():
             <h2 style="margin: 0;">Patient Biomarkers & Lab Values</h2>
         </div>
         """, unsafe_allow_html=True)
+        st.caption(
+            "Enter any labs you have — leave fields blank if unavailable. "
+            "The calculator automatically selects the best model tier and notes when values are assumed."
+        )
         
         col1, col2, col3 = st.columns(3)
         
@@ -1419,9 +1856,10 @@ def main():
                 "% Unmethylated (Beta Cell Damage Marker)",
                 min_value=0.0,
                 max_value=100.0,
-                value=5.0,
+                value=None,
                 step=0.1,
-                help="Higher % unmethylated = more beta cell damage. Normal: 0-6%, Elevated: 10%+",
+                placeholder="Optional",
+                help="Higher % unmethylated = more beta cell damage. Normal: 0-6%, Elevated: 10%+. Leave blank if not tested.",
                 key="unmethylated"
             )
 
@@ -1437,15 +1875,60 @@ def main():
             st.divider()
             
             st.markdown("**Body Measurements**")
-            
-            bmi = st.number_input(
-                "BMI (kg/m²)",
-                min_value=10.0,
-                max_value=70.0,
-                value=25.0,
-                step=0.1,
-                key="bmi"
+
+            bmi_known = st.checkbox(
+                "I know my BMI (kg/m²)?",
+                value=True,
+                help="Uncheck to calculate BMI from height and weight",
+                key="bmi_known",
             )
+
+            if bmi_known:
+                bmi = st.number_input(
+                    "BMI (kg/m²)",
+                    min_value=10.0,
+                    max_value=70.0,
+                    value=25.0,
+                    step=0.1,
+                    key="bmi",
+                )
+            else:
+                ht_col1, ht_col2 = st.columns(2)
+                with ht_col1:
+                    height_ft = st.number_input(
+                        "Height (feet)",
+                        min_value=2,
+                        max_value=8,
+                        value=5,
+                        step=1,
+                        key="height_ft",
+                    )
+                with ht_col2:
+                    height_in = st.number_input(
+                        "Height (inches)",
+                        min_value=0,
+                        max_value=11,
+                        value=6,
+                        step=1,
+                        key="height_in",
+                    )
+                weight_lbs = st.number_input(
+                    "Weight (lbs)",
+                    min_value=50.0,
+                    max_value=700.0,
+                    value=150.0,
+                    step=0.5,
+                    key="weight_lbs",
+                )
+                bmi = calculate_bmi_from_imperial(height_ft, height_in, weight_lbs)
+                if pd.isna(bmi):
+                    st.warning("Enter valid height and weight to calculate BMI.")
+                else:
+                    st.metric(
+                        label="BMI (calculated)",
+                        value=f"{bmi:.1f} kg/m²",
+                        help="Calculated from height and weight using standard BMI formula",
+                    )
         
         with col3:
             st.markdown(f"""
@@ -1459,27 +1942,23 @@ def main():
                 "HbA1c (%)",
                 min_value=3.0,
                 max_value=15.0,
-                value=5.5,
+                value=None,
                 step=0.1,
-                help="Normal <5.7%, Prediabetic 5.7-6.4%, Diabetic >=6.5%",
+                placeholder="Optional",
+                help="Normal <5.7%, Prediabetic 5.7-6.4%, Diabetic >=6.5%. Leave blank if unavailable.",
                 key="hba1c"
             )
             
-            # Glucose is optional
-            glucose_provided = st.checkbox("Fasting Glucose available?", value=False, key="glucose_provided")
-            
-            if glucose_provided:
-                glucose = st.number_input(
-                    "Fasting Glucose (mg/dL)",
-                    min_value=30.0,
-                    max_value=600.0,
-                    value=100.0,
-                    step=1.0,
-                    help="Normal <100, Prediabetic 100-125, Diabetic >=126 (Optional)",
-                    key="glucose"
-                )
-            else:
-                glucose = None
+            glucose = st.number_input(
+                "Fasting Glucose (mg/dL)",
+                min_value=30.0,
+                max_value=600.0,
+                value=None,
+                step=1.0,
+                placeholder="Optional",
+                help="Normal <100, Prediabetic 100-125, Diabetic >=126. Leave blank if unavailable.",
+                key="glucose",
+            )
             
             st.divider()
             
@@ -1489,8 +1968,10 @@ def main():
                 "Fasting Insulin (uU/mL)",
                 min_value=0.0,
                 max_value=500.0,
-                value=10.0,
+                value=None,
                 step=0.1,
+                placeholder="Optional",
+                help="Leave blank if unavailable.",
                 key="insulin"
             )
             
@@ -1498,8 +1979,10 @@ def main():
                 "C-Peptide (ng/mL)",
                 min_value=0.0,
                 max_value=50.0,
-                value=2.0,
+                value=None,
                 step=0.1,
+                placeholder="Optional",
+                help="Leave blank if unavailable.",
                 key="c_peptide"
             )
         
@@ -1512,11 +1995,11 @@ def main():
             "race": race,
             "beta_score": unmethylated,  # Model uses % Unmethylated only
             "unmethylated": unmethylated,
-            "bmi": bmi,
+            "bmi": None if pd.isna(bmi) else bmi,
             "hba1c": hba1c,
-            "glucose": glucose if glucose_provided else np.nan,
-            "insulin": insulin,
-            "c_peptide": c_peptide,
+            "glucose": np.nan if glucose is None else glucose,
+            "insulin": None if insulin is None else insulin,
+            "c_peptide": None if c_peptide is None else c_peptide,
         })
         
         # Show calculated values
@@ -1530,8 +2013,8 @@ def main():
         
         calc_col1, calc_col2, calc_col3 = st.columns(3)
         
-        # HOMA indices require glucose
-        if glucose_provided and glucose:
+        # HOMA indices require glucose and insulin
+        if glucose is not None and insulin is not None:
             homa_ir = calculate_homa_ir(insulin, glucose)
             homa_beta = calculate_homa_beta(insulin, glucose)
         else:
@@ -1556,9 +2039,9 @@ def main():
                 )
         
         with calc_col3:
-            # Pass glucose only if provided
-            glucose_val = glucose if glucose_provided else np.nan
-            status, status_reason = get_diabetes_status(hba1c, glucose_val)
+            glucose_val = np.nan if glucose is None else glucose
+            hba1c_val = np.nan if hba1c is None else hba1c
+            status, status_reason = get_diabetes_status(hba1c_val, glucose_val)
             
             if status == "Diabetic":
                 st.markdown(f"""
@@ -1595,9 +2078,9 @@ def main():
                 <div class="risk-card risk-moderate">
                     <div class="icon-text">
                         {svg_icon("info")}
-                        <strong>Current Status: Based on HbA1c only</strong>
+                        <strong>Current Status: {status}</strong>
                     </div>
-                    <small>Glucose not provided</small>
+                    <small>{status_reason}</small>
                 </div>
                 """, unsafe_allow_html=True)
         
@@ -1809,6 +2292,8 @@ def main():
                                 <span>Beta Score Impact: {beta_contrib:.1f}% diabetes progression risk (healthy unmethylated DNA)</span>
                             </div>
                             """, unsafe_allow_html=True)
+            
+            _render_prediction_quality_banner(results)
             
             st.divider()
             
