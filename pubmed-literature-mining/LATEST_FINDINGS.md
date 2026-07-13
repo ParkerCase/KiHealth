@@ -1,11 +1,11 @@
-# PubMed Daily Summary - 2026-07-06
+# PubMed Daily Summary - 2026-07-13
 
 ## Overview
 
-- **Total Articles:** 140
-- **Flagged for Review:** 5 (3.6%)
+- **Total Articles:** 141
+- **Flagged for Review:** 5 (3.5%)
 - **High-Relevance Articles:** 2 (score ≥ 70)
-- **Paywalled Articles:** 58
+- **Paywalled Articles:** 59
 - **Factor Patterns Detected:** 0
 
 ## Articles Flagged for Review
@@ -25,15 +25,15 @@
 
 1. **Enhancing total knee replacement prediction: a longitudinal joint space radiomic**
    - Score: 70/100
-   - Flags: large_sample, high_quality, priority, recent, high_value, should_review, medium_high
-   - Reason: Medium-high value (score: 70); Recent high-value article (195 days old); Large sample size (n=614)
+   - Flags: should_review, recent, priority, high_value, large_sample, medium_high, high_quality
+   - Reason: Medium-high value (score: 70); Recent high-value article (202 days old); Large sample size (n=614)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41376347/)
 
 2. **Preoperative neuropathic-like pain and central sensitisation are risk factors fo**
    - Score: 70/100
-   - Flags: priority, comprehensive, recent, high_value, systematic_review, should_review, medium_high
-   - Reason: Medium-high value (score: 70); Recent high-value article (195 days old); Systematic review or meta-analysis
+   - Flags: should_review, recent, comprehensive, priority, high_value, systematic_review, medium_high
+   - Reason: Medium-high value (score: 70); Recent high-value article (202 days old); Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/40995335/)
 
@@ -53,7 +53,7 @@
 
 5. **Changes in knee pain and walking speed following primary, unilateral total knee **
    - Score: 60/100
-   - Flags: comprehensive, systematic_review
+   - Flags: systematic_review, comprehensive
    - Reason: Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41146955/)
