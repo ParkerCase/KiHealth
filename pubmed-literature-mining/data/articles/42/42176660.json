@@ -1,0 +1,34 @@
+{
+  "pmid": "42176660",
+  "title": "MRI-defined tissue damage as predictors of the incidence and progression of knee osteoarthritis: A systematic review.",
+  "abstract": "MRI is increasingly recognized not only for visualization of knee joint structures in knee osteoarthritis (KOA), but also for its potential to predict KOA incidence and progression. We aim to provide a comprehensive overview of how different types of MRI-detected joint tissue pathology perform in predicting radiographic progression and longitudinal evolution of clinical outcomes and functional decline. The study protocol was registered with the International Prospective Register of Systematic Reviews (PROSPERO; registration number CRD420251132451). A systematic literature search was performed in PubMed, Scopus, and Web of Science. After removal of duplicates, 4810 studies underwent a multi-step screening process, of which 99 were included in the qualitative synthesis. The quality of included studies was evaluated using the Newcastle-Ottawa Scale and the Downs and Black checklist. Most of the included studies were of good quality. Strong predictors of KOA incidence included baseline bone marrow lesions (BMLs), specific bone shape patterns (ORs up to 12.5 (95% CI, 4.0-39.3)), meniscal tears, and synovitis. Predictors of KOA progression, characterized by increasing cartilage damage, were meniscal extrusion, synovitis, and BMLs. Notably, baseline cartilage T2 signal abnormalities were a powerful predictor of the future development of new structural cartilage defects (OR = 21.3 (95% CI, 11.1, 40.6)), highlighting a pathway from compositional to structural deterioration in knees with and without pre-existing disease. Several MRI-detected joint tissue pathologies longitudinally associated with structural progression and clinically relevant outcomes, such as total knee arthroplasty, allowing patient stratification for disease-modifying osteoarthritis drug (DMOAD) trials. These associations may be further strengthened using compositional and multi-featured MRI models as well as AI-based feature extraction.",
+  "authors": "Mohammadi, Soheil; Harandi, Hamid; Alikarami, Sogol; Fattahniya, Sajjad; Samiee, Reza; Ghavam, Mohammad; Karimi, Elaheh; Jahanshahi, Ali; Roemer, Frank W; Hunter, David J; Guermazi, Ali",
+  "journal": "Seminars in arthritis and rheumatism",
+  "doi": "10.1016/j.semarthrit.2026.152999",
+  "publication_date": "2026-07-13T10:25:26.025753",
+  "access_type": "paywalled",
+  "pdf_url": null,
+  "relevance_score": 41,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 11,
+    "study_quality": 15,
+    "novelty_impact": 11,
+    "actionability": 4,
+    "total_score": 41
+  },
+  "value_category": "low_value",
+  "priority_level": "low_priority",
+  "relevance_score_legacy": 63,
+  "predictive_factors": [
+    {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "mri is increasingly recognized not only for visualization of knee joint structures in knee osteoarthritis (koa), but also for its potential to predict koa incidence and progression. we aim to provide a c"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2026-07-13T10:25:28.299117",
+  "updated_at": "2026-07-13T10:25:28.299235"
+}
