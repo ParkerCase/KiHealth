@@ -1,4 +1,4 @@
-# PubMed Daily Summary - 2026-08-17
+# PubMed Daily Summary - 2026-08-24
 
 ## Overview
 
@@ -25,15 +25,15 @@
 
 1. **Enhancing total knee replacement prediction: a longitudinal joint space radiomic**
    - Score: 70/100
-   - Flags: priority, recent, high_value, should_review, large_sample, high_quality, medium_high
-   - Reason: Medium-high value (score: 70); Recent high-value article (237 days old); Large sample size (n=614)
+   - Flags: recent, high_value, large_sample, priority, should_review, medium_high, high_quality
+   - Reason: Medium-high value (score: 70); Recent high-value article (244 days old); Large sample size (n=614)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41376347/)
 
 2. **Preoperative neuropathic-like pain and central sensitisation are risk factors fo**
    - Score: 70/100
-   - Flags: priority, comprehensive, recent, high_value, should_review, systematic_review, medium_high
-   - Reason: Medium-high value (score: 70); Recent high-value article (237 days old); Systematic review or meta-analysis
+   - Flags: recent, high_value, priority, systematic_review, should_review, medium_high, comprehensive
+   - Reason: Medium-high value (score: 70); Recent high-value article (244 days old); Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/40995335/)
 
