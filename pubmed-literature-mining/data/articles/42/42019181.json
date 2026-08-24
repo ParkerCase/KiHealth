@@ -5,9 +5,9 @@
   "authors": "Zaffar, Haroon; Oochit, Krishna; Dedhia, Manasi; Usman, Mehvish; Patel, Akash",
   "journal": "The Knee",
   "doi": "10.1016/j.knee.2026.104456",
-  "publication_date": "2026-08-17T07:52:16.196639",
+  "publication_date": "2026-08-24T07:57:41.978278",
   "access_type": "open_access",
-  "pdf_url": "https://doi.org/10.1016/j.knee.2026.104456",
+  "pdf_url": "https://knowledge.lancashire.ac.uk/id/eprint/59219/1/59219%20Zaffar%20et%20al.%20VOR.pdf",
   "relevance_score": 52,
   "relevance_score_breakdown": {
     "clinical_relevance": 11,
@@ -21,11 +21,39 @@
   "relevance_score_legacy": 62,
   "predictive_factors": [
     {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "total knee arthroplasty (tka) is a common and increasingly performed procedure, particularly in patients with end-stage osteoarthritis. obesity, a major risk factor for osteoarthritis, is also associated with higher rates of complications following tka. bariatric surgery (bs) has been proposed as a preoperative optimi"
+    },
+    {
+      "factor": "Gender",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "study name study design country total bs nbs bs interventiontype bmi for nbs age (mean, gender mean bmi"
+    },
+    {
       "factor": "Bmi",
       "outcome": "knee osteoarthritis progression",
       "effect_size": "not specified",
       "significance": "mentioned in text",
       "context": "suggests lower revision risks when performed within 2 years of bs. our pooled analysis showed that prior bariatric surgery did not significantly impact revision rates after tka. however, no change in bmi status after bs was recorded. future research should prioritise prospective studies and long-term registry follow-up with detailed nutritional and clinical data to clarify the role of bs as a pre-art"
+    },
+    {
+      "factor": "Body Mass Index",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "[6] mishra ak, vaish a, vaishya r. effect of body mass index on the outcomes of primary total kneearthroplastyuptooneyear-aprospectivestudy.jclin"
+    },
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "[3] neuprez a et al. total joint replacement improves pain, functional quality of life, and health utilities in patients with late-stage knee and hip"
     },
     {
       "factor": "Obesity",
@@ -36,6 +64,7 @@
     }
   ],
   "processing_status": "processed",
-  "created_at": "2026-08-17T07:52:17.037576",
-  "updated_at": "2026-08-17T07:52:17.037774"
+  "created_at": "2026-08-24T07:57:48.181575",
+  "updated_at": "2026-08-24T07:57:48.181828",
+  "pdf_path": "data/pdfs/42019181.pdf"
 }
