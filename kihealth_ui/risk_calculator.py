@@ -67,7 +67,7 @@ CASCADE_CONFIRMATION_MODEL_PATH = os.path.join(MODEL_DIR, "final_cascade_confirm
 CASCADE_CONFIRMATION_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_confirmation_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-08-26-cohort-no-t1d-label"
+DEPLOY_VERSION = "2026-08-26-cohort-stratum-table"
 
 # KiHealth validation cohort composition (UI documentation only; models unchanged)
 V1_VALIDATION_DATASET = {
@@ -1700,27 +1700,29 @@ def _render_reference_cohort_tab(cohort: dict) -> None:
             "Prediabetes 5.7-6.49",
             "Diabetic 6.5+",
         ]
-        chart_rows = []
+        table_rows = []
         for label in order:
             block = chart_strata.get(label, {})
-            if block.get("n", 0) > 0 and block.get("mean") is not None:
-                chart_rows.append({"A1c stratum": label, "Mean INS 399 %": block["mean"]})
-        if chart_rows:
-            chart_df = pd.DataFrame(chart_rows)
-            try:
-                import plotly.express as px
-
-                fig = px.bar(
-                    chart_df,
-                    x="A1c stratum",
-                    y="Mean INS 399 %",
-                    title="INS 399 by A1c Stratum",
-                    color_discrete_sequence=["#2563eb"],
+            if block.get("n", 0) > 0:
+                table_rows.append(
+                    {
+                        "A1c stratum": label,
+                        "n": block.get("n", 0),
+                        "Median INS 399 %": block.get("median"),
+                        "Mean INS 399 %": block.get("mean"),
+                    }
                 )
-                fig.update_layout(showlegend=False, xaxis_title="A1c stratum", yaxis_title="Mean INS 399 %")
-                st.plotly_chart(fig, use_container_width=True)
-            except ImportError:
-                st.bar_chart(chart_df.set_index("A1c stratum"))
+        if table_rows:
+            st.markdown("#### INS 399 by A1c stratum (descriptive)")
+            st.caption(
+                "Small booth cohort (n=38). Prediabetes and diabetic rows have very few samples "
+                "(n=4 and n=2), so means can swing — use median and n, not the bar height alone."
+            )
+            st.dataframe(
+                pd.DataFrame(table_rows),
+                use_container_width=True,
+                hide_index=True,
+            )
 
     n399 = len(cohort.get("follow_up_list_399", []))
     with st.expander(f"INS 399 Priority Follow-up List ({n399} candidates)", expanded=True):
