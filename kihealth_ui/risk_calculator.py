@@ -67,7 +67,7 @@ CASCADE_CONFIRMATION_MODEL_PATH = os.path.join(MODEL_DIR, "final_cascade_confirm
 CASCADE_CONFIRMATION_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_confirmation_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-08-26-cohort-109384-note"
+DEPLOY_VERSION = "2026-08-26-cohort-3site-columns"
 
 # KiHealth validation cohort composition (UI documentation only; models unchanged)
 V1_VALIDATION_DATASET = {
@@ -1603,8 +1603,8 @@ def _should_show_cohort_tab() -> bool:
 
 
 @st.cache_data(show_spinner=False)
-def _load_cohort_dashboard(_deploy_version: str = DEPLOY_VERSION):
-    """Load bundled cohort JSON. _deploy_version busts Streamlit cache on redeploy."""
+def _load_cohort_dashboard(_deploy_version: str, _json_mtime: float):
+    """Load bundled cohort JSON. Version + mtime bust Streamlit cache on redeploy."""
     path = _cohort_dashboard_path()
     if not path:
         return None
@@ -1629,16 +1629,10 @@ def _style_follow_up_dataframe(df: pd.DataFrame):
         return df
 
 
-def _follow_up_records_to_dataframe(
-    records: list,
-    *,
-    score_field: str = "ins_399",
-    score_label: str = "INS 399%",
-) -> pd.DataFrame:
+def _follow_up_records_to_dataframe(records: list) -> pd.DataFrame:
     rows = []
     for rec in records:
         note = rec.get("note", "") or ""
-        hba1c = rec.get("hba1c")
         if "URGENT" in note:
             priority = "URGENT"
         elif rec.get("cascade") == "High Confidence":
@@ -1651,8 +1645,9 @@ def _follow_up_records_to_dataframe(
                 "UIN": rec.get("donor_id", ""),
                 "Age": rec.get("age"),
                 "Gender": rec.get("gender", ""),
-                "A1c": hba1c,
-                score_label: rec.get(score_field),
+                "A1c": rec.get("hba1c"),
+                "INS 399": rec.get("ins_399"),
+                "3-Site Avg": rec.get("average_3site"),
                 "Cascade": rec.get("cascade", ""),
                 "Note": note,
             }
@@ -1660,10 +1655,8 @@ def _follow_up_records_to_dataframe(
     return pd.DataFrame(rows)
 
 
-def _render_follow_up_table(records: list, *, score_field: str, score_label: str) -> None:
-    df = _follow_up_records_to_dataframe(
-        records, score_field=score_field, score_label=score_label
-    )
+def _render_follow_up_table(records: list) -> None:
+    df = _follow_up_records_to_dataframe(records)
     if df.empty:
         st.info("No candidates in dashboard data.")
         return
@@ -1674,7 +1667,22 @@ def _render_follow_up_table(records: list, *, score_field: str, score_label: str
             for r in urgent.itertuples()
         ]
         st.error("Urgent high-A1c cases in this list:\n" + "\n".join(lines))
-    st.dataframe(_style_follow_up_dataframe(df), use_container_width=True, hide_index=True)
+    st.dataframe(
+        _style_follow_up_dataframe(df),
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "Priority": st.column_config.TextColumn(width="small"),
+            "UIN": st.column_config.TextColumn(width="small"),
+            "Age": st.column_config.NumberColumn(width="small", format="%.1f"),
+            "Gender": st.column_config.TextColumn(width="small"),
+            "A1c": st.column_config.NumberColumn(width="small", format="%.2f"),
+            "INS 399": st.column_config.NumberColumn(width="small", format="%.2f"),
+            "3-Site Avg": st.column_config.NumberColumn(width="small", format="%.2f"),
+            "Cascade": st.column_config.TextColumn(width="medium"),
+            "Note": st.column_config.TextColumn(width="large"),
+        },
+    )
 
 
 def _render_reference_cohort_tab(cohort: dict) -> None:
@@ -1746,19 +1754,11 @@ def _render_reference_cohort_tab(cohort: dict) -> None:
 
     n399 = len(cohort.get("follow_up_list_399", []))
     with st.expander(f"INS 399 Priority Follow-up List ({n399} candidates)", expanded=True):
-        _render_follow_up_table(
-            cohort.get("follow_up_list_399", []),
-            score_field="ins_399",
-            score_label="INS 399%",
-        )
+        _render_follow_up_table(cohort.get("follow_up_list_399", []))
 
     navg = len(cohort.get("follow_up_list_average", []))
     with st.expander(f"3-Site Average Priority Follow-up List ({navg} candidates)", expanded=True):
-        _render_follow_up_table(
-            cohort.get("follow_up_list_average", []),
-            score_field="average_3site",
-            score_label="3-Site Avg%",
-        )
+        _render_follow_up_table(cohort.get("follow_up_list_average", []))
 
     st.info(
         "Non-fasting collection: insulin and C-peptide excluded from scoring. "
@@ -1850,7 +1850,13 @@ def main():
         """, unsafe_allow_html=True)
     
     # Create tabs with icons (Results moved inline below Biomarkers)
-    cohort_data = _load_cohort_dashboard(DEPLOY_VERSION) if _should_show_cohort_tab() else None
+    cohort_path = _cohort_dashboard_path() if _should_show_cohort_tab() else None
+    cohort_mtime = os.path.getmtime(cohort_path) if cohort_path else 0.0
+    cohort_data = (
+        _load_cohort_dashboard(DEPLOY_VERSION, cohort_mtime)
+        if cohort_path
+        else None
+    )
     show_cohort_tab = cohort_data is not None
     tab_labels = [
         "Pre-Qualifying Questions",
