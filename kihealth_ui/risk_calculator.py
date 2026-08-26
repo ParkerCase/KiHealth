@@ -67,7 +67,7 @@ CASCADE_CONFIRMATION_MODEL_PATH = os.path.join(MODEL_DIR, "final_cascade_confirm
 CASCADE_CONFIRMATION_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_confirmation_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-08-26-cohort-urgent-notes"
+DEPLOY_VERSION = "2026-08-26-cohort-urgent-v2"
 
 # KiHealth validation cohort composition (UI documentation only; models unchanged)
 V1_VALIDATION_DATASET = {
@@ -1616,13 +1616,17 @@ def _style_follow_up_dataframe(df: pd.DataFrame):
     def _row_style(row):
         note = str(row.get("Note", ""))
         cascade = str(row.get("Cascade", ""))
-        if "URGENT" in note:
-            return ["background-color: #fecaca; color: #7f1d1d"] * len(row)
-        if cascade == "High Confidence":
+        priority = str(row.get("Priority", ""))
+        if priority == "URGENT" or "URGENT" in note:
+            return ["background-color: #fecaca"] * len(row)
+        if cascade == "High Confidence" or priority == "High Confidence":
             return ["background-color: #fed7aa"] * len(row)
         return [""] * len(row)
 
-    return df.style.apply(_row_style, axis=1)
+    try:
+        return df.style.apply(_row_style, axis=1)
+    except Exception:
+        return df
 
 
 def _follow_up_records_to_dataframe(
@@ -1654,6 +1658,23 @@ def _follow_up_records_to_dataframe(
             }
         )
     return pd.DataFrame(rows)
+
+
+def _render_follow_up_table(records: list, *, score_field: str, score_label: str) -> None:
+    df = _follow_up_records_to_dataframe(
+        records, score_field=score_field, score_label=score_label
+    )
+    if df.empty:
+        st.info("No candidates in dashboard data.")
+        return
+    urgent = df.loc[df["Priority"] == "URGENT"]
+    if not urgent.empty:
+        lines = [
+            f"- UIN {r.UIN}: A1c {r.A1c} — {r.Note}"
+            for r in urgent.itertuples()
+        ]
+        st.error("Urgent high-A1c cases in this list:\n" + "\n".join(lines))
+    st.dataframe(_style_follow_up_dataframe(df), use_container_width=True, hide_index=True)
 
 
 def _render_reference_cohort_tab(cohort: dict) -> None:
@@ -1703,23 +1724,19 @@ def _render_reference_cohort_tab(cohort: dict) -> None:
 
     n399 = len(cohort.get("follow_up_list_399", []))
     with st.expander(f"INS 399 Priority Follow-up List ({n399} candidates)", expanded=True):
-        df399 = _follow_up_records_to_dataframe(cohort.get("follow_up_list_399", []))
-        if df399.empty:
-            st.info("No INS 399 priority candidates in dashboard data.")
-        else:
-            st.dataframe(_style_follow_up_dataframe(df399), use_container_width=True, hide_index=True)
+        _render_follow_up_table(
+            cohort.get("follow_up_list_399", []),
+            score_field="ins_399",
+            score_label="INS 399%",
+        )
 
     navg = len(cohort.get("follow_up_list_average", []))
-    with st.expander(f"3-Site Average Priority Follow-up List ({navg} candidates)", expanded=False):
-        dfavg = _follow_up_records_to_dataframe(
+    with st.expander(f"3-Site Average Priority Follow-up List ({navg} candidates)", expanded=True):
+        _render_follow_up_table(
             cohort.get("follow_up_list_average", []),
             score_field="average_3site",
             score_label="3-Site Avg%",
         )
-        if dfavg.empty:
-            st.info("No 3-site average priority candidates in dashboard data.")
-        else:
-            st.dataframe(_style_follow_up_dataframe(dfavg), use_container_width=True, hide_index=True)
 
     st.info(
         "Non-fasting collection: insulin and C-peptide excluded from scoring. "
