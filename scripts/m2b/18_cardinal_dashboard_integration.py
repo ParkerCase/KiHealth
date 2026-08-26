@@ -29,6 +29,7 @@ HIGH_SIGNAL_THRESHOLD = 15.0
 NOTES_399 = {
     "138641": "URGENT: Undiagnosed diabetes (A1c 7.57)",
     "758612": "URGENT: Undiagnosed prediabetes (A1c 5.92)",
+    "109384": "High INS 399 with normal A1c — clinical follow-up recommended",
 }
 NOTES_AVG = {
     "182943": "INS 399 = 0, signal driven by other sites",
