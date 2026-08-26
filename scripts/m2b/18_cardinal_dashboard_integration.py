@@ -86,16 +86,25 @@ def report_conflicts(row: pd.Series) -> list[str]:
     return conflicts
 
 
+def is_self_reported_diabetic(row: pd.Series) -> bool:
+    """Affirmative on main diabetes question or either type-specific date field."""
+    return (
+        row.get("diabetes_diagnosed") == "Yes"
+        or is_yes_like(row.get("q_t1d_date"))
+        or is_yes_like(row.get("q_t2d_date"))
+    )
+
+
 def is_clean_diagnosed_yes(row: pd.Series) -> bool:
     return row.get("diabetes_diagnosed") == "Yes" and not report_conflicts(row)
 
 
 def follow_up_mask(df: pd.DataFrame) -> pd.Series:
-    """Enrollment lists: unascertained, undiagnosed dysglycemia, or conflicting self-report."""
+    """Longitudinal enrollment: not if main diabetes self-report is Yes."""
     has_conflict = df.apply(lambda row: bool(report_conflicts(row)), axis=1)
     base = (df["unascertained"] == 1) | (df["undiagnosed_dysglycemia"] == 1) | has_conflict
-    exclude = df.apply(is_clean_diagnosed_yes, axis=1)
-    return base & ~exclude
+    exclude_main_yes = df["diabetes_diagnosed"] == "Yes"
+    return base & ~exclude_main_yes
 
 
 def clinical_note(row: pd.Series, *, list_kind: str = "399") -> str:
@@ -153,15 +162,17 @@ def build_follow_up_row(row: pd.Series, note: str) -> dict:
     }
 
 
-def build_self_report_record(row: pd.Series, *, excluded: bool = False) -> dict:
+def build_self_report_record(row: pd.Series, *, for_diabetic_table: bool = False) -> dict:
     conflicts = report_conflicts(row)
     note_parts = []
-    if excluded:
-        note_parts.append("Already diagnosed (consistent Yes) — not for longitudinal enrollment")
+    if for_diabetic_table:
+        note_parts.append("Self-reported diabetes — not for longitudinal enrollment")
     if conflicts:
         note_parts.append("; ".join(conflicts))
     return {
         "donor_id": row["donor_id"],
+        "age": round(float(row["age_years"]), 1) if pd.notna(row["age_years"]) else None,
+        "gender": str(row["gender"]) if pd.notna(row["gender"]) else "",
         "diabetes_self_report": fmt_report_val(row.get("diabetes_diagnosed")),
         "t1d_self_report": fmt_report_val(row.get("q_t1d_date")),
         "t2d_self_report": fmt_report_val(row.get("q_t2d_date")),
@@ -172,8 +183,8 @@ def build_self_report_record(row: pd.Series, *, excluded: bool = False) -> dict:
         "average_3site": round(float(row["beta_score_average"]), 2)
         if pd.notna(row["beta_score_average"])
         else None,
+        "cascade": str(row["cascade_result"]) if pd.notna(row["cascade_result"]) else "",
         "conflicts": conflicts,
-        "excluded_from_enrollment": excluded,
         "note": " | ".join(note_parts) if note_parts else "",
     }
 
@@ -375,21 +386,16 @@ def main() -> None:
     ]
 
     has_conflict = df.apply(lambda row: bool(report_conflicts(row)), axis=1)
-    clean_yes = df.apply(is_clean_diagnosed_yes, axis=1)
-    high_signal = (df["ins_399_pct_unmeth"] >= FOLLOW_UP_THRESHOLD) | (
-        df["beta_score_average"] >= FOLLOW_UP_THRESHOLD
+    self_reported_diabetic = df[df.apply(is_self_reported_diabetic, axis=1)].sort_values(
+        "hba1c_percent", ascending=False
     )
-    self_report_conflicts = [
+    self_reported_diabetic_list = [
+        build_self_report_record(row, for_diabetic_table=True)
+        for _, row in self_reported_diabetic.iterrows()
+    ]
+    questionnaire_conflicts = [
         build_self_report_record(row)
-        for _, row in df.loc[has_conflict].iterrows()
-    ]
-    excluded_from_enrollment = [
-        build_self_report_record(row, excluded=True)
-        for _, row in df.loc[clean_yes].iterrows()
-    ]
-    excluded_high_signal = [
-        build_self_report_record(row, excluded=True)
-        for _, row in df.loc[clean_yes & high_signal].iterrows()
+        for _, row in df.loc[has_conflict & (df["diabetes_diagnosed"] != "Yes")].iterrows()
     ]
 
     pct_cf = pd.to_numeric(df["pct_cfDNA"], errors="coerce")
@@ -406,15 +412,14 @@ def main() -> None:
             ),
             "cleared": int(cascade_distribution["Cleared"]),
             "diabetes_self_report_yes": int((df["diabetes_diagnosed"] == "Yes").sum()),
+            "self_reported_diabetic": int(len(self_reported_diabetic_list)),
             "self_report_conflicts": int(has_conflict.sum()),
-            "excluded_clean_yes_enrollment": int(clean_yes.sum()),
         },
         "cascade_distribution": cascade_distribution,
         "follow_up_list_399": follow_up_list_399,
         "follow_up_list_average": follow_up_list_average,
-        "self_report_conflicts": self_report_conflicts,
-        "excluded_from_enrollment": excluded_from_enrollment,
-        "excluded_high_signal": excluded_high_signal,
+        "self_reported_diabetic": self_reported_diabetic_list,
+        "questionnaire_conflicts": questionnaire_conflicts,
         "ins_399_by_stratum": ins_399_by_stratum,
         "ins_399_chart_strata": chart_strata,
     }
