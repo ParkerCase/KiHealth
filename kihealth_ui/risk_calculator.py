@@ -1569,6 +1569,146 @@ def _render_prediction_quality_banner(results: dict) -> None:
         )
 
 
+COHORT_CONFIG_PATH = os.path.join(APP_DIR, "cohort_config.json")
+# Prefer bundled UI path (deployed); fall back to local outputs/ for regen workflows.
+COHORT_DASHBOARD_CANDIDATES = [
+    os.path.join(APP_DIR, "cardinal_cohort_dashboard.json"),
+    os.path.join(BASE_DIR, "outputs", "cardinal_cohort_dashboard.json"),
+]
+
+
+def _cohort_dashboard_path() -> str | None:
+    for path in COHORT_DASHBOARD_CANDIDATES:
+        if os.path.isfile(path):
+            return path
+    return None
+
+
+def _should_show_cohort_tab() -> bool:
+    """Show Reference Cohort locally, or on cloud when cohort_config.json sets SHOW_COHORT_DATA."""
+    show_flag = False
+    if os.path.isfile(COHORT_CONFIG_PATH):
+        try:
+            with open(COHORT_CONFIG_PATH, encoding="utf-8") as f:
+                show_flag = json.load(f).get("SHOW_COHORT_DATA", False) is True
+        except (json.JSONDecodeError, OSError):
+            pass
+    is_cloud = bool(
+        os.environ.get("STREAMLIT_SHARING_MODE") == "streamlit-community-cloud"
+        or os.environ.get("STREAMLIT_RUNTIME_ENV") == "cloud"
+    )
+    if is_cloud:
+        return show_flag and _cohort_dashboard_path() is not None
+    return _cohort_dashboard_path() is not None
+
+
+@st.cache_data(show_spinner=False)
+def _load_cohort_dashboard():
+    path = _cohort_dashboard_path()
+    if not path:
+        return None
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _style_follow_up_dataframe(df: pd.DataFrame):
+    def _row_style(row):
+        note = str(row.get("Note", ""))
+        cascade = str(row.get("Cascade", ""))
+        if "URGENT" in note:
+            return ["background-color: #fecaca"] * len(row)
+        if cascade == "High Confidence":
+            return ["background-color: #fed7aa"] * len(row)
+        return [""] * len(row)
+
+    return df.style.apply(_row_style, axis=1)
+
+
+def _follow_up_records_to_dataframe(records: list) -> pd.DataFrame:
+    rows = []
+    for rec in records:
+        rows.append(
+            {
+                "UIN": rec.get("donor_id", ""),
+                "Age": rec.get("age"),
+                "Gender": rec.get("gender", ""),
+                "A1c": rec.get("hba1c"),
+                "INS 399%": rec.get("ins_399"),
+                "Cascade": rec.get("cascade", ""),
+                "Note": rec.get("note", ""),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def _render_reference_cohort_tab(cohort: dict) -> None:
+    summary = cohort.get("summary", {})
+    cascade = cohort.get("cascade_distribution", {})
+    chart_strata = cohort.get("ins_399_chart_strata") or {}
+
+    st.markdown("## Cardinal Health Conference Cohort — July 2026")
+    st.caption(
+        f"{summary.get('total_samples', 38)} walk-up screening samples (non-fasting)"
+    )
+
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("High Confidence Flags", cascade.get("High Confidence", 0))
+    m2.metric("Moderate", cascade.get("Moderate", 0))
+    m3.metric("Low-Moderate", cascade.get("Low-Moderate", 0))
+    m4.metric("Cleared", cascade.get("Cleared", 0))
+
+    if chart_strata:
+        order = [
+            "Normal <5.5",
+            "High-Normal 5.5-5.69",
+            "Prediabetes 5.7-6.49",
+            "Diabetic 6.5+",
+        ]
+        chart_rows = []
+        for label in order:
+            block = chart_strata.get(label, {})
+            if block.get("n", 0) > 0 and block.get("mean") is not None:
+                chart_rows.append({"A1c stratum": label, "Mean INS 399 %": block["mean"]})
+        if chart_rows:
+            chart_df = pd.DataFrame(chart_rows)
+            try:
+                import plotly.express as px
+
+                fig = px.bar(
+                    chart_df,
+                    x="A1c stratum",
+                    y="Mean INS 399 %",
+                    title="INS 399 by A1c Stratum",
+                    color_discrete_sequence=["#2563eb"],
+                )
+                fig.update_layout(showlegend=False, xaxis_title="A1c stratum", yaxis_title="Mean INS 399 %")
+                st.plotly_chart(fig, use_container_width=True)
+            except ImportError:
+                st.bar_chart(chart_df.set_index("A1c stratum"))
+
+    n399 = len(cohort.get("follow_up_list_399", []))
+    with st.expander(f"INS 399 Priority Follow-up List ({n399} candidates)", expanded=True):
+        df399 = _follow_up_records_to_dataframe(cohort.get("follow_up_list_399", []))
+        if df399.empty:
+            st.info("No INS 399 priority candidates in dashboard data.")
+        else:
+            st.dataframe(_style_follow_up_dataframe(df399), use_container_width=True, hide_index=True)
+
+    navg = len(cohort.get("follow_up_list_average", []))
+    with st.expander(f"3-Site Average Priority Follow-up List ({navg} candidates)", expanded=False):
+        dfavg = _follow_up_records_to_dataframe(cohort.get("follow_up_list_average", []))
+        if dfavg.empty:
+            st.info("No 3-site average priority candidates in dashboard data.")
+        else:
+            st.dataframe(_style_follow_up_dataframe(dfavg), use_container_width=True, hide_index=True)
+
+    st.info(
+        "Non-fasting collection: insulin and C-peptide excluded from scoring. "
+        "Foundation model used training-set medians for these features. "
+        "Methylation and A1c are unaffected by fasting status."
+    )
+
+
 def main():
     st.set_page_config(
         page_title="KiHealth Diabetes Risk Calculator (M2-B)",
@@ -1651,11 +1791,19 @@ def main():
         """, unsafe_allow_html=True)
     
     # Create tabs with icons (Results moved inline below Biomarkers)
-    tab1, tab2, tab3 = st.tabs([
+    cohort_data = _load_cohort_dashboard() if _should_show_cohort_tab() else None
+    show_cohort_tab = cohort_data is not None
+    tab_labels = [
         "Pre-Qualifying Questions",
         "Biomarkers & Labs",
-        "Model Information"
-    ])
+        "Model Information",
+    ]
+    if show_cohort_tab:
+        tab_labels.append("Reference Cohort")
+
+    tabs = st.tabs(tab_labels)
+    tab1, tab2, tab3 = tabs[0], tabs[1], tabs[2]
+    tab4 = tabs[3] if show_cohort_tab else None
     
     # Initialize session state
     if "patient_data" not in st.session_state:
@@ -2765,6 +2913,10 @@ def main():
         | `final_cascade_confirmation_model.joblib` | Cascade confirmation model (CONFIG B, V1+V2 — 162 pts) |
         | `final_cascade_confirmation_metrics.json` | Cascade confirmation metrics (V1+V2 cohort) |
         """)
+
+    if show_cohort_tab and tab4 is not None:
+        with tab4:
+            _render_reference_cohort_tab(cohort_data)
 
 
 if __name__ == "__main__":

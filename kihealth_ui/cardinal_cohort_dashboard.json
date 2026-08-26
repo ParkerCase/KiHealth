@@ -1,0 +1,431 @@
+{
+  "summary": {
+    "total_samples": 38,
+    "pct_cfDNA_mean": 89.79,
+    "collection_date": "July 2026",
+    "collection_context": "Conference / walk-up screening (non-fasting)",
+    "ascertained_diabetes": 8,
+    "undiagnosed_dysglycemia": 2,
+    "unascertained_high_signal": 13,
+    "cleared": 11
+  },
+  "cascade_distribution": {
+    "High Confidence": 11,
+    "Moderate": 6,
+    "Low-Moderate": 10,
+    "Cleared": 11
+  },
+  "follow_up_list_399": [
+    {
+      "donor_id": "715603",
+      "age": 58.5,
+      "gender": "Female",
+      "hba1c": 5.51,
+      "ins_399": 34.18,
+      "average_3site": 47.1,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "109384",
+      "age": 17.6,
+      "gender": "Female",
+      "hba1c": 5.52,
+      "ins_399": 29.88,
+      "average_3site": 29.69,
+      "cascade": "High Confidence",
+      "note": "Note: Minor - possible T1D screening indicated"
+    },
+    {
+      "donor_id": "138641",
+      "age": 56.4,
+      "gender": "Male",
+      "hba1c": 7.57,
+      "ins_399": 27.38,
+      "average_3site": 23.34,
+      "cascade": "High Confidence",
+      "note": "URGENT: Undiagnosed diabetes (A1c 7.57)"
+    },
+    {
+      "donor_id": "804935",
+      "age": 35.3,
+      "gender": "Female",
+      "hba1c": 5.0,
+      "ins_399": 26.77,
+      "average_3site": 19.17,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "531762",
+      "age": 50.9,
+      "gender": "Female",
+      "hba1c": 5.3,
+      "ins_399": 25.22,
+      "average_3site": 22.75,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "672540",
+      "age": 61.4,
+      "gender": "Female",
+      "hba1c": 5.63,
+      "ins_399": 24.12,
+      "average_3site": 27.9,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "149872",
+      "age": 67.2,
+      "gender": "Male",
+      "hba1c": 5.43,
+      "ins_399": 23.79,
+      "average_3site": 23.13,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "127395",
+      "age": 67.1,
+      "gender": "Female",
+      "hba1c": 5.55,
+      "ins_399": 22.61,
+      "average_3site": 24.7,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "269418",
+      "age": 43.3,
+      "gender": "Female",
+      "hba1c": 5.41,
+      "ins_399": 21.78,
+      "average_3site": 17.6,
+      "cascade": "Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "239704",
+      "age": 45.5,
+      "gender": "Female",
+      "hba1c": 5.36,
+      "ins_399": 20.31,
+      "average_3site": 16.14,
+      "cascade": "Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "171526",
+      "age": 49.5,
+      "gender": "Male",
+      "hba1c": 5.3,
+      "ins_399": 19.27,
+      "average_3site": 22.64,
+      "cascade": "Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "114762",
+      "age": 53.9,
+      "gender": "Male",
+      "hba1c": 5.12,
+      "ins_399": 18.0,
+      "average_3site": 19.81,
+      "cascade": "Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "234560",
+      "age": 41.6,
+      "gender": "Male",
+      "hba1c": 5.13,
+      "ins_399": 17.55,
+      "average_3site": 20.13,
+      "cascade": "Low-Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "758612",
+      "age": 30.0,
+      "gender": "Male",
+      "hba1c": 5.92,
+      "ins_399": 15.97,
+      "average_3site": 14.87,
+      "cascade": "Moderate",
+      "note": "URGENT: Undiagnosed prediabetes (A1c 5.92)"
+    },
+    {
+      "donor_id": "428759",
+      "age": 48.3,
+      "gender": "Male",
+      "hba1c": 5.56,
+      "ins_399": 15.36,
+      "average_3site": 15.65,
+      "cascade": "Low-Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "178293",
+      "age": 38.6,
+      "gender": "Female",
+      "hba1c": 5.16,
+      "ins_399": 12.05,
+      "average_3site": 12.66,
+      "cascade": "Low-Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "648927",
+      "age": 55.1,
+      "gender": "Female",
+      "hba1c": 5.4,
+      "ins_399": 10.66,
+      "average_3site": 3.55,
+      "cascade": "Low-Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    }
+  ],
+  "follow_up_list_average": [
+    {
+      "donor_id": "715603",
+      "age": 58.5,
+      "gender": "Female",
+      "hba1c": 5.51,
+      "ins_399": 34.18,
+      "average_3site": 47.1,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "109384",
+      "age": 17.6,
+      "gender": "Female",
+      "hba1c": 5.52,
+      "ins_399": 29.88,
+      "average_3site": 29.69,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "672540",
+      "age": 61.4,
+      "gender": "Female",
+      "hba1c": 5.63,
+      "ins_399": 24.12,
+      "average_3site": 27.9,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "127395",
+      "age": 67.1,
+      "gender": "Female",
+      "hba1c": 5.55,
+      "ins_399": 22.61,
+      "average_3site": 24.7,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "138641",
+      "age": 56.4,
+      "gender": "Male",
+      "hba1c": 7.57,
+      "ins_399": 27.38,
+      "average_3site": 23.34,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "149872",
+      "age": 67.2,
+      "gender": "Male",
+      "hba1c": 5.43,
+      "ins_399": 23.79,
+      "average_3site": 23.13,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "531762",
+      "age": 50.9,
+      "gender": "Female",
+      "hba1c": 5.3,
+      "ins_399": 25.22,
+      "average_3site": 22.75,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "171526",
+      "age": 49.5,
+      "gender": "Male",
+      "hba1c": 5.3,
+      "ins_399": 19.27,
+      "average_3site": 22.64,
+      "cascade": "Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "234560",
+      "age": 41.6,
+      "gender": "Male",
+      "hba1c": 5.13,
+      "ins_399": 17.55,
+      "average_3site": 20.13,
+      "cascade": "Low-Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "114762",
+      "age": 53.9,
+      "gender": "Male",
+      "hba1c": 5.12,
+      "ins_399": 18.0,
+      "average_3site": 19.81,
+      "cascade": "Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "804935",
+      "age": 35.3,
+      "gender": "Female",
+      "hba1c": 5.0,
+      "ins_399": 26.77,
+      "average_3site": 19.17,
+      "cascade": "High Confidence",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "269418",
+      "age": 43.3,
+      "gender": "Female",
+      "hba1c": 5.41,
+      "ins_399": 21.78,
+      "average_3site": 17.6,
+      "cascade": "Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "420975",
+      "age": 35.8,
+      "gender": "Male",
+      "hba1c": 5.33,
+      "ins_399": 9.49,
+      "average_3site": 17.27,
+      "cascade": "Low-Moderate",
+      "note": "Early signal: high 3-site average"
+    },
+    {
+      "donor_id": "239704",
+      "age": 45.5,
+      "gender": "Female",
+      "hba1c": 5.36,
+      "ins_399": 20.31,
+      "average_3site": 16.14,
+      "cascade": "Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "795201",
+      "age": 54.3,
+      "gender": "Male",
+      "hba1c": 5.12,
+      "ins_399": 7.73,
+      "average_3site": 15.97,
+      "cascade": "Low-Moderate",
+      "note": "Early signal: high 3-site average"
+    },
+    {
+      "donor_id": "428759",
+      "age": 48.3,
+      "gender": "Male",
+      "hba1c": 5.56,
+      "ins_399": 15.36,
+      "average_3site": 15.65,
+      "cascade": "Low-Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "758612",
+      "age": 30.0,
+      "gender": "Male",
+      "hba1c": 5.92,
+      "ins_399": 15.97,
+      "average_3site": 14.87,
+      "cascade": "Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "182943",
+      "age": 61.6,
+      "gender": "Female",
+      "hba1c": 5.31,
+      "ins_399": 0.0,
+      "average_3site": 12.93,
+      "cascade": "Cleared",
+      "note": "INS 399 = 0, signal driven by other sites"
+    },
+    {
+      "donor_id": "178293",
+      "age": 38.6,
+      "gender": "Female",
+      "hba1c": 5.16,
+      "ins_399": 12.05,
+      "average_3site": 12.66,
+      "cascade": "Low-Moderate",
+      "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "501386",
+      "age": 29.6,
+      "gender": "Female",
+      "hba1c": 5.06,
+      "ins_399": 2.82,
+      "average_3site": 11.4,
+      "cascade": "Cleared",
+      "note": "INS 399 = 2.8, signal driven by other sites"
+    }
+  ],
+  "ins_399_by_stratum": {
+    "normal_a1c": {
+      "mean": 12.84,
+      "median": 11.36,
+      "n": 32
+    },
+    "prediabetes_a1c": {
+      "mean": 8.79,
+      "median": 9.59,
+      "n": 4
+    },
+    "diabetic_a1c": {
+      "mean": 20.15,
+      "median": 20.15,
+      "n": 2
+    }
+  },
+  "ins_399_chart_strata": {
+    "Normal <5.5": {
+      "mean": 10.8,
+      "median": 8.92,
+      "n": 24
+    },
+    "High-Normal 5.5-5.69": {
+      "mean": 18.95,
+      "median": 23.36,
+      "n": 8
+    },
+    "Prediabetes 5.7-6.49": {
+      "mean": 8.79,
+      "median": 9.59,
+      "n": 4
+    },
+    "Diabetic 6.5+": {
+      "mean": 20.15,
+      "median": 20.15,
+      "n": 2
+    }
+  }
+}
