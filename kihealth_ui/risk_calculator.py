@@ -67,7 +67,7 @@ CASCADE_CONFIRMATION_MODEL_PATH = os.path.join(MODEL_DIR, "final_cascade_confirm
 CASCADE_CONFIRMATION_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_confirmation_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-06-12-cascade-final-production"
+DEPLOY_VERSION = "2026-08-26-cohort-urgent-notes"
 
 # KiHealth validation cohort composition (UI documentation only; models unchanged)
 V1_VALIDATION_DATASET = {
@@ -1603,7 +1603,8 @@ def _should_show_cohort_tab() -> bool:
 
 
 @st.cache_data(show_spinner=False)
-def _load_cohort_dashboard():
+def _load_cohort_dashboard(_deploy_version: str = DEPLOY_VERSION):
+    """Load bundled cohort JSON. _deploy_version busts Streamlit cache on redeploy."""
     path = _cohort_dashboard_path()
     if not path:
         return None
@@ -1616,7 +1617,7 @@ def _style_follow_up_dataframe(df: pd.DataFrame):
         note = str(row.get("Note", ""))
         cascade = str(row.get("Cascade", ""))
         if "URGENT" in note:
-            return ["background-color: #fecaca"] * len(row)
+            return ["background-color: #fecaca; color: #7f1d1d"] * len(row)
         if cascade == "High Confidence":
             return ["background-color: #fed7aa"] * len(row)
         return [""] * len(row)
@@ -1632,15 +1633,24 @@ def _follow_up_records_to_dataframe(
 ) -> pd.DataFrame:
     rows = []
     for rec in records:
+        note = rec.get("note", "") or ""
+        hba1c = rec.get("hba1c")
+        if "URGENT" in note:
+            priority = "URGENT"
+        elif rec.get("cascade") == "High Confidence":
+            priority = "High Confidence"
+        else:
+            priority = "Follow-up"
         rows.append(
             {
+                "Priority": priority,
                 "UIN": rec.get("donor_id", ""),
                 "Age": rec.get("age"),
                 "Gender": rec.get("gender", ""),
-                "A1c": rec.get("hba1c"),
+                "A1c": hba1c,
                 score_label: rec.get(score_field),
                 "Cascade": rec.get("cascade", ""),
-                "Note": rec.get("note", ""),
+                "Note": note,
             }
         )
     return pd.DataFrame(rows)
@@ -1716,6 +1726,7 @@ def _render_reference_cohort_tab(cohort: dict) -> None:
         "Foundation model used training-set medians for these features. "
         "Methylation and A1c are unaffected by fasting status."
     )
+    st.caption(f"Cohort data build: {DEPLOY_VERSION}")
 
 
 def main():
@@ -1800,7 +1811,7 @@ def main():
         """, unsafe_allow_html=True)
     
     # Create tabs with icons (Results moved inline below Biomarkers)
-    cohort_data = _load_cohort_dashboard() if _should_show_cohort_tab() else None
+    cohort_data = _load_cohort_dashboard(DEPLOY_VERSION) if _should_show_cohort_tab() else None
     show_cohort_tab = cohort_data is not None
     tab_labels = [
         "Pre-Qualifying Questions",
