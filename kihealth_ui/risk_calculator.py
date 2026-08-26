@@ -67,7 +67,7 @@ CASCADE_CONFIRMATION_MODEL_PATH = os.path.join(MODEL_DIR, "final_cascade_confirm
 CASCADE_CONFIRMATION_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_confirmation_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-08-26-cohort-urgent-v2"
+DEPLOY_VERSION = "2026-08-26-cohort-no-t1d-label"
 
 # KiHealth validation cohort composition (UI documentation only; models unchanged)
 V1_VALIDATION_DATASET = {
