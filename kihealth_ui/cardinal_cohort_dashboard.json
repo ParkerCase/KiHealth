@@ -7,7 +7,10 @@
     "ascertained_diabetes": 8,
     "undiagnosed_dysglycemia": 2,
     "unascertained_high_signal": 13,
-    "cleared": 11
+    "cleared": 11,
+    "diabetes_self_report_yes": 7,
+    "self_report_conflicts": 9,
+    "excluded_clean_yes_enrollment": 1
   },
   "cascade_distribution": {
     "High Confidence": 11,
@@ -24,6 +27,10 @@
       "ins_399": 34.18,
       "average_3site": 47.1,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -34,6 +41,10 @@
       "ins_399": 29.88,
       "average_3site": 29.69,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "High INS 399 with normal A1c \u2014 clinical follow-up recommended"
     },
     {
@@ -44,7 +55,14 @@
       "ins_399": 27.38,
       "average_3site": 23.34,
       "cascade": "High Confidence",
-      "note": "URGENT: Undiagnosed diabetes (A1c 7.57)"
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "in Year 2000 approx",
+      "self_report_conflicts": [
+        "Diabetes=No but T2D=in Year 2000 approx",
+        "Diabetes=No but A1c 7.57"
+      ],
+      "note": "URGENT: Undiagnosed diabetes \u2014 Diabetes=No but T2D=in Year 2000 approx; Diabetes=No but A1c 7.57"
     },
     {
       "donor_id": "804935",
@@ -54,7 +72,28 @@
       "ins_399": 26.77,
       "average_3site": 19.17,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "829640",
+      "age": 52.3,
+      "gender": "Male",
+      "hba1c": 5.65,
+      "ins_399": 25.49,
+      "average_3site": 19.13,
+      "cascade": "High Confidence",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No",
+        "Diabetes=Yes but A1c normal (5.65)"
+      ],
+      "note": "Self-report conflict \u2014 Diabetes=Yes but T1/T2 dates all No; Diabetes=Yes but A1c normal (5.65)"
     },
     {
       "donor_id": "531762",
@@ -64,6 +103,10 @@
       "ins_399": 25.22,
       "average_3site": 22.75,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -74,6 +117,10 @@
       "ins_399": 24.12,
       "average_3site": 27.9,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -84,6 +131,10 @@
       "ins_399": 23.79,
       "average_3site": 23.13,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -94,7 +145,28 @@
       "ins_399": 22.61,
       "average_3site": 24.7,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "228519",
+      "age": 46.7,
+      "gender": "Female",
+      "hba1c": 5.17,
+      "ins_399": 22.27,
+      "average_3site": 27.63,
+      "cascade": "Moderate",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No",
+        "Diabetes=Yes but A1c normal (5.17)"
+      ],
+      "note": "Self-report conflict \u2014 Diabetes=Yes but T1/T2 dates all No; Diabetes=Yes but A1c normal (5.17)"
     },
     {
       "donor_id": "269418",
@@ -104,6 +176,10 @@
       "ins_399": 21.78,
       "average_3site": 17.6,
       "cascade": "Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -114,6 +190,10 @@
       "ins_399": 20.31,
       "average_3site": 16.14,
       "cascade": "Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -124,6 +204,10 @@
       "ins_399": 19.27,
       "average_3site": 22.64,
       "cascade": "Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -134,6 +218,10 @@
       "ins_399": 18.0,
       "average_3site": 19.81,
       "cascade": "Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -144,6 +232,10 @@
       "ins_399": 17.55,
       "average_3site": 20.13,
       "cascade": "Low-Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -154,7 +246,13 @@
       "ins_399": 15.97,
       "average_3site": 14.87,
       "cascade": "Moderate",
-      "note": "URGENT: Undiagnosed prediabetes (A1c 5.92)"
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=No but A1c 5.92"
+      ],
+      "note": "URGENT: Undiagnosed prediabetes \u2014 Diabetes=No but A1c 5.92"
     },
     {
       "donor_id": "428759",
@@ -164,7 +262,27 @@
       "ins_399": 15.36,
       "average_3site": 15.65,
       "cascade": "Low-Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "194580",
+      "age": 71.4,
+      "gender": "Female",
+      "hba1c": 6.35,
+      "ins_399": 13.83,
+      "average_3site": 18.63,
+      "cascade": "High Confidence",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No"
+      ],
+      "note": "Self-report conflict \u2014 Diabetes=Yes but T1/T2 dates all No"
     },
     {
       "donor_id": "178293",
@@ -174,6 +292,10 @@
       "ins_399": 12.05,
       "average_3site": 12.66,
       "cascade": "Low-Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -184,6 +306,10 @@
       "ins_399": 10.66,
       "average_3site": 3.55,
       "cascade": "Low-Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     }
   ],
@@ -196,6 +322,10 @@
       "ins_399": 34.18,
       "average_3site": 47.1,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -206,6 +336,10 @@
       "ins_399": 29.88,
       "average_3site": 29.69,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "High INS 399 with normal A1c \u2014 clinical follow-up recommended"
     },
     {
@@ -216,7 +350,28 @@
       "ins_399": 24.12,
       "average_3site": 27.9,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "228519",
+      "age": 46.7,
+      "gender": "Female",
+      "hba1c": 5.17,
+      "ins_399": 22.27,
+      "average_3site": 27.63,
+      "cascade": "Moderate",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No",
+        "Diabetes=Yes but A1c normal (5.17)"
+      ],
+      "note": "Self-report conflict \u2014 Diabetes=Yes but T1/T2 dates all No; Diabetes=Yes but A1c normal (5.17)"
     },
     {
       "donor_id": "127395",
@@ -226,6 +381,10 @@
       "ins_399": 22.61,
       "average_3site": 24.7,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -236,7 +395,14 @@
       "ins_399": 27.38,
       "average_3site": 23.34,
       "cascade": "High Confidence",
-      "note": "URGENT: Undiagnosed diabetes (A1c 7.57)"
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "in Year 2000 approx",
+      "self_report_conflicts": [
+        "Diabetes=No but T2D=in Year 2000 approx",
+        "Diabetes=No but A1c 7.57"
+      ],
+      "note": "URGENT: Undiagnosed diabetes \u2014 Diabetes=No but T2D=in Year 2000 approx; Diabetes=No but A1c 7.57"
     },
     {
       "donor_id": "149872",
@@ -246,6 +412,10 @@
       "ins_399": 23.79,
       "average_3site": 23.13,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -256,6 +426,10 @@
       "ins_399": 25.22,
       "average_3site": 22.75,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -266,6 +440,10 @@
       "ins_399": 19.27,
       "average_3site": 22.64,
       "cascade": "Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -276,6 +454,10 @@
       "ins_399": 17.55,
       "average_3site": 20.13,
       "cascade": "Low-Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -286,6 +468,10 @@
       "ins_399": 18.0,
       "average_3site": 19.81,
       "cascade": "Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -296,7 +482,44 @@
       "ins_399": 26.77,
       "average_3site": 19.17,
       "cascade": "High Confidence",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
+    },
+    {
+      "donor_id": "829640",
+      "age": 52.3,
+      "gender": "Male",
+      "hba1c": 5.65,
+      "ins_399": 25.49,
+      "average_3site": 19.13,
+      "cascade": "High Confidence",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No",
+        "Diabetes=Yes but A1c normal (5.65)"
+      ],
+      "note": "Self-report conflict \u2014 Diabetes=Yes but T1/T2 dates all No; Diabetes=Yes but A1c normal (5.65)"
+    },
+    {
+      "donor_id": "194580",
+      "age": 71.4,
+      "gender": "Female",
+      "hba1c": 6.35,
+      "ins_399": 13.83,
+      "average_3site": 18.63,
+      "cascade": "High Confidence",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No"
+      ],
+      "note": "Self-report conflict \u2014 Diabetes=Yes but T1/T2 dates all No"
     },
     {
       "donor_id": "269418",
@@ -306,6 +529,10 @@
       "ins_399": 21.78,
       "average_3site": 17.6,
       "cascade": "Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -316,6 +543,10 @@
       "ins_399": 9.49,
       "average_3site": 17.27,
       "cascade": "Low-Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high 3-site average"
     },
     {
@@ -326,6 +557,10 @@
       "ins_399": 20.31,
       "average_3site": 16.14,
       "cascade": "Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -336,6 +571,10 @@
       "ins_399": 7.73,
       "average_3site": 15.97,
       "cascade": "Low-Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high 3-site average"
     },
     {
@@ -346,6 +585,10 @@
       "ins_399": 15.36,
       "average_3site": 15.65,
       "cascade": "Low-Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -356,7 +599,30 @@
       "ins_399": 15.97,
       "average_3site": 14.87,
       "cascade": "Moderate",
-      "note": "URGENT: Undiagnosed prediabetes (A1c 5.92)"
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=No but A1c 5.92"
+      ],
+      "note": "URGENT: Undiagnosed prediabetes \u2014 Diabetes=No but A1c 5.92"
+    },
+    {
+      "donor_id": "217864",
+      "age": 41.7,
+      "gender": "Female",
+      "hba1c": 5.3,
+      "ins_399": 8.34,
+      "average_3site": 14.07,
+      "cascade": "Low-Moderate",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No",
+        "Diabetes=Yes but A1c normal (5.30)"
+      ],
+      "note": "Self-report conflict \u2014 Diabetes=Yes but T1/T2 dates all No; Diabetes=Yes but A1c normal (5.30)"
     },
     {
       "donor_id": "182943",
@@ -366,6 +632,10 @@
       "ins_399": 0.0,
       "average_3site": 12.93,
       "cascade": "Cleared",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "INS 399 = 0, signal driven by other sites"
     },
     {
@@ -376,6 +646,10 @@
       "ins_399": 12.05,
       "average_3site": 12.66,
       "cascade": "Low-Moderate",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "Early signal: A1c normal, high INS 399"
     },
     {
@@ -386,7 +660,187 @@
       "ins_399": 2.82,
       "average_3site": 11.4,
       "cascade": "Cleared",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [],
       "note": "INS 399 = 2.8, signal driven by other sites"
+    },
+    {
+      "donor_id": "891306",
+      "age": 39.2,
+      "gender": "Male",
+      "hba1c": 5.85,
+      "ins_399": 5.34,
+      "average_3site": 10.76,
+      "cascade": "Low-Moderate",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "self_report_conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No"
+      ],
+      "note": "Self-report conflict \u2014 Diabetes=Yes but T1/T2 dates all No"
+    }
+  ],
+  "self_report_conflicts": [
+    {
+      "donor_id": "987104",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "07/01/2022",
+      "hba1c": 5.48,
+      "ins_399": 0.0,
+      "average_3site": 0.28,
+      "conflicts": [
+        "Diabetes=No but T2D=07/01/2022"
+      ],
+      "excluded_from_enrollment": false,
+      "note": "Diabetes=No but T2D=07/01/2022"
+    },
+    {
+      "donor_id": "758612",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "hba1c": 5.92,
+      "ins_399": 15.97,
+      "average_3site": 14.87,
+      "conflicts": [
+        "Diabetes=No but A1c 5.92"
+      ],
+      "excluded_from_enrollment": false,
+      "note": "Diabetes=No but A1c 5.92"
+    },
+    {
+      "donor_id": "891306",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "hba1c": 5.85,
+      "ins_399": 5.34,
+      "average_3site": 10.76,
+      "conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No"
+      ],
+      "excluded_from_enrollment": false,
+      "note": "Diabetes=Yes but T1/T2 dates all No"
+    },
+    {
+      "donor_id": "829640",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "hba1c": 5.65,
+      "ins_399": 25.49,
+      "average_3site": 19.13,
+      "conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No",
+        "Diabetes=Yes but A1c normal (5.65)"
+      ],
+      "excluded_from_enrollment": false,
+      "note": "Diabetes=Yes but T1/T2 dates all No; Diabetes=Yes but A1c normal (5.65)"
+    },
+    {
+      "donor_id": "138641",
+      "diabetes_self_report": "No",
+      "t1d_self_report": "No",
+      "t2d_self_report": "in Year 2000 approx",
+      "hba1c": 7.57,
+      "ins_399": 27.38,
+      "average_3site": 23.34,
+      "conflicts": [
+        "Diabetes=No but T2D=in Year 2000 approx",
+        "Diabetes=No but A1c 7.57"
+      ],
+      "excluded_from_enrollment": false,
+      "note": "Diabetes=No but T2D=in Year 2000 approx; Diabetes=No but A1c 7.57"
+    },
+    {
+      "donor_id": "194580",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "hba1c": 6.35,
+      "ins_399": 13.83,
+      "average_3site": 18.63,
+      "conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No"
+      ],
+      "excluded_from_enrollment": false,
+      "note": "Diabetes=Yes but T1/T2 dates all No"
+    },
+    {
+      "donor_id": "217864",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "hba1c": 5.3,
+      "ins_399": 8.34,
+      "average_3site": 14.07,
+      "conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No",
+        "Diabetes=Yes but A1c normal (5.30)"
+      ],
+      "excluded_from_enrollment": false,
+      "note": "Diabetes=Yes but T1/T2 dates all No; Diabetes=Yes but A1c normal (5.30)"
+    },
+    {
+      "donor_id": "228519",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "hba1c": 5.17,
+      "ins_399": 22.27,
+      "average_3site": 27.63,
+      "conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No",
+        "Diabetes=Yes but A1c normal (5.17)"
+      ],
+      "excluded_from_enrollment": false,
+      "note": "Diabetes=Yes but T1/T2 dates all No; Diabetes=Yes but A1c normal (5.17)"
+    },
+    {
+      "donor_id": "243618",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "No",
+      "hba1c": 6.01,
+      "ins_399": 0.0,
+      "average_3site": 0.0,
+      "conflicts": [
+        "Diabetes=Yes but T1/T2 dates all No"
+      ],
+      "excluded_from_enrollment": false,
+      "note": "Diabetes=Yes but T1/T2 dates all No"
+    }
+  ],
+  "excluded_from_enrollment": [
+    {
+      "donor_id": "360574",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "yes 2022",
+      "hba1c": 6.68,
+      "ins_399": 12.92,
+      "average_3site": 14.16,
+      "conflicts": [],
+      "excluded_from_enrollment": true,
+      "note": "Already diagnosed (consistent Yes) \u2014 not for longitudinal enrollment"
+    }
+  ],
+  "excluded_high_signal": [
+    {
+      "donor_id": "360574",
+      "diabetes_self_report": "Yes",
+      "t1d_self_report": "No",
+      "t2d_self_report": "yes 2022",
+      "hba1c": 6.68,
+      "ins_399": 12.92,
+      "average_3site": 14.16,
+      "conflicts": [],
+      "excluded_from_enrollment": true,
+      "note": "Already diagnosed (consistent Yes) \u2014 not for longitudinal enrollment"
     }
   ],
   "ins_399_by_stratum": {

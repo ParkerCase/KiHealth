@@ -67,7 +67,7 @@ CASCADE_CONFIRMATION_MODEL_PATH = os.path.join(MODEL_DIR, "final_cascade_confirm
 CASCADE_CONFIRMATION_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_confirmation_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-08-26-cohort-3site-columns"
+DEPLOY_VERSION = "2026-08-26-cohort-self-report"
 
 # KiHealth validation cohort composition (UI documentation only; models unchanged)
 V1_VALIDATION_DATASET = {
@@ -1619,6 +1619,8 @@ def _style_follow_up_dataframe(df: pd.DataFrame):
         priority = str(row.get("Priority", ""))
         if priority == "URGENT" or "URGENT" in note:
             return ["background-color: #fecaca"] * len(row)
+        if "Self-report conflict" in note or priority == "Conflict":
+            return ["background-color: #fef3c7"] * len(row)
         if cascade == "High Confidence" or priority == "High Confidence":
             return ["background-color: #fed7aa"] * len(row)
         return [""] * len(row)
@@ -1633,8 +1635,11 @@ def _follow_up_records_to_dataframe(records: list) -> pd.DataFrame:
     rows = []
     for rec in records:
         note = rec.get("note", "") or ""
+        conflicts = rec.get("self_report_conflicts") or []
         if "URGENT" in note:
             priority = "URGENT"
+        elif conflicts or "Self-report conflict" in note:
+            priority = "Conflict"
         elif rec.get("cascade") == "High Confidence":
             priority = "High Confidence"
         else:
@@ -1645,11 +1650,32 @@ def _follow_up_records_to_dataframe(records: list) -> pd.DataFrame:
                 "UIN": rec.get("donor_id", ""),
                 "Age": rec.get("age"),
                 "Gender": rec.get("gender", ""),
+                "Diabetes?": rec.get("diabetes_self_report", ""),
+                "T1D": rec.get("t1d_self_report", ""),
+                "T2D": rec.get("t2d_self_report", ""),
                 "A1c": rec.get("hba1c"),
                 "INS 399": rec.get("ins_399"),
                 "3-Site Avg": rec.get("average_3site"),
                 "Cascade": rec.get("cascade", ""),
                 "Note": note,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def _self_report_records_to_dataframe(records: list) -> pd.DataFrame:
+    rows = []
+    for rec in records:
+        rows.append(
+            {
+                "UIN": rec.get("donor_id", ""),
+                "Diabetes?": rec.get("diabetes_self_report", ""),
+                "T1D": rec.get("t1d_self_report", ""),
+                "T2D": rec.get("t2d_self_report", ""),
+                "A1c": rec.get("hba1c"),
+                "INS 399": rec.get("ins_399"),
+                "3-Site Avg": rec.get("average_3site"),
+                "Note": rec.get("note", ""),
             }
         )
     return pd.DataFrame(rows)
@@ -1676,6 +1702,9 @@ def _render_follow_up_table(records: list) -> None:
             "UIN": st.column_config.TextColumn(width="small"),
             "Age": st.column_config.NumberColumn(width="small", format="%.1f"),
             "Gender": st.column_config.TextColumn(width="small"),
+            "Diabetes?": st.column_config.TextColumn(width="small"),
+            "T1D": st.column_config.TextColumn(width="medium"),
+            "T2D": st.column_config.TextColumn(width="medium"),
             "A1c": st.column_config.NumberColumn(width="small", format="%.2f"),
             "INS 399": st.column_config.NumberColumn(width="small", format="%.2f"),
             "3-Site Avg": st.column_config.NumberColumn(width="small", format="%.2f"),
@@ -1700,6 +1729,45 @@ def _render_reference_cohort_tab(cohort: dict) -> None:
     m2.metric("Moderate", cascade.get("Moderate", 0))
     m3.metric("Low-Moderate", cascade.get("Low-Moderate", 0))
     m4.metric("Cleared", cascade.get("Cleared", 0))
+
+    sr_summary = summary.get("self_report_conflicts", 0)
+    if sr_summary:
+        st.caption(
+            f"Diabetes self-report: {summary.get('diabetes_self_report_yes', 0)} Yes · "
+            f"{sr_summary} with questionnaire conflicts · "
+            f"{summary.get('excluded_clean_yes_enrollment', 0)} consistent Yes (excluded from enrollment lists)"
+        )
+
+    conflicts = cohort.get("self_report_conflicts") or []
+    if conflicts:
+        with st.expander(f"Self-report conflicts ({len(conflicts)} donors)", expanded=False):
+            st.caption(
+                "Questionnaire answers disagree across diabetes diagnosis, T1/T2 dates, and/or A1c. "
+                "Eligible donors with high methylation appear in the follow-up lists below."
+            )
+            st.dataframe(
+                _self_report_records_to_dataframe(conflicts),
+                use_container_width=True,
+                hide_index=True,
+            )
+
+    excluded = cohort.get("excluded_from_enrollment") or []
+    excluded_high = cohort.get("excluded_high_signal") or []
+    if excluded:
+        with st.expander(
+            f"Already diagnosed — excluded from enrollment ({len(excluded)} donors, "
+            f"{len(excluded_high)} with high methylation signal)",
+            expanded=False,
+        ):
+            st.caption(
+                "These donors answered Yes consistently on the questionnaire (no conflicting fields). "
+                "They are not candidates for longitudinal enrollment, even if methylation is elevated."
+            )
+            st.dataframe(
+                _self_report_records_to_dataframe(excluded),
+                use_container_width=True,
+                hide_index=True,
+            )
 
     if chart_strata:
         order = [
