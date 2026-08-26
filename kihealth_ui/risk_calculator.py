@@ -1624,7 +1624,12 @@ def _style_follow_up_dataframe(df: pd.DataFrame):
     return df.style.apply(_row_style, axis=1)
 
 
-def _follow_up_records_to_dataframe(records: list) -> pd.DataFrame:
+def _follow_up_records_to_dataframe(
+    records: list,
+    *,
+    score_field: str = "ins_399",
+    score_label: str = "INS 399%",
+) -> pd.DataFrame:
     rows = []
     for rec in records:
         rows.append(
@@ -1633,7 +1638,7 @@ def _follow_up_records_to_dataframe(records: list) -> pd.DataFrame:
                 "Age": rec.get("age"),
                 "Gender": rec.get("gender", ""),
                 "A1c": rec.get("hba1c"),
-                "INS 399%": rec.get("ins_399"),
+                score_label: rec.get(score_field),
                 "Cascade": rec.get("cascade", ""),
                 "Note": rec.get("note", ""),
             }
@@ -1696,7 +1701,11 @@ def _render_reference_cohort_tab(cohort: dict) -> None:
 
     navg = len(cohort.get("follow_up_list_average", []))
     with st.expander(f"3-Site Average Priority Follow-up List ({navg} candidates)", expanded=False):
-        dfavg = _follow_up_records_to_dataframe(cohort.get("follow_up_list_average", []))
+        dfavg = _follow_up_records_to_dataframe(
+            cohort.get("follow_up_list_average", []),
+            score_field="average_3site",
+            score_label="3-Site Avg%",
+        )
         if dfavg.empty:
             st.info("No 3-site average priority candidates in dashboard data.")
         else:
