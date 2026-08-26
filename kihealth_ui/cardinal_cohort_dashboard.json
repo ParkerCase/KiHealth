@@ -206,7 +206,7 @@
       "ins_399": 29.88,
       "average_3site": 29.69,
       "cascade": "High Confidence",
-      "note": "Early signal: A1c normal, high INS 399"
+      "note": "Note: Minor - possible T1D screening indicated"
     },
     {
       "donor_id": "672540",
@@ -236,7 +236,7 @@
       "ins_399": 27.38,
       "average_3site": 23.34,
       "cascade": "High Confidence",
-      "note": "Early signal: A1c normal, high INS 399"
+      "note": "URGENT: Undiagnosed diabetes (A1c 7.57)"
     },
     {
       "donor_id": "149872",
@@ -316,7 +316,7 @@
       "ins_399": 9.49,
       "average_3site": 17.27,
       "cascade": "Low-Moderate",
-      "note": "Early signal: high 3-site average"
+      "note": "Early signal: A1c normal, high 3-site average"
     },
     {
       "donor_id": "239704",
@@ -336,7 +336,7 @@
       "ins_399": 7.73,
       "average_3site": 15.97,
       "cascade": "Low-Moderate",
-      "note": "Early signal: high 3-site average"
+      "note": "Early signal: A1c normal, high 3-site average"
     },
     {
       "donor_id": "428759",
@@ -356,7 +356,7 @@
       "ins_399": 15.97,
       "average_3site": 14.87,
       "cascade": "Moderate",
-      "note": "Early signal: A1c normal, high INS 399"
+      "note": "URGENT: Undiagnosed prediabetes (A1c 5.92)"
     },
     {
       "donor_id": "182943",

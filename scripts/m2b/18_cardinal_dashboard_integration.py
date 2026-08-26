@@ -105,11 +105,14 @@ def note_399(donor_id: str) -> str:
 
 
 def note_avg(donor_id: str, ins_399: float) -> str:
+    # Same clinical notes as the INS 399 list when a donor appears in both.
+    if donor_id in NOTES_399:
+        return NOTES_399[donor_id]
     if donor_id in NOTES_AVG:
         return NOTES_AVG[donor_id]
     if pd.notna(ins_399) and ins_399 >= FOLLOW_UP_THRESHOLD:
         return "Early signal: A1c normal, high INS 399"
-    return "Early signal: high 3-site average"
+    return "Early signal: A1c normal, high 3-site average"
 
 
 def build_follow_up_row(row: pd.Series, note: str) -> dict:
