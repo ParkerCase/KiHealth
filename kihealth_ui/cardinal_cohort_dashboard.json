@@ -408,24 +408,48 @@
   },
   "ins_399_chart_strata": {
     "Normal <5.5": {
-      "mean": 10.8,
-      "median": 8.92,
-      "n": 24
+      "n": 24,
+      "ins_399": {
+        "mean": 10.8,
+        "median": 8.92
+      },
+      "average_3site": {
+        "mean": 13.09,
+        "median": 13.5
+      }
     },
     "High-Normal 5.5-5.69": {
-      "mean": 18.95,
-      "median": 23.36,
-      "n": 8
+      "n": 8,
+      "ins_399": {
+        "mean": 18.95,
+        "median": 23.36
+      },
+      "average_3site": {
+        "mean": 22.34,
+        "median": 21.91
+      }
     },
     "Prediabetes 5.7-6.49": {
-      "mean": 8.79,
-      "median": 9.59,
-      "n": 4
+      "n": 4,
+      "ins_399": {
+        "mean": 8.79,
+        "median": 9.59
+      },
+      "average_3site": {
+        "mean": 11.06,
+        "median": 12.82
+      }
     },
     "Diabetic 6.5+": {
-      "mean": 20.15,
-      "median": 20.15,
-      "n": 2
+      "n": 2,
+      "ins_399": {
+        "mean": 20.15,
+        "median": 20.15
+      },
+      "average_3site": {
+        "mean": 18.75,
+        "median": 18.75
+      }
     }
   }
 }

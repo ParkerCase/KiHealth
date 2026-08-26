@@ -67,7 +67,7 @@ CASCADE_CONFIRMATION_MODEL_PATH = os.path.join(MODEL_DIR, "final_cascade_confirm
 CASCADE_CONFIRMATION_METRICS_PATH = os.path.join(MODEL_DIR, "final_cascade_confirmation_metrics.json")
 
 # Deploy marker — visible in app footer; bump when forcing Streamlit Cloud redeploy
-DEPLOY_VERSION = "2026-08-26-cohort-stratum-table"
+DEPLOY_VERSION = "2026-08-26-cohort-stratum-table-v2"
 
 # KiHealth validation cohort composition (UI documentation only; models unchanged)
 V1_VALIDATION_DATASET = {
@@ -1703,26 +1703,46 @@ def _render_reference_cohort_tab(cohort: dict) -> None:
         table_rows = []
         for label in order:
             block = chart_strata.get(label, {})
-            if block.get("n", 0) > 0:
-                table_rows.append(
-                    {
-                        "A1c stratum": label,
-                        "n": block.get("n", 0),
-                        "Median INS 399 %": block.get("median"),
-                        "Mean INS 399 %": block.get("mean"),
-                    }
-                )
+            n = block.get("n", 0)
+            if n <= 0:
+                continue
+            ins = block.get("ins_399") or {}
+            avg = block.get("average_3site") or {}
+            # Backward compat with older flat JSON shape
+            if not ins and block.get("mean") is not None:
+                ins = {"mean": block.get("mean"), "median": block.get("median")}
+            table_rows.append(
+                {
+                    "A1c stratum": label,
+                    "n": n,
+                    "Med INS 399": ins.get("median"),
+                    "Mean INS 399": ins.get("mean"),
+                    "Med 3-Site": avg.get("median"),
+                    "Mean 3-Site": avg.get("mean"),
+                }
+            )
         if table_rows:
-            st.markdown("#### INS 399 by A1c stratum (descriptive)")
+            st.markdown("#### Methylation by A1c stratum (descriptive)")
             st.caption(
                 "Small booth cohort (n=38). Prediabetes and diabetic rows have very few samples "
-                "(n=4 and n=2), so means can swing — use median and n, not the bar height alone."
+                "(n=4 and n=2); compare median and n, not means alone."
             )
-            st.dataframe(
-                pd.DataFrame(table_rows),
-                use_container_width=True,
-                hide_index=True,
-            )
+            stratum_df = pd.DataFrame(table_rows)
+            _, table_col, _ = st.columns([0.5, 3, 0.5])
+            with table_col:
+                st.dataframe(
+                    stratum_df,
+                    use_container_width=True,
+                    hide_index=True,
+                    column_config={
+                        "A1c stratum": st.column_config.TextColumn(width="medium"),
+                        "n": st.column_config.NumberColumn(width="small", format="%d"),
+                        "Med INS 399": st.column_config.NumberColumn(width="small", format="%.2f"),
+                        "Mean INS 399": st.column_config.NumberColumn(width="small", format="%.2f"),
+                        "Med 3-Site": st.column_config.NumberColumn(width="small", format="%.2f"),
+                        "Mean 3-Site": st.column_config.NumberColumn(width="small", format="%.2f"),
+                    },
+                )
 
     n399 = len(cohort.get("follow_up_list_399", []))
     with st.expander(f"INS 399 Priority Follow-up List ({n399} candidates)", expanded=True):

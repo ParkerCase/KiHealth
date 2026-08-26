@@ -270,8 +270,14 @@ def main() -> None:
     chart_strata = {}
     for label in ["Normal <5.5", "High-Normal 5.5-5.69", "Prediabetes 5.7-6.49", "Diabetic 6.5+"]:
         mask = df["hba1c_percent"].apply(lambda x, lab=label: chart_stratum_label(x) == lab)
-        block = stats_block(df.loc[mask, "ins_399_pct_unmeth"])
-        chart_strata[label] = block
+        subset = df.loc[mask]
+        ins_block = stats_block(subset["ins_399_pct_unmeth"])
+        avg_block = stats_block(subset["beta_score_average"])
+        chart_strata[label] = {
+            "n": ins_block["n"],
+            "ins_399": {"mean": ins_block["mean"], "median": ins_block["median"]},
+            "average_3site": {"mean": avg_block["mean"], "median": avg_block["median"]},
+        }
 
     follow_up_list_399 = [
         build_follow_up_row(row, note_399(row["donor_id"])) for _, row in ins399_list.iterrows()
