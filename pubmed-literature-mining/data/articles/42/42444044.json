@@ -1,0 +1,34 @@
+{
+  "pmid": "42444044",
+  "title": "Lateral Wedge Insoles With and Without Contoured Arch Support for People With Knee Osteoarthritis and Foot Pain: A Pilot, Feasibility Randomized Controlled Trial.",
+  "abstract": "Lateral wedge insoles (LWIs) are a non-surgical adjunct treatment for knee osteoarthritis (OA) that has been shown to reduce the knee adduction moment-a biomechanical risk factor for knee OA disease progression. Though worn in one's shoes, little is known of the effects of LWIs use on the foot or ankle. Importantly, it unknown whether their use enhances foot symptoms in people with knee OA and concomitant foot pain, thus questioning the general appropriateness of their use in this subgroup. We conducted a pilot, feasibility randomized controlled trial to assess study approaches and general effects of LWIs use in people with knee OA and foot pain. 30 individuals with foot pain and radiographically-confirmed knee OA were randomized to a 12-week intervention using either standalone 6-degree LWIs or LWIs integrated with custom foot and arch support. Feasibility outcomes included: recruitment and retention outcomes; insoles usage, reporting, and comfort; and adverse events. We also examined foot (Foot Function Index pain and difficulty subscales) and knee symptoms (Knee Osteoarthritis Outcomes Severity Score pain and daily function subscales), and gait biomechanics (knee adduction and flexion moment peaks and impulses, ankle/subtalar eversion peaks) before and after the 12-week intervention. All feasibility criteria were met, and no major adverse events were reported. Participants found the insoles moderately comfortable (7/10), and most weeks (278/336, 83%) met the acceptable 30 min per day wear time threshold. Though no statistical comparisons were made, changes in clinical and biomechanical outcomes were consistent with previous research; specifically, trends toward improvement in knee pain and function, as well as knee adduction moment magnitudes, in both groups. Lateral wedge insoles, with or without support, appear safe for people with knee OA and concomitant foot pain. Given positive feasibility and efficacy observations, future research in this area is warranted.",
+  "authors": "Hunt, Michael A; Krowchuk, Natasha M; Zhang, Haocheng; Ryan, Michael B; Birmingham, Trevor B; Charlton, Jesse M",
+  "journal": "Journal of foot and ankle research",
+  "doi": "10.1002/jfa2.70171",
+  "publication_date": "2026-09-07T13:17:51.691042",
+  "access_type": "open_access",
+  "pdf_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13365356/",
+  "relevance_score": 35,
+  "relevance_score_breakdown": {
+    "clinical_relevance": 9,
+    "study_quality": 12,
+    "novelty_impact": 8,
+    "actionability": 6,
+    "total_score": 35
+  },
+  "value_category": "very_low_value",
+  "priority_level": "very_low_priority",
+  "relevance_score_legacy": 50,
+  "predictive_factors": [
+    {
+      "factor": "Pain",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "ough worn in one's shoes, little is known of the effects of lwis use on the foot or ankle. importantly, it unknown whether their use enhances foot symptoms in people with knee oa and concomitant foot pain, thus questioning the general appropriateness of their use in this subgroup. we conducted a pilot, feasibility randomized controlled trial to assess study approaches and general effects of lwis use i"
+    }
+  ],
+  "processing_status": "processed",
+  "created_at": "2026-09-07T13:17:52.555890",
+  "updated_at": "2026-09-07T13:17:52.556006"
+}
