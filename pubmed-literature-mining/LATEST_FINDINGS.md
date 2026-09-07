@@ -1,8 +1,8 @@
-# PubMed Daily Summary - 2026-08-31
+# PubMed Daily Summary - 2026-09-07
 
 ## Overview
 
-- **Total Articles:** 141
+- **Total Articles:** 142
 - **Flagged for Review:** 5 (3.5%)
 - **High-Relevance Articles:** 2 (score ≥ 70)
 - **Paywalled Articles:** 59
@@ -25,35 +25,35 @@
 
 1. **Enhancing total knee replacement prediction: a longitudinal joint space radiomic**
    - Score: 70/100
-   - Flags: recent, high_quality, large_sample, medium_high, should_review, high_value, priority
-   - Reason: Medium-high value (score: 70); Recent high-value article (251 days old); Large sample size (n=614)
+   - Flags: high_quality, medium_high, should_review, large_sample, priority, high_value, recent
+   - Reason: Medium-high value (score: 70); Recent high-value article (258 days old); Large sample size (n=614)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41376347/)
 
 2. **Preoperative neuropathic-like pain and central sensitisation are risk factors fo**
    - Score: 70/100
-   - Flags: comprehensive, recent, systematic_review, medium_high, should_review, high_value, priority
-   - Reason: Medium-high value (score: 70); Recent high-value article (251 days old); Systematic review or meta-analysis
+   - Flags: systematic_review, medium_high, comprehensive, should_review, priority, high_value, recent
+   - Reason: Medium-high value (score: 70); Recent high-value article (258 days old); Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/40995335/)
 
 3. **Fear avoidance and catastrophizing are associated with both knee awareness and q**
    - Score: 66/100
-   - Flags: large_sample, high_quality
+   - Flags: high_quality, large_sample
    - Reason: Large sample size (n=653)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41410384/)
 
 4. **Physical Activity and 4-Year Radiographic Medial Joint Space Loss in Knee Osteoa**
    - Score: 63/100
-   - Flags: large_sample, high_quality
+   - Flags: high_quality, large_sample
    - Reason: Large sample size (n=1806)
    - Access: paywalled
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41337563/)
 
 5. **Changes in knee pain and walking speed following primary, unilateral total knee **
    - Score: 60/100
-   - Flags: comprehensive, systematic_review
+   - Flags: systematic_review, comprehensive
    - Reason: Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41146955/)
