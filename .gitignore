@@ -69,6 +69,7 @@ Thumbs.db
 *.jpg
 *.pdf
 !DOC_Validator_Vercel/static/img/*.png  # Keep static images
+!kihealth_ui/figures/*.png  # Age-reference figures for Streamlit Cloud
 
 # Large files
 *.zip
