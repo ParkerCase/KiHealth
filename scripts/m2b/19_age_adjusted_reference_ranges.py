@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 from pathlib import Path
 
 import matplotlib
@@ -56,8 +57,9 @@ BIOIVT_PATH = GOOD_ONES / "BioIVT.csv"
 CARDINAL_LEGACY_PATH = GOOD_ONES / "Cardinal.csv"
 
 JSON_PATH = OUTPUTS / "age_adjusted_reference_ranges.json"
-# outputs/ is gitignored, so the Streamlit app needs its own committed copy.
+# outputs/ is gitignored, so the Streamlit app needs its own committed copies.
 UI_JSON_PATH = BASE / "kihealth_ui" / "age_adjusted_reference_ranges.json"
+UI_FIGURES = BASE / "kihealth_ui" / "figures"
 
 # Statistical validity rules (not clinical thresholds).
 MIN_N_PER_BIN = 5           # bins below this are reported but excluded from ranges
@@ -510,6 +512,17 @@ def build_age_bands(df: pd.DataFrame, label: str) -> dict:
 # ----------------------------------------------------------------------------
 # STEP 4: figures
 # ----------------------------------------------------------------------------
+def save_figure(fig, name: str) -> Path:
+    """Write to outputs/figures and mirror into kihealth_ui/figures for Streamlit."""
+    FIGURES.mkdir(parents=True, exist_ok=True)
+    path = FIGURES / name
+    fig.savefig(path, dpi=300, bbox_inches="tight")
+    if UI_FIGURES.parent.is_dir():
+        UI_FIGURES.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(path, UI_FIGURES / name)
+    return path
+
+
 def load_reference_threshold_lines() -> list[dict]:
     """Only draw horizontal lines if a KiHealth reference range JSON supplies them."""
     lines: list[dict] = []
@@ -615,8 +628,7 @@ def figure_a_scatter(master: pd.DataFrame, not_at_risk: pd.DataFrame, reg_lines:
              ha="center", fontsize=9, style="italic", color="#4b5563")
     fig.tight_layout(rect=(0, 0.035, 1, 1))
 
-    path = FIGURES / "age_vs_beta_scatter.png"
-    fig.savefig(path, dpi=300, bbox_inches="tight")
+    path = save_figure(fig, "age_vs_beta_scatter.png")
     plt.close(fig)
     return path
 
@@ -669,8 +681,7 @@ def figure_b_boxplot(master: pd.DataFrame) -> tuple[Path | None, dict]:
              ha="center", fontsize=9, style="italic", color="#4b5563")
     fig.tight_layout(rect=(0, 0.035, 1, 1))
 
-    path = FIGURES / "age_group_boxplot.png"
-    fig.savefig(path, dpi=300, bbox_inches="tight")
+    path = save_figure(fig, "age_group_boxplot.png")
     plt.close(fig)
     return path, included
 
@@ -732,8 +743,7 @@ def figure_c_reference_bands(bands: dict, regression: dict) -> tuple[Path | None
     fig.text(0.5, 0.015, caption, ha="center", fontsize=8.5, style="italic", color="#4b5563")
     fig.tight_layout(rect=(0, 0.04, 1, 1))
 
-    path = FIGURES / "age_reference_bands.png"
-    fig.savefig(path, dpi=300, bbox_inches="tight")
+    path = save_figure(fig, "age_reference_bands.png")
     plt.close(fig)
     return path, gate
 
