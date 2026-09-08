@@ -1,0 +1,323 @@
+{
+  "generated_from": "scripts/m2b/19_age_adjusted_reference_ranges.py",
+  "methodology": {
+    "reference_population": "not-at-risk patients only",
+    "thresholds": "none hardcoded; all bands are empirical percentiles",
+    "min_n_per_bin": 5,
+    "min_n_for_regression": 10,
+    "significance_level": 0.1,
+    "age_plausibility_bounds": [
+      1.0,
+      110.0
+    ],
+    "beta_min_plausible": 0.0,
+    "band_definition": {
+      "lower_tail": "p10-p25",
+      "typical": "p25-p75",
+      "upper_borderline": "p75-p90",
+      "above_reference": ">p90"
+    }
+  },
+  "cohorts": [
+    {
+      "cohort": "Clinical Training",
+      "n_total": 149,
+      "n_at_risk": 68,
+      "n_not_at_risk": 75,
+      "n_unknown": 6
+    },
+    {
+      "cohort": "Cardinal Health 2026",
+      "n_total": 38,
+      "n_at_risk": 9,
+      "n_not_at_risk": 1,
+      "n_unknown": 28
+    },
+    {
+      "cohort": "V2 Reference Range",
+      "n_total": 50,
+      "n_at_risk": 8,
+      "n_not_at_risk": 42,
+      "n_unknown": 0
+    },
+    {
+      "cohort": "Cardinal (legacy)",
+      "n_total": 70,
+      "n_at_risk": 36,
+      "n_not_at_risk": 31,
+      "n_unknown": 3
+    }
+  ],
+  "totals": {
+    "n_total": 307,
+    "n_at_risk": 121,
+    "n_not_at_risk": 149,
+    "n_unknown": 37,
+    "dropped_missing_age_or_beta": 18,
+    "dropped_implausible_age": 7,
+    "dropped_negative_beta": 1
+  },
+  "data_quality": {
+    "v2_join": {
+      "strict_clean_rows": 30,
+      "strict_rows_matched_to_demographics": 18,
+      "demographics_rows_matched_to_strict": 43,
+      "join_key": "ins_399 value (no shared ID column)",
+      "status": "loaded",
+      "rows": 55
+    },
+    "bioivt_legacy_dedup": {
+      "input": 57,
+      "duplicates_removed": 57,
+      "kept": 0,
+      "duplicates_by_donor_id": 57,
+      "possible_overlap_not_removed": 0,
+      "possible_overlap_basis": "same rounded age and identical nonzero INS 399"
+    },
+    "cardinal_legacy_dedup": {
+      "input": 80,
+      "duplicates_removed": 0,
+      "kept": 80,
+      "duplicates_by_donor_id": 0,
+      "possible_overlap_not_removed": 8,
+      "possible_overlap_basis": "same rounded age and identical nonzero INS 399"
+    }
+  },
+  "regression": {
+    "not_at_risk": {
+      "label": "NOT AT RISK",
+      "n": 149,
+      "status": "fitted",
+      "slope_per_year": -0.0112,
+      "slope_per_decade": -0.1122,
+      "intercept": 6.0156,
+      "r_squared": 0.0006,
+      "p_value": 0.761332,
+      "stderr": 0.0369,
+      "significance_level": 0.1,
+      "age_trend_confirmed": false,
+      "interpretation": "FLAT"
+    },
+    "at_risk": {
+      "label": "AT RISK",
+      "n": 121,
+      "status": "fitted",
+      "slope_per_year": 0.0017,
+      "slope_per_decade": 0.0169,
+      "intercept": 11.2677,
+      "r_squared": 0.0,
+      "p_value": 0.969758,
+      "stderr": 0.0445,
+      "significance_level": 0.1,
+      "age_trend_confirmed": false,
+      "interpretation": "FLAT"
+    }
+  },
+  "age_bins": [
+    "under 20",
+    "20-30",
+    "30-40",
+    "40-50",
+    "50-60",
+    "60-70",
+    "70+"
+  ],
+  "reference_ranges_not_at_risk": {
+    "under 20": {
+      "n": 6,
+      "mean": 4.87,
+      "median": 6.25,
+      "p10": 0.0,
+      "p25": 1.48,
+      "p75": 7.83,
+      "p90": 8.37,
+      "max": 8.49,
+      "usable": true,
+      "status": "ok"
+    },
+    "20-30": {
+      "n": 20,
+      "mean": 5.34,
+      "median": 3.54,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p75": 10.15,
+      "p90": 13.11,
+      "max": 16.6,
+      "usable": true,
+      "status": "ok"
+    },
+    "30-40": {
+      "n": 28,
+      "mean": 6.73,
+      "median": 5.99,
+      "p10": 0.0,
+      "p25": 1.29,
+      "p75": 7.84,
+      "p90": 15.66,
+      "max": 20.34,
+      "usable": true,
+      "status": "ok"
+    },
+    "40-50": {
+      "n": 44,
+      "mean": 4.01,
+      "median": 2.1,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p75": 7.68,
+      "p90": 10.29,
+      "max": 14.61,
+      "usable": true,
+      "status": "ok"
+    },
+    "50-60": {
+      "n": 40,
+      "mean": 6.95,
+      "median": 6.33,
+      "p10": 0.0,
+      "p25": 1.44,
+      "p75": 10.01,
+      "p90": 14.73,
+      "max": 26.21,
+      "usable": true,
+      "status": "ok"
+    },
+    "60-70": {
+      "n": 9,
+      "mean": 5.03,
+      "median": 7.58,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p75": 8.49,
+      "p90": 10.57,
+      "max": 10.93,
+      "usable": true,
+      "status": "ok"
+    },
+    "70+": {
+      "n": 2,
+      "mean": 0.0,
+      "median": 0.0,
+      "p10": 0.0,
+      "p25": 0.0,
+      "p75": 0.0,
+      "p90": 0.0,
+      "max": 0.0,
+      "usable": false,
+      "status": "insufficient data (n=2)"
+    }
+  },
+  "comparison_at_risk": {
+    "under 20": {
+      "n": 17,
+      "mean": 10.19,
+      "median": 10.55,
+      "p10": 0.0,
+      "p25": 2.62,
+      "p75": 13.12,
+      "p90": 22.93,
+      "max": 33.47,
+      "usable": true,
+      "status": "ok"
+    },
+    "20-30": {
+      "n": 10,
+      "mean": 12.53,
+      "median": 12.33,
+      "p10": 5.66,
+      "p25": 8.71,
+      "p75": 16.45,
+      "p90": 20.12,
+      "max": 22.62,
+      "usable": true,
+      "status": "ok"
+    },
+    "30-40": {
+      "n": 23,
+      "mean": 13.71,
+      "median": 11.64,
+      "p10": 3.4,
+      "p25": 9.18,
+      "p75": 15.02,
+      "p90": 25.94,
+      "max": 43.06,
+      "usable": true,
+      "status": "ok"
+    },
+    "40-50": {
+      "n": 25,
+      "mean": 9.22,
+      "median": 10.7,
+      "p10": 0.0,
+      "p25": 0.71,
+      "p75": 14.95,
+      "p90": 19.18,
+      "max": 22.27,
+      "usable": true,
+      "status": "ok"
+    },
+    "50-60": {
+      "n": 33,
+      "mean": 10.81,
+      "median": 10.14,
+      "p10": 2.32,
+      "p25": 3.95,
+      "p75": 14.6,
+      "p90": 18.64,
+      "max": 27.38,
+      "usable": true,
+      "status": "ok"
+    },
+    "60-70": {
+      "n": 11,
+      "mean": 12.94,
+      "median": 13.59,
+      "p10": 5.39,
+      "p25": 9.45,
+      "p75": 14.13,
+      "p90": 17.8,
+      "max": 26.91,
+      "usable": true,
+      "status": "ok"
+    },
+    "70+": {
+      "n": 2,
+      "mean": 14.39,
+      "median": 14.39,
+      "p10": 13.94,
+      "p25": 14.11,
+      "p75": 14.67,
+      "p90": 14.84,
+      "max": 14.95,
+      "usable": false,
+      "status": "insufficient data (n=2)"
+    }
+  },
+  "boxplot_group_counts": {
+    "20-40": {
+      "not_at_risk": 48,
+      "at_risk": 33
+    },
+    "40-60": {
+      "not_at_risk": 84,
+      "at_risk": 58
+    },
+    "60+": {
+      "not_at_risk": 11,
+      "at_risk": 13
+    }
+  },
+  "figures": {
+    "age_vs_beta_scatter": "outputs/figures/age_vs_beta_scatter.png",
+    "age_group_boxplot": "outputs/figures/age_group_boxplot.png",
+    "age_reference_bands": "outputs/figures/age_reference_bands.png",
+    "age_reference_bands_gate": {
+      "regression_significant": false,
+      "bins_with_data": 7,
+      "bins_meeting_min_n": 6,
+      "min_n_per_bin": 5,
+      "generated": true
+    }
+  }
+}
