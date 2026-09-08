@@ -84,8 +84,6 @@ AGE_BINS = [
     ("70+", 70, np.inf),
 ]
 
-HIGHLIGHT_DONOR = "109384"
-
 COHORT_CLINICAL = "Clinical Training"
 COHORT_CARDINAL_2026 = "Cardinal Health 2026"
 COHORT_V2 = "V2 Reference Range"
@@ -592,19 +590,6 @@ def figure_a_scatter(master: pd.DataFrame, not_at_risk: pd.DataFrame, reg_lines:
         ax.axhline(line["value"], color="#6b7280", ls="--", lw=1.2, zorder=1)
         ax.annotate(line["label"], xy=(ax.get_xlim()[1], line["value"]),
                     fontsize=8, color="#6b7280", ha="right", va="bottom")
-
-    hl = master[master["donor_id"].astype(str) == HIGHLIGHT_DONOR]
-    if not hl.empty:
-        row = hl.iloc[0]
-        ax.scatter([row["age"]], [row["beta_score_399"]], s=210, facecolors="none",
-                   edgecolors="#dc2626", linewidths=2.2, zorder=6)
-        ax.annotate(
-            f"UIN {HIGHLIGHT_DONOR}\n{row['age']:.1f}y, INS 399 {row['beta_score_399']:.1f}%",
-            xy=(row["age"], row["beta_score_399"]),
-            xytext=(row["age"] + 6, row["beta_score_399"] + 6),
-            fontsize=9, color="#dc2626", fontweight="bold",
-            arrowprops=dict(arrowstyle="->", color="#dc2626", lw=1.4), zorder=6,
-        )
 
     risk_handles = [
         mpatches.Patch(color=RISK_COLORS["at_risk"], label="At-risk"),
