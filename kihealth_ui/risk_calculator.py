@@ -464,6 +464,10 @@ def _render_age_adjusted_reference(age, beta_value) -> None:
     """
     ref = load_age_reference_ranges()
     if not ref:
+        st.caption(
+            "Age-adjusted reference ranges unavailable "
+            f"(expected `{AGE_REFERENCE_FILENAME}` next to the app)."
+        )
         return
 
     st.markdown(f"""
@@ -2296,6 +2300,9 @@ def main():
                     value=f"{methylated:.1f}%",
                     help="Calculated as 100% minus % Unmethylated",
                 )
+
+            # Live age-adjusted context (visible before Calculate — not buried in Results)
+            _render_age_adjusted_reference(age, unmethylated)
             
             st.divider()
             
@@ -2790,11 +2797,20 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # Get % Unmethylated (this is what the model uses)
-            unmethylated_pct = st.session_state.patient_data.get("unmethylated", 5.0)
-            
-            # Interpretation based on % Unmethylated thresholds
-            if unmethylated_pct <= 6:
+            # Get % Unmethylated (this is what the model uses).
+            # Key may be present with value None when the field was left blank.
+            unmethylated_pct = st.session_state.patient_data.get("unmethylated")
+            if unmethylated_pct is None:
+                unmethylated_pct = st.session_state.patient_data.get("beta_score")
+
+            if unmethylated_pct is None:
+                st.info("No % Unmethylated entered — Beta Score interpretation unavailable.")
+                st.divider()
+                _render_age_adjusted_reference(
+                    st.session_state.patient_data.get("age"),
+                    None,
+                )
+            elif unmethylated_pct <= 6:
                 st.markdown(f"""
                 <div class="risk-card risk-low">
                     <strong>{unmethylated_pct:.1f}% Unmethylated - Good</strong>
@@ -2830,12 +2846,12 @@ def main():
                 </div>
                 """, unsafe_allow_html=True)
 
-            st.divider()
-
-            _render_age_adjusted_reference(
-                st.session_state.patient_data.get("age"),
-                unmethylated_pct,
-            )
+            if unmethylated_pct is not None:
+                st.divider()
+                _render_age_adjusted_reference(
+                    st.session_state.patient_data.get("age"),
+                    unmethylated_pct,
+                )
 
             # Export
             st.divider()
