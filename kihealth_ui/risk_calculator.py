@@ -557,67 +557,60 @@ def _resolve_age_figure_path(filename: str) -> str | None:
 
 
 def _render_age_reference_figures() -> None:
-    """Show the empirical age–INS 399 figures in Model Information."""
-    st.markdown("### Age-Adjusted INS 399 Reference Analysis")
-    st.markdown(
-        "These figures are built from pooled KiHealth cohorts. Reference bands use "
-        "**not-at-risk patients only** (healthy baseline). No thresholds are hardcoded."
-    )
+    """Show age–INS 399 figures at the end of Model Information (supporting, not primary)."""
+    with st.expander("INS 399 & age — exploratory figures", expanded=False):
+        st.markdown(
+            "Supporting visuals from pooled KiHealth cohorts. Reference bands use "
+            "**not-at-risk patients only**. These do **not** change risk cutoffs — "
+            "the age–beta trend is not statistically confirmed in current data."
+        )
 
-    ref = load_age_reference_ranges()
-    regression = (ref or {}).get("regression", {}).get("not_at_risk", {})
-    if regression:
-        confirmed = regression.get("age_trend_confirmed")
-        st.caption(
-            f"Not-at-risk linear fit (n={regression.get('n')}): "
-            f"slope {regression.get('slope_per_decade', 0):.2f} pp/decade, "
-            f"R²={regression.get('r_squared', 0):.3f}, "
-            f"p={regression.get('p_value', float('nan')):.2f} → "
-            f"**{regression.get('interpretation', 'n/a')}**"
-            + (
-                ""
-                if confirmed
-                else " — bands are descriptive context only, not an age-based risk adjustment."
+        ref = load_age_reference_ranges()
+        regression = (ref or {}).get("regression", {}).get("not_at_risk", {})
+        if regression:
+            st.caption(
+                f"Not-at-risk linear fit (n={regression.get('n')}): "
+                f"slope {regression.get('slope_per_decade', 0):.2f} pp/decade, "
+                f"R²={regression.get('r_squared', 0):.3f}, "
+                f"p={regression.get('p_value', float('nan')):.2f} → "
+                f"**{regression.get('interpretation', 'n/a')}**"
             )
-        )
 
-    figures = [
-        (
-            "age_vs_beta_scatter.png",
-            "INS 399 by Age — All Cohorts",
-            "Orange = at-risk, blue = not-at-risk, grey = unknown/unascertained. "
-            "Regression line and CI are fit to not-at-risk patients only.",
-        ),
-        (
-            "age_group_boxplot.png",
-            "INS 399 by Age Group and Risk Status",
-            "Broad age groups (20–40, 40–60, 60+) split by risk status; "
-            "groups shown only when n ≥ 3.",
-        ),
-        (
-            "age_reference_bands.png",
-            "Age-Adjusted Reference Bands (not-at-risk)",
-            "Green = typical range (p25–p75), yellow = upper/borderline (p75–p90), "
-            "red = above p90. Bins with n < 5 excluded.",
-        ),
-    ]
+        scatter = _resolve_age_figure_path("age_vs_beta_scatter.png")
+        boxplot = _resolve_age_figure_path("age_group_boxplot.png")
+        bands = _resolve_age_figure_path("age_reference_bands.png")
 
-    shown = 0
-    for filename, title, caption in figures:
-        path = _resolve_age_figure_path(filename)
-        if not path:
-            continue
-        shown += 1
-        st.markdown(f"**{title}**")
-        st.image(path, use_container_width=True)
-        st.caption(caption)
+        if not any((scatter, boxplot, bands)):
+            st.info(
+                "Age-reference figures not found. Re-run "
+                "`scripts/m2b/19_age_adjusted_reference_ranges.py` to regenerate "
+                "`kihealth_ui/figures/`."
+            )
+            return
 
-    if shown == 0:
-        st.info(
-            "Age-reference figures not found. Re-run "
-            "`scripts/m2b/19_age_adjusted_reference_ranges.py` to regenerate "
-            "`kihealth_ui/figures/`."
-        )
+        if scatter:
+            st.markdown("**INS 399 by Age — All Cohorts**")
+            st.image(scatter, use_container_width=True)
+            st.caption(
+                "Orange = at-risk, blue = not-at-risk, grey = unknown/unascertained. "
+                "Regression line and CI fit to not-at-risk patients only."
+            )
+
+        if boxplot or bands:
+            left, right = st.columns(2)
+            with left:
+                if boxplot:
+                    st.markdown("**By age group & risk**")
+                    st.image(boxplot, use_container_width=True)
+                    st.caption("20–40 / 40–60 / 60+; groups shown only when n ≥ 3.")
+            with right:
+                if bands:
+                    st.markdown("**Reference bands (not-at-risk)**")
+                    st.image(bands, use_container_width=True)
+                    st.caption(
+                        "Green = p25–p75, yellow = p75–p90, red = above p90. "
+                        "Bins with n < 5 excluded."
+                    )
 
 
 def load_models():
@@ -3094,10 +3087,6 @@ def main():
         st.table(pd.DataFrame(mode_rows))
         
         st.divider()
-
-        _render_age_reference_figures()
-
-        st.divider()
         
         # Transfer Learning Architecture
         st.markdown("### Transfer Learning Architecture")
@@ -3293,6 +3282,9 @@ def main():
         | `final_cascade_confirmation_model.joblib` | Cascade confirmation model (CONFIG B, V1+V2 — 162 pts) |
         | `final_cascade_confirmation_metrics.json` | Cascade confirmation metrics (V1+V2 cohort) |
         """)
+
+        st.divider()
+        _render_age_reference_figures()
 
     if show_cohort_tab and tab4 is not None:
         with tab4:
