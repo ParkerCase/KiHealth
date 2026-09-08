@@ -410,140 +410,6 @@ def load_age_reference_ranges() -> dict | None:
     return None
 
 
-def _parse_age_bin(name: str) -> tuple[float, float] | None:
-    """Turn a bin label from the JSON ('under 20', '30-40', '70+') into bounds."""
-    text = name.strip().lower()
-    try:
-        if text.startswith("under "):
-            return float("-inf"), float(text.split()[1])
-        if text.endswith("+"):
-            return float(text[:-1]), float("inf")
-        if "-" in text:
-            low, high = text.split("-", 1)
-            return float(low), float(high)
-    except ValueError:
-        return None
-    return None
-
-
-def _age_bin_for(age: float, bin_names) -> str | None:
-    for name in bin_names:
-        bounds = _parse_age_bin(name)
-        if bounds and bounds[0] <= age < bounds[1]:
-            return name
-    return None
-
-
-def _band_position(value: float, band: dict) -> tuple[str, str, str]:
-    """Locate a Beta Score within a bin's percentile bands.
-
-    Returns (label, css_class, explanation). Cut points come from the reference
-    JSON, so this stays in sync with whatever the data says.
-    """
-    if value < band["p10"]:
-        return ("Below the reference range", "risk-low",
-                f"Lower than ~90% of not-at-risk patients in this age group (p10 = {band['p10']:.1f}%).")
-    if value < band["p25"]:
-        return ("Lower part of the typical range", "risk-low",
-                f"Between the 10th and 25th percentile (p10 = {band['p10']:.1f}%, p25 = {band['p25']:.1f}%).")
-    if value <= band["p75"]:
-        return ("Within the typical range", "risk-low",
-                f"Between the 25th and 75th percentile (p25 = {band['p25']:.1f}%, p75 = {band['p75']:.1f}%).")
-    if value <= band["p90"]:
-        return ("Upper part of the range (borderline)", "risk-moderate",
-                f"Between the 75th and 90th percentile (p75 = {band['p75']:.1f}%, p90 = {band['p90']:.1f}%).")
-    return ("Above the reference range", "risk-high",
-            f"Higher than ~90% of not-at-risk patients in this age group (p90 = {band['p90']:.1f}%).")
-
-
-def _render_age_adjusted_reference(age, beta_value) -> None:
-    """Show where a patient's Beta Score sits among same-age not-at-risk patients.
-
-    Presented as descriptive context only: the pooled data shows no significant
-    age trend, so these bands must not be read as an age-based prediction.
-    """
-    ref = load_age_reference_ranges()
-    if not ref:
-        st.caption(
-            "Age-adjusted reference ranges unavailable "
-            f"(expected `{AGE_REFERENCE_FILENAME}` next to the app)."
-        )
-        return
-
-    st.markdown(f"""
-    <div class="icon-text">
-        {svg_icon("dna", 24)}
-        <h4 style="margin: 0;">Age-Adjusted Reference Range (descriptive)</h4>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if age is None or beta_value is None:
-        st.info("Enter both age and % Unmethylated to compare against same-age reference data.")
-        return
-
-    bands = ref.get("reference_ranges_not_at_risk", {})
-    bin_name = _age_bin_for(float(age), ref.get("age_bins", list(bands.keys())))
-    band = bands.get(bin_name) if bin_name else None
-
-    if not band or not band.get("usable"):
-        n = band.get("n", 0) if band else 0
-        st.warning(
-            f"No reference range available for age {float(age):.0f} "
-            f"(**{bin_name or 'out of range'}**): only {n} not-at-risk patients in this age group, "
-            f"below the minimum of {ref.get('methodology', {}).get('min_n_per_bin', 5)} required. "
-            "Interpret the Beta Score without age adjustment."
-        )
-        return
-
-    value = float(beta_value)
-    label, css_class, explanation = _band_position(value, band)
-
-    st.markdown(f"""
-    <div class="risk-card {css_class}">
-        <strong>{value:.1f}% Unmethylated — {label}</strong>
-        <p style="margin-top: 8px;">Compared with {band['n']} not-at-risk patients aged {bin_name}. {explanation}</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col_a, col_b, col_c = st.columns(3)
-    col_a.metric("Same-age median", f"{band['median']:.1f}%",
-                 help="Median % unmethylated among not-at-risk patients in this age group.")
-    col_b.metric("Typical range (p25–p75)", f"{band['p25']:.1f}–{band['p75']:.1f}%")
-    col_c.metric("Upper range (p90)", f"{band['p90']:.1f}%")
-
-    comparison = ref.get("comparison_at_risk", {}).get(bin_name)
-    if comparison and comparison.get("usable"):
-        st.caption(
-            f"For contrast, at-risk patients aged {bin_name} (n={comparison['n']}) have a median of "
-            f"{comparison['median']:.1f}% (p25–p75: {comparison['p25']:.1f}–{comparison['p75']:.1f}%)."
-        )
-
-    regression = ref.get("regression", {}).get("not_at_risk", {})
-    if regression.get("age_trend_confirmed"):
-        st.caption(
-            f"Age trend in reference data: {regression.get('slope_per_decade', 0):.2f} pp per decade "
-            f"(p = {regression.get('p_value', float('nan')):.3f}, n = {regression.get('n')})."
-        )
-    else:
-        st.warning(
-            f"**These bands are descriptive, not predictive.** Across "
-            f"{regression.get('n', 0)} not-at-risk patients the Beta Score shows no significant "
-            f"change with age (slope {regression.get('slope_per_decade', 0):.2f} pp per decade, "
-            f"p = {regression.get('p_value', float('nan')):.2f}, R² = {regression.get('r_squared', 0):.3f}). "
-            "Age adjustment is **not** statistically supported in the current data — this panel only "
-            "shows how the patient compares with same-age peers, and should not be used to raise or "
-            "lower a risk determination based on age."
-        )
-
-    totals = ref.get("totals", {})
-    st.caption(
-        f"Derived from {totals.get('n_not_at_risk', 0)} not-at-risk patients across "
-        f"{len(ref.get('cohorts', []))} KiHealth cohorts "
-        f"({totals.get('n_total', 0)} total). All values are empirical percentiles; "
-        "no thresholds are hardcoded."
-    )
-
-
 def _resolve_age_figure_path(filename: str) -> str | None:
     """Prefer committed UI figures; fall back to local outputs/figures."""
     candidates = (
@@ -2369,9 +2235,6 @@ def main():
                     value=f"{methylated:.1f}%",
                     help="Calculated as 100% minus % Unmethylated",
                 )
-
-            # Live age-adjusted context (visible before Calculate — not buried in Results)
-            _render_age_adjusted_reference(age, unmethylated)
             
             st.divider()
             
@@ -2874,11 +2737,6 @@ def main():
 
             if unmethylated_pct is None:
                 st.info("No % Unmethylated entered — Beta Score interpretation unavailable.")
-                st.divider()
-                _render_age_adjusted_reference(
-                    st.session_state.patient_data.get("age"),
-                    None,
-                )
             elif unmethylated_pct <= 6:
                 st.markdown(f"""
                 <div class="risk-card risk-low">
@@ -2914,13 +2772,6 @@ def main():
                     <p>Severe beta cell destruction. Very high unmethylated DNA indicates extensive beta cell death. Urgent clinical evaluation recommended.</p>
                 </div>
                 """, unsafe_allow_html=True)
-
-            if unmethylated_pct is not None:
-                st.divider()
-                _render_age_adjusted_reference(
-                    st.session_state.patient_data.get("age"),
-                    unmethylated_pct,
-                )
 
             # Export
             st.divider()
