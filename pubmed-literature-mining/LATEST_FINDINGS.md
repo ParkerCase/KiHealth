@@ -1,11 +1,11 @@
-# PubMed Daily Summary - 2026-09-07
+# PubMed Daily Summary - 2026-09-14
 
 ## Overview
 
 - **Total Articles:** 142
 - **Flagged for Review:** 5 (3.5%)
 - **High-Relevance Articles:** 2 (score ≥ 70)
-- **Paywalled Articles:** 59
+- **Paywalled Articles:** 60
 - **Factor Patterns Detected:** 0
 
 ## Articles Flagged for Review
@@ -25,15 +25,15 @@
 
 1. **Enhancing total knee replacement prediction: a longitudinal joint space radiomic**
    - Score: 70/100
-   - Flags: high_quality, medium_high, should_review, large_sample, priority, high_value, recent
-   - Reason: Medium-high value (score: 70); Recent high-value article (258 days old); Large sample size (n=614)
+   - Flags: high_value, high_quality, should_review, medium_high, priority, large_sample, recent
+   - Reason: Medium-high value (score: 70); Recent high-value article (265 days old); Large sample size (n=614)
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41376347/)
 
 2. **Preoperative neuropathic-like pain and central sensitisation are risk factors fo**
    - Score: 70/100
-   - Flags: systematic_review, medium_high, comprehensive, should_review, priority, high_value, recent
-   - Reason: Medium-high value (score: 70); Recent high-value article (258 days old); Systematic review or meta-analysis
+   - Flags: comprehensive, high_value, should_review, medium_high, priority, systematic_review, recent
+   - Reason: Medium-high value (score: 70); Recent high-value article (265 days old); Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/40995335/)
 
@@ -53,7 +53,7 @@
 
 5. **Changes in knee pain and walking speed following primary, unilateral total knee **
    - Score: 60/100
-   - Flags: systematic_review, comprehensive
+   - Flags: comprehensive, systematic_review
    - Reason: Systematic review or meta-analysis
    - Access: open_access
    - [PubMed](https://pubmed.ncbi.nlm.nih.gov/41146955/)
