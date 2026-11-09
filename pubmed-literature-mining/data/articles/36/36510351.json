@@ -5,9 +5,9 @@
   "authors": "Palanne, Riku; Rantasalo, Mikko; Vakkuri, Anne; Olkkola, Klaus T; Vahlberg, Tero; Skants, Noora",
   "journal": "Scandinavian journal of surgery : SJS : official organ for the Finnish Surgical Society and the Scandinavian Surgical Society",
   "doi": "10.1177/14574969221139722",
-  "publication_date": "2026-11-02T16:51:10.776365",
+  "publication_date": "2026-11-09T17:11:42.145391",
   "access_type": "open_access",
-  "pdf_url": "http://hdl.handle.net/10138/570369",
+  "pdf_url": "https://www.utupub.fi/bitstreams/67cb245c-a8e8-4168-8ccd-77afe3e8fc9b/download",
   "relevance_score": 41,
   "relevance_score_breakdown": {
     "clinical_relevance": 11,
@@ -20,6 +20,20 @@
   "priority_level": "low_priority",
   "relevance_score_legacy": 65,
   "predictive_factors": [
+    {
+      "factor": "Age",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "obesity may increase the risk of adverse events after total knee arthroplasty (tka). although body mass index (bmi) is commonly used in categorizing obesity, its accuracy is limited. body fat percentage (bfp) might indicate adiposity status and predict arthroplasty-related outcomes better than bmi. we investigated whether bfp is predictive of tka-related outcomes. in this secondary analysis, bfp was"
+    },
+    {
+      "factor": "Sex",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "cue pain-relieving methods if oxycodone was insufficient. model adjusted for age, sex, asa classification (class i–ii or"
+    },
     {
       "factor": "Bmi",
       "outcome": "knee osteoarthritis progression",
@@ -42,28 +56,43 @@
       "context": "trial that investigated the effects of tourniquet and anesthesia methods on tka. data concerning in-hospital assessments and events were collected. knee range of motion (rom) was measured, the brief pain inventory-short form and oxford knee score questionnaires were used to collect data on patient-reported pain and function, and the 15-dimensional health-related questionnaire was used to assess quali"
     },
     {
+      "factor": "Mri",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "mri to estimate changes in body fat, skeletal muscle and vis- 39. neuprez a, neuprez ah, kaux jf et al: total joint replacement"
+    },
+    {
+      "factor": "X-Ray",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "analysis (bia), dual-energy x-ray absorptiometry (dxa), ing use of strong opioids, a contraindication to spinal or gen-"
+    },
+    {
+      "factor": "Diabetes",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "diabetes mellitus 47 (16.0) 66 (16.5)"
+    },
+    {
+      "factor": "Depression",
+      "outcome": "knee osteoarthritis progression",
+      "effect_size": "not specified",
+      "significance": "mentioned in text",
+      "context": "depression 19 (6.5) 27 (6.8)"
+    },
+    {
       "factor": "Obesity",
       "outcome": "knee osteoarthritis progression",
       "effect_size": "not specified",
       "significance": "mentioned in text",
       "context": "obesity may increase the risk of adverse events after total knee arthroplasty (tka). although body mass index (bmi) is commonly used in categorizing obesity, its accuracy is limited. body fat percentage (bfp) might indicate adiposity status and predict arthroplasty-related outcomes better than bmi. we investigated whether bfp is predictive of tka-related"
-    },
-    {
-      "factor": "Range Of Motion",
-      "outcome": "knee osteoarthritis progression",
-      "effect_size": "not specified",
-      "significance": "mentioned in text",
-      "context": "ratively from 294 participants of a randomized trial that investigated the effects of tourniquet and anesthesia methods on tka. data concerning in-hospital assessments and events were collected. knee range of motion (rom) was measured, the brief pain inventory-short form and oxford knee score questionnaires were used to collect data on patient-reported pain and function, and the 15-dimensional health-related que"
-    },
-    {
-      "factor": "Rom",
-      "outcome": "knee osteoarthritis progression",
-      "effect_size": "not specified",
-      "significance": "mentioned in text",
-      "context": "osity status and predict arthroplasty-related outcomes better than bmi. we investigated whether bfp is predictive of tka-related outcomes. in this secondary analysis, bfp was measured preoperatively from 294 participants of a randomized trial that investigated the effects of tourniquet and anesthesia methods on tka. data concerning in-hospital assessments and events were collected. knee range of moti"
     }
   ],
   "processing_status": "processed",
-  "created_at": "2026-11-02T16:51:12.567576",
-  "updated_at": "2026-11-02T16:51:12.567778"
+  "created_at": "2026-11-09T17:11:45.513078",
+  "updated_at": "2026-11-09T17:11:45.513273",
+  "pdf_path": "data/pdfs/36510351.pdf"
 }
